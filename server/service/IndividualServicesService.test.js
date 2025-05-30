@@ -2447,3 +2447,22810 @@ describe('getCachedAlarmCapability', () => {
     ).rejects.toThrow('Unexpected failure');
   });
 });
+
+
+describe('getCachedAlarmConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=logical-termination-point';
+  const dummyUser = {};
+  const dummyOriginator = 'origin';
+  const dummyXCorrelator = 'x';
+  const dummyTrace = 'trace';
+  const dummyJourney = 'journey';
+  const dummyMountName = 'device-1';
+  const dummyFields = 'logical-termination-point';
+
+  const responseSchema = {
+  type: 'object',
+  properties: {
+    alarmConfiguration: {
+      type: 'object',
+      properties: {
+        // Define expected properties here
+        // Example:
+        id: { type: 'string' },
+        name: { type: 'string' },
+        // Add other properties as needed
+      },
+      required: ['id', 'name'], // Adjust based on actual required fields
+    },
+  },
+  required: ['alarmConfiguration'],
+};
+
+
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Mock dependencies using babel-plugin-rewire
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+  
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Set default return values
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ some: 'data' });
+    cacheResponseBuilderMock.mockResolvedValue({ controlConstruct: [{ id: '123' }] });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered response when successful', async () => {
+    const result = await IndividualService.getCachedAlarmConfiguration(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyFields
+    );
+ const validate = ajv.compile(responseSchema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+
+    expect(result).toEqual({ controlConstruct: [{ id: '123' }] });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+   // expect(mockDecodeMountName).toHaveBeenCalledWith(dummyUrl, false);
+    //expect(mockRetrieveCorrectUrl).toHaveBeenCalled();
+    //expect(mockModifyUrlConcatenateMountNamePlusUuid).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if fields are invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw custom error if mountname is an object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Mount invalid' }]);
+
+    await expect(
+      IndividualService.getCachedAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Mount invalid');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject on unexpected errors', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getCachedAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+
+
+
+
+
+
+// Define the JSON schema for the expected response
+const responseSchema = {
+  type: 'object',
+  properties: {
+    alarmConfiguration: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        name: { type: 'string' },
+      },
+      required: ['id', 'name'],
+    },
+  },
+  required: ['alarmConfiguration'],
+};
+
+describe('getCachedCurrentAlarms', () => {
+  const dummyUrl = 'http://dummy-url/control-construct=xyz';
+  const dummyUser = {};
+  const dummyOriginator = 'origin';
+  const dummyXCorrelator = 'x-corr';
+  const dummyTrace = 'trace';
+  const dummyCustomerJourney = 'journey';
+  const dummyMountName = 'mount-1';
+  const dummyFields = undefined;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Mock global proxy
+    global.proxy = {
+      'application-name': 'myApp',
+      'release-number': '1.2.3',
+    };
+  });
+
+  it('should resolve with valid response when all operations succeed', async () => {
+    // Mock dependencies
+    const mockReadRecords = jest.fn().mockResolvedValue({ alarmConfiguration: { id: '123', name: 'Alarm Config' } });
+    const mockCacheResponseBuilder = jest.fn().mockResolvedValue({ alarmConfiguration: { id: '123', name: 'Alarm Config' } });
+    const mockModifyReturnJson = jest.fn();
+    const mockDecodeMountName = jest.fn().mockReturnValue('xyz');
+    const mockRetrieveCorrectUrl = jest.fn().mockResolvedValue('http://correct-url');
+    const mockModifyUrlConcatenateMountNamePlusUuid = jest.fn().mockReturnValue('http://modified-url');
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('ReadRecords', mockReadRecords);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: mockCacheResponseBuilder });
+    IndividualService.__Rewire__('modifyReturnJson', mockModifyReturnJson);
+    IndividualService.__Rewire__('decodeMountName', mockDecodeMountName);
+    IndividualService.__Rewire__('retrieveCorrectUrl', mockRetrieveCorrectUrl);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', mockModifyUrlConcatenateMountNamePlusUuid);
+
+    const result = await IndividualService.getCachedCurrentAlarms(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyCustomerJourney,
+      dummyMountName,
+      dummyFields
+    );
+
+    // Validate response against schema
+    const validate = ajv.compile(responseSchema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+
+    // Verify that mocks were called as expected
+    expect(mockReadRecords).toHaveBeenCalledWith('xyz');
+    expect(mockCacheResponseBuilder).toHaveBeenCalled();
+    expect(mockModifyReturnJson).toHaveBeenCalled();
+    expect(mockDecodeMountName).toHaveBeenCalledWith(dummyUrl, false);
+    expect(mockRetrieveCorrectUrl).toHaveBeenCalled();
+    expect(mockModifyUrlConcatenateMountNamePlusUuid).toHaveBeenCalled();
+
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+  });
+
+  it('should reject with BadRequest error when fields are invalid', async () => {
+    const invalidFields = 'invalidField';
+
+    // Mock isFilterValid to return false
+    const mockIsFilterValid = jest.fn().mockReturnValue(false);
+    IndividualService.__Rewire__('isFilterValid', mockIsFilterValid);
+
+    await expect(
+      IndividualService.getCachedCurrentAlarms(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyCustomerJourney,
+        dummyMountName,
+        invalidFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+
+    // Reset rewired dependency
+    IndividualService.__ResetDependency__('isFilterValid');
+  });
+
+  it('should reject with error when decodeMountName returns an object', async () => {
+    // Mock decodeMountName to return an error object
+    const mockDecodeMountName = jest.fn().mockReturnValue([{ code: 400, message: 'Invalid mount name' }]);
+    IndividualService.__Rewire__('decodeMountName', mockDecodeMountName);
+
+    await expect(
+     IndividualService.getCachedCurrentAlarms(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+
+    // Reset rewired dependency
+    IndividualService.__ResetDependency__('decodeMountName');
+  });
+
+  it('should reject with error when ReadRecords returns undefined', async () => {
+    // Mock dependencies
+    const mockReadRecords = jest.fn().mockResolvedValue(undefined);
+    const mockDecodeMountName = jest.fn().mockReturnValue('xyz');
+    const mockRetrieveCorrectUrl = jest.fn().mockResolvedValue('http://correct-url');
+    const mockModifyUrlConcatenateMountNamePlusUuid = jest.fn().mockReturnValue('http://modified-url');
+     let isJsonEmptyMock;
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('ReadRecords', mockReadRecords);
+    IndividualService.__Rewire__('decodeMountName', mockDecodeMountName);
+    IndividualService.__Rewire__('retrieveCorrectUrl', mockRetrieveCorrectUrl);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', mockModifyUrlConcatenateMountNamePlusUuid);
+
+    await expect(
+     IndividualService.getCachedCurrentAlarms(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+  });
+
+  it('should reject with error when cacheResponseBuilder returns undefined', async () => {
+    // Mock dependencies
+    const mockReadRecords = jest.fn().mockResolvedValue({ alarmConfiguration: { id: '123', name: 'Alarm Config' } });
+    const mockCacheResponseBuilder = jest.fn().mockResolvedValue(undefined);
+    const mockDecodeMountName = jest.fn().mockReturnValue('xyz');
+    const mockRetrieveCorrectUrl = jest.fn().mockResolvedValue('http://correct-url');
+    const mockModifyUrlConcatenateMountNamePlusUuid = jest.fn().mockReturnValue('http://modified-url');
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('ReadRecords', mockReadRecords);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: mockCacheResponseBuilder });
+    IndividualService.__Rewire__('decodeMountName', mockDecodeMountName);
+    IndividualService.__Rewire__('retrieveCorrectUrl', mockRetrieveCorrectUrl);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', mockModifyUrlConcatenateMountNamePlusUuid);
+
+    await expect(
+      IndividualService.getCachedCurrentAlarms(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+  });
+  IndividualService.__Rewire__('isJsonEmpty', false);
+
+    it('should throw 470 if filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedCurrentAlarms(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with error when finalJson is empty after filtering', async () => {
+ // expect.assertions(1);
+
+  // Mock dependencies
+  const mockReadRecords = jest.fn().mockResolvedValue({ alarmConfiguration: { id: '123', name: 'Alarm Config' } });
+  const mockCacheResponseBuilder = jest.fn().mockResolvedValue({ alarmConfiguration: { id: '123', name: 'Alarm Config' } });
+  const mockModifyReturnJson = jest.fn();
+  const mockDecodeMountName = jest.fn().mockReturnValue('xyz');
+  const mockRetrieveCorrectUrl = jest.fn().mockResolvedValue('http://correct-url');
+  const mockModifyUrlConcatenateMountNamePlusUuid = jest.fn().mockReturnValue('http://modified-url');
+  const mockDecodeFieldsSubstringExt = jest.fn();
+  const mockGetFilteredJsonExt = jest.fn();
+  const mockIsJsonEmpty = jest.fn().mockReturnValue(true);
+
+  // Rewire dependencies
+  IndividualService.__Rewire__('ReadRecords', mockReadRecords);
+  IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: mockCacheResponseBuilder });
+  IndividualService.__Rewire__('modifyReturnJson', mockModifyReturnJson);
+  IndividualService.__Rewire__('decodeMountName', mockDecodeMountName);
+  IndividualService.__Rewire__('retrieveCorrectUrl', mockRetrieveCorrectUrl);
+  IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', mockModifyUrlConcatenateMountNamePlusUuid);
+  IndividualService.__Rewire__('fieldsManager', {
+    decodeFieldsSubstringExt: mockDecodeFieldsSubstringExt,
+    getFilteredJsonExt: mockGetFilteredJsonExt,
+  });
+  IndividualService.__Rewire__('isJsonEmpty', mockIsJsonEmpty);
+
+  const fields = 'someField';
+
+  try {
+    await IndividualService.getCachedCurrentAlarms(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyCustomerJourney,
+      dummyMountName,
+      fields
+    );
+  } catch (error) {
+    expect(error).toEqual(
+      new createHttpError(470, 'Resource not existing. Device informs about addressed resource unknown')
+    );
+  }
+
+  
+});
+
+  });
+
+  describe('getCachedEquipment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=logical-termination-point';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'logical-termination-point';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Set global.common
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    // Mocks
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Rewire mocks
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock behavior
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ equipment: { id: 'eq-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ equipment: { id: 'eq-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered response when successful', async () => {
+    const result = await IndividualService.getCachedEquipment(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyFields
+    );
+
+    expect(result).toEqual({ equipment: { id: 'eq-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if fields are invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw custom error if mountname is an object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount name' }]);
+
+    await expect(
+      IndividualService.getCachedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject on unexpected errors', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getCachedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+
+describe('getCachedConnector', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=logical-termination-point';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'connector-7';
+  const dummyFields = 'logical-termination-point';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Global config setup
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    // Mocks
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Rewire mock implementations
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock behavior
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ connector: { id: 'conn-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ connector: { id: 'conn-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    // Reset all rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered connector object when successful', async () => {
+    const result = await IndividualService.getCachedConnector(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(result).toEqual({ connector: { id: 'conn-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if field filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedConnector(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw with mount name decode error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedConnector(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedConnector(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedConnector(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if final filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedConnector(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error if thrown during execution', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected error'));
+
+    await expect(
+      IndividualService.getCachedConnector(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+});
+
+describe('getCachedContainedHolder', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=logical-termination-point';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'connector-7';
+  const dummyFields = 'logical-termination-point';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Global config setup
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    // Mocks
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Rewire mock implementations
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock behavior
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ connector: { id: 'conn-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ connector: { id: 'conn-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    // Reset all rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered contained holder object when successful', async () => {
+    const result = await IndividualService.getCachedContainedHolder(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(result).toEqual({ connector: { id: 'conn-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if field filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedContainedHolder(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw with mount name decode error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedContainedHolder(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedContainedHolder(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedContainedHolder(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if final filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedContainedHolder(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error if thrown during execution', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected error'));
+
+    await expect(
+      IndividualService.getCachedContainedHolder(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+});
+describe('getCachedExpectedEquipment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=logical-termination-point';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'connector-7';
+  const dummyFields = 'logical-termination-point';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Global config setup
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    // Mocks
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Rewire mock implementations
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock behavior
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ connector: { id: 'conn-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ connector: { id: 'conn-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    // Reset all rewired dependencies
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered expected equipment object when successful', async () => {
+    const result = await IndividualService.getCachedExpectedEquipment(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(result).toEqual({ connector: { id: 'conn-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if field filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedExpectedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw with mount name decode error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedExpectedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedExpectedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedExpectedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if final filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedExpectedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error if thrown during execution', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected error'));
+
+    await expect(
+      IndividualService.getCachedExpectedEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+});
+
+describe('getCachedActualEquipment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=equipment';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'equipment';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ equipment: { id: 'eq-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ equipment: { id: 'eq-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered actual equipment object when successful', async () => {
+    const result = await IndividualService.getCachedActualEquipment(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyFields
+    );
+
+    expect(result).toEqual({ equipment: { id: 'eq-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if field filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedActualEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw with mount name decode error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedActualEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedActualEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedActualEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if final filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedActualEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error if thrown during execution', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected error'));
+
+    await expect(
+      IndividualService.getCachedActualEquipment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+});
+
+
+
+describe('getCachedFirmwareCollection', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=firmware-collection';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyFields = 'firmware-collection';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ firmware: { version: '1.0' } });
+    cacheResponseBuilderMock.mockResolvedValue({ firmware: { version: '1.0' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered firmware collection object when successful', async () => {
+    const result = await IndividualService.getCachedFirmwareCollection(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyFields
+    );
+
+    expect(result).toEqual({ firmware: { version: '1.0' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if field filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedFirmwareCollection(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw with mount name decode error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedFirmwareCollection(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareCollection(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareCollection(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if final filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedFirmwareCollection(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error if thrown during execution', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected error'));
+
+    await expect(
+      IndividualService.getCachedFirmwareCollection(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+});
+
+describe('getCachedFirmwareComponentList', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=firmware-component';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyLocalId = 'firmware-123';
+  const dummyFields = 'firmware-component';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp-conn', applicationName: 'appName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    readRecordsMock.mockResolvedValue({ firmware: { id: 'fw-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ firmware: { id: 'fw-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered firmware component list when successful', async () => {
+    const result = await IndividualService.getCachedFirmwareComponentList(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ firmware: { id: 'fw-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if field filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should throw mount name decode error', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw 460 if ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw 470 if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw 470 if final filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw unexpected error during execution', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+describe('getCachedFirmwareComponentCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=capability';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyLocalId = 'capability-123';
+  const dummyFields = 'capability';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcpConn', applicationName: 'AppName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // default mock behaviors
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-1');
+    readRecordsMock.mockResolvedValue({ capability: { id: 'cap-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ capability: { id: 'cap-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return firmware capability successfully', async () => {
+    const result = await IndividualService.getCachedFirmwareComponentCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ capability: { id: 'cap-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject with BadRequest for invalid filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if mount name decoding returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject with 460 when ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject with 470 when cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with 470 when filtered final JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error during ReadRecords', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+
+describe('getCachedFirmwareComponentStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyLocalId = 'status-123';
+  const dummyFields = 'status';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcpConn', applicationName: 'AppName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-1');
+    readRecordsMock.mockResolvedValue({ status: { id: 'status-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ status: { id: 'status-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return firmware component status successfully', async () => {
+    const result = await IndividualService.getCachedFirmwareComponentStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { id: 'status-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject with BadRequest for invalid fields filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount name' }]);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+  });
+
+  it('should reject with 460 when ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject with 470 when cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with 470 if filtered final JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with unexpected error', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected error'));
+
+    await expect(
+      IndividualService.getCachedFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+
+  it('should decode and apply fields filtering when fields are provided', async () => {
+  decodeFieldsSubstringExtMock.mockReturnValue('parsed');
+  getFilteredJsonExtMock.mockReturnValue();
+
+  const result = await IndividualService.getCachedFirmwareComponentStatus(
+    dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+    dummyTrace, dummyJourney, dummyMountName, dummyLocalId, dummyFields
+  );
+
+  expect(decodeFieldsSubstringExtMock).toHaveBeenCalledWith(dummyFields, 0, expect.any(Object));
+  expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  expect(result).toEqual({ status: { id: 'status-1' } });
+});
+
+});
+
+
+describe('getCachedProfileCollection', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=profile';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyFields = 'profile';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.common = [null, { tcpConn: 'tcpConn', applicationName: 'AppName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-1');
+    readRecordsMock.mockResolvedValue({ profile: { id: 'profile-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ profile: { id: 'profile-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return profile collection successfully', async () => {
+    const result = await IndividualService.getCachedProfileCollection(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ profile: { id: 'profile-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject with BadRequest for invalid fields filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount name' }]);
+
+    await expect(
+      IndividualService.getCachedProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+  });
+
+  it('should reject with 460 when ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject with 470 when cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with 470 if filtered final JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should decode and filter fields properly when provided', async () => {
+    decodeFieldsSubstringExtMock.mockReturnValue('parsed');
+    getFilteredJsonExtMock.mockReturnValue();
+
+    const result = await IndividualService.getCachedProfileCollection(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyFields
+    );
+
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalledWith(dummyFields, 0, expect.any(Object));
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+    expect(result).toEqual({ profile: { id: 'profile-1' } });
+  });
+
+  it('should reject with unexpected error', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getCachedProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+
+describe('getCachedProfile', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=profile';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'profile';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.common = [null, { tcpConn: 'tcpConn', applicationName: 'AppName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-1');
+    readRecordsMock.mockResolvedValue({ profile: { id: 'profile-1' } });
+    cacheResponseBuilderMock.mockResolvedValue({ profile: { id: 'profile-1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return profile successfully', async () => {
+    const result = await IndividualService.getCachedProfile(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ profile: { id: 'profile-1' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject with BadRequest for invalid fields filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Invalid mount name' }]);
+
+    await expect(
+      IndividualService.getCachedProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+  });
+
+  it('should reject with 460 when ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject with 470 when cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with 470 if filtered final JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should decode and filter fields properly when provided', async () => {
+    decodeFieldsSubstringExtMock.mockReturnValue('parsed');
+    getFilteredJsonExtMock.mockReturnValue();
+
+    const result = await IndividualService.getCachedProfile(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalledWith(dummyFields, 0, expect.any(Object));
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+    expect(result).toEqual({ profile: { id: 'profile-1' } });
+  });
+
+  it('should reject with unexpected error', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getCachedProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+describe('getCachedCoChannelProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-99?fields=co-channel';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-99';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'co-channel';
+
+  let readRecordsMock;
+  let cacheResponseBuilderMock;
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcpConn', applicationName: 'AppName' }];
+
+    readRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', readRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    isFilterValidMock.mockReturnValue(true);
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-99');
+    readRecordsMock.mockResolvedValue({ 'co-channel': { id: 'co-123' } });
+    cacheResponseBuilderMock.mockResolvedValue({ 'co-channel': { id: 'co-123' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return co-channel profile successfully', async () => {
+    const result = await IndividualService.getCachedCoChannelProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ 'co-channel': { id: 'co-123' } });
+    expect(readRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject with BadRequest for invalid fields filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Mount decode error' }]);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Mount decode error');
+  });
+
+  it('should reject with 460 when ReadRecords returns undefined', async () => {
+    readRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject with 470 when cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject with 470 if filtered JSON is empty', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should decode and filter fields correctly when fields are provided', async () => {
+    decodeFieldsSubstringExtMock.mockReturnValue('filtered');
+    getFilteredJsonExtMock.mockReturnValue();
+
+    const result = await IndividualService.getCachedCoChannelProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalledWith(dummyFields, 0, expect.any(Object));
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+    expect(result).toEqual({ 'co-channel': { id: 'co-123' } });
+  });
+
+  it('should reject with internal error when ReadRecords fails', async () => {
+    readRecordsMock.mockRejectedValue(new Error('Internal device error'));
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Internal device error');
+  });
+
+  it('should skip filtering when fields is undefined', async () => {
+  const noFieldUrl = 'http://dummy.url/control-construct=device-99';
+  const result = await IndividualService.getCachedCoChannelProfileCapability(
+    noFieldUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+    dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+  );
+
+  expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+  expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  expect(result).toEqual({ 'co-channel': { id: 'co-123' } });
+});
+
+it('should reject if cacheResponseBuilder throws directly', async () => {
+  cacheResponseBuilderMock.mockImplementation(() => {
+    throw new Error('cache failed');
+  });
+
+  await expect(
+    IndividualService.getCachedCoChannelProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+    )
+  ).rejects.toThrow('cache failed');
+});
+
+it('should reject if cacheResponseBuilder returns object with no keys', async () => {
+  cacheResponseBuilderMock.mockResolvedValue({});
+
+  await expect(
+    IndividualService.getCachedCoChannelProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyFields
+    )
+  ).rejects.toThrow(); // or customize based on your logic
+});
+
+});
+
+
+
+
+describe('getCachedCoChannelProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-123?fields=config';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-123';
+  const dummyUuid = 'uuid-abc';
+  const dummyFields = 'config';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'AppName' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-123');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ config: { version: '1.0' } });
+    cacheResponseBuilderMock.mockResolvedValue({ config: { version: '1.0' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid config object', async () => {
+    const result = await IndividualService.getCachedCoChannelProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ config: { version: '1.0' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount name' }]);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should not call field filtering logic if fields is undefined', async () => {
+    const noFieldUrl = 'http://dummy.url/control-construct=device-123';
+
+    const result = await IndividualService.getCachedCoChannelProfileConfiguration(
+      noFieldUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ config: { version: '1.0' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws an error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB connection error'));
+
+    await expect(
+      IndividualService.getCachedCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB connection error');
+  });
+});
+
+
+
+describe('getCachedPolicingProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=bandwidth';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'bandwidth';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ bandwidth: { limit: '1Gbps' } });
+    cacheResponseBuilderMock.mockResolvedValue({ bandwidth: { limit: '1Gbps' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid policing profile capability object', async () => {
+    const result = await IndividualService.getCachedPolicingProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ bandwidth: { limit: '1Gbps' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedPolicingProfileCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ bandwidth: { limit: '1Gbps' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedPolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+});
+
+
+
+
+describe('getCachedPolicingProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=bandwidth';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'bandwidth';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ bandwidth: { limit: '1Gbps' } });
+    cacheResponseBuilderMock.mockResolvedValue({ bandwidth: { limit: '1Gbps' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid policing profile configuration object', async () => {
+    const result = await IndividualService.getCachedPolicingProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ bandwidth: { limit: '1Gbps' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedPolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedPolicingProfileConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ bandwidth: { limit: '1Gbps' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedPolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        bandwidth: {
+          type: 'object',
+          properties: {
+            limit: { type: 'string' }
+          },
+          required: ['limit']
+        }
+      },
+      required: ['bandwidth']
+    };
+
+    const result = await IndividualService.getCachedPolicingProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+});
+
+
+// __tests__/individualService.test.js
+
+describe('getCachedQosProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid QoS profile capability object', async () => {
+    const result = await IndividualService.getCachedQosProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedQosProfileCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+});
+
+
+
+
+describe('getCachedQosProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid QoS profile configuration object', async () => {
+    const result = await IndividualService.getCachedQosProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedQosProfileConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedQosProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+});
+
+
+
+describe('getCachedSchedulerProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=someField';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'someField';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Setup global common array expected by function
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    // Mock dependencies used inside getCachedSchedulerProfileCapability
+    decodeMountNameMock = jest.fn().mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock = jest.fn().mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn().mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock = jest.fn().mockResolvedValue({ capability: { level: 'high' } });
+    cacheResponseBuilderMock = jest.fn().mockResolvedValue({ someKey: { capability: { level: 'high' } } });
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn().mockReturnValue(true);
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn().mockReturnValue(false);
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid scheduler profile capability object', async () => {
+    const result = await IndividualService.getCachedSchedulerProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+    expect(result).toEqual({ someKey: { capability: { level: 'high' } } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw BadRequest if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should throw error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should throw if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should throw if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without filtering when fields is undefined', async () => {
+    const result = await IndividualService.getCachedSchedulerProfileCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+    expect(result).toEqual({ someKey: { capability: { level: 'high' } } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        someKey: {
+          type: 'object',
+          properties: {
+            capability: {
+              type: 'object',
+              properties: {
+                level: { type: 'string' }
+              },
+              required: ['level']
+            }
+          },
+          required: ['capability']
+        }
+      },
+      required: ['someKey']
+    };
+
+    const result = await IndividualService.getCachedSchedulerProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+    await expect(
+      IndividualService.getCachedSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+});
+
+
+
+
+describe('getCachedSchedulerProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=bandwidth';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'bandwidth';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ bandwidth: { limit: '1Gbps' } });
+    cacheResponseBuilderMock.mockResolvedValue({ bandwidth: { limit: '1Gbps' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid scheduler profile configuration object', async () => {
+    const result = await IndividualService.getCachedSchedulerProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ bandwidth: { limit: '1Gbps' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedSchedulerProfileConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ bandwidth: { limit: '1Gbps' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        bandwidth: {
+          type: 'object',
+          properties: {
+            limit: { type: 'string' }
+          },
+          required: ['limit']
+        }
+      },
+      required: ['bandwidth']
+    };
+
+    const result = await IndividualService.getCachedSchedulerProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+});
+
+
+describe('getCachedWredProfileCapability', () => {
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn().mockReturnValue('device-wred');
+    retrieveCorrectUrlMock = jest.fn().mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn().mockReturnValue('http://resolved.url/device-wred');
+    ReadRecordsMock = jest.fn().mockResolvedValue({ wred: { profile: 'profile1' } });
+    cacheResponseBuilderMock = jest.fn().mockResolvedValue({ wred: { profile: 'profile1' } });
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn().mockReturnValue(true);
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn().mockReturnValue(false);
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with correct data when all goes well', async () => {
+    const result = await IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    );
+    expect(result).toEqual({ wred: { profile: 'profile1' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith('device-wred');
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('rejects with BadRequest if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    )).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    )).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    )).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    )).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if JSON is empty after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    )).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without fields when fields undefined', async () => {
+    const result = await IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', undefined
+    );
+    expect(result).toEqual({ wred: { profile: 'profile1' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+    await expect(IndividualService.getCachedWredProfileCapability(
+      'http://dummy.url/control-construct=device-wred?fields=profile',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'device-wred', 'uuid', 'profile'
+    )).rejects.toThrow('DB error');
+  });
+});
+
+
+
+
+// Example JSON schema for response validation (adjust fields as needed)
+
+
+describe('getCachedWredProfileConfiguration', () => {
+  const responseSchema = {
+  type: 'object',
+  properties: {
+    wredProfileConfiguration: {
+      type: 'object',
+      properties: {
+        profileName: { type: 'string' },
+        parameters: { type: 'object' },
+      },
+      required: ['profileName', 'parameters'],
+      additionalProperties: false,
+    },
+  },
+  required: ['wredProfileConfiguration'],
+  additionalProperties: false,
+};
+
+  let decodeMountNameMock,
+    retrieveCorrectUrlMock,
+    modifyUrlConcatenateMountNamePlusUuidMock,
+    ReadRecordsMock,
+    cacheResponseBuilderMock,
+    modifyReturnJsonMock,
+    isFilterValidMock,
+    decodeFieldsSubstringExtMock,
+    getFilteredJsonExtMock,
+    isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn().mockReturnValue('wredProfileConfiguration');
+    retrieveCorrectUrlMock = jest.fn().mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn().mockReturnValue('http://resolved.url/wredProfileConfiguration');
+    ReadRecordsMock = jest.fn().mockResolvedValue({
+      wredProfileConfiguration: {
+        profileName: 'TestProfile',
+        parameters: { param1: 'value1' },
+      },
+    });
+    cacheResponseBuilderMock = jest.fn().mockResolvedValue({
+      wredProfileConfiguration: {
+        profileName: 'TestProfile',
+        parameters: { param1: 'value1' },
+      },
+    });
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn().mockReturnValue(true);
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn().mockReturnValue(false);
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with valid data and passes AJV schema validation', async () => {
+    const result = await IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName,parameters',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName,parameters'
+    );
+
+    const validate = ajv.compile(responseSchema);
+    expect(validate(result)).toBe(true);
+
+    expect(result).toHaveProperty('wredProfileConfiguration');
+    expect(ReadRecordsMock).toHaveBeenCalledWith('wredProfileConfiguration');
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('rejects with BadRequest if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName'
+    )).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName'
+    )).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName'
+    )).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName'
+    )).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if JSON is empty after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName'
+    )).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without fields when fields undefined', async () => {
+    const result = await IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', undefined
+    );
+
+    const validate = ajv.compile(responseSchema);
+    expect(validate(result)).toBe(true);
+
+    expect(result).toHaveProperty('wredProfileConfiguration');
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+    await expect(IndividualService.getCachedWredProfileConfiguration(
+      'http://dummy.url/control-construct=wredProfileConfiguration?fields=profileName',
+      {}, 'originator', 'xCorrelator', 'traceIndicator', 'customerJourney', 'wredProfileConfiguration', 'uuid', 'profileName'
+    )).rejects.toThrow('DB error');
+  });
+});
+
+
+
+
+describe('getCachedLogicalTerminationPoint', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid logical termination point object', async () => {
+    const result = await IndividualService.getCachedLogicalTerminationPoint(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedLogicalTerminationPoint(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedLogicalTerminationPoint(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  // Additional edge case: url without fields query param
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedLogicalTerminationPoint(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  // Additional edge case: decodeMountName returns non-string, non-object value (e.g., null)
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedLogicalTerminationPoint(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getCachedLtpAugment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ logicalTerminationPoint: { latency: { value: '10ms' } } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid ltp augment object', async () => {
+    const result = await IndividualService.getCachedLtpAugment(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ logicalTerminationPoint: { latency: { value: '10ms' } } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedLtpAugment(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ logicalTerminationPoint: { latency: { value: '10ms' } } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedLtpAugment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+
+describe('getCachedForwardingDomain', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=fd-123?fields=name';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'fd-123';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'name';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/fd-123');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ name: 'ForwardingDomain1' });
+    cacheResponseBuilderMock.mockResolvedValue({ forwardingDomain: { name: 'ForwardingDomain1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid forwarding domain object', async () => {
+    const result = await IndividualService.getCachedForwardingDomain(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ forwardingDomain: { name: 'ForwardingDomain1' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedForwardingDomain(
+      'http://dummy.url/control-construct=fd-123', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ forwardingDomain: { name: 'ForwardingDomain1' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getCachedForwardingConstruct', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=fc-123?fields=name';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'fc-123';
+  const dummyUuid = 'uuid-xyz';
+  const dummyUuid1 = 'uuid-abc';
+  const dummyFields = 'name';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/fc-123');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ name: 'ForwardingConstruct1' });
+    cacheResponseBuilderMock.mockResolvedValue({ forwardingConstruct: { name: 'ForwardingConstruct1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with correct forwarding construct object', async () => {
+    const result = await IndividualService.getCachedForwardingConstruct(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+    );
+
+    expect(result).toEqual({ forwardingConstruct: { name: 'ForwardingConstruct1' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('rejects with BadRequest error if fields filter invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects with error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mountname' }]);
+
+    await expect(
+      IndividualService.getCachedForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Invalid mountname');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering when fields is undefined', async () => {
+    const result = await IndividualService.getCachedForwardingConstruct(
+      'http://dummy.url/control-construct=fc-123', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyUuid1, undefined
+    );
+
+    expect(result).toEqual({ forwardingConstruct: { name: 'ForwardingConstruct1' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if cacheResponseBuilder throws error', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder error'));
+
+    await expect(
+      IndividualService.getCachedForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+
+describe('getCachedForwardingConstructPort', () => {
+  const dummyUrl = 'http://dummy.url/control-construct-port=fcport-123?fields=name';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'fcport-123';
+  const dummyUuid = 'uuid-xyz';
+  const dummyUuid1 = 'uuid-abc';
+  const dummyLocalId = 'local-123';
+  const dummyFields = 'name';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/fcport-123');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ name: 'ForwardingConstructPort1' });
+    cacheResponseBuilderMock.mockResolvedValue({ forwardingConstructPort: { name: 'ForwardingConstructPort1' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with correct forwarding construct port object', async () => {
+    const result = await IndividualService.getCachedForwardingConstructPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ forwardingConstructPort: { name: 'ForwardingConstructPort1' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('rejects with BadRequest error if fields filter invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects with error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mountname' }]);
+
+    await expect(
+      IndividualService.getCachedForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mountname');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering when fields is undefined', async () => {
+    const result = await IndividualService.getCachedForwardingConstructPort(
+      'http://dummy.url/control-construct-port=fcport-123', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ forwardingConstructPort: { name: 'ForwardingConstructPort1' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if cacheResponseBuilder throws error', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder error'));
+
+    await expect(
+      IndividualService.getCachedForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+describe('getCachedLink', () => {
+  const dummyUrl = encodeURIComponent('http://dummy.url/link-uuid-123');
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = 'name';
+
+  let decodeLinkUuidMock;
+  let ReadRecordsMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    decodeLinkUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeLinkUuid', decodeLinkUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+
+    decodeLinkUuidMock.mockReturnValue('correct-link-uuid');
+    ReadRecordsMock.mockResolvedValue({ link: { id: 'link-1', name: 'Link 1' } });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeLinkUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+  });
+
+  it('resolves with link data when valid link and cache record exists', async () => {
+    const result = await IndividualService.getCachedLink(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ link: { id: 'link-1', name: 'Link 1' } });
+    expect(decodeLinkUuidMock).toHaveBeenCalledWith(expect.any(String), true);
+    expect(ReadRecordsMock).toHaveBeenCalledWith('correct-link-uuid');
+  });
+
+  it('rejects with error when decodeLinkUuid returns error object', async () => {
+    decodeLinkUuidMock.mockReturnValue([{ code: 400, message: 'Bad link UUID' }]);
+
+    await expect(
+      IndividualService.getCachedLink(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad link UUID');
+  });
+
+  it('rejects with error when ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedLink(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Not available. The topology (parent) object is currently not found in the cache.');
+  });
+
+  it('rejects with error when result key does not contain "link"', async () => {
+    ReadRecordsMock.mockResolvedValue({ somethingElse: {} });
+
+    await expect(
+      IndividualService.getCachedLink(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Not available. The topology (parent) object is currently not found in the cache.');
+  });
+});
+
+
+
+describe('putLinkToCache', () => {
+  const dummyUrl = encodeURIComponent('http://dummy.url/link-uuid-123');
+  const dummyBody = { link: { id: 'link-1', name: 'Link 1' } };
+  const dummyFields = undefined;
+  const dummyUuid = 'uuid-xyz';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+
+  let decodeLinkUuidMock;
+  let recordRequestMock;
+  let ReadRecordsMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    decodeLinkUuidMock = jest.fn();
+    recordRequestMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeLinkUuid', decodeLinkUuidMock);
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+
+    decodeLinkUuidMock.mockReturnValue('correct-link-uuid');
+    recordRequestMock.mockResolvedValue(10);
+    ReadRecordsMock.mockResolvedValue({ LinkList: ['existing-link-uuid'] });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeLinkUuid');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('ReadRecords');
+  });
+
+  it('resolves successfully when body starts with link and link is in link list', async () => {
+    await expect(
+      IndividualService.putLinkToCache(
+        dummyUrl, dummyBody, dummyFields, dummyUuid, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+      )
+    ).resolves.toBeUndefined();
+
+    expect(decodeLinkUuidMock).toHaveBeenCalledWith(expect.any(String), true);
+    expect(recordRequestMock).toHaveBeenCalledTimes(1); // initial recordRequest for the link
+    expect(ReadRecordsMock).toHaveBeenCalledWith('linkList');
+  });
+
+  it('adds link to linkList if not already present and calls recordRequest', async () => {
+    ReadRecordsMock.mockResolvedValue({ LinkList: [] }); // empty link list
+
+    await expect(
+      IndividualService.putLinkToCache(
+        dummyUrl, dummyBody, dummyFields, dummyUuid, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+      )
+    ).resolves.toBeUndefined();
+
+    expect(recordRequestMock).toHaveBeenCalledTimes(2); // one for link, one for updated list
+    expect(ReadRecordsMock).toHaveBeenCalledWith('linkList');
+  });
+
+  it('creates new linkList if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.putLinkToCache(
+        dummyUrl, dummyBody, dummyFields, dummyUuid, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+      )
+    ).resolves.toBeUndefined();
+
+    expect(recordRequestMock).toHaveBeenCalledTimes(2); // one for link, one for new list creation
+    expect(ReadRecordsMock).toHaveBeenCalledWith('linkList');
+  });
+
+  it('rejects with BadRequest if body does not start with "link"', async () => {
+    const badBody = { notLink: {} };
+
+    await expect(
+      IndividualService.putLinkToCache(
+        dummyUrl, badBody, dummyFields, dummyUuid, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+      )
+    ).rejects.toThrow('Bad Request');
+  });
+
+  it('rejects with error if decodeLinkUuid returns error object', async () => {
+    decodeLinkUuidMock.mockReturnValue([{ code: 400, message: 'Bad link UUID' }]);
+
+    await expect(
+      IndividualService.putLinkToCache(
+        dummyUrl, dummyBody, dummyFields, dummyUuid, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+      )
+    ).rejects.toThrow('Bad link UUID');
+  });
+});
+
+
+
+describe('deleteCachedLink', () => {
+  const dummyUrl = encodeURIComponent('http://dummy.url/link-uuid-123');
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyUuid = 'uuid-xyz';
+  const dummyFields = undefined;
+
+  let decodeLinkUuidMock;
+  let recordRequestMock;
+  let ReadRecordsMock;
+  let deleteRequestMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    decodeLinkUuidMock = jest.fn();
+    recordRequestMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    deleteRequestMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeLinkUuid', decodeLinkUuidMock);
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('deleteRequest', deleteRequestMock);
+
+    decodeLinkUuidMock.mockReturnValue('correct-link-uuid');
+    recordRequestMock.mockResolvedValue(10);
+    deleteRequestMock.mockResolvedValue(true);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeLinkUuid');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('deleteRequest');
+  });
+
+  it('resolves when link exists and is deleted, and link is removed from list', async () => {
+    ReadRecordsMock.mockResolvedValueOnce({ someData: 'data' }); // link read
+    ReadRecordsMock.mockResolvedValueOnce({ LinkList: ['correct-link-uuid', 'another-link'] }); // list read
+
+    await expect(IndividualService.deleteCachedLink(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+    )).resolves.toBeUndefined();
+
+    expect(decodeLinkUuidMock).toHaveBeenCalledWith(expect.any(String), true);
+    expect(deleteRequestMock).toHaveBeenCalledWith('correct-link-uuid');
+    expect(recordRequestMock).toHaveBeenCalledWith({ LinkList: ['another-link'] }, 'linkList');
+  });
+
+  it('removes link from list when link does not exist but list contains it', async () => {
+    ReadRecordsMock.mockResolvedValueOnce(undefined); // link does not exist
+    ReadRecordsMock.mockResolvedValueOnce({ LinkList: ['correct-link-uuid', 'some-link'] }); // list read
+
+    await expect(IndividualService.deleteCachedLink(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+    )).resolves.toBeUndefined();
+
+    expect(recordRequestMock).toHaveBeenCalledWith({ LinkList: ['some-link'] }, 'linkList');
+  });
+
+  it('throws error if link and list both do not exist', async () => {
+    ReadRecordsMock.mockResolvedValueOnce(undefined); // link does not exist
+    ReadRecordsMock.mockResolvedValueOnce(undefined); // list does not exist
+
+    await expect(IndividualService.deleteCachedLink(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+    )).rejects.toThrow('Not available. The topology (parent) object is currently not found in the cache.');
+  });
+
+  it('rejects when decodeLinkUuid returns error object', async () => {
+    decodeLinkUuidMock.mockReturnValue([{ code: 400, message: 'Bad link UUID' }]);
+
+    await expect(IndividualService.deleteCachedLink(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+    )).rejects.toThrow('Bad link UUID');
+  });
+
+  it('does not update linkList if correctLink not in list when link exists', async () => {
+    ReadRecordsMock.mockResolvedValueOnce({ someData: 'data' }); // link exists
+    ReadRecordsMock.mockResolvedValueOnce({ LinkList: ['some-link'] }); // list does not contain correctLink
+
+    await expect(IndividualService.deleteCachedLink(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyUuid, dummyFields
+    )).resolves.toBeUndefined();
+
+    // recordRequest should NOT be called to update linkList because correctLink not present
+    expect(recordRequestMock).not.toHaveBeenCalledWith(expect.anything(), 'linkList');
+  });
+});
+
+
+
+describe('getCachedLinkPort', () => {
+  const dummyUrl = encodeURIComponent('http://dummy.url/link-uuid-123');
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyUuid = 'correct-link-uuid'; // uuid param used directly as link
+  const dummyLocalId = 'local-port-1';
+  const dummyFields = undefined;
+
+  let ReadRecordsMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    ReadRecordsMock = jest.fn();
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+  });
+
+  it('resolves with correct link-port object when data is valid', async () => {
+    const cachedData = {
+      "correct-link-uuid:link": [
+        {
+          "link-port": [
+            { "local-id": "local-port-1", name: "Port 1" },
+            { "local-id": "local-port-2", name: "Port 2" }
+          ]
+        }
+      ]
+    };
+    ReadRecordsMock.mockResolvedValue(cachedData);
+
+    const expectedResult = {
+      "correct-link-uuid:link-port": [
+        { "local-id": "local-port-1", name: "Port 1" }
+      ]
+    };
+
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).resolves.toEqual(expectedResult);
+
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyUuid);
+  });
+
+  it('throws 400 error if uuid or localId contain special chars', async () => {
+    const badUuid = "bad!uuid";
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      badUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow("Fields must not contain special chars");
+
+    const badLocalId = "bad@local";
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, badLocalId, dummyFields
+    )).rejects.toThrow("Fields must not contain special chars");
+  });
+
+  it('throws 471 error if link-port array not found', async () => {
+    const cachedData = {
+      "correct-link-uuid:link": [
+        {
+          "no-link-port": []
+        }
+      ]
+    };
+    ReadRecordsMock.mockResolvedValue(cachedData);
+
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow("(Child) topology object not existing. Cache informs about addressed resource unknown.");
+  });
+
+  it('throws 461 error if parent topology object key does not include "link"', async () => {
+    const cachedData = {
+      "wrong-key": []
+    };
+    ReadRecordsMock.mockResolvedValue(cachedData);
+
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow("Not available. The topology (parent) object is currently not found in the cache.");
+  });
+
+  it('throws 461 error if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow("Not available. The topology (parent) object is currently not found in the cache.");
+  });
+
+  it('throws error if uuid param is an error object', async () => {
+    await expect(IndividualService.getCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      [{ code: 400, message: 'Bad UUID' }], dummyLocalId, dummyFields
+    )).rejects.toThrow('Bad UUID');
+  });
+});
+
+
+describe('putLinkPortToCache', () => {
+  const dummyUrl = encodeURIComponent('http://dummy.url/link-uuid-123');
+  const dummyBody = {
+    "correct-link-uuid:link": [
+      { "local-id": "local-port-1", name: "Port 1" }
+    ]
+  };
+  const dummyFields = undefined;
+  const dummyUuid = 'correct-link-uuid';
+  const dummyLocalId = 'local-port-1';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+
+  let ReadRecordsMock;
+  let recordRequestMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    ReadRecordsMock = jest.fn();
+    recordRequestMock = jest.fn();
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('recordRequest');
+  });
+
+  it('resolves when cache update is successful with existing link-port array', async () => {
+    const cachedValue = {
+      "correct-link-uuid:link": [
+        {
+          "link-port": [{ "local-id": "existing-port" }]
+        }
+      ]
+    };
+    ReadRecordsMock.mockResolvedValueOnce(cachedValue);
+    ReadRecordsMock.mockResolvedValueOnce({ linkList: [] });
+    recordRequestMock.mockResolvedValueOnce();
+
+    await expect(IndividualService.putLinkPortToCache(
+      dummyUrl, dummyBody, dummyFields, dummyUuid, dummyLocalId,
+      dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+    )).resolves.toBeUndefined();
+
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyUuid);
+    expect(ReadRecordsMock).toHaveBeenCalledWith('linkList');
+    expect(recordRequestMock).toHaveBeenCalled();
+  });
+
+  it('resolves and adds link-port if not present in cache value', async () => {
+    const cachedValue = {
+      "correct-link-uuid:link": [{}] // no link-port key
+    };
+    ReadRecordsMock.mockResolvedValueOnce(cachedValue);
+    ReadRecordsMock.mockResolvedValueOnce({ linkList: [] });
+    recordRequestMock.mockResolvedValueOnce();
+
+    await expect(IndividualService.putLinkPortToCache(
+      dummyUrl, dummyBody, dummyFields, dummyUuid, dummyLocalId,
+      dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+    )).resolves.toBeUndefined();
+
+    expect(cachedValue["correct-link-uuid:link"][0]["link-port"]).toEqual(dummyBody["correct-link-uuid:link"]);
+    expect(recordRequestMock).toHaveBeenCalled();
+  });
+
+  it('throws 400 error if body key does not start with "link"', async () => {
+    const badBody = { "not-link-key": [] };
+
+    await expect(IndividualService.putLinkPortToCache(
+      dummyUrl, badBody, dummyFields, dummyUuid, dummyLocalId,
+      dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+    )).rejects.toThrow("Bad Request");
+  });
+
+  it('throws 400 error if uuid contains special characters', async () => {
+    const badUuid = "bad!uuid";
+
+    await expect(IndividualService.putLinkPortToCache(
+      dummyUrl, dummyBody, dummyFields, badUuid, dummyLocalId,
+      dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+    )).rejects.toThrow("Fields must not contain special chars");
+  });
+
+  it('throws error if uuid param is an error object', async () => {
+    await expect(IndividualService.putLinkPortToCache(
+      dummyUrl, dummyBody, dummyFields, [{ code: 400, message: 'Bad UUID' }], dummyLocalId,
+      dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+    )).rejects.toThrow('Bad UUID');
+  });
+
+  it('throws 461 error if cache value is undefined', async () => {
+    ReadRecordsMock.mockResolvedValueOnce(undefined);
+
+    await expect(IndividualService.putLinkPortToCache(
+      dummyUrl, dummyBody, dummyFields, dummyUuid, dummyLocalId,
+      dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney
+    )).rejects.toThrow("Not available. The topology (parent) object is currently not found in the cache.");
+  });
+});
+
+
+
+
+describe('deleteCachedLinkPort', () => {
+  const dummyUrl = encodeURIComponent('http://dummy.url/link-uuid-123');
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyUuid = 'correct-link-uuid';
+  const dummyLocalId = 'local-port-1';
+  const dummyFields = undefined;
+
+  let ReadRecordsMock;
+  let recordRequestMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    ReadRecordsMock = jest.fn();
+    recordRequestMock = jest.fn();
+
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('recordRequest');
+  });
+
+  it('resolves when link-port with localId exists and is removed', async () => {
+    const cachedValue = {
+      "correct-link-uuid:link": [
+        {
+          "link-port": [
+            { "local-id": "local-port-1" },
+            { "local-id": "local-port-2" }
+          ]
+        }
+      ]
+    };
+
+    ReadRecordsMock.mockResolvedValueOnce(cachedValue);
+    recordRequestMock.mockResolvedValueOnce();
+
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).resolves.toBeUndefined();
+
+    expect(cachedValue["correct-link-uuid:link"][0]["link-port"]).toEqual([{ "local-id": "local-port-2" }]);
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyUuid);
+    expect(recordRequestMock).toHaveBeenCalledWith(cachedValue, dummyUuid);
+  });
+
+  it('throws 471 error if link-port array does not contain the localId', async () => {
+    const cachedValue = {
+      "correct-link-uuid:link": [
+        {
+          "link-port": [
+            { "local-id": "other-port" }
+          ]
+        }
+      ]
+    };
+
+    ReadRecordsMock.mockResolvedValueOnce(cachedValue);
+
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('(Child) topology object not existing. Cache informs about addressed resource unknown.');
+  });
+
+  it('throws 471 error if link-port key missing or not an array', async () => {
+    const cachedValue = {
+      "correct-link-uuid:link": [
+        {}
+      ]
+    };
+
+    ReadRecordsMock.mockResolvedValueOnce(cachedValue);
+
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('(Child) topology object not existing. Cache informs about addressed resource unknown.');
+  });
+
+  it('throws 461 error if cached result undefined', async () => {
+    ReadRecordsMock.mockResolvedValueOnce(undefined);
+
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Not available. The topology (parent) object is currently not found in the cache.');
+  });
+
+  it('throws 400 error if uuid or localId contains special chars', async () => {
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      'bad!uuid', dummyLocalId, dummyFields
+    )).rejects.toThrow('Fields must not contain special chars');
+
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyUuid, 'bad$id', dummyFields
+    )).rejects.toThrow('Fields must not contain special chars');
+  });
+
+  it('throws error if uuid param is error object', async () => {
+    await expect(IndividualService.deleteCachedLinkPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      [{ code: 400, message: 'Bad UUID' }], dummyLocalId, dummyFields
+    )).rejects.toThrow('Bad UUID');
+  });
+});
+
+
+
+
+describe('getCachedAirInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid air interface capability object', async () => {
+    const result = await IndividualService.getCachedAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedAirInterfaceCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+
+  it('should reject and log if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedAirInterfaceCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+});
+
+
+describe('getCachedAirInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid air interface configuration object', async () => {
+    const result = await IndividualService.getCachedAirInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedAirInterfaceConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const Ajv = require('ajv');
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedAirInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedAirInterfaceConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getCachedAirInterfaceStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid air interface status object', async () => {
+    const result = await IndividualService.getCachedAirInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedAirInterfaceStatus(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const Ajv = require('ajv');
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedAirInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedAirInterfaceStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getCachedAirInterfaceHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid historical performance object', async () => {
+    const result = await IndividualService.getCachedAirInterfaceHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedAirInterfaceHistoricalPerformances(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedAirInterfaceHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedAirInterfaceHistoricalPerformances(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getCachedEthernetContainerCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid ethernet container capability object', async () => {
+    const result = await IndividualService.getCachedEthernetContainerCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedEthernetContainerCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const Ajv = require('ajv');
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedEthernetContainerCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedEthernetContainerCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getCachedEthernetContainerConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Mock the dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Set default mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    // Reset the mocked dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid ethernet container configuration object', async () => {
+    const result = await IndividualService.getCachedEthernetContainerConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedEthernetContainerConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedEthernetContainerConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedEthernetContainerConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getCachedEthernetContainerStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheResponseBuilderMock.mockResolvedValue({ status: { value: 'active' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid ethernet container status object', async () => {
+    const result = await IndividualService.getCachedEthernetContainerStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedEthernetContainerStatus(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+
+    const result = await IndividualService.getCachedEthernetContainerStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedEthernetContainerStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getCachedEthernetContainerHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid ethernet container historical performances object', async () => {
+    const result = await IndividualService.getCachedEthernetContainerHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedEthernetContainerHistoricalPerformances(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const Ajv = require('ajv');
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedEthernetContainerHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedEthernetContainerHistoricalPerformances(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getCachedHybridMwStructureCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Rewire mocks
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock returns
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid hybrid mw structure capability object', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedHybridMwStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedHybridMwStructureCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getCachedHybridMwStructureConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Mock the dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid hybrid mw structure configuration object', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should log and reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with correct error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache builder failure'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        latency: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['latency']
+    };
+
+    const result = await IndividualService.getCachedHybridMwStructureConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedHybridMwStructureConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getCachedHybridMwStructureStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=latency';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'latency';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    // Mock the dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ latency: { value: '10ms' } });
+    cacheResponseBuilderMock.mockResolvedValue({ latency: { value: '10ms' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid hybrid mw structure status object', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without field filtering when fields are undefined', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureStatus(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject when ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB error');
+  });
+
+  it('should reject with specific error when cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedHybridMwStructureStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ latency: { value: '10ms' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getCachedHybridMwStructureHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=performance';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'performance';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mocks
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ performance: { value: 'good' } });
+    cacheResponseBuilderMock.mockResolvedValue({ performance: { value: 'good' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered performance data', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ performance: { value: 'good' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject on invalid filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ performance: { value: 'good' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject if ReadRecords throws an error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('should reject if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+
+    await expect(
+      IndividualService.getCachedHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+describe('getCachedMacInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=capability';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'capability';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default behavior mocks
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ capability: { status: 'active' } });
+    cacheResponseBuilderMock.mockResolvedValue({ capability: { status: 'active' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should resolve with filtered capability data', async () => {
+    const result = await IndividualService.getCachedMacInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ capability: { status: 'active' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject on invalid filter', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedMacInterfaceCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ capability: { status: 'active' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject if ReadRecords throws an error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('should reject if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+
+    await expect(
+      IndividualService.getCachedMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+describe('getCachedMacInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=config';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'config';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default behavior mocks
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ config: { mode: 'auto' } });
+    cacheResponseBuilderMock.mockResolvedValue({ config: { mode: 'auto' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered config data', async () => {
+    const result = await IndividualService.getCachedMacInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ config: { mode: 'auto' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedMacInterfaceConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ config: { mode: 'auto' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+describe('getCachedMacInterfaceStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ status: { link: 'up' } });
+    cacheResponseBuilderMock.mockResolvedValue({ status: { link: 'up' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered status data', async () => {
+    const result = await IndividualService.getCachedMacInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ status: { link: 'up' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedMacInterfaceStatus(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ status: { link: 'up' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+describe('getCachedPureEthernetStructureCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=capability';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'capability';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Defaults
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ capability: { speed: '1Gbps' } });
+    cacheResponseBuilderMock.mockResolvedValue({ capability: { speed: '1Gbps' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered capability data', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ capability: { speed: '1Gbps' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ capability: { speed: '1Gbps' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+describe('getCachedPureEthernetStructureConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=configField';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'configField';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock behavior
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ configField: { setting: 'value' } });
+    cacheResponseBuilderMock.mockResolvedValue({ configField: { setting: 'value' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered config data', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ configField: { setting: 'value' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ configField: { setting: 'value' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+describe('getCachedPureEthernetStructureStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=statusField';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'statusField';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    // Default mock behavior
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ statusField: { state: 'active' } });
+    cacheResponseBuilderMock.mockResolvedValue({ statusField: { state: 'active' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered status data', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ statusField: { state: 'active' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureStatus(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ statusField: { state: 'active' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+describe('getCachedPureEthernetStructureHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=perfField';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'perfField';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ perfField: { value: 100 } });
+    cacheResponseBuilderMock.mockResolvedValue({ perfField: { value: 100 } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered historical performance data', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ perfField: { value: 100 } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ perfField: { value: 100 } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedPureEthernetStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+describe('getCachedVlanInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=vlan-abc?fields=testField';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'vlan-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-456';
+  const dummyFields = 'testField';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'AppName' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/vlan-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ testField: { value: 123 } });
+    cacheResponseBuilderMock.mockResolvedValue({ testField: { value: 123 } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered VLAN interface capability data', async () => {
+    const result = await IndividualService.getCachedVlanInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ testField: { value: 123 } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedVlanInterfaceCapability(
+      'http://dummy.url/control-construct=vlan-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ testField: { value: 123 } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+describe('getCachedVlanInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=vlan-abc?fields=testField';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'vlan-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-456';
+  const dummyFields = 'testField';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'AppName' }];
+
+    decodeMountNameMock = jest.fn().mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock = jest.fn().mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn().mockReturnValue('http://resolved.url/vlan-abc');
+    ReadRecordsMock = jest.fn().mockResolvedValue({ testField: { value: 123 } });
+    cacheResponseBuilderMock = jest.fn().mockResolvedValue({ testField: { value: 123 } });
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn().mockReturnValue(true);
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn().mockReturnValue(false);
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock,
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('resolves with filtered VLAN interface configuration data', async () => {
+    const result = await IndividualService.getCachedVlanInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+    expect(result).toEqual({ testField: { value: 123 } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('rejects if filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('rejects if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('rejects if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('rejects if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('rejects if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('resolves without filtering if fields is undefined', async () => {
+    const result = await IndividualService.getCachedVlanInterfaceConfiguration(
+      'http://dummy.url/control-construct=vlan-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toEqual({ testField: { value: 123 } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('rejects if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('rejects if cacheResponseBuilder rejects', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+});
+
+
+
+describe('getCachedWireInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=capability';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'capability';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ capability: { type: 'wire' } });
+    cacheResponseBuilderMock.mockResolvedValue({ capability: { type: 'wire' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid wire interface capability object', async () => {
+    const result = await IndividualService.getCachedWireInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ capability: { type: 'wire' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount name' }]);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad mount name');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve when fields are undefined', async () => {
+    const result = await IndividualService.getCachedWireInterfaceCapability(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ capability: { type: 'wire' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject if ReadRecords throws', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('should reject with error from cacheResponseBuilder', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should validate response schema using AJV', async () => {
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        capability: {
+          type: 'object',
+          properties: {
+            type: { type: 'string' }
+          },
+          required: ['type']
+        }
+      },
+      required: ['capability']
+    };
+
+    const result = await IndividualService.getCachedWireInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedWireInterfaceCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ capability: { type: 'wire' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getCachedWireInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=configuration';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'configuration';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    isFilterValidMock.mockReturnValue(true);
+    ReadRecordsMock.mockResolvedValue({ configuration: { mode: 'auto' } });
+    cacheResponseBuilderMock.mockResolvedValue({ configuration: { mode: 'auto' } });
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid wire interface configuration object', async () => {
+    const result = await IndividualService.getCachedWireInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ configuration: { mode: 'auto' } });
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheResponseBuilderMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(decodeFieldsSubstringExtMock).toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).toHaveBeenCalled();
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount name' }]);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad mount name');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve when fields are undefined', async () => {
+    const result = await IndividualService.getCachedWireInterfaceConfiguration(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ configuration: { mode: 'auto' } });
+    expect(decodeFieldsSubstringExtMock).not.toHaveBeenCalled();
+    expect(getFilteredJsonExtMock).not.toHaveBeenCalled();
+  });
+
+  it('should reject if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('should reject with error from cacheResponseBuilder', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+
+    await expect(
+      IndividualService.getCachedWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedWireInterfaceConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ configuration: { mode: 'auto' } });
+  });
+});
+
+
+
+
+describe('getCachedWireInterfaceStatus', () => {
+  const responseSchema = {
+  type: 'object',
+  properties: {
+    wireInterfaceStatus: {
+      type: 'object',
+      properties: {
+        status: { type: 'string' },
+        uptime: { type: 'number' }
+      },
+      required: ['status', 'uptime'],
+      additionalProperties: false,
+    }
+  },
+  required: ['wireInterfaceStatus'],
+  additionalProperties: false,
+};
+
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+
+    isFilterValidMock.mockReturnValue(true);
+
+    // Simulate a valid record read
+    ReadRecordsMock.mockResolvedValue({ wireInterfaceStatus: { status: 'up', uptime: 12345 } });
+
+    // Simulate cacheResponseBuilder returning expected json
+    cacheResponseBuilderMock.mockResolvedValue({ wireInterfaceStatus: { status: 'up', uptime: 12345 } });
+
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return a valid wireInterfaceStatus object matching schema', async () => {
+    const result = await IndividualService.getCachedWireInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toHaveProperty('wireInterfaceStatus');
+    const validate = ajv.compile(responseSchema);
+    const valid = validate(result);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount name' }]);
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad mount name');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve when fields are undefined', async () => {
+    const result = await IndividualService.getCachedWireInterfaceStatus(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toHaveProperty('wireInterfaceStatus');
+  });
+
+  it('should reject if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('should reject with error from cacheResponseBuilder', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedWireInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedWireInterfaceStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toHaveProperty('wireInterfaceStatus');
+  });
+});
+
+
+
+
+describe('getCachedWireInterfaceHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=timestamp';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-xyz';
+  const dummyLocalId = 'local-id-123';
+  const dummyFields = 'timestamp';
+
+
+  // Example JSON schema for the response body - replace with your actual schema
+const responseSchema = {
+  type: 'object',
+  properties: {
+    wireInterfaceHistoricalPerformances: {
+      type: 'object',
+      properties: {
+        timestamp: { type: 'string', format: 'date-time' },
+        performanceMetrics: {
+          type: 'object',
+          properties: {
+            throughput: { type: 'number' },
+            errorRate: { type: 'number' }
+          },
+          required: ['throughput', 'errorRate'],
+          additionalProperties: false,
+        }
+      },
+      required: ['timestamp', 'performanceMetrics'],
+      additionalProperties: false,
+    }
+  },
+  required: ['wireInterfaceHistoricalPerformances'],
+  additionalProperties: false,
+};
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheResponseBuilderMock;
+  let modifyReturnJsonMock;
+  let isFilterValidMock;
+  let decodeFieldsSubstringExtMock;
+  let getFilteredJsonExtMock;
+  let isJsonEmptyMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [null, { tcpConn: 'tcp', applicationName: 'TestApp' }];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    isFilterValidMock = jest.fn();
+    decodeFieldsSubstringExtMock = jest.fn();
+    getFilteredJsonExtMock = jest.fn();
+    isJsonEmptyMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('isFilterValid', isFilterValidMock);
+    IndividualService.__Rewire__('fieldsManager', {
+      decodeFieldsSubstringExt: decodeFieldsSubstringExtMock,
+      getFilteredJsonExt: getFilteredJsonExtMock
+    });
+    IndividualService.__Rewire__('isJsonEmpty', isJsonEmptyMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+
+    isFilterValidMock.mockReturnValue(true);
+
+    ReadRecordsMock.mockResolvedValue({
+      wireInterfaceHistoricalPerformances: {
+        timestamp: '2025-05-19T10:00:00Z',
+        performanceMetrics: { throughput: 1000, errorRate: 0.01 }
+      }
+    });
+
+    cacheResponseBuilderMock.mockResolvedValue({
+      wireInterfaceHistoricalPerformances: {
+        timestamp: '2025-05-19T10:00:00Z',
+        performanceMetrics: { throughput: 1000, errorRate: 0.01 }
+      }
+    });
+
+    isJsonEmptyMock.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('isFilterValid');
+    IndividualService.__ResetDependency__('fieldsManager');
+    IndividualService.__ResetDependency__('isJsonEmpty');
+  });
+
+  it('should return valid historical performances matching schema', async () => {
+    const result = await IndividualService.getCachedWireInterfaceHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toHaveProperty('wireInterfaceHistoricalPerformances');
+    const validate = ajv.compile(responseSchema);
+    const valid = validate(result);
+    if (!valid) console.error(validate.errors);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if fields filter is invalid', async () => {
+    isFilterValidMock.mockReturnValue(false);
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow(createHttpError.BadRequest);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount name' }]);
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad mount name');
+  });
+
+  it('should reject if ReadRecords returns undefined', async () => {
+    ReadRecordsMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Requested device is currently not in connected state at the controller');
+  });
+
+  it('should reject if cacheResponseBuilder returns undefined', async () => {
+    cacheResponseBuilderMock.mockResolvedValue(undefined);
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should reject if isJsonEmpty returns true after filtering', async () => {
+    isJsonEmptyMock.mockReturnValue(true);
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should resolve when fields are undefined', async () => {
+    const result = await IndividualService.getCachedWireInterfaceHistoricalPerformances(
+      'http://dummy.url/control-construct=device-abc', dummyUser, dummyOriginator,
+      dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toHaveProperty('wireInterfaceHistoricalPerformances');
+  });
+
+  it('should reject if ReadRecords throws error', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB failure'));
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('DB failure');
+  });
+
+  it('should reject with error from cacheResponseBuilder', async () => {
+    cacheResponseBuilderMock.mockRejectedValue(new Error('Cache failure'));
+    await expect(
+      IndividualService.getCachedWireInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Resource not existing. Device informs about addressed resource unknown');
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getCachedWireInterfaceHistoricalPerformances(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+    expect(result).toHaveProperty('wireInterfaceHistoricalPerformances');
+  });
+});
+
+
+describe('getLiveControlConstruct', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=timestamp';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'timestamp';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let cacheResponseBuilderMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    cacheResponseBuilderMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockImplementation(url => url);
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: {
+        wireInterfaceHistoricalPerformances: {
+          timestamp: '2025-05-19T10:00:00Z',
+          performanceMetrics: { throughput: 1000, errorRate: 0.01 }
+        }
+      }
+    });
+    cacheResponseBuilderMock.mockResolvedValue({
+      wireInterfaceHistoricalPerformances: {
+        timestamp: '2025-05-19T10:00:00Z',
+        performanceMetrics: { throughput: 1000, errorRate: 0.01 }
+      }
+    });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('cacheResponse');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+  });
+
+  it('should return valid live control construct data', async () => {
+    const result = await IndividualService.getLiveControlConstruct(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyFields
+    );
+
+    expect(result).toHaveProperty('wireInterfaceHistoricalPerformances');
+    expect(result.wireInterfaceHistoricalPerformances).toHaveProperty('timestamp', '2025-05-19T10:00:00Z');
+    expect(result.wireInterfaceHistoricalPerformances.performanceMetrics).toEqual({ throughput: 1000, errorRate: 0.01 });
+  });
+
+  it('should throw error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount name' }]);
+
+    await expect(
+      IndividualService.getLiveControlConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad mount name');
+  });
+
+  it('should throw error if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveControlConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should throw error if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveControlConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should handle undefined fields parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveControlConstruct(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney, dummyMountName, undefined
+    );
+
+    expect(result).toHaveProperty('wireInterfaceHistoricalPerformances');
+  });
+});
+
+
+describe('getLiveAlarmCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=timestamp';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'timestamp';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp1', applicationName: 'OpenDayLight', key: 'authKey1' },
+      { tcpConn: 'tcp2', applicationName: 'AppName2', key: 'authKey2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { alarmCapability: 'sampleData' }
+    });
+    ReadRecordsMock.mockResolvedValue({ existingData: true });
+    cacheUpdateBuilderMock.mockReturnValue({ updatedData: true });
+    recordRequestMock.mockResolvedValue('elapsedTime');
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+  });
+
+  it('should return valid alarm capability data', async () => {
+    const result = await IndividualService.getLiveAlarmCapability(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyFields
+    );
+
+    expect(result).toHaveProperty('alarmCapability', 'sampleData');
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith({ alarmCapability: 'sampleData' });
+  });
+
+  it('should throw error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount name' }]);
+
+    await expect(
+      IndividualService.getLiveAlarmCapability(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad mount name');
+  });
+
+  it('should throw error if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAlarmCapability(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should throw error if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveAlarmCapability(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should handle undefined fields gracefully', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAlarmCapability(
+      urlWithoutFields,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      undefined
+    );
+
+    expect(result).toHaveProperty('alarmCapability', 'sampleData');
+  });
+
+  it('should handle dispatchEvent throwing an error', async () => {
+    dispatchEventMock.mockRejectedValue(new Error('Network Error'));
+
+    await expect(
+      IndividualService.getLiveAlarmCapability(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Network Error');
+  });
+});
+
+
+
+describe('getLiveAlarmConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp1', applicationName: 'OpenDayLightApp', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Mock the dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Set default mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { alarm: 'active' } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ alarm: 'active' });
+    cacheUpdateBuilderMock.mockReturnValue({ alarm: 'active' });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid alarm configuration object', async () => {
+    const result = await IndividualService.getLiveAlarmConfiguration(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyFields
+    );
+
+    expect(result).toEqual({ alarm: 'active' });
+    expect(decodeMountNameMock).toHaveBeenCalledWith(expect.any(String), false);
+    expect(retrieveCorrectUrlMock).toHaveBeenCalled();
+    expect(formatUrlForOdlMock).toHaveBeenCalled();
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ alarm: 'active' }, dummyMountName);
+    expect(modifyUrlConcatenateMountNamePlusUuidMock).toHaveBeenCalled();
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheUpdateBuilderMock).toHaveBeenCalled();
+    expect(recordRequestMock).toHaveBeenCalledWith({ alarm: 'active' }, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith({ alarm: 'active' });
+  });
+
+  it('should throw error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should throw error if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should throw error if dispatchEvent returns non-200 status without statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should throw error if dispatchEvent returns 401 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should throw error if dispatchEvent returns 403 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should throw error if dispatchEvent returns other non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should throw error if dispatchEvent returns 200 status without statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle error during ES update gracefully', async () => {
+    ReadRecordsMock.mockRejectedValue(new Error('DB error'));
+
+    const result = await IndividualService.getLiveAlarmConfiguration(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyFields
+    );
+
+    expect(result).toEqual({ alarm: 'active' });
+    expect(console.error).toHaveBeenCalledWith(expect.any(Error));
+  });
+
+  it('should handle undefined fields gracefully', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+
+    const result = await IndividualService.getLiveAlarmConfiguration(
+      urlWithoutFields,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      undefined
+    );
+
+    expect(result).toEqual({ alarm: 'active' });
+  });
+
+  it('should throw error if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveAlarmConfiguration(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveCurrentAlarms', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid current alarms object', async () => {
+    const result = await IndividualService.getLiveCurrentAlarms(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveCurrentAlarms(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveCurrentAlarms(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveAlarmEventRecords', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid alarm event records object', async () => {
+    const result = await IndividualService.getLiveAlarmEventRecords(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAlarmEventRecords(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveAlarmEventRecords(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveEquipment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid equipment object and validate schema', async () => {
+    const result = await IndividualService.getLiveEquipment(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveEquipment(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveConnector', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-1234';
+  const dummyLocalId = 'localId-5678';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid connector data object', async () => {
+    const result = await IndividualService.getLiveConnector(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveConnector(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveConnector(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveContainedHolder', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+  const dummyUuid = 'uuid';
+  const dummyLocalId = 'localId';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid contained holder object', async () => {
+    const result = await IndividualService.getLiveContainedHolder(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveContainedHolder(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveContainedHolder(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveExpectedEquipment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid expected equipment object', async () => {
+    const result = await IndividualService.getLiveExpectedEquipment(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveExpectedEquipment(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveExpectedEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveActualEquipment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid equipment data object', async () => {
+    const result = await IndividualService.getLiveActualEquipment(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveActualEquipment(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveActualEquipment(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveFirmwareCollection', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid firmware collection object', async () => {
+    const result = await IndividualService.getLiveFirmwareCollection(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveFirmwareCollection(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveFirmwareCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveFirmwareComponentList', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid firmware component list object', async () => {
+    const result = await IndividualService.getLiveFirmwareComponentList(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveFirmwareComponentList(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentList(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveFirmwareComponentCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn().mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock = jest.fn().mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock = jest.fn().mockReturnValue('http://formatted.url');
+    dispatchEventMock = jest.fn().mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn().mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock = jest.fn().mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock = jest.fn().mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock = jest.fn().mockResolvedValue();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire or mock dependencies in your IndividualService module
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should resolve with firmware component capability object', async () => {
+    const result = await IndividualService.getLiveFirmwareComponentCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation example
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveFirmwareComponentCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+describe('getLiveFirmwareComponentStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid firmware component status object', async () => {
+    const result = await IndividualService.getLiveFirmwareComponentStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveFirmwareComponentStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveFirmwareComponentStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveProfileCollection', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid profile collection object', async () => {
+    const result = await IndividualService.getLiveProfileCollection(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveProfileCollection(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveProfileCollection(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveProfile', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc/uuid-123');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid profile object', async () => {
+    const result = await IndividualService.getLiveProfile(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveProfile(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveProfile(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveCoChannelProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid co-channel profile capability object', async () => {
+    const result = await IndividualService.getLiveCoChannelProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveCoChannelProfileCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveCoChannelProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveCoChannelProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modificaUUIDMock.mockImplementation((json, cc) => { /* mock: no-op */ });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: 'json' });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockImplementation(json => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return a valid co-channel profile configuration object', async () => {
+    const result = await IndividualService.getLiveCoChannelProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // AJV schema validation
+    const Ajv = require('ajv');
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getLiveCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+    await expect(
+      IndividualService.getLiveCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent status not 200 with various statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+    await expect(
+      IndividualService.getLiveCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+
+    dispatchEventMock.mockResolvedValue({ status: 502 });
+    await expect(
+      IndividualService.getLiveCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+    await expect(
+      IndividualService.getLiveCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+    await expect(
+      IndividualService.getLiveCoChannelProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should proceed without fields query param', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveCoChannelProfileConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should log and swallow error during record update but still resolve', async () => {
+    // Make recordRequest throw error
+    recordRequestMock.mockRejectedValue(new Error('ES write error'));
+
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await IndividualService.getLiveCoChannelProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+    expect(result).toEqual({ status: { value: 'active' } });
+
+    consoleSpy.mockRestore();
+  });
+});
+
+
+describe('getLivePolicingProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid policing profile capability object', async () => {
+    const result = await IndividualService.getLivePolicingProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLivePolicingProfileCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLivePolicingProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid policing profile capability object', async () => {
+    const result = await IndividualService.getLivePolicingProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLivePolicingProfileCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLivePolicingProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLivePolicingProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-1234';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn().mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock = jest.fn().mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock = jest.fn().mockReturnValue('http://formatted.url');
+    dispatchEventMock = jest.fn().mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn().mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock = jest.fn().mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock = jest.fn().mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock = jest.fn().mockResolvedValue();
+    modifyReturnJsonMock = jest.fn((json) => json);
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid policing profile configuration object', async () => {
+    const result = await IndividualService.getLivePolicingProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(modificaUUIDMock).toHaveBeenCalled();
+
+    // Schema validation example
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLivePolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePolicingProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLivePolicingProfileConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+
+describe('getLiveQosProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid QoS profile capability object', async () => {
+    const result = await IndividualService.getLiveQosProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveQosProfileCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveQosProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveQosProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modificaUUIDMock.mockImplementation(() => {});
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid qos profile configuration object', async () => {
+    const result = await IndividualService.getLiveQosProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) console.error(validate.errors);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with other statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveQosProfileConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveQosProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveSchedulerProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modificaUUIDMock.mockImplementation(() => {});
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid scheduler profile capability object', async () => {
+    const result = await IndividualService.getLiveSchedulerProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status without statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns other statusText with non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status without statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+});
+
+
+
+describe('getLiveSchedulerProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Using rewire style injection as in previous example
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modificaUUIDMock.mockImplementation(() => {});
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should resolve with valid profile configuration data', async () => {
+    const result = await IndividualService.getLiveSchedulerProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject when decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject when dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject when dispatchEvent returns non-200 status with no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject when dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject when dispatchEvent returns other statusText with non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject when dispatchEvent returns 200 status but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveSchedulerProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+});
+
+describe('getLiveWredProfileCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modificaUUIDMock.mockImplementation((json, cc) => {});
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid wred profile capability object', async () => {
+    const result = await IndividualService.getLiveWredProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation example
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveWredProfileCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should catch errors thrown during ES update flow and still resolve', async () => {
+    // Make ReadRecords throw
+    ReadRecordsMock.mockRejectedValue(new Error('ES error'));
+
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await IndividualService.getLiveWredProfileCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(consoleSpy).toHaveBeenCalled();
+
+    consoleSpy.mockRestore();
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveWredProfileCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveWredProfileConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid profile configuration object', async () => {
+    const result = await IndividualService.getLiveWredProfileConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveWredProfileConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveWredProfileConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveLogicalTerminationPoint', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-1234';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid logical termination point object', async () => {
+    const result = await IndividualService.getLiveLogicalTerminationPoint(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTraceIndicator,
+      dummyCustomerJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveLogicalTerminationPoint(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveLogicalTerminationPoint(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject on non-200 status codes', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveLogicalTerminationPoint(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject on 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveLogicalTerminationPoint(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if statusText is undefined on error', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveLogicalTerminationPoint(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if statusText is undefined on 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveLogicalTerminationPoint(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should resolve without fields param', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+
+    const result = await IndividualService.getLiveLogicalTerminationPoint(
+      urlWithoutFields,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTraceIndicator,
+      dummyCustomerJourney,
+      dummyMountName,
+      dummyUuid,
+      undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+
+describe('getLiveLtpAugment', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-1234';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid LTP augment object', async () => {
+    const result = await IndividualService.getLiveLtpAugment(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTraceIndicator,
+      dummyCustomerJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveLtpAugment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveLtpAugment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject on non-200 status codes', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveLtpAugment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject on 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveLtpAugment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if statusText is undefined on error', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveLtpAugment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if statusText is undefined on 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveLtpAugment(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTraceIndicator,
+        dummyCustomerJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should resolve without fields param', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+
+    const result = await IndividualService.getLiveLtpAugment(
+      urlWithoutFields,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTraceIndicator,
+      dummyCustomerJourney,
+      dummyMountName,
+      dummyUuid,
+      undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+
+
+describe('getLiveForwardingDomain', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid forwarding domain object', async () => {
+    const result = await IndividualService.getLiveForwardingDomain(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveForwardingDomain(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveForwardingDomain(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveForwardingConstruct', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+  const dummyUuid = 'uuid';
+  const dummyUuid1 = 'uuid1';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid forwarding construct object', async () => {
+    const result = await IndividualService.getLiveForwardingConstruct(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyUuid1, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith(result);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns 404', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns statusText 401', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns status 200 with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without fields', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveForwardingConstruct(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyUuid1, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveForwardingConstruct(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveForwardingConstructPort', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid';
+  const dummyUuid1 = 'uuid1';
+  const dummyLocalId = 'localId';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid forwarding construct port object', async () => {
+    const result = await IndividualService.getLiveForwardingConstructPort(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveForwardingConstructPort(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveForwardingConstructPort(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyUuid1, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveAirInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=air-interface';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid';
+  const dummyLocalId = 'localId';
+  const dummyFields = 'air-interface';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { "air-interface": { "value": "test" } }
+    });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://es.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: 'ok' });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: 'json' });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation(json => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid air interface object', async () => {
+    const result = await IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ "air-interface": { "value": "test" } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith(result);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns 404', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns statusText 401', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns status 200 with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(IndividualService.getLiveAirInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    )).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without fields param gracefully', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAirInterfaceCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ "air-interface": { "value": "test" } });
+    expect(dispatchEventMock).toHaveBeenCalled();
+  });
+});
+
+describe('getLiveAirInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid air interface configuration object', async () => {
+    const result = await IndividualService.getLiveAirInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAirInterfaceConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveAirInterfaceStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-id-456';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid air interface status object', async () => {
+    const result = await IndividualService.getLiveAirInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAirInterfaceStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+  
+
+
+describe('getLiveAirInterfaceCurrentPerformance', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=performance';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'performance';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { performance: { value: 'good' } } });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+  });
+
+  it('should return valid performance data object', async () => {
+    const result = await IndividualService.getLiveAirInterfaceCurrentPerformance(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ performance: { value: 'good' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        performance: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['performance']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status without statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401/403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAirInterfaceCurrentPerformance(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ performance: { value: 'good' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveAirInterfaceHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'historical' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'old' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'historical' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid historical performance object', async () => {
+    const result = await IndividualService.getLiveAirInterfaceHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'historical' } });
+    expect(dispatchEventMock).toHaveBeenCalled();
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    expect(validate(result)).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveAirInterfaceHistoricalPerformances(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'historical' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveAirInterfaceHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveEthernetContainerCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-456';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    // Mocks return values
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid ethernet container capability object on success', async () => {
+    const result = await IndividualService.getLiveEthernetContainerCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation example (optional)
+    const Ajv = require('ajv');
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 502 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveEthernetContainerCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should catch and reject on unexpected errors', async () => {
+    decodeMountNameMock.mockImplementation(() => { throw new Error('Unexpected error'); });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Unexpected error');
+  });
+});
+
+
+describe('getLiveEthernetContainerConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'ethernet' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'old' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'ethernet' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid ethernet container configuration object', async () => {
+    const result = await IndividualService.getLiveEthernetContainerConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'ethernet' } });
+    expect(dispatchEventMock).toHaveBeenCalled();
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    expect(validate(result)).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveEthernetContainerConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'ethernet' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveEthernetContainerStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-1234';
+  const dummyLocalId = 'localId-5678';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid ethernet container status object on success', async () => {
+    const result = await IndividualService.getLiveEthernetContainerStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Validate result against schema
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveEthernetContainerStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveEthernetContainerStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should catch and log errors thrown during ES update but still resolve', async () => {
+    // make ReadRecords throw an error
+    ReadRecordsMock.mockRejectedValue(new Error('ES read error'));
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await IndividualService.getLiveEthernetContainerStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error));
+
+    consoleErrorSpy.mockRestore();
+  });
+});
+
+
+describe('getLiveEthernetContainerCurrentPerformance', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'up' } } });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+  });
+
+  it('resolves with data when response is successful', async () => {
+    const result = await IndividualService.getLiveEthernetContainerCurrentPerformance(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+    expect(result).toEqual({ status: { value: 'up' } });
+  });
+
+  it('throws error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('throws error if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('throws error if dispatchEvent status not 200 and no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('throws error if dispatchEvent statusText is 401 or 403', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('throws error if dispatchEvent statusText is other than 401, 403 and undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('throws error if dispatchEvent status 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+    await expect(
+      IndividualService.getLiveEthernetContainerCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+});
+
+describe('getLiveEthernetContainerHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid';
+  const dummyLocalId = 'localId';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp1', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'OtherApp', key: 'auth-key2' },
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockImplementation(async (url, tcp, app) => `http://resolved.url/${tcp}/${app}`);
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'up' } } });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: true });
+    ReadRecordsMock.mockResolvedValue({ hits: [] });
+    recordRequestMock.mockResolvedValue(100);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('resolves with modified json on success', async () => {
+    const result = await IndividualService.getLiveEthernetContainerHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(decodeMountNameMock).toHaveBeenCalled();
+    expect(retrieveCorrectUrlMock).toHaveBeenCalled();
+    expect(dispatchEventMock).toHaveBeenCalled();
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(ReadRecordsMock).toHaveBeenCalled();
+    expect(cacheUpdateBuilderMock).toHaveBeenCalled();
+    expect(recordRequestMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(result).toEqual({ status: { value: 'up' } });
+  });
+
+  it('throws error if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Mount error' }]);
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Mount error');
+  });
+
+  it('throws error if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('throws error if dispatchEvent status not 200 and no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('throws error if dispatchEvent statusText 401 or 403', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('throws error if dispatchEvent statusText other than 401,403,undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('throws error if dispatchEvent status 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+    await expect(
+      IndividualService.getLiveEthernetContainerHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('does not throw if update record on ES fails but logs error', async () => {
+    const error = new Error('ES error');
+    ReadRecordsMock.mockRejectedValueOnce(error);
+
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await IndividualService.getLiveEthernetContainerHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(error);
+    expect(result).toEqual({ status: { value: 'up' } });
+
+    consoleErrorSpy.mockRestore();
+  });
+});
+
+
+describe('getLiveHybridMwStructureCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'some-uuid';
+  const dummyLocalId = 'local-id';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid structure capability object on success', async () => {
+    const result = await IndividualService.getLiveHybridMwStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith(result, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // JSON schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns other non-200 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but statusText undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveHybridMwStructureCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should continue despite errors thrown during cache update and ES record operations', async () => {
+    // Make the ES cache update steps throw an error to test catch block
+    retrieveCorrectUrlMock.mockResolvedValueOnce('http://resolved.url')
+      .mockResolvedValueOnce('http://resolved2.url');
+    ReadRecordsMock.mockRejectedValue(new Error('ES read failed'));
+    recordRequestMock.mockRejectedValue(new Error('ES write failed'));
+
+    // Should still resolve with response json ignoring ES errors
+    const result = await IndividualService.getLiveHybridMwStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+describe('getLiveHybridMwStructureConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-1234';
+  const dummyLocalId = 'local-5678';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Default mock implementations
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { status: { value: 'active' } }
+    });
+    modificaUUIDMock.mockImplementation((jsonObj) => { /* no-op */ });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: 'json' });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockImplementation(json => json);
+  });
+
+  afterEach(() => {
+    // Reset rewired dependencies
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid hybrid MW structure configuration object', async () => {
+    const result = await IndividualService.getLiveHybridMwStructureConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith({ status: { value: 'active' } });
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveHybridMwStructureConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should catch and log errors in ES update block but still resolve', async () => {
+    // Make ReadRecords throw to test catch block
+    ReadRecordsMock.mockRejectedValue(new Error('ES Read Error'));
+    // We spy on console.error
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await IndividualService.getLiveHybridMwStructureConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+    expect(result).toEqual({ status: { value: 'active' } });
+
+    consoleSpy.mockRestore();
+  });
+});
+
+
+describe('getLiveHybridMwStructureStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'localId-456';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid hybrid MW structure status object on success', async () => {
+    const result = await IndividualService.getLiveHybridMwStructureStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) console.error(validate.errors);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveHybridMwStructureStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should continue on cache update error without rejecting', async () => {
+    // Simulate an error in the try-catch block inside the function that handles ES update
+    recordRequestMock.mockRejectedValue(new Error('Cache update failed'));
+
+    const result = await IndividualService.getLiveHybridMwStructureStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveHybridMwStructureCurrentPerformance', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+  });
+
+  it('should return valid current performance data object', async () => {
+    const result = await IndividualService.getLiveHybridMwStructureCurrentPerformance(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+
+    // Schema validation
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+    if (!valid) {
+      console.error(validate.errors);
+    }
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText with 200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveHybridMwStructureCurrentPerformance(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveHybridMwStructureHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'localId-456';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid historical performances data on success', async () => {
+    const result = await IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    // Schema validation example (optional)
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should continue on cache update error without rejecting', async () => {
+    recordRequestMock.mockRejectedValue(new Error('Cache update failed'));
+
+    const result = await IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveHybridMwStructureHistoricalPerformances(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator, dummyCustomerJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveMacInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid';
+  const dummyLocalId = 'localId';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyReturnJsonMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp1', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    ReadRecordsMock.mockResolvedValue([{ record: 1 }]);
+    cacheUpdateBuilderMock.mockReturnValue({ updated: true });
+    recordRequestMock.mockResolvedValue(123);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+  });
+
+  it('should return json data on success and call all functions correctly', async () => {
+    const result = await IndividualService.getLiveMacInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+
+    expect(decodeMountNameMock).toHaveBeenCalledWith(expect.any(String), false);
+    expect(retrieveCorrectUrlMock).toHaveBeenCalledTimes(2);
+    expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://resolved.url', 'status');
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyUrlConcatenateMountNamePlusUuidMock).toHaveBeenCalled();
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheUpdateBuilderMock).toHaveBeenCalled();
+    expect(recordRequestMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith(result);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but statusText undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should resolve even if ES update throws error', async () => {
+    cacheUpdateBuilderMock.mockImplementation(() => { throw new Error('ES update error'); });
+
+    const result = await IndividualService.getLiveMacInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+describe('getLiveMacInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-xyz?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-xyz';
+  const dummyUuid = 'uuid-abc';
+  const dummyLocalId = 'localId-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-xyz');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should resolve with correct data on success', async () => {
+    const result = await IndividualService.getLiveMacInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mountName' }]);
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mountName');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should resolve without filters if no fields query param', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-xyz';
+    const result = await IndividualService.getLiveMacInterfaceConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should not reject when cache update throws error', async () => {
+    recordRequestMock.mockRejectedValue(new Error('Cache update failed'));
+
+    const result = await IndividualService.getLiveMacInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+describe('getLiveMacInterfaceStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid';
+  const dummyLocalId = 'localId';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modificaUUIDMock;
+  let modifyReturnJsonMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp1', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    ReadRecordsMock.mockResolvedValue([{ record: 1 }]);
+    cacheUpdateBuilderMock.mockReturnValue({ updated: true });
+    recordRequestMock.mockResolvedValue(123);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+  });
+
+  it('should resolve with data on successful response and call dependencies', async () => {
+    const result = await IndividualService.getLiveMacInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+
+    expect(decodeMountNameMock).toHaveBeenCalledWith(expect.any(String), false);
+    expect(retrieveCorrectUrlMock).toHaveBeenCalledTimes(2);
+    expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://resolved.url', 'status');
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyUrlConcatenateMountNamePlusUuidMock).toHaveBeenCalled();
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheUpdateBuilderMock).toHaveBeenCalled();
+    expect(recordRequestMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith(result);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but statusText undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveMacInterfaceStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should resolve even if ES update throws error', async () => {
+    cacheUpdateBuilderMock.mockImplementation(() => { throw new Error('ES update error'); });
+
+    const result = await IndividualService.getLiveMacInterfaceStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+describe('getLivePureEthernetStructureCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-xyz?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTraceIndicator = 'traceIndicator';
+  const dummyCustomerJourney = 'customerJourney';
+  const dummyMountName = 'device-xyz';
+  const dummyUuid = 'uuid-abc';
+  const dummyLocalId = 'localId-123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-xyz');
+    ReadRecordsMock.mockResolvedValue({ some: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should resolve with correct data on success', async () => {
+    const result = await IndividualService.getLivePureEthernetStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mountName' }]);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mountName');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 status but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+        dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should resolve without filters if no fields query param', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-xyz';
+    const result = await IndividualService.getLivePureEthernetStructureCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should not reject when cache update throws error', async () => {
+    recordRequestMock.mockRejectedValue(new Error('Cache update failed'));
+
+    const result = await IndividualService.getLivePureEthernetStructureCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTraceIndicator,
+      dummyCustomerJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+});
+
+
+describe('getLivePureEthernetStructureConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock, retrieveCorrectUrlMock, formatUrlForOdlMock, dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock, ReadRecordsMock, cacheUpdateBuilderMock;
+  let recordRequestMock, modifyReturnJsonMock, modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'configured' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'configured' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'configured' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid ethernet structure config object', async () => {
+    const result = await IndividualService.getLivePureEthernetStructureConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'configured' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401/403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLivePureEthernetStructureConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'configured' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLivePureEthernetStructureStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+    modificaUUIDMock.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid PureEthernetStructureStatus object', async () => {
+    const result = await IndividualService.getLivePureEthernetStructureStatus(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid123', 'localId123', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(modificaUUIDMock).toHaveBeenCalled();
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    expect(validate(result)).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Invalid mount' }]);
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 with other statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLivePureEthernetStructureStatus(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid123', 'localId123', undefined
+    );
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+    await expect(
+      IndividualService.getLivePureEthernetStructureStatus(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLivePureEthernetStructureCurrentPerformance', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-xyz?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-xyz';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock, retrieveCorrectUrlMock, formatUrlForOdlMock, dispatchEventMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'OtherApp' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { status: { value: 'current' } }
+    });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+  });
+
+  it('should return valid current performance object', async () => {
+    const result = await IndividualService.getLivePureEthernetStructureCurrentPerformance(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'current' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    expect(validate(result)).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401/403', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but statusText is undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should reject if dispatchEvent returns other error statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should work even if fields are not provided in the URL', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-xyz';
+
+    const result = await IndividualService.getLivePureEthernetStructureCurrentPerformance(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'current' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureCurrentPerformance(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLivePureEthernetStructureHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device123?fields=status';
+  const dummyMountName = 'device123';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock, retrieveCorrectUrlMock, formatUrlForOdlMock, dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock, ReadRecordsMock;
+  let modificaUUIDMock, cacheUpdateBuilderMock, recordRequestMock, modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcpConn1', applicationName: 'OpenDayLight', key: 'some-auth' },
+      { tcpConn: 'tcpConn2', applicationName: 'OtherApp' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { history: [{ timestamp: 't1', value: 123 }] }
+    });
+    ReadRecordsMock.mockResolvedValue({ existing: 'record' });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: true });
+    recordRequestMock.mockResolvedValue('elapsedTime');
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should return valid historical performance data', async () => {
+    const result = await IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+      dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+    );
+
+    expect(result).toEqual({ history: [{ timestamp: 't1', value: 123 }] });
+    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith(expect.any(Object));
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Bad mount' }]);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+        dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+        dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject with 502 when status != 200 and no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+        dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject with 531 when statusText is 401 or 403', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+        dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject with 533 on unknown error statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+        dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject with 530 when statusText is undefined for 200', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+        dummyUrl, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle missing "fields" gracefully', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device123';
+
+    const result = await IndividualService.getLivePureEthernetStructureHistoricalPerformances(
+      urlWithoutFields, {}, 'originator', 'xCorrelator', 'traceIndicator', 'journey', dummyMountName, 'uuid', 'localId', undefined
+    );
+
+    expect(result).toEqual({ history: [{ timestamp: 't1', value: 123 }] });
+  });
+});
+
+
+describe('getLiveVlanInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-456';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid VLAN interface capability object', async () => {
+    const result = await IndividualService.getLiveVlanInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 status with defined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 200 with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields query', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+
+    const result = await IndividualService.getLiveVlanInterfaceCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+      dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace, dummyJourney,
+        dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+describe('getLiveVlanInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-id';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'TestApp2' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return valid vlan interface configuration object', async () => {
+    const result = await IndividualService.getLiveVlanInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+    const validate = ajv.compile(schema);
+    const valid = validate(result);
+    expect(valid).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns 401 statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 200 status with undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields= query parameter', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-abc';
+    const result = await IndividualService.getLiveVlanInterfaceConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'active' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveVlanInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+describe('getLiveWireInterfaceCapability', () => {
+  const dummyUrl = 'http://dummy/control-construct=device-abc?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'trace';
+  const dummyJourney = 'journey';
+  const dummyMountName = 'device-abc';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-456';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp1', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'ElasticApp' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { status: 'up' }
+    });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url');
+    ReadRecordsMock.mockResolvedValue({ existing: 'data' });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: 'data' });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((data) => data);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return a valid wire interface capability object', async () => {
+    const result = await IndividualService.getLiveWireInterfaceCapability(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+      dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: 'up' });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should reject if decodeMountName returns error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Invalid mount' }]);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+        dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+        dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns non-200 and undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500 });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+        dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 401 or 403', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+        dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns 404 with statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+        dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+  });
+
+  it('should reject if dispatchEvent returns 200 but statusText is undefined', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCapability(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator,
+        dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+        dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle URL without fields query', async () => {
+    const urlWithoutFields = 'http://dummy/control-construct=device-abc';
+
+    const result = await IndividualService.getLiveWireInterfaceCapability(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator,
+      dummyTrace, dummyJourney, dummyMountName, dummyUuid,
+      dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: 'up' });
+  });
+});
+
+
+describe('getLiveWireInterfaceConfiguration', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-xyz?fields=status';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'xCorrelator';
+  const dummyTrace = 'traceIndicator';
+  const dummyJourney = 'customerJourney';
+  const dummyMountName = 'device-xyz';
+  const dummyUuid = 'uuid-456';
+  const dummyLocalId = 'local-id';
+  const dummyFields = 'status';
+
+  let decodeMountNameMock;
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let dispatchEventMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+  let modificaUUIDMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    global.common = [
+      { tcpConn: 'tcp', applicationName: 'OpenDayLight', key: 'auth-key' },
+      { tcpConn: 'tcp2', applicationName: 'SecondaryApp' }
+    ];
+
+    decodeMountNameMock = jest.fn();
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modificaUUIDMock = jest.fn();
+
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'up' } } });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-xyz');
+    ReadRecordsMock.mockResolvedValue({ status: { value: 'up' } });
+    cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'up' } });
+    recordRequestMock.mockResolvedValue();
+    modifyReturnJsonMock.mockImplementation((json) => json);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modificaUUID');
+  });
+
+  it('should return a valid wire interface configuration object', async () => {
+    const result = await IndividualService.getLiveWireInterfaceConfiguration(
+      dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+    );
+
+    expect(result).toEqual({ status: { value: 'up' } });
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+
+    const ajv = new Ajv();
+    const schema = {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          },
+          required: ['value']
+        }
+      },
+      required: ['status']
+    };
+
+    const validate = ajv.compile(schema);
+    expect(validate(result)).toBe(true);
+  });
+
+  it('should reject if decodeMountName returns an error object', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 422, message: 'Invalid mount name' }]);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Invalid mount name');
+  });
+
+  it('should reject if dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+  });
+
+  it('should reject if dispatchEvent returns statusText 401 or 403', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+  });
+
+  it('should reject if dispatchEvent returns undefined statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404 });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+  });
+
+  it('should reject if dispatchEvent returns 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200 });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+  });
+
+  it('should handle url without ?fields=', async () => {
+    const urlWithoutFields = 'http://dummy.url/control-construct=device-xyz';
+    const result = await IndividualService.getLiveWireInterfaceConfiguration(
+      urlWithoutFields, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+      dummyJourney, dummyMountName, dummyUuid, dummyLocalId, undefined
+    );
+
+    expect(result).toEqual({ status: { value: 'up' } });
+  });
+
+  it('should reject if decodeMountName returns null', async () => {
+    decodeMountNameMock.mockReturnValue(null);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceConfiguration(
+        dummyUrl, dummyUser, dummyOriginator, dummyXCorrelator, dummyTrace,
+        dummyJourney, dummyMountName, dummyUuid, dummyLocalId, dummyFields
+      )
+    ).rejects.toThrow();
+  });
+});
+
+
+
+describe('getLiveWireInterfaceStatus', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=logical-termination-point';
+  const dummyUser = {};
+  const dummyOriginator = 'origin';
+  const dummyXCorrelator = 'x';
+  const dummyTrace = 'trace';
+  const dummyJourney = 'journey';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'localId-456';
+  const dummyFields = 'logical-termination-point';
+
+  let retrieveCorrectUrlMock;
+  let decodeMountNameMock;
+  let RestClientDispatchEventMock;
+  let createHttpErrorMock;
+  let modificaUUIDMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let modifyReturnJsonMock;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    retrieveCorrectUrlMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    RestClientDispatchEventMock = jest.fn();
+    createHttpErrorMock = jest.fn((code, message) => {
+      const error = new Error(message);
+      error.statusCode = code;
+      return error;
+    });
+    modificaUUIDMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: RestClientDispatchEventMock });
+    IndividualService.__Rewire__('createHttpError', createHttpErrorMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+
+    // Setup global common mock data
+    global.common = [
+      { tcpConn: 'tcp-conn-0', applicationName: 'OpenDayLight', key: 'auth-key-0' },
+      { tcpConn: 'tcp-conn-1', applicationName: 'appName1', key: 'auth-key-1' },
+    ];
+
+    // Default mocks
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    RestClientDispatchEventMock.mockResolvedValue({
+      status: 200,
+      statusText: 'OK',
+      data: { some: 'data' }
+    });
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://correct.url/device-1');
+    ReadRecordsMock.mockResolvedValue({ record: 'record-data' });
+    cacheUpdateBuilderMock.mockReturnValue({ updated: 'json' });
+    recordRequestMock.mockResolvedValue(123);
+    modifyReturnJsonMock.mockReturnValue(undefined);
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('createHttpError');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+  });
+
+  it('should resolve with modified JSON on success', async () => {
+    const result = await IndividualService.getLiveWireInterfaceStatus(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(result).toEqual({ some: 'data' });
+    expect(retrieveCorrectUrlMock).toHaveBeenCalled();
+    expect(decodeMountNameMock).toHaveBeenCalledWith(expect.any(String), false);
+    expect(RestClientDispatchEventMock).toHaveBeenCalledWith(
+      expect.any(String),
+      'GET',
+      '',
+      'auth-key-0'
+    );
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ some: 'data' }, dummyMountName);
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheUpdateBuilderMock).toHaveBeenCalled();
+    expect(recordRequestMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalled();
+  });
+
+  it('should throw error if decodeMountName returns object (error)', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 488, message: 'Mount invalid' }]);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({ message: 'Mount invalid', statusCode: 488 });
+  });
+
+  it('should throw 532 error if dispatchEvent returns false', async () => {
+    RestClientDispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({
+      message: 'Bad Gateway. Upstream server not responding.',
+      statusCode: 532,
+    });
+  });
+
+  it('should throw 502 if statusText undefined and status != 200', async () => {
+    RestClientDispatchEventMock.mockResolvedValue({ status: 500, statusText: undefined });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({ message: 'Bad Gateway', statusCode: 502 });
+  });
+
+  it('should throw 531 for 401 or 403 statusText', async () => {
+    RestClientDispatchEventMock.mockResolvedValue({ status: 401, statusText: 401 });
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({ message: 'Bad Gateway. Authentication at upstream server failed.', statusCode: 531 });
+
+    RestClientDispatchEventMock.mockResolvedValue({ status: 403, statusText: 403 });
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({ message: 'Bad Gateway. Authentication at upstream server failed.', statusCode: 531 });
+  });
+
+  it('should throw 533 for other error statusText', async () => {
+    RestClientDispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({ message: 'Bad gateway. The resource/service that is addressed does not exist at the device/application.', statusCode: 533 });
+  });
+
+  it('should throw 530 if statusText undefined but status 200', async () => {
+    RestClientDispatchEventMock.mockResolvedValue({ status: 200, statusText: undefined });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toMatchObject({ message: 'Data invalid. Response data not available, incomplete or corrupted', statusCode: 530 });
+  });
+
+  it('should catch and log errors from cache update block but still resolve', async () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    ReadRecordsMock.mockRejectedValue(new Error('ES failure'));
+
+    const result = await IndividualService.getLiveWireInterfaceStatus(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+    expect(result).toEqual({ some: 'data' });
+
+    consoleSpy.mockRestore();
+  });
+
+  it('should reject on unexpected errors', async () => {
+    retrieveCorrectUrlMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getLiveWireInterfaceStatus(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+  });
+});
+
+describe('getLiveWireInterfaceCurrentPerformance', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=somefield';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'x-corr';
+  const dummyTrace = 'trace';
+  const dummyJourney = 'journey';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-1';
+  const dummyFields = 'somefield';
+
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let decodeMountNameMock;
+  let dispatchEventMock;
+  let createHttpErrorMock;
+  let consoleErrorSpy;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    createHttpErrorMock = jest.fn((code, message) => {
+      const error = new Error(message);
+      error.code = code;
+      return error;
+    });
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('createHttpError', createHttpErrorMock);
+
+    // Setup global.common as expected by function
+    global.common = [{ tcpConn: 'tcp-conn', applicationName: 'OpenDayLightApp', key: 'auth-key' }];
+
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    // Default mocks
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { some: 'data' } });
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('createHttpError');
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('should resolve with json data when successful', async () => {
+    const result = await IndividualService.getLiveWireInterfaceCurrentPerformance(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+    expect(result).toEqual({ some: 'data' });
+    expect(retrieveCorrectUrlMock).toHaveBeenCalledWith(expect.any(String), 'tcp-conn', 'OpenDayLightApp');
+    expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://correct.url', 'somefield');
+    expect(decodeMountNameMock).toHaveBeenCalled();
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+  });
+
+  it('should throw Bad Gateway 532 when dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCurrentPerformance(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(532, expect.any(String));
+  });
+
+  it('should throw Bad Gateway 502 when status != 200 and no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500, statusText: undefined });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCurrentPerformance(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(502, expect.any(String));
+  });
+
+  it('should throw Bad Gateway 531 when statusText is 401 or 403', async () => {
+    for (const statusText of ['401', '403']) {
+      dispatchEventMock.mockResolvedValue({ status: 401, statusText });
+
+      await expect(
+        IndividualService.getLiveWireInterfaceCurrentPerformance(
+          dummyUrl,
+          dummyUser,
+          dummyOriginator,
+          dummyXCorrelator,
+          dummyTrace,
+          dummyJourney,
+          dummyMountName,
+          dummyUuid,
+          dummyLocalId,
+          dummyFields
+        )
+      ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+      expect(createHttpErrorMock).toHaveBeenCalledWith(531, expect.any(String));
+    }
+  });
+
+  it('should throw Bad Gateway 533 for other non-200 statuses with statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCurrentPerformance(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(533, expect.any(String));
+  });
+
+  it('should throw Data invalid 530 if status is 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: undefined });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCurrentPerformance(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(530, expect.any(String));
+  });
+
+  it('should throw error if decodeMountName returns an object (error)', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Mount name invalid' }]);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCurrentPerformance(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Mount name invalid');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(400, 'Mount name invalid');
+  });
+
+  it('should reject on unexpected errors', async () => {
+    retrieveCorrectUrlMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getLiveWireInterfaceCurrentPerformance(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+
+    expect(consoleErrorSpy).toHaveBeenCalled();
+  });
+});
+
+
+describe('getLiveWireInterfaceHistoricalPerformances', () => {
+  const dummyUrl = 'http://dummy.url/control-construct=device-1?fields=somefield';
+  const dummyUser = {};
+  const dummyOriginator = 'originator';
+  const dummyXCorrelator = 'x-corr';
+  const dummyTrace = 'trace';
+  const dummyJourney = 'journey';
+  const dummyMountName = 'device-1';
+  const dummyUuid = 'uuid-123';
+  const dummyLocalId = 'local-1';
+  const dummyFields = 'somefield';
+
+  let retrieveCorrectUrlMock;
+  let formatUrlForOdlMock;
+  let decodeMountNameMock;
+  let dispatchEventMock;
+  let createHttpErrorMock;
+  let modificaUUIDMock;
+  let modifyReturnJsonMock;
+  let modifyUrlConcatenateMountNamePlusUuidMock;
+  let ReadRecordsMock;
+  let cacheUpdateBuilderMock;
+  let recordRequestMock;
+  let consoleErrorSpy;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    retrieveCorrectUrlMock = jest.fn();
+    formatUrlForOdlMock = jest.fn();
+    decodeMountNameMock = jest.fn();
+    dispatchEventMock = jest.fn();
+    createHttpErrorMock = jest.fn((code, message) => {
+      const error = new Error(message);
+      error.code = code;
+      return error;
+    });
+    modificaUUIDMock = jest.fn();
+    modifyReturnJsonMock = jest.fn();
+    modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
+    ReadRecordsMock = jest.fn();
+    cacheUpdateBuilderMock = jest.fn();
+    recordRequestMock = jest.fn();
+
+    // Rewire dependencies
+    IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
+    IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
+    IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
+    IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
+    IndividualService.__Rewire__('createHttpError', createHttpErrorMock);
+    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
+    IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
+    IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
+    IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
+    IndividualService.__Rewire__('recordRequest', recordRequestMock);
+
+    global.common = [
+      { tcpConn: 'tcp-conn-1', applicationName: 'OpenDayLightApp', key: 'auth-key' },
+      { tcpConn: 'tcp-conn-2', applicationName: 'OtherApp' }
+    ];
+
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    // Default mocks
+    retrieveCorrectUrlMock.mockResolvedValue('http://correct.url');
+    formatUrlForOdlMock.mockReturnValue('http://formatted.url');
+    decodeMountNameMock.mockReturnValue(dummyMountName);
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { some: 'data' } });
+    ReadRecordsMock.mockResolvedValue([{ id: 1 }]);
+    cacheUpdateBuilderMock.mockReturnValue({ updated: true });
+    recordRequestMock.mockResolvedValue(123);
+    modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://modified.url');
+  });
+
+  afterEach(() => {
+    IndividualService.__ResetDependency__('retrieveCorrectUrl');
+    IndividualService.__ResetDependency__('formatUrlForOdl');
+    IndividualService.__ResetDependency__('decodeMountName');
+    IndividualService.__ResetDependency__('RestClient');
+    IndividualService.__ResetDependency__('createHttpError');
+    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyReturnJson');
+    IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
+    IndividualService.__ResetDependency__('ReadRecords');
+    IndividualService.__ResetDependency__('cacheUpdate');
+    IndividualService.__ResetDependency__('recordRequest');
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('should resolve with updated JSON data on success', async () => {
+    const result = await IndividualService.getLiveWireInterfaceHistoricalPerformances(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(result).toEqual({ some: 'data' });
+    expect(retrieveCorrectUrlMock).toHaveBeenCalledTimes(2);
+    expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://correct.url', 'somefield');
+    expect(decodeMountNameMock).toHaveBeenCalledWith(expect.any(String), false);
+    expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
+    expect(modificaUUIDMock).toHaveBeenCalledWith({ some: 'data' }, dummyMountName);
+    expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
+    expect(cacheUpdateBuilderMock).toHaveBeenCalled();
+    expect(recordRequestMock).toHaveBeenCalled();
+    expect(modifyReturnJsonMock).toHaveBeenCalledWith({ some: 'data' });
+  });
+
+  it('should throw Bad Gateway 532 when dispatchEvent returns false', async () => {
+    dispatchEventMock.mockResolvedValue(false);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceHistoricalPerformances(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway. Upstream server not responding.');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(532, expect.any(String));
+  });
+
+  it('should throw Bad Gateway 502 when status != 200 and no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 500, statusText: undefined });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceHistoricalPerformances(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad Gateway');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(502, expect.any(String));
+  });
+
+  it('should throw Bad Gateway 531 when statusText is 401 or 403', async () => {
+    for (const statusText of ['401', '403']) {
+      dispatchEventMock.mockResolvedValue({ status: 401, statusText });
+
+      await expect(
+        IndividualService.getLiveWireInterfaceHistoricalPerformances(
+          dummyUrl,
+          dummyUser,
+          dummyOriginator,
+          dummyXCorrelator,
+          dummyTrace,
+          dummyJourney,
+          dummyMountName,
+          dummyUuid,
+          dummyLocalId,
+          dummyFields
+        )
+      ).rejects.toThrow('Bad Gateway. Authentication at upstream server failed.');
+
+      expect(createHttpErrorMock).toHaveBeenCalledWith(531, expect.any(String));
+    }
+  });
+
+  it('should throw Bad Gateway 533 for other non-200 statuses with statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 404, statusText: 'Not Found' });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceHistoricalPerformances(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Bad gateway. The resource/service that is addressed does not exist at the device/application.');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(533, expect.any(String));
+  });
+
+  it('should throw Data invalid 530 if status is 200 but no statusText', async () => {
+    dispatchEventMock.mockResolvedValue({ status: 200, statusText: undefined });
+
+    await expect(
+      IndividualService.getLiveWireInterfaceHistoricalPerformances(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Data invalid. Response data not available, incomplete or corrupted');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(530, expect.any(String));
+  });
+
+  it('should throw error if decodeMountName returns an object (error)', async () => {
+    decodeMountNameMock.mockReturnValue([{ code: 400, message: 'Mount name invalid' }]);
+
+    await expect(
+      IndividualService.getLiveWireInterfaceHistoricalPerformances(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Mount name invalid');
+
+    expect(createHttpErrorMock).toHaveBeenCalledWith(400, 'Mount name invalid');
+  });
+
+  it('should catch and log error if cache update or record request fails, but still resolve', async () => {
+    cacheUpdateBuilderMock.mockImplementation(() => { throw new Error('cache error'); });
+
+    const result = await IndividualService.getLiveWireInterfaceHistoricalPerformances(
+      dummyUrl,
+      dummyUser,
+      dummyOriginator,
+      dummyXCorrelator,
+      dummyTrace,
+      dummyJourney,
+      dummyMountName,
+      dummyUuid,
+      dummyLocalId,
+      dummyFields
+    );
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error));
+    expect(result).toEqual({ some: 'data' }); // resolves even on error in cacheUpdate
+  });
+
+  it('should reject on unexpected errors', async () => {
+    retrieveCorrectUrlMock.mockRejectedValue(new Error('Unexpected failure'));
+
+    await expect(
+      IndividualService.getLiveWireInterfaceHistoricalPerformances(
+        dummyUrl,
+        dummyUser,
+        dummyOriginator,
+        dummyXCorrelator,
+        dummyTrace,
+        dummyJourney,
+        dummyMountName,
+        dummyUuid,
+        dummyLocalId,
+        dummyFields
+      )
+    ).rejects.toThrow('Unexpected failure');
+
+    expect(consoleErrorSpy).toHaveBeenCalled();
+  });
+});

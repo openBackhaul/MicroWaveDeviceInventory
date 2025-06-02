@@ -389,14 +389,13 @@
           "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {
             "integer-profile-capability": {
-              "integer-name": "qualityMeasurementRetentionPeriod",
-              "purpose": "Time period for which qualityMeasurement records are kept, before they are deleted.",
-              "unit": "days",
-              "minimum": 1,
-              "maximum": 30
+              "integer-name": "qualityMeasurementSampleNumber",
+              "purpose": "The number of qualityMeasurement raw samples to be kept.",
+              "minimum": 0,
+              "maximum": 4320
             },
             "integer-profile-configuration": {
-              "integer-value": 7
+              "integer-value": 1440
             }
           }
         },

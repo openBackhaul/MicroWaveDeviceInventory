@@ -214,13 +214,12 @@ profile-instances:
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-2-0-0-integer-p-007'
     capability:
-      integer-name: 'qualityMeasurementRetentionPeriod'
-      purpose: 'Time period for which qualityMeasurement records are kept, before they are deleted.'
-      unit: 'days'
-      minimum: 1
-      maximum: 30
+      integer-name: 'qualityMeasurementSampleNumber'
+      purpose: 'The number of qualityMeasurement raw samples to be kept.'
+      minimum: 0
+      maximum: 4320
     configuration:
-      integer-value: 7
+      integer-value: 1440
 
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-2-0-0-integer-p-008'

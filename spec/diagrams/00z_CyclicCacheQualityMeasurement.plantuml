@@ -34,8 +34,7 @@ note over mwdi
   Select the first found device, which is
   - connected,
   - not locked,
-  - and with <i>last-complete-control-construct-update-time</i> != null
-    (i.e. the one with the oldest CC data in the cache)
+  - and with exclude_from_qm == false
 end note
 mwdi -> es
 es --> mwdi : {mountName, deviceType, vendor}
@@ -70,7 +69,9 @@ note over mwdi
   <u>WriteStatisticsToElasticSearch</u>
   Compare cached and live versions
   Calculate score based on differences
-  Write results to ElasticSearch
+  Write results to ElasticSearch,
+  keep only <i>qualityMeasurementSampleNumber</i>
+  number of samples
 end note
 
 

@@ -26,7 +26,7 @@ The table shall contain the following columns:
   - Is set upon both successful or unsuccessful retrieval
   - Is used for retrieval prioritization
   - If the device is no longer connected, the timestamp is set to null, to ensure the CC gets retrieved again with priority if the device gets connected again
-- **last-complete-control-construct-update-time**:
+- **last-successful-complete-control-construct-update-time**:
   - the last time, the CC has successfully been updated completely
   - If the device is no longer disconnected, the timestamp is kept. If the deletion policy for historical CCs is set to "keep-on-disconnect", this attributes indicates how old the CC for the disconnected device in the cache is
 - **last-control-construct-notification-update-time**:

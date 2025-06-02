@@ -978,7 +978,7 @@ clients:
       uuid: mwdi-2-0-0-tcp-c-kmb-1-0-0-000
     kafka-client:
       uuid: mwdi-2-0-0-kmb-c-kmb-1-0-0-000
-      topic-name:
+      topic-name: proper_notifications
 
   - http-client:
       application-name: MicroWaveDeviceInventory

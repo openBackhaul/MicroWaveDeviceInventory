@@ -1,0 +1,61 @@
+@startuml mwdi+diagram.invalidOrMissingRequestBody.cacheEnrichement
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.cacheEnrichment.dataprovider
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/core-model-1-4:network-control-domain=cache/link={uuid}" as LINK
+participant "/core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId}" as LINKPORT
+
+
+group Preparation
+  Data --\\o Postman : {servers, genericLinkId, mfrLinkId, linkPortId}
+  activate Postman
+  Postman --\\o Collection : {servers, genericLinkId, mfrLinkId, linkPortId}
+end
+
+
+note over Postman, Collection
+  For each service there are two testcases to be executed.
+  Both tests differ in the provided requestBody:
+  - an invalid requestBody according to OAS
+  - no requestBody provided at all
+end note
+
+
+group PUT /core-model-1-4:network-control-domain=cache/link={genericLinkId}
+  Collection --\\o Postman : {servers, genericLinkId}
+  Postman -> LINK : (a) {invalidRequestBody} \n(b) no requestBody
+  Postman <-- LINK : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+group PUT /core-model-1-4:network-control-domain=cache/link={mfrLinkId}
+  Collection --\\o Postman : {servers, mfrLinkId}
+  Postman -> LINK : (a) {invalidRequestBody} \n(b) no requestBody
+  Postman <-- LINK : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+group PUT /core-model-1-4:network-control-domain=cache/link={genericLinkId}/link-port={linkPortId}
+  Collection --\\o Postman : {servers, genericLinkId, linkPortId}
+  Postman -> LINKPORT : (a) {invalidRequestBody} \n(b) no requestBody
+  Postman <-- LINKPORT : 400
+  note right Postman #Orange
+    check for 400
+  end note
+end
+
+
+deactivate Postman
+
+@enduml

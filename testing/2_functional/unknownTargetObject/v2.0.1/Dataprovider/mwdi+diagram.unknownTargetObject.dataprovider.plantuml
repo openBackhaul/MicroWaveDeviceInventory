@@ -1,0 +1,62 @@
+@startuml mwdi+diagram.unknownTargetObject.dataprovider
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.unknownTargetObject.dataprovider
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/provide-list-of-device-interfaces" as PLODI
+participant "/v1/provide-list-of-actual-device-equipment" as PLOADE
+participant "/v1/provide-list-of-parallel-links" as PLOPL
+participant "/v1/provide-device-status-metadata" as PDSM
+
+
+group Preparation
+  Data --\\o Postman : {servers, mount-name, linkd-id}
+  activate Postman
+  Postman --\\o Collection : {servers, mount-name, link-id}
+end
+
+group /v1/provide-list-of-device-interfaces
+  Collection --\\o Postman : {servers, mount-name}
+  Postman -> PLODI : {mount-name}
+  Postman <-- PLODI : 460
+  note right Postman #Orange
+    check for 460
+  end note
+end
+
+group /v1/provide-list-of-actual-device-equipment
+  Collection --\\o Postman : {servers, mount-name}
+  Postman -> PLOADE : {mount-name}
+  Postman <-- PLOADE : 460
+  note right Postman #Orange
+    check for 460
+  end note
+end
+
+group /v1/provide-list-of-parallel-links
+  Collection --\\o Postman : {servers, link-id}
+  Postman -> PLOPL : {link-id}
+  Postman <-- PLOPL : 461
+  note right Postman #Orange
+    check for 461
+  end note
+end
+
+group /v1/provide-device-status-metadata
+  Collection --\\o Postman : {servers, mount-name}
+  Postman -> PDSM : {mount-name}
+  Postman <-- PDSM : 460
+  note right Postman #Orange
+    check for 460
+  end note
+end
+
+deactivate Postman
+
+@enduml

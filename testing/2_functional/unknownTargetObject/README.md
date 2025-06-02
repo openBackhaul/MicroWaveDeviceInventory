@@ -37,10 +37,10 @@ All individual services
 - ressource paths for handling of cache enrichment data (currently link and linkport data) have a requestBody for the put operation, but the target object is identified via the path parameters and therefore they are also not in scope
 
 
-## MWDI v1.2.2  
+## MWDI v2.0.1  
 - TestCaseCollection is split into the following sections:  
-  - [Receivers of Notifications](./v1.2.2/Receiver/)  
-  - [Providers of Data](./v1.2.2/Dataprovider/)  
+  - [Receivers of Notifications](./v2.0.1/Receiver/)  
+  - [Providers of Data](./v2.0.1/Dataprovider/)  
   - out of scope (no requestBody):
       - [Offered Subscriptions]  
       - [ControlConstruct]

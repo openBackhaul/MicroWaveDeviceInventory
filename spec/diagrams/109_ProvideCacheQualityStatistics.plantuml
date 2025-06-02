@@ -8,17 +8,23 @@ participant "MWDI://v1/provide-cache-quality-statistics" as mwdi
 participant "ElasticSearch" as elastic
 
 
-'POST /v1/provide-cache-quality-statistics\nRequest body with filters:\n- deviceId\n- vendor\n- deviceType\n- since\n- groupBy
 activate mwdi
-requestor -> mwdi : {optional filters: \n- time (date, date-since) \n- groupBy (day, deviceType, vendor) } (apiKeyAuth)
+requestor -> mwdi : {optional groupBy deviceType} (apiKeyAuth)
 
-mwdi -> elastic : {optional filters}
+note over mwdi
+  IF MWDI has <i>qualityMeasurementSampleNumber</i>
+    number of samples
+  THEN MWDI will return a single aggregated record
+    (or one per deviceType, in case of groupBy)
+end note
+
+mwdi -> elastic : {optional groupBy}
 activate elastic
-elastic --> mwdi : {(filtered/grouped) statistics}
+elastic --> mwdi : {(grouped) aggregated statistics}
 deactivate elastic
 
 
-mwdi --> requestor : {(filtered/ grouped) statistics}
+mwdi --> requestor : {(grouped) aggregated statistics}
 deactivate mwdi
 
 @enduml

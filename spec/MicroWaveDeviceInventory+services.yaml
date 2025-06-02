@@ -57,7 +57,7 @@ servers:
           uuid: mwdi-2-0-0-op-s-bs-005
           operation-key: n.a.
       individual:
-        # receivers for notifications
+        # receivers for notifications - deprecated since v2.0.0, but callbacks are to be used internally
         - operation-name: /v1/regard-controller-attribute-value-change
           uuid: mwdi-2-0-0-op-s-is-000
           operation-key: n.a.

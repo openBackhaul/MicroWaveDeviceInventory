@@ -750,6 +750,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/regard-controller-attribute-value-change:
+    # service deprecated since v2.0.0, but callback functionality to be used internally (therefore to be kept)
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -919,6 +920,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-alarm:
+    # service deprecated since v2.0.0, but callback functionality to be used internally (therefore to be kept)
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1091,6 +1093,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-attribute-value-change:
+    # service deprecated since v2.0.0, but callback functionality to be used internally (therefore to be kept)
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1223,6 +1226,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-object-creation:
+    # service deprecated since v2.0.0, but callback functionality to be used internally (therefore to be kept)
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1327,6 +1331,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/regard-device-object-deletion:
+    # service deprecated since v2.0.0, but callback functionality to be used internally (therefore to be kept)
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

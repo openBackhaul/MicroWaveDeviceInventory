@@ -141,15 +141,16 @@ The following schema shows how both processes are working collaboratively on upd
 The metadata table introduced in 1.2.x is replaced by the deviceMetadataList metadata attributes. I.e. the deviceMetadataList no longer consists only of the devices, but also stores the additional metadata attributes.  
 
 The additional metadata comprises the following attributes:
-- mount-name:
-- connection-status: 
-- changed-to-disconnected-time: 
-- added-to-device-list-time: 
-- last-complete-control-construct-update-time-attempt:
-- last-control-construct-notification-update-time:
-- number-of-partial-updates-since-last-complete-update:
-- schema-cache-directory:
-- device-type:
+- mount-name
+- connection-status
+- changed-to-disconnected-time
+- added-to-device-list-time
+- last-complete-control-construct-update-time-attempt
+- last-successful-complete-control-construct-update-time
+- last-control-construct-notification-update-time
+- number-of-partial-updates-since-last-complete-update
+- schema-cache-directory
+- device-type
 - locked-status: for internal use only
 
 For managing the slidingWindow and qualityMeasurement processes, the metadata is accessed directly, i.e. without calling of additional services.  

@@ -9649,7 +9649,7 @@
                   "password": " >>> password <<< "
                 },
                 "topic-name": "proper_notifications",
-                "client-id": "mwdi-consumer",
+                "client-id": "mwdi-instance-01",
                 "group-id": "mwdi-consumer-group"
               },
               "kafka-client-interface-status": {

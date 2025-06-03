@@ -2596,7 +2596,7 @@ paths:
       security:
         - apiKeyAuth: []
       requestBody:
-        required: optional
+        required: false
         description: 'If no requestBody is provided, the service returns a single aggregated record'
         content:
           application/json:

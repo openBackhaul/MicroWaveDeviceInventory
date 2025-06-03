@@ -10,6 +10,7 @@ const N_OF_CURRENT_ALARMS = "number-of-current-alarms";
 
 exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, alarmStatus, updatedAttributes) {
     let resourceToUpdate = resource.replace(/core-model-1-4:network-control-domain=live\/control-construct=.+?\//g, 'core-model-1-4:control-construct/');
+    resourceToUpdate = modifyResource(resourceToUpdate);
     let objectKey = Object.keys(json)[0];
 
     // Get the current alarms list
@@ -22,7 +23,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
     for (let i = 0; i < alarms.length; i++) {
         let resourceToCompare = modifyResource(alarms[i]["resource"]);
         if (alarms[i][ALARM_TYPE_ID] === alarmTypeId && resourceToCompare === resourceToUpdate) {
-            if (!alarmStatus.toUpperCase().includes("CLEARED")) {
+            if (!alarmStatus.toUpperCase().includes("CLEAR")) {
                 logger.info("Alarm id: " + alarmTypeId + " - on resource: " + resourceToUpdate + " - UPDATE");
                 for (let attr in updatedAttributes) {
                     if (attr == "resource") {

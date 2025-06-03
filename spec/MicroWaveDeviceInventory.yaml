@@ -2615,7 +2615,7 @@ paths:
             application/json:
               schema:
                 type: object
-                one-of:
+                oneOf:
                   - description: 'statistics per device without grouping (default)'
                     required:
                       - cache-quality-statistics

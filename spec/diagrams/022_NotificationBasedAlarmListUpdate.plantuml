@@ -8,9 +8,15 @@ title
 end title
 
 participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardDeviceAlarm</i>" as init
-participant "MWDI://v1/regard-device-alarm" as regardAlarm
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-alarm</i>" as regardAlarm
 participant "ElasticSearch://control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
 participant "ElasticSearch\n(deviceMetadataList)" as es
+
+note over regardAlarm #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
 
 init -> regardAlarm: {<i>notification with</i>: counter, timestamp, resource, alarm-type-id, alarm-type-qualifier, severity} (apiKeyAuth)
 activate regardAlarm

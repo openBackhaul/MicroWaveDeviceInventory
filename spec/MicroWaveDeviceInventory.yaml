@@ -2596,7 +2596,7 @@ paths:
       security:
         - apiKeyAuth: []
       requestBody:
-        required: optional
+        required: false
         description: 'If no requestBody is provided, the service returns a single aggregated record'
         content:
           application/json:
@@ -22993,9 +22993,9 @@ paths:
         #PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka: omitted
         #PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka: omitted
         PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange:
-          description: >
-            'call for notifications, which are controller-attribute-value-change notifications, retrieved
-            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #description: >
+          #  'call for notifications, which are controller-attribute-value-change notifications, retrieved
+          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
           regardControllerAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
@@ -23059,9 +23059,9 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm:
-          description: >
-            'call for notifications, which are device-alarm notifications, retrieved
-            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #description: >
+          #  'call for notifications, which are device-alarm notifications, retrieved
+          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
           regardDeviceAlarm: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-0-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
@@ -23128,9 +23128,9 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange:
-          description: >
-            'call for notifications, which are device attribute value change notifications, retrieved
-            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #description: >
+          #  'call for notifications, which are device attribute value change notifications, retrieved
+          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
           regardDeviceAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-004/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
@@ -23194,9 +23194,9 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation:
-          description: >
-            'call for notifications, which are device object creation notifications, retrieved
-            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #description: >
+          #  'call for notifications, which are device object creation notifications, retrieved
+          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
           regardDeviceObjectCreation: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-0-005/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
@@ -23261,9 +23261,9 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion:
-          description: >
-            'call for notifications, which are device object deletion notifications, retrieved
-            from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #description: >
+          #  'call for notifications, which are device object deletion notifications, retrieved
+          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
           regardDeviceDeletionCreation: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-0-006/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:

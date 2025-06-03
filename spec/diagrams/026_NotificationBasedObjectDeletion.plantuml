@@ -7,9 +7,15 @@ title
 end title
 
 participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardDeviceObjectDeletion</i>" as init
-participant "MWDI://v1/regard-device-object-deletion" as regardObjectDeletion
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-object-deletion</i>" as regardObjectDeletion
 participant "ElasticSearch://{resource}" as es
 participant "ElasticSearch\n(deviceMetadataList)" as mtab
+
+note over regardObjectDeletion #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
 
 init -> regardObjectDeletion: {counter, timestamp, resource} (apiKeyAuth)
 

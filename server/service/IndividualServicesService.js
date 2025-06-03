@@ -168,7 +168,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       let correctLink = null;
       let link = uuid;//decodeLinkUuid(url, true);
       let id = localId;
-      var format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
+      const format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
@@ -2670,7 +2670,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       let correctLink = null;
       let link = uuid;//decodeLinkUuid(url, true);
       let id = localId;
-      var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
+      const format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
       if (matchLink || matchId) {
@@ -10457,7 +10457,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       url = decodeURIComponent(url);
       let correctLink = null;
       let link = uuid; //decodeLinkUuid(url, true);
-      var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
+      const format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       if (matchLink) {
         logger.error("putLinkPortToCache - UUID: " + link);

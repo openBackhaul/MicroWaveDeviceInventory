@@ -14,11 +14,11 @@ end title
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "KafkaMessageBroker: \nproperNotifications topic" as kafka
-participant "MWDI://v1/regard-controller-attribute-value-change" as regardCtrlAttChange
-participant "MWDI://v1/regard-device-alarm" as regardAlarm
-participant "MWDI://v1/regard-device-attribute-value-change" as regardDevAttChange
-participant "MWDI://v1/regard-device-object-creation" as regardDevObjCreation
-participant "MWDI://v1/regard-device-object-deletion" as regardDevObjDeletion
+participant "execute functionality similiar to \n<i>MWDI://v1/regard-controller-attribute-value-change </i>\ninternally" as regardCtrlAttChange
+participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-alarm </i>\ninternally" as regardAlarm
+participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-attribute-value-change </i>\ninternally" as regardDevAttChange
+participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-object-creation </i>\ninternally" as regardDevObjCreation
+participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-object-deletion </i>\ninternally" as regardDevObjDeletion
 
 ro -> mwdi
 activate mwdi
@@ -49,7 +49,13 @@ note over mwdi
 <u>IdentifyAndProcessProperNotifications</u>
   For each properNotification in the consumerRecords,
   identify the notification type and 
-  call the respective regard-service
+  call the respective notification processing
+  functionality internally.
+
+  (Functionality can be seen from <i>regard</i>-services,
+  but shall be executed completely internally, without
+  calling the actual <i>regard</i>-services to prevent
+  new http sessions to be opened for each notification.)
 end note
 mwdi -> regardCtrlAttChange: {controller-attribute-value-change-notification}
 mwdi -> regardAlarm: {device-alarm-notification}

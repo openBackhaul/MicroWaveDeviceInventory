@@ -7,9 +7,15 @@ title
 end title
 
 participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>DeviceObjectCreation</i>" as init
-participant "MWDI://v1/regard-device-object-creation" as regardObjectCreation
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-object-creation</i>" as regardObjectCreation
 participant "MWDI://{resource}" as odlCreatedObject
 participant "ElasticSearch\n(deviceMetadataList)" as es
+
+note over regardObjectCreation #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
 
 init -> regardObjectCreation: {counter, timestamp, resource, objectType} (apiKeyAuth)
 activate regardObjectCreation

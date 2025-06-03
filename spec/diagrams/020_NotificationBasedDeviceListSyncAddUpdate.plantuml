@@ -7,9 +7,15 @@ title
 end title
 
 participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardControllerAttributeValueChange</i>" as init
-participant "MWDI://v1/regard-controller-attribute-value-change" as regardNewDevice
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-controller-attribute-value-change</i>" as regardNewDevice
 participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as liveControlConstruct
 participant "ElasticSearch\n(deviceMetadataList)" as es
+
+note over regardNewDevice #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
 
 init -> regardNewDevice: {controller-attribute-value-change-notification} (apiKeyAuth)
 activate regardNewDevice

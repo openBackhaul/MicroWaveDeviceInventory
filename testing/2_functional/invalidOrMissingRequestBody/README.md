@@ -27,12 +27,12 @@
   - Live domain gets addressed next to assure the MWDI to cache the information requested afterwards
 
 
-## MWDI v1.2.2  
+## MWDI v2.0.1  
 - TestCaseCollection for testing invalid or missing requestBody responses is split, because of very high number of paths  
-  - [Receivers of Notifications](./v1.2.2/Receiver/)  
-  - [Providers of Data](./v1.2.2/Dataprovider/)  
-  - [Offered Subscriptions](./v1.2.2/Subscriptions/)  
-  - [Cache Enrichment](./v1.2.2/CacheEnrichment)  
+  - [Receivers of Notifications](./v2.0.1/Receiver/)  
+  - [Providers of Data](./v2.0.1/Dataprovider/)  
+  - [Offered Subscriptions](./v2.0.1/Subscriptions/)  
+  - [Cache Enrichment](./v2.0.1/CacheEnrichment)  
   - not yet existing:
     - [ControlConstruct]  
     - [Alarms]  

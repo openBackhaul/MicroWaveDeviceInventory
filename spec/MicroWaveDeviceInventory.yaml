@@ -22727,7 +22727,10 @@ paths:
                     example: '222250001'
                   description: >
                     'The mountName of the device that is addressed by this callback
-                    repeated for each mount-name in deviceMetadataList where deviceMetadataList.connection-status!=connected and that has expired according to mwdi-2-0-0-integer-p-005'
+                    repeated for each mount-name (i.e. device) in deviceMetadataList 
+                    (a) which has been deleted from Controller, or
+                    (b) which is no longer in connected state on the Controller and should be deleted according to historicalControlConstruct, or
+                    (b) for which deviceMetadataList.connection-status!=connected and should be kept according to historicalControlConstruct, but that has expired according to mwdi-2-0-0-integer-p-005'
               responses:
                 '204':
                   description: 'ControlConstruct deleted from cache'

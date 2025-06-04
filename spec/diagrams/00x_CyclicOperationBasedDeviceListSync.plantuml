@@ -50,13 +50,13 @@ note over mwdi
   <u>UpdateMwdiDeviceList</u>
   Compare controllerDeviceList with MWDI deviceMetadataList: 
   (a) new connected devices: add to deviceMetadataList (initialize metadata)
-  (b) no longer connected devices: update metadata accordingly
-
-  (c) previously disconnected devices now expired
-      (according to configured retention in <i>metadataRetentionPeriod</i>):
-      delete
+  (b) devices deleted from Controller: remove from deviceList
+  (c) no longer connected devices:
+      - if to be kept according to <i>historicalControlConstructPolicy</i>
+        - (c1) update metadata if not expired
+        - (c2) delete, if expired (see </i>metadataRetentionPeriod</i>)
 end note
-mwdi -> deviceList: (a) add {mountName}, initialize metadata \n(b) update metadata for {mountName}, \n(c) delete expired {mountName}
+mwdi -> deviceList: (a) add {mountName}, initialize metadata \n(b) delete {mountName}, \n(c1)update metadata for {mountName}, \n(c2) delete expired {mountName}
 
 note over mwdi
   <u>DeleteExpiredCcsFromCache</u>
@@ -65,7 +65,8 @@ note over mwdi
   THEN repeat for all devices not connected anymore:
     delete CC from cache
 
-  IF a device has expired (see above),
+  IF a device has expired (see above)
+    OR has been deleted from Controller,
   then it's CC is deleted from the cache
   (without regards to the policy)
 end note

@@ -137,11 +137,13 @@ Both processes only consider devices in connected state which are not locked.
   - this is either a device for which currently no ControlConstruct is stored in the cache
   - or, if the Cache has ControlConstructs for all connected devices, it is the device with the oldest ControlConstruct
 - **_qualityMeasurement_**: take the first (connected, unlocked) device from the deviceMetadataList,
-  - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time-attempt* timestamp value is not null)
+  - where a ControlConstruct already exists in the cache (i.e. the *last-complete-control-construct-update-time-attempt* timestamp value is not 1999* and exclude-from-qm == false)
 
 **Locked devices**:  
-- When a device gets selected by either of the two cyclic processes, it gets locked, so it is not picked again.
-- Once it has been processed (either successfully or in case of failure after all the allowed retries have failed), it is unlocked again.
+- locked-state:
+  - When a device gets selected by either of the two cyclic processes or by the live-CC-service, it gets locked, so it is not picked again.
+  - Once it has been processed (either successfully or in case of failure after all the allowed retries have failed), it is unlocked again.
+- Also exclude-from-qm represents an additional lock, applicable only for the qualityMeasurement process. All devices without a ControlConstruct in the cache are excluded from QM. Once a ControlConstruct has been written for a device, the lock is set to false.
 
 The following schema shows how both processes are working collaboratively on updating the cache (the pink and blue devices are those currently processed and, therefore are locked):  
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
@@ -162,6 +164,7 @@ The additional metadata comprises the following attributes:
 - schema-cache-directory
 - device-type
 - locked-status: for internal use only
+- exclude-from-qm: for internal use only
 
 For managing the slidingWindow and qualityMeasurement processes, the metadata is accessed directly, i.e. without calling of additional services.  
 Moreover, the order of the devices in the deviceMetadataList is based on *connection-status* and *last-complete-control-construct-update-time-attempt*.
@@ -170,11 +173,12 @@ A more detailed description is found in the [DeviceListMetadataDescription](./De
 
 ### ControlConstruct updates which are not part of the cyclic processes
 
-For the sake of completeness it also should be mentioned that there are two mechanisms (in addition to the qualityMeasurement process) to ensure more frequent updates to the cached control constructs, which are not part of the cyclic processes.
+For the sake of completeness it also should be mentioned that there are additional mechanisms (in addition to the qualityMeasurement process) to ensure more frequent updates to the cached control constructs, which are not part of the cyclic processes.
 These mechanisms are:
 
 -	notification-based updates of ControlConstruct parts
 -	user-initated updates of ControlConstruct parts
+- user-initated update of the complete ControlConstruct
 
 **Notification-based updates**  
 The NotificationProxy provides notifications (over Kafka) if there are changes on the devices. These notifications namely are about device alarms, attribute changes, object creations and object deletions.
@@ -182,5 +186,8 @@ Depending on the respective notification the cached ControlConstruct is modified
 
 Also note that in the past MWDI had a subscription to NotificationProxy, which did push the notifications to MWDI. For this, NP called the *regard*-services each time a new notification was pushed, thereby creating a new http session every time. With MWDI 2.0.0 this approach has been changed. MWDI pulls the messages from Kafka and processes the notifications then directly. For this, MWDI executes the functionality from *regard*-services internally (i.e. without opening a new http-session), which is why the *regard*-services along with their related forwardings are kept in the specification, but marked as deprecated.
 
-**User-initiated updates**  
+**User-initiated updates of ControlConstruct parts**  
 Certain parts of the ControlConstruct can be updated upon “user” demand. I.e. if another application calls a *live* path for e.g. the air interface capabilities, they are retrieved from the device and then the air interface capabilities inside the cached ControlConstruct are updated with the newly retrieved information. The other parts of the ControlConstruct are not updated by this.
+
+**User-initiated updates the complete ControlConstruct**  
+Also the complete ControlConstruct can be updated upon “user” demand. If the related *live* path is called, the device gets locked for both the slidingWindow and qualityMeasurement process. If the device is already being processed by either of the two and the *live* path gets called in addition, it will be executed parallely in addition. The metadata attributes will be updated by both retrievals upon their completion.  

@@ -25,7 +25,7 @@ The table shall contain the following columns:
   - the last time, a complete CC update has been tried (either periodic retrieval by slidingWindow/QM or on-demand by live-service call)
   - Is set upon both successful or unsuccessful retrieval
   - Is used for retrieval prioritization
-  - If the device is no longer connected, the timestamp is set to null, to ensure the CC gets retrieved again with priority if the device gets connected again
+  - If the device is no longer connected, the timestamp is set to a very old data (1999, instead of null), to ensure the CC gets retrieved again with priority if the device gets connected again
 - **last-successful-complete-control-construct-update-time**:
   - the last time, the CC has successfully been updated completely
   - If the device is no longer disconnected, the timestamp is kept. If the deletion policy for historical CCs is set to "keep-on-disconnect", this attributes indicates how old the CC for the disconnected device in the cache is
@@ -52,7 +52,10 @@ The table shall contain the following columns:
   - this attribute is only to be used internally
   - if a device is either added to the slidingWindow or processed by the qualityMeasurement process, it is locked
   - once it has been processed (or if it gets disconnected), the lock is released
-
+- **exclude-from-qm**:
+  - this attribute is only to be used internally
+  - if a device is added to the deviceList it is set to true, only once a ControlConstruct has been written to the cache, it is set to false
+  - if true, the device is not to be considered for the QM process, as there is no old ControlConstruct for comparison 
 ---
 
 ## Device-type and vendor retrieval
@@ -86,8 +89,8 @@ By providing the mappings in the *deviceTypeMapping* and *vendorFromDeviceMappin
 ## Sorting the deviceMetadataList
 
 In order to effiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
-The ordering is based on the the *last-complete-control-construct-update-time-attempt* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is *null*.
-Devices with connection-state not being *connected* are found at the end of the list.
+The ordering is based on the the *last-complete-control-construct-update-time-attempt* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is from *1999*.
+Devices with connection-state not being *connected* are found at the end of the list (if they are being kept due to the *historicalControlConstructPolicy*).
 
 Ordering updates:
 - after successful ControlConstruct retrieval...
@@ -103,7 +106,7 @@ Ordering updates:
 
 According to the concept, the deviceMetadataList shall be sorted by retrieval priority, as described above.  
 Due to the large number of devices in production and numerous updated device per minute, this could be not efficient and performant enough.  
-Therefore in the actual implementation it would suffice, if implementers instead e.g. maintain a reduced copy of the list in memory, which just stores the mount-name, timestamp of the last complete ControlConstruct update and the locked-state in the cache for the devices in connected state. This table in temporary memory then would be sorted on each ControlConstruct update. While starting of process cycles, both the input for the slidingWindow and qualityMeasurement would be retrieved from the in-memory table instead.
+Therefore in the actual implementation it would suffice, if implementers instead e.g. maintain a reduced copy of the list in memory, which just stores the mount-name, timestamp of the last complete ControlConstruct update, the locked-state in the cache and the exclude-from-pm attribute for the devices in connected state. This table in temporary memory then would be sorted on each ControlConstruct update. While starting of process cycles, both the input for the slidingWindow and qualityMeasurement would be retrieved from the in-memory table instead.
 
 Also note, that there is no service to provide the actual complete deviceMetadataList, there is only a service to provide metadata information based on a set of devices handed over as input in the requestBody of said service. I.e. for the deviceMetadataList itself it is no problem, if it is not sorted as described above, if instead the in-memory table is used.
 

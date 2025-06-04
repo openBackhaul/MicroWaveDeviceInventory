@@ -1231,7 +1231,7 @@
                 "operation-name": "/v1/provide-list-of-connected-devices"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
                 "operation-key": "n.a."
               }
             }

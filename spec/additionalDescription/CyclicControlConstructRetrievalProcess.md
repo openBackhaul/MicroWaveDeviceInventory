@@ -20,12 +20,12 @@ Up till MWDI 1.2.x the cyclic ControlConstruct retrieval was only done via a sli
 ---
 ## Relevant profileInstances
 
-The profileInstances relevant to the update process are slidingWindowSize, responseTimeout, maximumNumberOfRetries, deviceListSyncPeriod, ControllerInternalPathToMountPoint and metadataRetentionPeriod.
+The profileInstances relevant to the update process are *slidingWindowSize*, *responseTimeout*, *maximumNumberOfRetries*, *deviceListSyncPeriod*, *ControllerInternalPathToMountPoint* and *metadataRetentionPeriod*, as well as the *historicalControlConstructPolicy*.
 
 **`slidingWindowSize`**  
 - The ControlConstructs (CC) of all devices need to be retrieved periodically
 - It is not feasible to query all CCs in parallel at once or sequentially – the sliding window combines both approaches. 
-- **constantly a specified number (=slidingWindowSize**, initally 500) **of devices are queried for their ControlConstructs in parallel**; once a request is finished the next device from the MWDI deviceMetadataList is added to the slidingWindow retrieval list. Once all devices from the MWDI device list have been queried, the retrieval starts again at the start of the deviceMetadataList.
+- **constantly a specified number (=slidingWindowSize**, initally 500) **of devices are queried for their ControlConstructs in parallel**; once a request is finished the next eligible device from the MWDI deviceMetadataList is added to the slidingWindow retrieval list. Once all devices from the MWDI device list have been queried, the retrieval starts again at the start of the deviceMetadataList.
 - Note: the slidingWindow retrieval only is used for periodic CC retrieval, not for individual live paths (to update only certain parts of the CC).
 - (initial) configuration: 500
 
@@ -39,12 +39,13 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 **`maximumNumberOfRetries`**  
 - Due to timeouts, connection errors or other issues it may not be possible to retrieve the CC for a given device. In order to not lose to much data, there can be retries for the CC retrieval.
 - **When a device from the slidingWindow is queried and the retrieval fails, the retrieval should be retried as many times as configured in maximumNumberOfRetries.**
+- **The allowed retries shall also be applied to the qualityMeasurement process**
 - (initial) configuration: 1
 
 **`deviceListSyncPeriod`**  
-- **The deviceListSyncPeriod determines in which intervals the MWDI deviceMetadataList is synced with the list of connected devices from the Controller**
-- The MWDI deviceMetadataList stores the devices for which the MWDI knows that they are connected to the Controller. If (new) devices come into connected state or if (existing) devices leave connected state on the Controller, the MWDI normally receives a notification from the NotificationProxy (via Kafka) to update its deviceMetadataList. However, those notifications may be lost e.g. due to connection errors. This is why a periodic sync is necessary. (The sync also needs to be done once at MWDI startup to build the initial deviceMetadataList).
-- After each deviceListSyncPeriod hours the current MWDI deviceMetadataList needs to be compared to the list of connected devices on the Controller and then has to be modified accordingly.
+- **The deviceListSyncPeriod determines in which intervals the MWDI deviceMetadataList is synced with the list of (connected) devices from the Controller**
+- The MWDI deviceMetadataList stores the devices for which the MWDI knows that they are mounted on the Controller, and depending on the configured *historicalControlConstructPolicy*, devices may also be deleted upon disconnect (default). If (new) devices come into connected state or if (existing) devices leave connected state on the Controller, the MWDI normally receives a notification from the NotificationProxy (via Kafka) to update its deviceMetadataList and cache. However, those notifications may be lost e.g. due to connection errors. This is why a periodic sync is necessary. (The sync also needs to be done once at MWDI startup to build the initial deviceMetadataList).
+- After each deviceListSyncPeriod hours the current MWDI deviceMetadataList needs to be compared to the list of (connected) devices on the Controller and then has to be modified accordingly.
 
 **`ControllerInternalPathToMountPoint`**  
 - The actual path to the mount-point inside the Controller depends on the used Controller (currently ODL). After the mount-point has been reached the subsequent parts of the path are the same across different Controllers.
@@ -52,18 +53,22 @@ The profileInstances relevant to the update process are slidingWindowSize, respo
 - (initial) configuration: `rests/data/network-topology:network-topology/topology=topology-netconf`
 
 **`metadataRetentionPeriod`**  
-- **The retention period determines how long devices are kept in the devideviceMetadataListceList after they have changed into a disconnected state (i.e. connecting or unable-to-connect).**
-- Each time a deviceMetadataList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceMetadataList. Otherwise it is kept. Also if a device is deleted from the deviceMetadataList its ControlConstruct is also deleted from the cache.
+- **The retention period determines how long devices are kept in the deviceMetadataList after they have changed into a disconnected state. It is only relevant if *historicalControlConstructPolicy* prescribes to keep disconnecte devices in MWDI.**
+- Actions depend on the *historicalControlConstructPolicy* configuration:
+  - [policy==delete (default)] As disconnected devices are deleted immediately, metadata retention is irrelevant and no additional actions are required 
+  - [policy==keep-on-disconnect] Each time a deviceMetadataList sync is executed, all devices with connection-status!=connected in the list are checked for their retention. If the duration between the current timestamp and the changed-to-disconnected-time (in days) exceeds the configured retention period, the device is deleted from the deviceMetadataList. Otherwise it is kept. Also if a device is deleted from the deviceMetadataList its ControlConstruct is also deleted from the cache.
 
 **`historicalControlConstructPolicy`**  
 - **determines what shall happen to a device's ControlConstruct in the cache, if the device gets disconnected**
-- if MWDI recognized that a device is no longer in connected state and has copy of the device's ControlConstruct in the cache, that copy is deleted per default
-- however, if the policy is set to allows for keeping the ControlConstruct as historical data, it is not deleted immediately, but only when the device is removed from MWDI deviceMetadataList (either after it has expired due to the configured rentention of because the policy has been changed to the default)
+- if MWDI recognized that a device is no longer in connected state the next actions depend upon the configured policy value:
+  - [delete (default)]: the device is deleted from deviceList, and its ControlConstruct is deleted from cache
+  - [keep-on-disconnect]: the device is kept in deviceList (marked to disconnected) along with its ControlConstruct in the cache
+    - the device is deleted from MWDI if (a) it expires due to retention, (b) it is deleted from Controller or (c) the policy is changed to delete.
 
 ---
 ## Building and updating the list of connected devices managed by the MWDI
 
-The MWDI manages the deviceMetadataList. This list is initially built by retrieving the list of connected devices from the Controller at MWDI startup.
+The MWDI manages the deviceMetadataList. This list is initially built by retrieving the list of (connected) devices from the Controller at MWDI startup.
 After the initial deviceMetadataList has been created is must constantly be updated, this happens via:
 - periodic deviceMetadataList sync with the list of devices on the Controller 
 - notifications provided by NotificationProxy (NP) via Kafka
@@ -75,15 +80,15 @@ Theoretically, it would suffice to just build the deviceMetadataList once and th
 The MWDI stores its list of managed devices inside the deviceMetadataList. At MWDI startup this deviceMetadataList is initialized with all the list of all devices in connected state on the Controller. Afterwards the deviceMetadataList is periodically synchronized with the Controller. 
 The steps for the update are as follows:
 -	retrieve the MWDI deviceMetadataList from the ElasticSearch database (deviceMetadataList)
--	retrieve the list of connected devices from the Controller (controllerdeviceMetadataList)
-- [new devices]: all devices found on the controllerList, but not on the deviceMetadataList
+-	retrieve the list of devices from the Controller (controllerDeviceMetadataList)
+- [new devices]: all **connected** devices found on the controllerList, but not on the deviceMetadataList
   - are added to the deviceMetadataList
   - metadata attributes are initialized 
-- [disconnected devices]: all devices from the deviceMetadataList which are no longer found in the controllerdeviceMetadataList, but found inside the MWDI deviceMetadataList
-  - no longer deleted from deviceMetadataList, but connection-status is set according to the connection-status on Controller
-  - the device will be moved to the end of the deviceMetadataList
+- [disconnected devices]: all devices from the deviceMetadataList which are no longer found in the controllerdeviceMetadataList, but found inside the MWDI deviceMetadataList, are handled according to *historicalControlConstructPolicy*
+  - [delete (default)]: devices are deleted from deviceMetadataList, along with their CCs being deleted from cache
+  - [keep-on-disconnect]:
+    - their connection-status in deviceMetadataList is set to "disconnected" and they are moved to the end of the deviceList
   - deviceMetadataList metadata attributes are set accordingly to reflect the device is no longer connected
-  - per default, the ControlConstruct for a disconnected device is deleted from cache; however, if the related profileInstance `historicalControlConstructPolicy` indicates that it shall be kept, it is not deleted
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
   - for all new devices or connected devices where the device-type in metadata attributes is still unknown, it is tried to determine the deviceType (again)

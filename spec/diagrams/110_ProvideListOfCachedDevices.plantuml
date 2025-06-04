@@ -1,0 +1,22 @@
+@startuml 110_ProvideListOfCachedDevices
+skinparam responseMessageBelowArrow true
+
+title RequestForListOfCachedDevicesCausesReadingFromCache
+
+participant "external" as requestor
+participant "MWDI://v1/provide-list-of-cached-devices" as mwdi
+participant "ElasticSearch://?fields=control-construct(uuid)" as cache
+
+requestor -> mwdi: (apiKeyAuth)
+activate mwdi
+
+mwdi -> cache
+cache --> mwdi: {mount-name-list}
+
+mwdi --> requestor: {mount-name-list}
+deactivate mwdi
+
+@enduml
+
+
+

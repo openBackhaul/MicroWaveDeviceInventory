@@ -2,11 +2,16 @@
 
 This page describes the cyclic process for updating the MWDI cache by uploading and maintaining the ControlConstruct data of (connected) devices to/in the ElasticSearch database. It also describes the related profileInstances and their usage.
 
-The MWDI caches the ControlConstructs of all devices, which are in connected state at the Controller. This is done via a cyclic process. 
-To build and update the cache, first the list of connected devices needs to be obtained. It is constantly updated if device connection-state changes occur on the Controller. 
+The MWDI synchronizes itself with the Controller via a cyclic process. (In addition it also processes notifications about device connection status changes). There are two aspects to consider:  
+- [*devices deleted from Controller*] MWDI caches the ControlConstructs of all devices, which are known at the Controller - i.e. as soon as MWDI learns of a previously mounted device having been deleted from the Controller, it will also delete the device in its own cache.
+- [*devices gone into disconnected state*] in MWDI 1.x.x a device, which had gone into disconnected state on the Controller was also deleted from MWDI. This no longer is always the case, but actually depends on how the *historicalControlConstructPolicy* is configured.
+  - By default, disconnected (but still mounted) devices are still deleted from MWDI.
+  - However, the policy can also be configured to keep historical ControlConstructs in the MWDI cache immediately.  
+
+To build and update the cache, first the list of (connected) devices needs to be obtained. It is constantly updated if device connection-state changes occur on the Controller. 
 Based on the deviceMetadataList, the ControlConstructs can be retrieved from the devices. Retrieved ControlConstructs are then written to the cache, i.e. an ElasticSearch database.
 
-Up till MWDI 1.2.x the retrieval was done via a slidingWindow approach. With introduction of the qualityMeasurement process in MWDI 1.3.x, this has been changed, as both the cyclic process and the qualityMeasurement process are working together in updating the Cache.
+Up till MWDI 1.2.x the cyclic ControlConstruct retrieval was only done via a slidingWindow approach. With introduction of the qualityMeasurement process in MWDI 2.0.0, this has been changed, as both the cyclic process and the qualityMeasurement process are working together in updating the Cache.
 
 ![DeviceListOverview](./pictures/devList_overview.png)
 

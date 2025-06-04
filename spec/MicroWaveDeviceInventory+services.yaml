@@ -77,6 +77,7 @@ servers:
         # ordinary services
         - operation-name: /v1/provide-list-of-connected-devices
           uuid: mwdi-2-0-0-op-s-is-010
+          # deprecated since v2.0.0
           operation-key: n.a.
         - operation-name: /v1/provide-list-of-device-interfaces
           uuid: mwdi-2-0-0-op-s-is-011

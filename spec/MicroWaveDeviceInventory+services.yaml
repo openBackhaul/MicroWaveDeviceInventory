@@ -106,7 +106,7 @@ servers:
         - operation-name: /v1/provide-cache-quality-statistics
           uuid: mwdi-2-0-0-op-s-is-019
           operation-key: n.a.
-        - operation-name: /v1/provide-list-of-mwdi-devices
+        - operation-name: /v1/provide-list-of-cached-devices
           uuid: mwdi-2-0-0-op-s-is-020
           operation-key: n.a.
 

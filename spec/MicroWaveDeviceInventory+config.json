@@ -1468,7 +1468,7 @@
             "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
             "operation-server-interface-1-0:operation-server-interface-pac": {
               "operation-server-interface-capability": {
-                "operation-name": "/v1/provide-list-of-mwdi-devices"
+                "operation-name": "/v1/provide-list-of-cached-devices"
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
@@ -17754,7 +17754,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "RequestForListOfMwdiDevicesCausesReadingFromCache"
+                "value": "RequestForListOfCachedDevicesCausesReadingFromCache"
               }
             ],
             "fc-port": [

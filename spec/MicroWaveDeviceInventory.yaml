@@ -2763,7 +2763,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/provide-list-of-mwdi-devices:
+  /v1/provide-list-of-cached-devices:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -2796,7 +2796,7 @@ paths:
                           type: string
                           description: >
                             'MountName of the device in deviceMetadataList
-                            from {$RequestForListOfMwdiDevicesCausesReadingFromCache}'
+                            from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
                         connection-status:
                           type: string
                           enum:
@@ -2805,7 +2805,7 @@ paths:
                             - 'unable-to-connect'
                           description: >
                             'Connection-status of the device in deviceMetadataList
-                            from {$RequestForListOfMwdiDevicesCausesReadingFromCache}'
+                            from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
               example:
                 mount-name-list:
                   - mount-name: '305251234'

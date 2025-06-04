@@ -58,7 +58,7 @@
 ![RequestForCacheQualityStatisticsCausesReadingFromElasticSearch](./109_ProvideCacheQualityStatistics.png)
 .  
 .  
-![RequestForListOfMwdiDevicesCausesReadingFromCache](./110_ProvideListOfMwdiDevices.png)
+![RequestForListOfCachedDevicesCausesReadingFromCache](./110_ProvideListOfCachedDevices.png)
 .  
 .  
 ![SubscribingAtMwdiForDeviceAttributeChangesCausesSendingNotifications](./140_MwdiNotifiesAttributeChange.png)  

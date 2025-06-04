@@ -1,10 +1,10 @@
-@startuml 110_ProvideListOfMwdiDevices
+@startuml 110_ProvideListOfCachedDevices
 skinparam responseMessageBelowArrow true
 
-title RequestForListOfMwdiDevicesCausesReadingFromCache
+title RequestForListOfCachedDevicesCausesReadingFromCache
 
 participant "external" as requestor
-participant "MWDI://v1/provide-list-of-mwdi-devices" as mwdi
+participant "MWDI://v1/provide-list-of-cached-devices" as mwdi
 participant "ElasticSearch \n(deviceMetadataList)" as deviceList
 
 requestor -> mwdi: (apiKeyAuth)

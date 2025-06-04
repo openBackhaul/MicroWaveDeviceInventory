@@ -1766,7 +1766,7 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mountName}?fields=top-level-equipment;equipment(uuid;actual-equipment(manufactured-thing(equipment-type(type-name))))
         uuid: mwdi-2-0-0-op-c-get-es-1-0-0-100
 
-  - forwarding-name: RequestForListOfMwdiDevicesCausesReadingFromCache
+  - forwarding-name: RequestForListOfCachedDevicesCausesReadingFromCache
     uuid: mwdi-2-0-0-op-fc-is-023
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -1775,7 +1775,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - server-name: /v1/provide-list-of-mwdi-devices
+      - server-name: /v1/provide-list-of-cached-devices
         uuid: mwdi-2-0-0-op-s-is-010
     consequent-requests:
       - client-name: ElasticSearch

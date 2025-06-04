@@ -1430,6 +1430,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-connected-devices:
+    # deprecated since v2.0.0
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -1458,9 +1459,8 @@ paths:
                     items:
                       type: string
                       description: >
-                        'MountName of devices in connected state at the Controller,
-                        list of devices in deviceMetadataList with connection-status==connected
-                        from {$RequestForListOfConnectedDevicesCausesReadingFromCache}'
+                        'MountName of devices in connected state at the Controller
+                        from {$RequestForListOfConnectedDevicesCausesReadingFromCache.response.body#/core-model-1-4:control-construct/uuid}'
               example:
                 mount-name-list:
                   - '305251234'
@@ -1476,7 +1476,7 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
               description: >
                 'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-is-010/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -1489,6 +1489,59 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
+      callbacks:
+        RequestForListOfConnectedDevicesCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    enum:
+                      - 'control-construct(uuid)'
+              responses:
+                '200':
+                  description: 'List of connected devices provided from cache'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - /
+                        properties:
+                          /:
+                            type: object
+                            required:
+                              - core-model-1-4:control-construct
+                            properties:
+                              core-model-1-4:control-construct:
+                                type: array
+                                items:
+                                  type: object
+                                  required:
+                                    - uuid
+                                  properties:
+                                    uuid:
+                                      type: string
+                      example:
+                        /:
+                          core-model-1-4:control-construct:
+                            - uuid: '305251234'
+                            - uuid: '105258888'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-list-of-device-interfaces:
     parameters:

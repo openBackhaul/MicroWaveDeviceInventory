@@ -1733,8 +1733,8 @@ forwardings:
       - server-name: /v1/provide-list-of-connected-devices
         uuid: mwdi-2-0-0-op-s-is-010
     consequent-requests:
-      - client-name: ElasticSearch
-        uuid: mwdi-2-0-0-es-c-es-1-0-0-000
+      - client-name: ElasticSearch://?fields=control-construct(uuid)
+        uuid: mwdi-1-2-2-op-c-get-es-1-0-0-000
 
   - forwarding-name: RequestForListOfDeviceInterfacesCausesReadingFromCache
     uuid: mwdi-2-0-0-op-fc-is-021

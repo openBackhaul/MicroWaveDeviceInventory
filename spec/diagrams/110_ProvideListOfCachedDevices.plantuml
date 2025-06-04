@@ -5,15 +5,18 @@ title RequestForListOfCachedDevicesCausesReadingFromCache
 
 participant "external" as requestor
 participant "MWDI://v1/provide-list-of-cached-devices" as mwdi
-participant "ElasticSearch \n(deviceMetadataList)" as deviceList
+participant "ElasticSearch://?fields=control-construct(uuid)" as cache
 
 requestor -> mwdi: (apiKeyAuth)
 activate mwdi
 
-mwdi -> deviceList
-deviceList --> mwdi: {list-of(mount-name, connection-status)}
+mwdi -> cache
+cache --> mwdi: {mount-name-list}
 
-mwdi --> requestor: {list-of(mount-name, connection-status)}
+mwdi --> requestor: {mount-name-list}
 deactivate mwdi
 
 @enduml
+
+
+

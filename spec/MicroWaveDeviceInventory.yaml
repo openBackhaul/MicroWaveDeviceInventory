@@ -2771,15 +2771,15 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: provideListOfMwdiDevices
-      summary: 'Provides list of devices that are found in MWDI deviceMetadataList'
+      operationId: provideListOfCachedDevices
+      summary: 'Provides list of devices for which MWDI has a ControlConstruct in its cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
       responses:
         '200':
-          description: 'List of mwdi devices provided'
+          description: 'List of cached devices provided'
           content:
             application/json:
               schema:
@@ -2795,23 +2795,12 @@ paths:
                         mount-name:
                           type: string
                           description: >
-                            'MountName of the device in deviceMetadataList
-                            from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
-                        connection-status:
-                          type: string
-                          enum:
-                            - 'connected'
-                            - 'connecting'
-                            - 'unable-to-connect'
-                          description: >
-                            'Connection-status of the device in deviceMetadataList
+                            'MountName of the device for which MWDI has a cached ControlConstruct
                             from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
               example:
                 mount-name-list:
-                  - mount-name: '305251234'
-                    connection-status: 'connected'
-                  - mount-name: '105258888'
-                    connection-status: 'connecting'
+                  - '305251234'
+                  - '105258888'
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -2836,8 +2825,59 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-
-
+      callbacks:
+        RequestForListOfCachedDevicesCausesReadingFromCache:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-c-get-es-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            get:
+              parameters:
+                - name: fields
+                  in: query
+                  required: true
+                  schema:
+                    type: string
+                    enum:
+                      - 'control-construct(uuid)'
+              responses:
+                '200':
+                  description: 'List of devices with cached ControlConstructs provided'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - /
+                        properties:
+                          /:
+                            type: object
+                            required:
+                              - core-model-1-4:control-construct
+                            properties:
+                              core-model-1-4:control-construct:
+                                type: array
+                                items:
+                                  type: object
+                                  required:
+                                    - uuid
+                                  properties:
+                                    uuid:
+                                      type: string
+                      example:
+                        /:
+                          core-model-1-4:control-construct:
+                            - uuid: '305251234'
+                            - uuid: '105258888'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/notify-attribute-value-changes:
     parameters:
       - $ref: '#/components/parameters/user'

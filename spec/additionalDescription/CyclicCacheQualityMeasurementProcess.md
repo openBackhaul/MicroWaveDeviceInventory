@@ -50,8 +50,8 @@ For comparing the two ControlConstructs and scoring the differences the followin
 ### Comparison logic
 The module performs a structured tree-based comparison:
 - Attribute-level differences: mismatches in leaf-node values.
-- Missing classes: data classes present in the live structure but absent in the cache or vice versa.
-- Object creations and deletions if derived from structural changes.
+- Attribute-class mismatches: data classes present in the live structure but absent in the cache or vice versa (missing classes) .
+
 
 ### Scoring model
 Each type of difference is assigned a configurable weight:

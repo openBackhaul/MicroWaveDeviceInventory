@@ -36,11 +36,15 @@ This release introduced some major changes to the underlying processes for updat
 
 First of all, the deviceList and metadataTable have been merged into **deviceMetadataList**:
 - before the MWDI was going over the deviceList with a slidingWindow to find the next device update candidate device. Devices were removed from the deviceList when the were no longer in connected state and their ControlConstructs in the cache as well. In addition there was the metadataTable, which also included information about devices, which had been added to the MWDI before, but no longer were in connected state
-- now all of this has been changed:
+- now this has been changed:
   - the deviceMetadataList is now sorted according to retrieval priority (based on timestamp of last complete ControlConstruct update attempt) and slidingWindow takes the next update device according to the sorting (or possibly it could use a (reduced) sorted in-memory copy of the list instead): highest priority have those devices without a ControlConstruct copy in the cache, followed by the device with the oldest ControlConstruct (or oldest update attempt) in the cache
-  - when devices leave connected state: (a) they are no longer deleted from the deviceMetadataList, but kept according to the configured retention (will not be queried for CCs though) and (b) their ControlConstructs in the cache could be kept rather than being deleted (according to the new *historicalControlConstructPolicy* profileInstance) as a means to allow for historical MWDI functionality
+  - when a device currently in MWDI is deleted from Controller: it is deleted from deviceMetadataList along with its ControlConstruct in the cache
+  - handling of devices changing into disconnected state depends on the *historicalControlConstructPolicy* (allowing for historical-MWDI functionality):
+    - default configuration is delete: i.e. the devices are deleted from the deviceMetadataList and also their ControlConstructs in the cache
+    - if the policy is configured to keep-on-disconnect: devices are kept in the deviceMetadataList, as well as their ControlConstructs in the cache until they (a) expire according to the configured retention period or (b) the policy is changed back to the default
 - the metadata has been enriched with deviceType, which is mapped from airInterface information (via new regex profile), and vendor, which in turn is mapped from the deviceType; per default both are set to *unknown* (periodical retries to update it to a proper value)
-- adds new service */v1/provide-list-of-all-mwdi-devices*, which returns all devices from the deviceMetadataList (complements already existing service */v1/provide-list-of-connected-devices*)
+- adds new service */v1/provide-list-of-cached-mwdi-devices*, which returns all devices for which MWDI has a ControlConstruct in its cache (if historical data is to be kept, this can also include ControlConstructs of disconnected devices)
+- service */v1/provide-list-of-connected-devices* has been deprecated; if other applications want to retrieve the list of connected devices, they instead need to query the Controller directly
 
 Next is the introduction of a **cache quality measurement process**:
 - it selectes a new candidate device from the deviceMetadataList every x minutes (configurable, intially set to 1 minute)
@@ -49,7 +53,7 @@ Next is the introduction of a **cache quality measurement process**:
   - compares both and scores the changes
   - writes the results into ElasticSearch for evaluation and analysis purposes
   - if either/or retrieval of live or cache ControlConstruct fails, there is no comparison for the given device, i.e. no statistics record written to the cache
-- new service */v1/provide-cache-quality-statistics* to retrieve the statistics, allows filtering on date (day, since) and grouping (day, deviceType, vendor, or combined)
+- new service */v1/provide-cache-quality-statistics* returns aggregated statistics on demand (data is aggregated from the stored *qualityMeasurementSampleNumber* samples, either aggregated over all the samples at once, or aggregated per deviceType)
 
 Also **notification handling** has been changed:
 - before, MWDI had subscriptions for receiving notifications from NotificationProxy (NP).

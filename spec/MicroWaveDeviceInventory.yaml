@@ -2547,10 +2547,9 @@ paths:
                           type: string
                           enum:
                             - 'connected'
-                            - 'connecting'
-                            - 'unable-to-connect'
+                            - 'disconnected'
                           description: >
-                            'The connection-status of the device at the Controller
+                            'The connection-status of the device (connected if, connected at the Controller; of disconnected of mounted at the Controller, but not in connected state)
                             from {$RequestForDeviceStatusMetadataCausesReadingFromElasticSearch.response.body#/connection-status}'
                         changed-to-disconnected-time:
                           type: string

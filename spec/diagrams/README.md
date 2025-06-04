@@ -31,9 +31,6 @@
 ![NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache](./026_NotificationBasedObjectDeletion.png)  
 .  
 .  
-![RequestForListOfConnectedDevicesCausesReadingFromCache](./100_ProvideListOfConnectedDevices.png)  
-.  
-.  
 ![RequestForListOfDeviceInterfacesCausesReadingFromCache](./101_provideListOfDeviceInterfaces.png)  
 .  
 .  

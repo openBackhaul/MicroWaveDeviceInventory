@@ -1184,9 +1184,6 @@ clients:
       service:
         basic:
         individual:
-          - operation-name: /v1/provide-device-status-metadata
-            uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-018
-
           # self-calling of cache-path for updating metadata status
           # called with fields filter PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter
           - operation-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}

@@ -975,7 +975,7 @@ clients:
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 9092
+      tcp-port: 3017
       uuid: mwdi-2-0-0-tcp-c-kmb-1-0-0-000
     kafka-client:
       uuid: mwdi-2-0-0-kmb-c-kmb-1-0-0-000

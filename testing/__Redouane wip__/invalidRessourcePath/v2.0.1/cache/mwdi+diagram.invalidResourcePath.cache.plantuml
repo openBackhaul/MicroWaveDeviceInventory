@@ -1,0 +1,54 @@
+@startuml mwdi+diagram.invalidResourcePath.cache
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidResourcePath.cache
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "all  <i>/core-model-1-4:network-control-domain=cache/control-construct={mountName}</i>-paths" as LINK
+participant "all applicable \n<i>/core-model-1-4:network-control-domain=cache/control-construct={mountName}</i>-paths \nwith additional path parameters " as LINK2
+
+
+group Preparation
+  Data --\\o Postman : {servers, mountName, uuId, localId, uuid1 }
+  activate Postman
+  Postman --\\o Collection : {servers, mountName, uuId, localId, uuid1}
+end
+
+
+note over Postman, Collection
+  For each service there are two testcases to be executed.
+  Both tests have no requestBody:
+  - an invalid mountName  in the resource path
+  - a valid mountName and invalid parameters in the resource path
+end note
+
+
+group get all <i>/core-model-1-4:network-control-domain=cache/control-construct={mountName}</i>-paths
+  Collection --\\o Postman : {servers, mountName, uuId, localId, uuid1}
+  Postman -> LINK : (a) {invalid mountName} 
+  Postman <-- LINK : 460
+  note right Postman #Orange
+    check for 460
+  end note
+end
+
+group get all applicable \n<i>/core-model-1-4:network-control-domain=cache/control-construct={mountName}</i>-paths \nwith additional path parameters 
+  Collection --\\o Postman : {servers, mountName, uuId, localId, uuid1}
+  Postman -> LINK2 : (b) {valid mountName and invalid parameters in the resource path} 
+  Postman <-- LINK2 : 470
+  note right Postman #Orange
+    check for 470
+  end note
+end
+
+
+
+
+deactivate Postman
+
+@enduml

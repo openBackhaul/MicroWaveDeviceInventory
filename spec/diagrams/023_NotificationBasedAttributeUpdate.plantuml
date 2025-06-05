@@ -6,7 +6,7 @@ title
   NotifiedDeviceAttributeValueChangeCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardDeviceAttributeValueChange</i>" as init
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>DeviceAttributeValueChange</i>" as init
 participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-attribute-value-change</i>" as regardAttributeChange
 participant "ElasticSearch://{resource}" as es
 participant "ElasticSearch\n(deviceMetadataList)" as mtab

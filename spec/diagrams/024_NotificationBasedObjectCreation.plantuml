@@ -6,7 +6,7 @@ title
   NotifiedDeviceObjectCreationCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>DeviceObjectCreation</i>" as init
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>DeviceObjectCreation</i>" as init
 participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-object-creation</i>" as regardObjectCreation
 participant "MWDI://{resource}" as odlCreatedObject
 participant "ElasticSearch\n(deviceMetadataList)" as es

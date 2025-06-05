@@ -772,7 +772,7 @@
         #PromptForEmbeddingCausesSubscribingForNotificationsAtKafka: omitted
         #PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka: omitted
         #PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka: omitted
-        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange:
+        PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange:
           #description: >
           #  'call for notifications, which are controller-attribute-value-change notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
@@ -838,7 +838,7 @@
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm:
+        PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange:
           #description: >
           #  'call for notifications, which are device-alarm notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
@@ -907,7 +907,7 @@
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange:
+        PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange:
           #description: >
           #  'call for notifications, which are device attribute value change notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
@@ -973,7 +973,7 @@
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation:
+        PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation:
           #description: >
           #  'call for notifications, which are device object creation notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
@@ -1040,7 +1040,7 @@
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-        PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion:
+        PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion:
           #description: >
           #  'call for notifications, which are device object deletion notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'

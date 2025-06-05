@@ -14334,7 +14334,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange"
               }
             ],
             "fc-port": [
@@ -14359,7 +14359,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange"
               }
             ],
             "fc-port": [
@@ -14384,7 +14384,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange"
               }
             ],
             "fc-port": [
@@ -14409,7 +14409,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation"
               }
             ],
             "fc-port": [
@@ -14434,7 +14434,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion"
               }
             ],
             "fc-port": [

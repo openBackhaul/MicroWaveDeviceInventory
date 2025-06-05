@@ -27582,7 +27582,7 @@ paths:
                                                   - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
                                                   - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
                                                   - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
-                                  - description: 'ApacheKafka client'
+                                  - description: 'kafka client'
                                     type: object
                                     required:
                                       - local-id

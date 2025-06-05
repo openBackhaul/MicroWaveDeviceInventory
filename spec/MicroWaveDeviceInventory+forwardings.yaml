@@ -665,7 +665,7 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-0-kmb-c-kmb-1-0-0-000
 
-  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardControllerAttributeValueChange
+  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
     uuid: mwdi-2-0-0-op-fc-im-002
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -677,10 +677,10 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-controller-attribute-value-change
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-000
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
-  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAlarm
+  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
     uuid: mwdi-2-0-0-op-fc-im-003
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -692,10 +692,10 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-alarm
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-002
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
-  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceAttributeValueChange
+  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
     uuid: mwdi-2-0-0-op-fc-im-004
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -707,10 +707,10 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-attribute-value-change
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-003
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
-  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectCreation
+  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation
     uuid: mwdi-2-0-0-op-fc-im-005
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -722,10 +722,10 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-object-creation
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-004
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
-  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToCallRegardDeviceObjectDeletion
+  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion
     uuid: mwdi-2-0-0-op-fc-im-006
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -737,8 +737,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-object-deletion
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-005
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
   - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka
     uuid: mwdi-2-0-0-op-fc-im-115

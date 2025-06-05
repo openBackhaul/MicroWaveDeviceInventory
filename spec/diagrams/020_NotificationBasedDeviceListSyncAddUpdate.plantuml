@@ -6,7 +6,7 @@ title
   NotifiedNewDeviceCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardControllerAttributeValueChange</i>" as init
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>ControllerAttributeValueChange</i>" as init
 participant "internal functionality, similar to \n<i>MWDI://v1/regard-controller-attribute-value-change</i>" as regardNewDevice
 participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as liveControlConstruct
 participant "ElasticSearch\n(deviceMetadataList)" as es

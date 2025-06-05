@@ -6,7 +6,7 @@ title
   NotifiedDeviceObjectDeletionCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardDeviceObjectDeletion</i>" as init
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>DeviceObjectDeletion</i>" as init
 participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-object-deletion</i>" as regardObjectDeletion
 participant "ElasticSearch://{resource}" as es
 participant "ElasticSearch\n(deviceMetadataList)" as mtab

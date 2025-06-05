@@ -7,7 +7,7 @@ title
   NotifiedDeviceAlarmCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardDeviceAlarm</i>" as init
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>DeviceAlarm</i>Change" as init
 participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-alarm</i>" as regardAlarm
 participant "ElasticSearch://control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
 participant "ElasticSearch\n(deviceMetadataList)" as es

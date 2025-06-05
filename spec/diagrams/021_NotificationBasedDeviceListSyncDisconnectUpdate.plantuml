@@ -6,7 +6,7 @@ title
   NotifiedDisconnectedDeviceCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToCall</i>\n<i>RegardControllerAttributeValueChange</i>" as init
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>ControllerAttributeValueChange</i>" as init
 participant "internal functionality, similar to \n<i>MWDI://v1/regard-controller-attribute-value-change</i>" as regardDisconnectedDevice
 participant "ElasticSearch\n(deviceMetadataList)" as es
 

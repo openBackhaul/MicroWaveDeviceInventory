@@ -677,8 +677,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-controller-attribute-value-change
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-000
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
     uuid: mwdi-2-0-0-op-fc-im-003
@@ -692,8 +692,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-alarm
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-002
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
     uuid: mwdi-2-0-0-op-fc-im-004
@@ -707,8 +707,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-attribute-value-change
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-003
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation
     uuid: mwdi-2-0-0-op-fc-im-005
@@ -722,8 +722,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-object-creation
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-004
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion
     uuid: mwdi-2-0-0-op-fc-im-006
@@ -737,8 +737,8 @@ forwardings:
       - server-name: /v1/embed-yourself
         uuid: mwdi-2-0-0-op-s-bm-001
     consequent-requests:
-      - client-name: MWDI://v1/regard-device-object-deletion
-        uuid: mwdi-2-0-0-op-c-is-mwdi-2-0-0-005
+      - client-name: MWDI
+        uuid: mwdi-2-0-0-tcp-s-000
 
   - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka
     uuid: mwdi-2-0-0-op-fc-im-115

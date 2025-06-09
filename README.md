@@ -62,12 +62,10 @@ Also **notification handling** has been changed:
 - now, Kafka has been added in between NP and MWDI to overcome the performance problems
   - NP will push the notifications to Kafka ("proper" notification topic)
   - MWDI will pull the notifications from Kafka ("proper" notification topic)
-  - the *regard*-services previously called by NP to push the notifications to MWDI have been deprecated
+  - the *regard*-services previously called by NP to push the notifications to MWDI have been deprecated (but are kept in order to be able to switch back)
     - as their functionality shall be used internally, their callbacks have been modified slightly (input descriptions now consider whether the callbacks are called from the *regard*-service or via the internal process)
   - however, to process the notifications the functionality from the *regard*-services shall be executed internally (i.e. without opening new http sessions).
-    - for each proper notification type, there is a new callback under /v1/embed-yourself,
-    - that has an *apply* substep, which takes the related notifications of that type as input (url contains the MWDI tcp client uuid as target, as there is no explicit service related)
-    - this substep is followed by the substeps taken from the callback sections of the *regard*-services (due to nesting, the original callback names from *regard*-services had to used as substep names, the url had to be provided in the substep lines instead of an additional url line; also where required, substeps from *regard*-service callbacks were split into separate substeps).
+    - for each proper notification type, there is a new callback under /v1/embed-yourself, which calls the related *regard*-service via javascript interface 
 
 The list of related issues can be found in issue collection [MWDI v2.0.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/20).  
 

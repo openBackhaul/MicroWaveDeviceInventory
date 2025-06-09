@@ -14,11 +14,11 @@ end title
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
 participant "KafkaMessageBroker: \nproperNotifications topic" as kafka
-participant "execute functionality similiar to \n<i>MWDI://v1/regard-controller-attribute-value-change </i>\ninternally" as regardCtrlAttChange
-participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-alarm </i>\ninternally" as regardAlarm
-participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-attribute-value-change </i>\ninternally" as regardDevAttChange
-participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-object-creation </i>\ninternally" as regardDevObjCreation
-participant "execute functionality similiar to \n<i>MWDI://v1/regard-device-object-deletion </i>\ninternally" as regardDevObjDeletion
+participant "call \n<i>MWDI://v1/regard-controller-attribute-value-change </i>\nvia javascript interface" as regardCtrlAttChange
+participant "call \n<i>MWDI://v1/regard-device-alarm </i>\nvia javascript interface" as regardAlarm
+participant "call \n<i>MWDI://v1/regard-device-attribute-value-change </i>\nvia javascript interface" as regardDevAttChange
+participant "call \n<i>MWDI://v1/regard-device-object-creation </i>\nvia javascript interface" as regardDevObjCreation
+participant "call \n<i>MWDI://v1/regard-device-object-deletion </i>\nvia javascript interface" as regardDevObjDeletion
 
 ro -> mwdi
 activate mwdi
@@ -50,10 +50,10 @@ note over mwdi
   For each properNotification in the consumerRecords,
   identify the notification type and 
   call the respective notification processing
-  functionality internally.
+  functionality via javascript interface.
 
   (Functionality can be seen from <i>regard</i>-services,
-  but shall be executed completely internally, without
+  but shall be executed completely via javascript interface, without
   calling the actual <i>regard</i>-services to prevent
   new http sessions to be opened for each notification.)
 end note

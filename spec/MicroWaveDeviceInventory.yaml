@@ -23130,14 +23130,8 @@ paths:
           #description: >
           #  'call for notifications, which are controller-attribute-value-change notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
-          applyControllerAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-s-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          applyControllerAttributeValueChange: #[regardControllerAttributeValueChange]
             post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
               requestBody:
                 content:
                   application/json:
@@ -23192,113 +23186,12 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'IF this callback is called from /v1/regard-controller-attribute-value-change
-                THEN REQUEST_BODY = {$request.body}
-              ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
-                THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange.applyControllerAttributeValueChange.request.body}
-              #
-              This callback is to be sent
-                IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
-                AND IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected
-            get:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by this callback
-                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{value of logical-termination-point= in resource}'
-              responses:
-                '200':
-                  description: 'ControlConstruct provided from live network'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          core-model-1-4:control-construct:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/CONTROL_CONSTRUCT'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '502':
-                  $ref: '#/components/responses/502'
-                '530':
-                  $ref: '#/components/responses/530'
-                '531':
-                  $ref: '#/components/responses/531'
-                '532':
-                  $ref: '#/components/responses/532'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'IF this callback is called from /v1/regard-controller-attribute-value-change
-                  THEN REQUEST_BODY = {$request.body}
-                ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
-                  THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange.applyControllerAttributeValueChange.request.body}
-              #
-              This callback is to be sent
-                IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
-                AND IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected
-                AND IF (profileInstance historicalControlConstructPolicy == delete-on-disconnect)'
-            delete:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by this callback
-                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{value of logical-termination-point= in resource}'
-              responses:
-                '204':
-                  description: 'ControlConstruct deleted from cache'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange:
           #description: >
           #  'call for notifications, which are device-alarm notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
-          applyDeviceAlarmChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-s-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          applyDeviceAlarmChange: #[regardDeviceAlarm]
             post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
               requestBody:
                 content:
                   application/json:
@@ -23356,113 +23249,12 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-mwdi-2-0-0-400/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'IF this callback is called from /v1/regard-controller-attribute-value-change
-                THEN REQUEST_BODY = {$request.body}
-              ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
-                THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange.applyControllerAttributeValueChange.request.body}
-              #
-              This callback is to be sent
-                IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
-                AND IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected
-            get:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by this callback
-                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{value of logical-termination-point= in resource}'
-              responses:
-                '200':
-                  description: 'ControlConstruct provided from live network'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          core-model-1-4:control-construct:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/CONTROL_CONSTRUCT'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '502':
-                  $ref: '#/components/responses/502'
-                '530':
-                  $ref: '#/components/responses/530'
-                '531':
-                  $ref: '#/components/responses/531'
-                '532':
-                  $ref: '#/components/responses/532'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'IF this callback is called from /v1/regard-controller-attribute-value-change
-                THEN REQUEST_BODY = {$request.body}
-              ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
-                THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange.applyControllerAttributeValueChange.request.body}
-              #
-              This callback is to be sent
-                IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
-                AND IF {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected
-                AND IF (profileInstance historicalControlConstructPolicy == delete-on-disconnect)'
-            delete:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by this callback
-                    from {$request.body#notification-proxy-1-0:attribute-value-changed-notification/{value of logical-termination-point= in resource}'
-              responses:
-                '204':
-                  description: 'ControlConstruct deleted from cache'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange:
           #description: >
           #  'call for notifications, which are device attribute value change notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
-          applyDeviceAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-s-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          applyDeviceAttributeValueChange: #[regardDeviceAttributeValueChange]
             post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
               requestBody:
                 content:
                   application/json:
@@ -23517,76 +23309,12 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedDeviceAttributeValueChangeCausesUpdateOfCache.ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
-            get:
-              responses:
-                '200':
-                  description: >
-                    'IF this callback is called from /v1/regard-device-attribute-value-change
-                      THEN REQUEST_BODY = {$request.body}
-                    ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
-                      THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange.applyDeviceAttributeValueChange.request.body}
-                    #
-                    Depends on addressed class'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '470':
-                  $ref: '#/components/responses/470'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedDeviceAttributeValueChangeCausesUpdateOfCache.UpdateAndWriteClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
-            put:
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      description: >
-                        'IF this callback is called from /v1/regard-device-attribute-value-change
-                          THEN REQUEST_BODY = {$request.body}
-                        ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
-                          THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange.applyDeviceAttributeValueChange.request.body}
-                        #
-                        Depends on addressed class
-                        Attribute with name according to {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/attribute-name}
-                        to be updated with value according to {$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/new-value}'
-              responses:
-                '204':
-                  description: 'Depends on addressed class'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '470':
-                  $ref: '#/components/responses/470'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation:
           #description: >
           #  'call for notifications, which are device object creation notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
-          applyDeviceObjectCreation: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-s-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          applyDeviceObjectCreation: #[regardDeviceObjectCreation]
             post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
               requestBody:
                 content:
                   application/json:
@@ -23642,53 +23370,12 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$REQUEST_BODY#notification-proxy-1-0:object-creation-notification/object-path}]
-            get:
-              responses:
-                '200':
-                  description: >
-                    'IF this callback is called from /v1/regard-device-object-creation
-                    THEN REQUEST_BODY = {$request.body}
-                    ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation
-                    THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation.applyDeviceObjectCreation.request.body}
-                    #
-                    Depends on addressed class'
-                  headers:
-                    x-correlator:
-                      $ref: '#/components/headers/x-correlator'
-                    exec-time:
-                      $ref: '#/components/headers/exec-time'
-                    backend-time:
-                      $ref: '#/components/headers/backend-time'
-                    life-cycle-state:
-                      $ref: '#/components/headers/life-cycle-state'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '533':
-                  $ref: '#/components/responses/533'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion:
           #description: >
           #  'call for notifications, which are device object deletion notifications, retrieved
           #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
-          applyDeviceDeletionCreation: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-mwdi-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-s-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          applyDeviceDeletionCreation: #[regardDeviceObjectDeletion]
             post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
               requestBody:
                 content:
                   application/json:
@@ -23744,31 +23431,6 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-          NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$REQUEST_BODY#notification-proxy-1-0:object-deletion-notification/object-path but live replaced by cache}]
-              delete:
-                responses:
-                  '204':
-                    description: >
-                      'IF this callback is called from /v1/regard-device-object-deletion
-                      THEN REQUEST_BODY = {$request.body}
-                      ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion
-                      THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion.applyDeviceObjectDeletion.request.body}
-                      #
-                      Depends on addressed class'
-                  '400':
-                    $ref: '#/components/responses/responseForErroredServiceRequests'
-                  '401':
-                    $ref: '#/components/responses/responseForErroredServiceRequests'
-                  '403':
-                    $ref: '#/components/responses/responseForErroredServiceRequests'
-                  '404':
-                    $ref: '#/components/responses/responseForErroredServiceRequests'
-                  '500':
-                    $ref: '#/components/responses/responseForErroredServiceRequests'
-                  '533':
-                    $ref: '#/components/responses/533'
-                  default:
-                    $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/redirect-service-request-information:
     parameters:

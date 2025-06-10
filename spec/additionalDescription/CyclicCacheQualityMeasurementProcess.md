@@ -29,10 +29,12 @@ The process directly accesses the deviceMetadataList to determine the next measu
 Each time a new candidate device has to be chosen, the process selects the first device found in the deviceMetadataList, ...
 - with *connection-status* == connected
 - *locked-status* == unlocked
-- *exclude_from_qm* == false
+- *exclude-from-qm* == false
 
 Due to the ordering of the deviceMetadataList by priority (*last-complete-control-construct-update-time-attempt* and *connection-status*), the process will always pick the device with the oldest ControlConstruct, which is not yet already processed by the slidingWindow process.  
 By selecting the device, whose cached ControlConstruct was updated the longest time ago, it is ensured that devices with outdated entries are prioritized for quality assessment. This strategy helps systematically improve the overall cache quality by always targeting the least recently updated devices first.
+
+This approach tends to result in a more pessimistic measurement result than the quality perceived during normal use (random selection).  
 
 ### Data retrieval
 Once a candidate devices has been identified, first its ControlConstruct is retrieved from the MWDI's cache. In the next step, the ControlConstruct is fetched from live (via MWDI live service).
@@ -40,7 +42,7 @@ Once a candidate devices has been identified, first its ControlConstruct is retr
 Both ControlConstructs are then compared to determine the differences. After the comparison and scoring has been finished, results are written to ElasticSearch.  
 Data is kept according to the number of samples configured in integerProfile *qualityMeasurementSampleNumber*.  
 
-There are no specific presciptions for how the comparison shall be implemented apart from the comparison logic to be applied. An appropriate approach shall be selected by the implementer.  
+There are no specific prescriptions for how the comparison shall be implemented apart from the comparison logic to be applied. An appropriate approach shall be selected by the implementer.  
 *First analysis results showed that* deepdiff *could be a suitable candidate for comparing the ControlConstructs (large JSON structures), as it is claimed to be easy to use and to be handling deep comparisons really well (it can detect value changes, missing or new objects, type mismatches etc., and its output potentially can be easily connected with the intended scoring model).*  
 
 ## Comparison logic and scoring model
@@ -77,14 +79,24 @@ Each completed comparison will add a new entry into ElasticSearch. The following
   "weighted-score": 31
 }
 ```
+Raw samples cannot be retrieved, instead calling the */v1/provide-cache-quality-statistics* service computes the aggregated statistics on demand.  
+The number of samples that are consolidated into the aggregated result is configurable (*qualityMeasurementSampleNumber*).  
+The default number of samples is 1440, which corresponds to a 24h measurement period.  
+E.g., a smaller number of samples allows to see the consequence of changes to the notification handling more quickly.  
 
-Raw statistic records are only kept according to the number of configured samples. Raw samples cannot be retrieved, instead calling service */v1/provide-cache-quality-statistics* always computes the aggregated statistic from the available samples (only if there are not less than *qualityMeasurementSampleNumber* samples, in that case nothing will be computed).  
-As the aggregated statistics are only computed on demand, they also will not be kept in the MWDI cache. This means if data is not collected, it will be lost.  
+If the number of raw statistic records in the database is exceeding the configured number of input values, the eldest sample gets deleted from the database.  
+If the number of raw statistic records in the database is lower that the configured number of input values, the */v1/provide-cache-quality-statistics* service is not computing any result, but answering error code 530 (Data invalid. Response data not available, incomplete or corrupted).  
 
-Per default there is just a single aggregation over all samples resulting in a single output record. However, it is also possible to aggregate per deviceType.  
-By allowing to adjust the *qualityMeasurementSampleNumber*, MWDI offers flexibility (a possible scenario would be e.g. to set a lower number of samples to see applied changes to notification handling more quickly).  
+**Please note**
+The performance data will be calculated on demand.  
+At any time, it will be calculated based on the configurable number of available raw data samples.  
+There are no measurement time periods defined.  
+Consequently, there are no historical values.  
+As every calculation result is bases on the same number of raw data samples, calculation results can easily be compared and aggregated.  
 
-The service supports MWDI's broader monitoring goals by making the quality status of cached ControlConstructs transparent and accessible for analysis or visualization.
+Performance data can be retrieved aggregated over all kinds of devices (default) or aggregated over the individual deviceTypes.  
+
+The service supports MWDI's broader monitoring goals by making the quality status of cached ControlConstructs transparent and accessible for analysis or visualization.  
 
 ## Outlook
 For now, the gathered quality statistics will only be made available via a new provider service offered by MWDI.  

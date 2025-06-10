@@ -2798,6 +2798,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '530':
+          $ref: '#/components/responses/530'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/provide-list-of-cached-devices:

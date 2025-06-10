@@ -32,6 +32,13 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 ### Latest Update  
 
 **v2.0.0**  
+**Summary of changes:**  
+- Optimized sliding window  
+- Cache quality measurement added  
+- Kafka integration added  
+- Switch for re-use as HistoricalMicrowaveDeviceInventory added  
+
+**Details on the changes:**  
 This release introduced some major changes to the underlying processes for updating the cache.  
 
 First of all, the deviceList and metadataTable have been merged into **deviceMetadataList**:
@@ -47,7 +54,7 @@ First of all, the deviceList and metadataTable have been merged into **deviceMet
 - service */v1/provide-list-of-connected-devices* has been deprecated; if other applications want to retrieve the list of connected devices, they instead need to query the Controller directly
 
 Next is the introduction of a **cache quality measurement process**:
-- it selectes a new candidate device from the deviceMetadataList every x minutes (configurable, intially set to 1 minute)
+- it selectes a new candidate device from the deviceMetadataList every x minutes (configurable, initially set to 1 minute)
   - works in tandem with the slidingWindow process and selects the next device with oldest ControlConstruct in the cache, not yet found in the slidingWindow
   - retrieves the ControlConstruct from live (thereby updating the cache) and the copy from the cache
   - compares both and scores the changes

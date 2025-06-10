@@ -458,6 +458,97 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-020/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscriber-application
+                        - subscriber-release-number
+                        - subscription
+                      properties:
+                        subscriber-application:
+                          type: string
+                          description: >
+                            'Own application name
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
+                        subscriber-release-number:
+                          type: string
+                          description: >
+                            'Own release number
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
+                        subscription:
+                          type: string
+                          description: >
+                            'Name of operation that had been addressed for starting getting notifications. Requests have to be sent for the following subscriptions:
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+                            and
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+                            and
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-011/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+                            and
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-012/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+                            and
+                            from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-013/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+                            in five separate, sequential requests.'
+                      example:
+                        subscriber-application: 'MicroWaveDeviceInventory'
+                        subscriber-release-number: '1.0.0'
+                        subscription: '/v1/notify-controller-attribute-value-changes'
+              responses:
+                '204':
+                  description: 'Stopped sending notifications of a specific subscription'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-bm-ro-2-1-2-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
@@ -22628,6 +22719,532 @@ paths:
                         type: integer
                         example: 850
                       description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access ...). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        PromptForEmbeddingCausesSubscribingForNotifications:
+          ControllerAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscribing-application-name
+                        - subscribing-application-release
+                        - subscribing-application-protocol
+                        - subscribing-application-address
+                        - subscribing-application-port
+                        - notifications-receiving-operation
+                      properties:
+                        subscribing-application-name:
+                          type: string
+                          description: 'Name of the application that is subscribing for notifications, i.e. MicroWaveDeviceInventory'
+                        subscribing-application-release:
+                          type: string
+                          description: 'Release number of the MicroWaveDeviceInventory'
+                        subscribing-application-protocol:
+                          type: string
+                          enum:
+                            - 'HTTP'
+                            - 'HTTPS'
+                          description: 'Protocol to be used for addressing the MicroWaveDeviceInventory'
+                        subscribing-application-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: 'IPv4 address of the MicroWaveDeviceInventory'
+                            domain-name:
+                              type: string
+                              description: 'Domain name of the MicroWaveDeviceInventory'
+                        subscribing-application-port:
+                          type: integer
+                          description: 'Port of the MicroWaveDeviceInventory'
+                        notifications-receiving-operation:
+                          type: string
+                          description: 'Operation for receiving the notifications at MicroWaveDeviceInventory'
+                      example:
+                        subscribing-application-name: 'MicroWaveDeviceInventory'
+                        subscribing-application-release: '1.2.2'
+                        subscribing-application-protocol: 'HTTP'
+                        subscribing-application-address:
+                          ip-address:
+                            ipv-4-address: '127.0.0.1'
+                        subscribing-application-port: 4023
+                        notifications-receiving-operation: '/v1/regard-controller-attribute-value-change'
+              responses:
+                '204':
+                  description: 'Subscription for notifications about changes of attributes at the controllers created'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          DeviceAlarms: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscribing-application-name
+                        - subscribing-application-release
+                        - subscribing-application-protocol
+                        - subscribing-application-address
+                        - subscribing-application-port
+                        - notifications-receiving-operation
+                      properties:
+                        subscribing-application-name:
+                          type: string
+                          description: 'Name of the application that is subscribing for notifications, i.e. MicroWaveDeviceInventory'
+                        subscribing-application-release:
+                          type: string
+                          description: 'Release number of the MicroWaveDeviceInventory'
+                        subscribing-application-protocol:
+                          type: string
+                          enum:
+                            - 'HTTP'
+                            - 'HTTPS'
+                          description: 'Protocol to be used for addressing the MicroWaveDeviceInventory'
+                        subscribing-application-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: 'IPv4 address of the MicroWaveDeviceInventory'
+                            domain-name:
+                              type: string
+                              description: 'Domain name of the MicroWaveDeviceInventory'
+                        subscribing-application-port:
+                          type: integer
+                          description: 'Port of the MicroWaveDeviceInventory'
+                        notifications-receiving-operation:
+                          type: string
+                          description: 'Operation for receiving the notifications at MicroWaveDeviceInventory'
+                      example:
+                        subscribing-application-name: 'MicroWaveDeviceInventory'
+                        subscribing-application-release: '1.2.2'
+                        subscribing-application-protocol: 'HTTP'
+                        subscribing-application-address:
+                          ip-address:
+                            ipv-4-address: '127.0.0.1'
+                        subscribing-application-port: 4023
+                        notifications-receiving-operation: '/v1/regard-device-alarm'
+              responses:
+                '204':
+                  description: 'Subscription for notifications about device alarms created'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          DeviceAttributeValueChange: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-010/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscribing-application-name
+                        - subscribing-application-release
+                        - subscribing-application-protocol
+                        - subscribing-application-address
+                        - subscribing-application-port
+                        - notifications-receiving-operation
+                      properties:
+                        subscribing-application-name:
+                          type: string
+                          description: 'Name of the application that is subscribing for notifications, i.e. MicroWaveDeviceInventory'
+                        subscribing-application-release:
+                          type: string
+                          description: 'Release number of the MicroWaveDeviceInventory'
+                        subscribing-application-protocol:
+                          type: string
+                          enum:
+                            - 'HTTP'
+                            - 'HTTPS'
+                          description: 'Protocol to be used for addressing the MicroWaveDeviceInventory'
+                        subscribing-application-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: 'IPv4 address of the MicroWaveDeviceInventory'
+                            domain-name:
+                              type: string
+                              description: 'Domain name of the MicroWaveDeviceInventory'
+                        subscribing-application-port:
+                          type: integer
+                          description: 'Port of the MicroWaveDeviceInventory'
+                        notifications-receiving-operation:
+                          type: string
+                          description: 'Operation for receiving the notifications at MicroWaveDeviceInventory'
+                      example:
+                        subscribing-application-name: 'MicroWaveDeviceInventory'
+                        subscribing-application-release: '1.2.2'
+                        subscribing-application-protocol: 'HTTP'
+                        subscribing-application-address:
+                          ip-address:
+                            ipv-4-address: '127.0.0.1'
+                        subscribing-application-port: 4023
+                        notifications-receiving-operation: '/v1/regard-device-attribute-value-change'
+              responses:
+                '204':
+                  description: 'Subscription for notifications about device attribute value changes created'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          DeviceObjectCreations: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-012/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscribing-application-name
+                        - subscribing-application-release
+                        - subscribing-application-protocol
+                        - subscribing-application-address
+                        - subscribing-application-port
+                        - notifications-receiving-operation
+                      properties:
+                        subscribing-application-name:
+                          type: string
+                          description: 'Name of the application that is subscribing for notifications, i.e. MicroWaveDeviceInventory'
+                        subscribing-application-release:
+                          type: string
+                          description: 'Release number of the MicroWaveDeviceInventory'
+                        subscribing-application-protocol:
+                          type: string
+                          enum:
+                            - 'HTTP'
+                            - 'HTTPS'
+                          description: 'Protocol to be used for addressing the MicroWaveDeviceInventory'
+                        subscribing-application-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: 'IPv4 address of the MicroWaveDeviceInventory'
+                            domain-name:
+                              type: string
+                              description: 'Domain name of the MicroWaveDeviceInventory'
+                        subscribing-application-port:
+                          type: integer
+                          description: 'Port of the MicroWaveDeviceInventory'
+                        notifications-receiving-operation:
+                          type: string
+                          description: 'Operation for receiving the notifications at MicroWaveDeviceInventory'
+                      example:
+                        subscribing-application-name: 'MicroWaveDeviceInventory'
+                        subscribing-application-release: '1.2.2'
+                        subscribing-application-protocol: 'HTTP'
+                        subscribing-application-address:
+                          ip-address:
+                            ipv-4-address: '127.0.0.1'
+                        subscribing-application-port: 4023
+                        notifications-receiving-operation: '/v1/regard-device-object-creations'
+              responses:
+                '204':
+                  description: 'Subscription for notifications about device object creations created'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+          DeviceObjectDeletions: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-np-1-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-tcp-c-or-1-2-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-c-is-np-1-0-2-013/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - subscribing-application-name
+                        - subscribing-application-release
+                        - subscribing-application-protocol
+                        - subscribing-application-address
+                        - subscribing-application-port
+                        - notifications-receiving-operation
+                      properties:
+                        subscribing-application-name:
+                          type: string
+                          description: 'Name of the application that is subscribing for notifications, i.e. MicroWaveDeviceInventory'
+                        subscribing-application-release:
+                          type: string
+                          description: 'Release number of the MicroWaveDeviceInventory'
+                        subscribing-application-protocol:
+                          type: string
+                          enum:
+                            - 'HTTP'
+                            - 'HTTPS'
+                          description: 'Protocol to be used for addressing the MicroWaveDeviceInventory'
+                        subscribing-application-address:
+                          type: object
+                          properties:
+                            ip-address:
+                              type: object
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: 'IPv4 address of the MicroWaveDeviceInventory'
+                            domain-name:
+                              type: string
+                              description: 'Domain name of the MicroWaveDeviceInventory'
+                        subscribing-application-port:
+                          type: integer
+                          description: 'Port of the MicroWaveDeviceInventory'
+                        notifications-receiving-operation:
+                          type: string
+                          description: 'Operation for receiving the notifications at MicroWaveDeviceInventory'
+                      example:
+                        subscribing-application-name: 'MicroWaveDeviceInventory'
+                        subscribing-application-release: '1.2.2'
+                        subscribing-application-protocol: 'HTTP'
+                        subscribing-application-address:
+                          ip-address:
+                            ipv-4-address: '127.0.0.1'
+                        subscribing-application-port: 4023
+                        notifications-receiving-operation: '/v1/regard-device-object-deletions'
+              responses:
+                '204':
+                  description: 'Subscription for notifications about device object deletions created'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
                     life-cycle-state:
                       schema:
                         type: string

@@ -10,6 +10,9 @@
 ![PromptForEmbeddingCausesPollingOfNotificationsFromKafka](./01x_NotificationPollingFromKafkaAndProcessing.png)  
 .  
 .  
+![PromptForEmbeddingCausesSubscribingForNotificationsAtNP](./01y_MwdiSubscribesAtNp.png)  
+.  
+.  
 ![PromptForBequeathingDataCauses](./09x_BequeathYourDataAndDie.png)  
 .  
 .  

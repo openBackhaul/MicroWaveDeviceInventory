@@ -6,6 +6,7 @@ PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttribut
 PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
 PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
 PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka
+PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
 end title
 
 participant "NR://v1/embed-yourself" as NewRelease
@@ -14,6 +15,7 @@ participant "NR://v1/notify-attribute-value-changes" as notifyAttributeChange
 participant "NR://v1/notify-object-creations" as notifyObjectCreation
 participant "NR://v1/notify-object-deletions" as notifyObjectDeletion
 participant "KafkaMessageBroker \nproperNotifications topic" as endSubsriptionAtKafka
+participant "NP://v1/end-subscription" as endSubsriptionAtNp
 
 NewRelease -> OldRelease
 activate OldRelease
@@ -32,6 +34,13 @@ of discontinued release at Kafka,
 with topic-name=proper_notifications
 end note
 OldRelease -> endSubsriptionAtKafka: {own application info, topic-name}
+
+note over OldRelease
+Terminate existing subscriptions 
+of discontinued release at NP
+end note
+OldRelease -> endSubsriptionAtNp: {own application info}
+
 
 deactivate OldRelease
 

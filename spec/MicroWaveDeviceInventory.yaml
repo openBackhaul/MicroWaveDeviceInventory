@@ -7,7 +7,7 @@ info:
     name: Zia Ul Haq Hussain Batcha
     url: https://github.com/openBackhaul/MicroWaveDeviceInventory
     email: zia-ul-haq.hussain-batcha.external@telefonica.com
-  x-api-id: u-1792-sdn-microwave-microwavedeviceinventory
+  x-api-id: u-1792-sdn-microwave-microwavedeviceandnetworkinventory
 
 x-gui-paths:
 ########################################################################################################################

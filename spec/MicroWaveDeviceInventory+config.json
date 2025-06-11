@@ -4777,7 +4777,7 @@
             "http-server-interface-1-0:http-server-interface-pac": {
               "http-server-interface-capability": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "2.0.0",
+                "release-number": "2.0.1",
                 "application-purpose": "Provide cached ControlConstruct data for devices in connected state on the Controller",
                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
                 "owner-name": "Katharina Mohr",
@@ -4812,6 +4812,12 @@
                     "release-number": "2.0.0",
                     "release-date": "31.05.2025",
                     "changes": "Changes internal CC retrieval process, introduces Kafka integration and quality measurement process."
+                  },
+                  {
+                    "local-id": "5",
+                    "release-number": "2.0.1",
+                    "release-date": "30.06.2025",
+                    "changes": "Adds fixes for findings in and completes changes missing from 2.0.0."
                   }
                 ]
               }
@@ -9747,7 +9753,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "1.2.2"
+                "release-number": "2.0.0"
               }
             }
           }
@@ -9872,7 +9878,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "NewRelease",
-                "release-number": "2.0.0"
+                "release-number": "2.0.1"
               }
             }
           }

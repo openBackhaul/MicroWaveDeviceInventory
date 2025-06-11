@@ -519,7 +519,7 @@ servers:
           operation-key: n.a.
   http-server:
     own-application-name: MicroWaveDeviceInventory
-    own-release-number: 2.0.0
+    own-release-number: 2.0.1
     uuid: mwdi-2-0-0-http-s-000
     application-purpose: Provide cached ControlConstruct data for devices in connected state on the Controller
     owner-name: Katharina Mohr
@@ -540,6 +540,9 @@ servers:
       - release-number: 2.0.0
         release-date: 31.05.2025
         changes: Changes internal CC retrieval process, introduces Kafka integration and quality measurement process.
+      - release-number: 2.0.1
+        release-date: 30.06.2025
+        changes: Adds fixes for findings in and completes changes missing from 2.0.0.
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
@@ -983,12 +986,12 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 1.2.2
+      release-number: 2.0.0
       uuid: mwdi-2-0-0-http-c-or-1-2-2-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
-      tcp-port: 4023
+      tcp-port: 4024
       uuid: mwdi-2-0-0-tcp-c-or-1-2-2-000
     operation-clients:
       own-oam:
@@ -1002,7 +1005,7 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: 2.0.0
+      release-number: 2.0.1
       uuid: mwdi-2-0-0-http-c-nr-2-0-0-000
     tcp-client:
       remote-protocol: http

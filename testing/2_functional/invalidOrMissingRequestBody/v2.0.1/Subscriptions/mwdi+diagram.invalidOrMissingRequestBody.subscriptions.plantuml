@@ -1,0 +1,59 @@
+@startuml mwdi+diagram.invalidOrMissingRequestBody.subscriptions
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidOrMissingRequestBody.subscriptions
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/notify-attribute-value-changes" as NAVC
+participant "/v1/notify-object-creations" as NOC
+participant "/v1/notify-object-deletions" as NOD
+
+
+group Preparation
+  Data --\\o Postman : {servers}
+  activate Postman
+  Postman --\\o Collection : {servers}
+end
+
+note over Postman, NAVC
+  For each service there are two testcases to be executed.
+  Both tests differ in the provided requestBody:
+  - an invalid requestBody according to OAS
+  - no requestBody provided at all
+end note
+
+  group /v1/notify-attribute-value-changes
+    Collection --\\o Postman : {servers}
+    Postman -> NAVC : (a) {invalidRequestBody} \n(b) no requestBody
+    Postman <-- NAVC : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+  group /v1/notify-object-creations
+    Collection --\\o Postman : {servers}
+    Postman -> NOC : (a) {invalidRequestBody} \n(b) no requestBody
+    Postman <-- NOC : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+  group /v1/notify-object-deletions
+    Collection --\\o Postman : {servers}
+    Postman -> NOD : (a) {invalidRequestBody} \n(b) no requestBody
+    Postman <-- NOD : 400
+    note right Postman #Orange
+      check for 400
+    end note
+  end
+
+deactivate Postman
+
+@enduml

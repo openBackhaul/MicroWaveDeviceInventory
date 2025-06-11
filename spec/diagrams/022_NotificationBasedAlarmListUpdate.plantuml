@@ -4,15 +4,21 @@ skinparam responseMessageBelowArrow true
 
 title 
   NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache
-  NotifiedDeviceAlarmCausesMetadataTableUpdate
+  NotifiedDeviceAlarmCausesMetadataUpdate
 end title
 
-participant "NP://v1/notify-device-alarms" as subscription
-participant "MWDI://v1/regard-device-alarm" as regardAlarm
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>DeviceAlarm</i>Change" as init
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-alarm</i>" as regardAlarm
 participant "ElasticSearch://control-construct={mountName}/alarms-1-0:alarm-pac/current-alarms" as CurrentAlarms
-participant "ElasticSearch\n(metadataTable)" as es
+participant "ElasticSearch\n(deviceMetadataList)" as es
 
-subscription -> regardAlarm: {counter, timestamp, resource, alarm-type-id, alarm-type-qualifier, severity} (apiKeyAuth)
+note over regardAlarm #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
+
+init -> regardAlarm: {<i>notification with</i>: counter, timestamp, resource, alarm-type-id, alarm-type-qualifier, severity} (apiKeyAuth)
 activate regardAlarm
 
 regardAlarm -> CurrentAlarms: GET {mount-name = value behind control-construct= in resource}
@@ -39,9 +45,9 @@ end note
 regardAlarm -> CurrentAlarms: PUT {currentAlarmList, numberOfCurrentAlarms, timeOfLatestChange}
 
 note over regardAlarm
-  <u>UpdateMetadataTable</u>
+  <u>UpdateMetadata</u>
     Upon update completion of the CC data in the cache,
-    update the metadata table for the device
+    update the metadata for the device
     (last-control-construct-notification-update-time,
     number-of-partial-updates-since-last-complete-update)
 end note

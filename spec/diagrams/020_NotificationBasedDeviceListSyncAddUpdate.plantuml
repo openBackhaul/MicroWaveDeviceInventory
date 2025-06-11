@@ -1,0 +1,39 @@
+@startuml 020_NotificationBasedDeviceListSyncAddUpdate
+skinparam responseMessageBelowArrow true
+
+title  
+  NotifiedNewDeviceCausesSelfCallingForLoadingOfControlConstruct
+  NotifiedNewDeviceCausesMetadataUpdate
+end title
+
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>ControllerAttributeValueChange</i>" as init
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-controller-attribute-value-change</i>" as regardNewDevice
+participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as liveControlConstruct
+participant "ElasticSearch\n(deviceMetadataList)" as es
+
+note over regardNewDevice #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
+
+init -> regardNewDevice: {controller-attribute-value-change-notification} (apiKeyAuth)
+activate regardNewDevice
+
+note over regardNewDevice
+IF attribute-name == 'connection-status' 
+AND IF new-value == 'connected'
+end note
+
+regardNewDevice -> liveControlConstruct: {path = first part of resource incl. control-construct} (apiKeyAuth)
+
+note over regardNewDevice
+  <u>UpdateDeviceMetadataList</u>
+    Add new device to deviceMetadataList,
+    or update existing entry
+end note
+regardNewDevice -> es: {mountName from notification}
+
+deactivate regardNewDevice
+
+@enduml

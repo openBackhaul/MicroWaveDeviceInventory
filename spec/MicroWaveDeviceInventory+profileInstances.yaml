@@ -1,145 +1,145 @@
 profile-instances:
 
   - profile-name: 'ActionProfile'
-    uuid: 'mwdi-1-2-2-action-p-000'
+    uuid: 'mwdi-2-0-0-action-p-000'
     capability:
       operation-name: '/v1/start-application-in-generic-representation'
       label: 'Inform about Application'
       display-in-new-browser-window: false
       input-value-list: []
     configuration:
-      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'mwdi-1-2-2-action-p-001'
+    uuid: 'mwdi-2-0-0-action-p-001'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'Release History'
       display-in-new-browser-window: false
     configuration:
-      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'mwdi-1-2-2-action-p-002'
+    uuid: 'mwdi-2-0-0-action-p-002'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'API Documentation'
       display-in-new-browser-window: true
     configuration:
-      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
+      consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-000'
+    uuid: 'mwdi-2-0-0-response-p-000'
     capability:
       operation-name: '/v1/start-application-in-generic-representation'
       static-field-name: 'applicationName'
       description: 'Own application name'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-001'
+    uuid: 'mwdi-2-0-0-response-p-001'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'applicationName'
       description: 'Name of this application'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-002'
+    uuid: 'mwdi-2-0-0-response-p-002'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'releaseNumber'
       description: 'Number of this release'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-003'
+    uuid: 'mwdi-2-0-0-response-p-003'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'applicationPurpose'
       description: 'Purpose of this application'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-004'
+    uuid: 'mwdi-2-0-0-response-p-004'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'dataUpdatePeriod'
       description: 'Period of updating the data inside this application'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-005'
+    uuid: 'mwdi-2-0-0-response-p-005'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'ownerName'
       description: 'Name of the ApplicationOwner'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-006'
+    uuid: 'mwdi-2-0-0-response-p-006'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       static-field-name: 'ownerEmailAddress'
       description: 'Email address of the ApplicationOwner'
       datatype: 'string'
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-007'
+    uuid: 'mwdi-2-0-0-response-p-007'
     capability:
       operation-name: '/v1/inform-about-release-history-in-generic-representation'
-      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number'
       description: 'Represents the first entry in the list of releases'
       datatype: string
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-008'
+    uuid: 'mwdi-2-0-0-response-p-008'
     capability:
       operation-name: '/v1/inform-about-release-history-in-generic-representation'
-      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/release-number'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/release-number'
       description: 'Represents the second entry in the list of releases'
       datatype: string
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/changes'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/changes'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-009'
+    uuid: 'mwdi-2-0-0-response-p-009'
     capability:
       operation-name: '/v1/inform-about-release-history-in-generic-representation'
-      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=2/release-number'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=2/release-number'
       description: 'Represents the third entry in the list of releases'
       datatype: string
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=2/changes'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=2/changes'
 
   - profile-name: 'GenericResponseProfile'
-    uuid: 'mwdi-1-2-2-response-p-010'
+    uuid: 'mwdi-2-0-0-response-p-010'
     capability:
       operation-name: '/v1/inform-about-release-history-in-generic-representation'
-      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=3/release-number'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=3/release-number'
       description: 'Represents the 4th entry in the list of releases'
       datatype: string
     configuration:
-      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-1-2-2-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=3/changes'
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=3/changes'
 
   - profile-name: 'FileProfile'
-    uuid: 'mwdi-1-2-2-file-p-000'
+    uuid: 'mwdi-2-0-0-file-p-000'
     capability:
       file-identifier: 'EncryptedOdlKey'
       file-description: 'Authorization key for OpenDayLight'
@@ -148,7 +148,7 @@ profile-instances:
       operation: 'read'
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-2-2-integer-p-000'
+    uuid: 'mwdi-2-0-0-integer-p-000'
     capability:
       integer-name: 'slidingWindowSize'
       purpose: 'Size of the sliding window for ControlConstruct retrieval (i.e. parallel number of retrieval requests)'
@@ -158,7 +158,7 @@ profile-instances:
       integer-value: 500
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-2-2-integer-p-001'
+    uuid: 'mwdi-2-0-0-integer-p-001'
     capability:
       integer-name: 'responseTimeout'
       purpose: 'Timeout for receiving the response of the ControlConstruct retrieval from the Controller'
@@ -169,7 +169,7 @@ profile-instances:
       integer-value: 900
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-2-2-integer-p-002'
+    uuid: 'mwdi-2-0-0-integer-p-002'
     capability:
       integer-name: 'maximumNumberOfRetries'
       purpose: 'Maximum number of retries for retrieving the ControlConstruct'
@@ -179,7 +179,7 @@ profile-instances:
       integer-value: 1
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-2-2-integer-p-003'
+    uuid: 'mwdi-2-0-0-integer-p-003'
     capability:
       integer-name: 'deviceListSyncPeriod'
       purpose: 'Time period between the sync of MWDI deviceList with list of mounted devices on the Controller.'
@@ -190,20 +190,9 @@ profile-instances:
       integer-value: 24
 
   - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-2-2-integer-p-004'
+    uuid: 'mwdi-2-0-0-integer-p-005'
     capability:
-      integer-name: 'connectionStatusSyncPeriod'
-      purpose: 'Time period between the sync of connection-status in MWDI metadata table with the connection-status of devices at the Controller.'
-      unit: 'hour'
-      minimum: 1
-      maximum: 72
-    configuration:
-      integer-value: 1
-
-  - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-1-2-2-integer-p-005'
-    capability:
-      integer-name: 'metadataTableRetentionPeriod'
+      integer-name: 'metadataRetentionPeriod'
       purpose: 'Time period for which no longer connected devices are kept in the metadata table, before they are deleted.'
       unit: 'days'
       minimum: 1
@@ -211,23 +200,121 @@ profile-instances:
     configuration:
       integer-value: 14
 
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-2-0-0-integer-p-006'
+    capability:
+      integer-name: 'qualityMeasurementUpdatePeriod'
+      purpose: 'Time period until selection of the next candidate device to undergo the quality measurement process.'
+      unit: 'minute'
+      minimum: 1
+      maximum: 60
+    configuration:
+      integer-value: 1
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-2-0-0-integer-p-007'
+    capability:
+      integer-name: 'qualityMeasurementSampleNumber'
+      purpose: 'The number of qualityMeasurement raw samples to be kept.'
+      minimum: 0
+      maximum: 4320
+    configuration:
+      integer-value: 1440
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-2-0-0-integer-p-008'
+    capability:
+      integer-name: 'notificationPollingInterval'
+      purpose: 'Time interval with which MWDI shall poll notifications from Kafka.'
+      unit: 'seconds'
+      minimum: 0
+      maximum: 900
+    configuration:
+      integer-value: 60
+
   - profile-name: 'StringProfile'
-    uuid: 'mwdi-1-2-2-string-p-000'
+    uuid: 'mwdi-2-0-0-string-p-000'
     capability:
       string-name: 'controllerInternalPathToMountPoint'
     configuration:
       string-value: 'rests/data/network-topology:network-topology/topology=topology-netconf'
 
   - profile-name: 'StringProfile'
-    uuid: 'mwdi-1-2-2-string-p-001'
-    capability:
-      string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController.fieldsFilter'
-    configuration:
-      string-value: 'node(node-id;netconf-node-topology:connection-status)'
-
-  - profile-name: 'StringProfile'
-    uuid: 'mwdi-1-2-2-string-p-002'
+    uuid: 'mwdi-2-0-0-string-p-002'
     capability:
       string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController.fieldsFilter'
     configuration:
       string-value: 'node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)'
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-2-0-0-string-p-003'
+    capability:
+      string-name: 'PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter'
+    configuration:
+      string-value: 'logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))'
+
+  - profile-name: 'StringProfile'
+    uuid: 'mwdi-2-0-0-string-p-004'
+    capability:
+      string-name: 'historicalControlConstructPolicy'
+      enumeration:
+        - 'keep-on-disconnect'
+        - 'delete-on-disconnect'
+      #description: 'Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise'
+    configuration:
+      string-value: 'delete-on-disconnect'
+
+  - profile-name: 'RegexPatternMappingProfile'
+    uuid: 'mwdi-2-0-0-mapping-p-000'
+    capability:
+      mapping-name: 'deviceTypeMapping'
+      purpose: 'Used to map device type information found in device ControlConstruct data into standardized device types via regex'
+    configuration:
+      mapping-list:
+        # SIAE: AGS20, AGS20L, ALCPlus2e
+        - regex-string: '(?i).*AGS[-_\s]?20(?![-]?L).*'
+          map-to-string: 'AGS20'
+        - regex-string: '(?i).*AGS[-_\s]?20L.*'
+          map-to-string: 'AGS20L'
+        - regex-string: '(?i).*ALC(plus|p)?2e.*'
+          map-to-string: 'ALCPlus2e'
+        - regex-string: '(?i).*ALFO[-_\s]?80.*'
+          map-to-string: 'ALFO80'
+        # HUA: RTN900 (=RTN950/RTN905), RTN380* (380, 380AX, 380H)
+        - regex-string: '(?i).*RTN[-_\s]?950.*'
+          map-to-string: 'RTN950'
+        - regex-string: '(?i).*RTN[-_\s]?905.*'
+          map-to-string: 'RTN905'
+        - regex-string: '(?i).*RTN[-_\s]?380(?!H|AX).*'
+          map-to-string: 'RTN380'
+        - regex-string: '(?i).*RTN[-_\s]?380AX.*'
+          map-to-string: 'RTN380AX'
+        - regex-string: '(?i).*RTN[-_\s]?380H.*'
+          map-to-string: 'RTN380H'
+        # ERI: ML6352, ML6600 (=ML6691, ML6693), MLTN (TrafficNode)
+        - regex-string: '(?i).*(mini[-]?link|ml)[-]?6352.*'
+          map-to-string: 'ML6352'
+        - regex-string: '(?i).*(mini[-_\s]?link|ml)[-_\s]?66\d{2}.*'
+          map-to-string: 'ML6600'
+        - regex-string: '(?i).*(mltn|traffic[-_\s]?node).*'
+          map-to-string: 'MLTN'
+        # DEFAULT: unknown, if none above matches
+        - regex-string: '(?i)^(?!.*AGS[-_\s]?20(?![-]?L).*)(?!.*AGS[-_\s]?20L.*)(?!.*ALC(plus|p)?2e.*)(?!.*ALFO[-_\s]?80.*)(?!.*RTN[-_\s]?950.*)(?!.*RTN[-_\s]?905.*)(?!.*RTN[-_\s]?380(?!H|AX).*)(?!.*RTN[-_\s]?380AX.*)(?!.*RTN[-_\s]?380H.*)(?!.*(mini[-_\s]?link|ml)[-_\s]?6352.*)(?!.*(mini[-_\s]?link|ml)[-_\s]?66\d{2}.*)(?!.*(mltn|traffic[-_\s]?node).*).*'
+          map-to-string: 'unknown'
+
+  - profile-name: 'RegexPatternMappingProfile'
+    uuid: 'mwdi-2-0-0-mapping-p-001'
+    capability:
+      mapping-name: 'vendorFromDeviceTypeMapping'
+      purpose: 'Used to map the vendor from normalized device types'
+    configuration:
+      mapping-list:
+        - regex-to-string: 'AGS20|AGS20L|ALFO80|ALCPlus2e'
+          map-to-string: 'Siae'
+        - regex-to-string: 'RTN.*'
+          map-to-string: 'Huawei'
+        - regex-to-string: 'ML.*'
+          map-to-string: 'Ericsson'
+        # DEFAULT: unknown, if none above matches
+        - regex-to-string: '^(?!AGS20$|AGS20L$|ALFO80$|ALCPlus2e$|RTN.*|ML.*).+$'
+          map-to-string: 'unknown'

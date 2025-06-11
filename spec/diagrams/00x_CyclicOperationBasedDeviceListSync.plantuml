@@ -4,68 +4,117 @@ skinparam responseMessageBelowArrow true
 title
 PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController
 PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromCache
-PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForDevicesNotInCache
-PromptForEmbeddingCausesDeletingUnconnectedDevicesFromCache
-PromptForEmbeddingCausesUpdatingMetadataTableInElasticSearchFromDeviceListSync
+PromptForEmbeddingCausesUpdateOfDeviceListInCache
+PromptForEmbeddingCausesDeletingExpiredDevicesFromCache
+PromptForEmbeddingCausesRetrievingNextSlidingWindowCandidateDeviceFromDeviceList
+PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForCyclicUpdate
+PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo
 end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status)" as odlConnectionStatus
-participant "ElasticSearch://?fields=control-construct(uuid)" as ConnectedDeviceList
-participant "MWDI://core-model-1-4:network-control-domain=live/control-construct={mountName}" as ControlConstruct
-participant "ElasticSearch://control-construct={mountName}" as es
-participant "ElasticSearch\n(metadataTable)" as mtab
+participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;netconf-node-topology:\nconnection-status;schema-cache-directory)" as odlConnectionStatus
+participant "ElasticSearch\n(deviceMetadataList)" as deviceList
+participant "ElasticSearch://control-construct={mountName}" as ccInCache
+participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as ControlConstruct
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n?fields=logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac\n(air-interface-capability(type-of-equipment))))" as mwdiDevType
 
 ro -> mwdi
 activate mwdi
 
 note over mwdi
 Cyclic operation for 
-updating the internal list of devices starts
+internal deviceMetadataList and
+cache update starts
 end note
 
-note over mwdi
-compare 
-list from Controller & 
-MWDI deviceList
-end note
+== Get and compare deviceLists ==
 
 'get deviceList from Controller
+note over mwdi
+  <u>GetDeviceListFromController</u>
+end note
 mwdi -> odlConnectionStatus
-odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status)}
+odlConnectionStatus --> mwdi: {list of-(mount-name, connection-status, schema-cache-directory)}
 
-'get MWDI deviceList from ElasticSearch
-mwdi -> ConnectedDeviceList
-ConnectedDeviceList --> mwdi: {mount-name-list}
+'get MWDI deviceMetadataList from ElasticSearch
+note over mwdi
+  <u>GetMwdiDeviceList</u>
+end note
+mwdi -> deviceList
+deviceList --> mwdi: {list of-(mount-name, connection-status)}
+
+== Update deviceMetadataList, apply CC deletion policy for disconnected devices ==
 
 note over mwdi
-repeat for all connected devices 
-not in MWDI deviceList
+  <u>UpdateMwdiDeviceList</u>
+  Compare controllerDeviceList with MWDI deviceMetadataList: 
+  (a) new connected devices: add to deviceMetadataList (initialize metadata)
+  (b) devices deleted from Controller: remove from deviceList
+  (c) no longer connected devices:
+      - if to be kept according to <i>historicalControlConstructPolicy</i>
+        - (c1) update metadata if not expired
+        - (c2) delete, if expired (see </i>metadataRetentionPeriod</i>)
 end note
+mwdi -> deviceList: (a) add {mountName}, initialize metadata \n(b) delete {mountName}, \n(c1)update metadata for {mountName}, \n(c2) delete expired {mountName}
 
+note over mwdi
+  <u>DeleteExpiredCcsFromCache</u>
+  IF <i>historicalControlConstructPolicy</i> is configured
+    to delete CCs of no longer connected devices (default),
+  THEN repeat for all devices not connected anymore:
+    delete CC from cache
+
+  IF a device has expired (see above)
+    OR has been deleted from Controller,
+  then it's CC is deleted from the cache
+  (without regards to the policy)
+end note
+mwdi -> ccInCache: delete {mountName}
+
+== Cycically find next update candidate for slidingWindow and update cache == 
+
+note over mwdi
+  <u>GetNextUpdateCandidateForSlidingWindow</u>
+  Repeat cyclically, everytime a slot in
+  the slidingWindow becomes free add the next update candidate:
+  from the deviceMetadataList select the first device, with
+  - connection-status == connected
+  - locked-status == false
+  
+  Set the locked-status to true.
+end note
+mwdi -> deviceList
+deviceList --> mwdi: <i>next retrieval candidate</i>: {mount-name}
+
+note over mwdi
+  <u>SlidingWindowCcUpdate</u>
+  Update ControlConstruct in cache
+  for devices from slidingWindow.
+  (When done, update the device's position in the deviceMetadataList and related metadata
+  (see live-service diagram).)
+end note
 mwdi -> ControlConstruct: {mountName} (apiKeyAuth)
 
-note over mwdi
-repeat for all devices not marked
-connected in list from Controller
-end note
-
-mwdi -> es: delete {mountName}
+== Update the deviceType == 
 
 note over mwdi
-  <u>UpdateMetadataTable</u>
-  FOR each device that has been...
-    - <b>added to deviceList</b>:
-      either add it to the metadataTable, if it is not
-      included yet, or update the existing entry if necessary
-    - <b>deleted from deviceList</b>:
-      update the metadata table
-  
-  (see description under <i>spec/additionalDescription/</i>
-   <i>MetadataTableUpdateProcess.md</i>)
+  <u>GetDeviceTypeFromCC</u>
+  FOR EACH mount-name in the deviceMetadataList
+  WITH connected-state == "connected"
+       AND deviceType == "unknown"
+  REPEAT:
+    Query cached CC with fields filter from <i>string-p-003</i>-profile
+    and apply the regex mapping according to <i>deviceTypeMapping</i>
+    (see DeviceListMetadataDescription document) on the obtained data.
+    (For newly generated devices, the CC may not yet be found in the Cache.)
+    Once the deviceType has been determined, determine the vendor from the
+    mapped deviceType according to <i>vendorFromDeviceMapping</i>.
+    Write both the mapped deviceType and vendor to the deviceMetadataList.
 end note
-mwdi -> mtab: {mount-name, <i>updateAction</i>}
+mwdi -> mwdiDevType: {mount-name}
+mwdiDevType -> mwdi: {filtered CC data}
+mwdi -> deviceList: {mount-name, (mapped) device-type, (mapped) vendor}
 
 deactivate mwdi
 

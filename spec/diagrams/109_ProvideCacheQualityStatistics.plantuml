@@ -1,0 +1,30 @@
+@startuml 109_ProvideCacheQualityStatistics
+
+skinparam responseMessageBelowArrow true
+title RequestForCacheQualityStatisticsCausesReadingFromElasticSearch
+
+participant "external" as requestor
+participant "MWDI://v1/provide-cache-quality-statistics" as mwdi
+participant "ElasticSearch" as elastic
+
+
+activate mwdi
+requestor -> mwdi : {optional groupBy deviceType} (apiKeyAuth)
+
+note over mwdi
+  IF MWDI has <i>qualityMeasurementSampleNumber</i>
+    number of samples
+  THEN MWDI will return a single aggregated record
+    (or one per deviceType, in case of groupBy)
+end note
+
+mwdi -> elastic : {optional groupBy}
+activate elastic
+elastic --> mwdi : {(grouped) aggregated statistics}
+deactivate elastic
+
+
+mwdi --> requestor : {(grouped) aggregated statistics}
+deactivate mwdi
+
+@enduml

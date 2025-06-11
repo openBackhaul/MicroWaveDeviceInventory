@@ -1,0 +1,82 @@
+@startuml 00z_CyclicCacheQualityMeasurement
+
+skinparam responseMessageBelowArrow true
+
+ 
+title
+PromptForEmbeddingCausesCyclicLoadingOfCandidateDeviceFromDeviceListForQualityMeasurement
+PromptForEmbeddingCausesLoadingOfCachedControlConstructForQualityMeasurement
+PromptForEmbeddingCausesSelfCallingForLoadingOfControlConstructForQualityMeasurement
+PromptForEmbeddingCausesWritingQualityMeasurementToElasticSearch
+end title
+ 
+participant RO as ro
+
+participant "MWDI://v1/embed-yourself" as mwdi
+participant "ElasticSearch" as es
+participant "MWDI://core-model-1-4:network-control-domain=cache/\ncontrol-construct={mountName}" as cache
+participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as live 
+
+
+ro -> mwdi
+
+activate mwdi
+
+note over mwdi
+Cyclic operation starts for comparing
+cached and live control-constructs
+end note
+
+note over mwdi
+  <u>GetCandidateDevice</u>
+  Cyclically select the next candidate device from the deviceMetadataList
+  along with its deviceType and vendor.
+  Select the first found device, which is
+  - connected,
+  - not locked,
+  - and with exclude_from_qm == false
+end note
+mwdi -> es
+es --> mwdi : {mountName, deviceType, vendor}
+
+note over mwdi
+  <u>GetCachedControlConstruct</u>
+  Fetch the CC for the candidate
+  device from MWDI cache
+end note
+mwdi -> cache : {mountName}
+cache --> mwdi : {cachedControlConstruct}
+
+note over mwdi #LightGray
+  IF retrieval from Cache failed
+  THEN skip further steps for current device
+end note
+
+note over mwdi
+  <u>GetLiveControlConstruct</u>
+  Fetch the CC for the candidate device
+  via MWDI live service
+end note
+mwdi -> live : {mountName}
+live --> mwdi :  {liveControlConstruct}
+
+note over mwdi #LightGray
+  IF retrieval from live failed
+  THEN skip further steps for current device
+end note
+ 
+note over mwdi
+  <u>WriteStatisticsToElasticSearch</u>
+  Compare cached and live versions
+  Calculate score based on differences
+  Write results to ElasticSearch,
+  keep only <i>qualityMeasurementSampleNumber</i>
+  number of samples
+end note
+
+
+mwdi -> es : {diff_summary=(deviceId, diff-counts, score, timestamp, deviceType, vendor)}
+
+ 
+
+@enduml

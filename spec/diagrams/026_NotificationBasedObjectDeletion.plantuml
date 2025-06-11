@@ -3,24 +3,30 @@ skinparam responseMessageBelowArrow true
 
 title 
   NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache
-  NotifiedDeviceObjectDeletionCausesMetadataTableUpdate
+  NotifiedDeviceObjectDeletionCausesMetadataUpdate
 end title
 
-participant "NP://v1/notify-device-object-deletions" as subscription
-participant "MWDI://v1/regard-device-object-deletion" as regardObjectDeletion
+participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>DeviceObjectDeletion</i>" as init
+participant "internal functionality, similar to \n<i>MWDI://v1/regard-device-object-deletion</i>" as regardObjectDeletion
 participant "ElasticSearch://{resource}" as es
-participant "ElasticSearch\n(metadataTable)" as mtab
+participant "ElasticSearch\n(deviceMetadataList)" as mtab
 
-subscription -> regardObjectDeletion: {counter, timestamp, resource} (apiKeyAuth)
+note over regardObjectDeletion #ffcc99
+  Functionality similar to the <i>regard</i>-service
+  shall be executed completely from internal code,
+  i.e. without opening a new http session
+end note
+
+init -> regardObjectDeletion: {counter, timestamp, resource} (apiKeyAuth)
 
 activate regardObjectDeletion
 
 regardObjectDeletion -> es: delete object {path = resource, but shortened by /core-model-1-4:network-control-domain=live}
 
 note over regardObjectDeletion
-  <u>UpdateMetadataTable</u>
+  <u>UpdateMetadata</u>
     Upon update completion of the CC data in the cache,
-    update the metadata table for the device
+    update the metadata for the device
     (last-control-construct-notification-update-time,
     number-of-partial-updates-since-last-complete-update)
 end note

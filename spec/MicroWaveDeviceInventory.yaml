@@ -2,6 +2,12 @@
 info:
   title: MicrowaveDeviceInventory
   version: 2.0.1
+  description: MicroWaveDeviceInventory supports getting device information and documenting connection information.
+  contact:
+    name: Zia Ul Haq Hussain Batcha
+    url: https://github.com/openBackhaul/MicroWaveDeviceInventory
+    email: zia-ul-haq.hussain-batcha.external@telefonica.com
+  x-api-id: u-1792-sdn-microwave-microwavedeviceandnetworkinventory
 
 x-gui-paths:
 ########################################################################################################################

@@ -1,0 +1,189 @@
+@startuml mwdi+diagram.completeness.interfaces
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.completeness.interfaces
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+participant "/v1/provide-list-of-device-interfaces" as PLODI
+
+participant "controller:.../air-interface-capability" as coAICa
+participant "/live/.../air-interface-capability" as lAICa
+participant "/cache/.../air-interface-capability" as caAICa
+
+participant "controller:.../air-interface-configuration" as coAICo
+participant "/live/.../air-interface-configuration" as lAICo
+participant "/cache/.../air-interface-configuration" as caAICo
+
+participant "controller:.../air-interface-status" as coAIS
+participant "/live/.../air-interface-status" as lAIS
+participant "/cache/.../air-interface-status" as caAIS
+
+participant "controller:.../air-interface-current-performance" as coAIcP
+participant "/live/.../air-interface-current-performance" as lAIcP
+
+participant "controller:.../air-interface-historical-performances" as coAIhP
+participant "/live/.../air-interface-historical-performances" as lAIhP
+participant "/cache/.../air-interface-historical-performances" as caAIhP
+
+group Preparation
+  Data --\\o Postman : {servers, mount-name}
+  activate Postman
+  Postman -> PLODI
+  Postman <-- PLODI : {logical-termination-point-list}
+  Postman --\\o Collection : {servers, mount-name,\n ..., airInterfaceUuid, ...}
+end
+
+note over Postman
+  Following steps are to be
+  repeated for:
+  - AirInterface
+  - EthernetContainer
+  - HybridMwStructure
+  - MacInterface (but
+      without Performances)
+  - PureEthernetStructure
+  - VlanInterface (but
+      without Status and
+      Performances)
+  - WireInterface
+end note
+
+group /air-interface-capability
+  Collection --\\o Postman : {servers, mount-name,\n airInterfaceUuid}
+  note over Postman
+    if airInterfaceUuid != ""
+  end note
+  Postman -> coAICa : {mount-name, airInterfaceUuid}
+  Postman <-- coAICa : {airInterfaceCapability}
+  note right Postman
+    reference-schema testing
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> lAICa : {mount-name, airInterfaceUuid}
+  Postman <-- lAICa : {airInterfaceCapability}
+  note right Postman #Orange
+    schema validation
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> caAICa : {mount-name, airInterfaceUuid}
+  Postman <-- caAICa : {airInterfaceCapability}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /air-interface-configuration
+  Collection --\\o Postman : {servers, mount-name,\n airInterfaceUuid}
+  note over Postman
+    if airInterfaceUuid != ""
+  end note
+  Postman -> coAICo : {mount-name, airInterfaceUuid}
+  Postman <-- coAICo : {airInterfaceConfiguration}
+  note right Postman
+    reference-schema testing
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> lAICo : {mount-name, airInterfaceUuid}
+  Postman <-- lAICo : {airInterfaceConfiguration}
+  note right Postman #Orange
+    schema validation
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> caAICo : {mount-name, airInterfaceUuid}
+  Postman <-- caAICo : {airInterfaceConfiguration}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /air-interface-status
+  Collection --\\o Postman : {servers, mount-name,\n airInterfaceUuid}
+  note over Postman
+    if airInterfaceUuid != ""
+  end note
+  Postman -> coAIS : {mount-name, airInterfaceUuid}
+  Postman <-- coAIS : {airInterfaceStatus}
+  note right Postman
+    reference-schema testing
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> lAIS : {mount-name, airInterfaceUuid}
+  Postman <-- lAIS : {airInterfaceStatus}
+  note right Postman #Orange
+    schema validation
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> caAIS : {mount-name, airInterfaceUuid}
+  Postman <-- caAIS : {airInterfaceStatus}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /air-interface-current-performance
+  Collection --\\o Postman : {servers, mount-name,\n airInterfaceUuid}
+  note over Postman
+    if airInterfaceUuid != ""
+  end note
+  Postman -> coAIcP : {mount-name, airInterfaceUuid}
+  Postman <-- coAIcP : {airInterfaceCurrentPerformance}
+  note right Postman
+    reference-schema testing
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> lAIcP : {mount-name, airInterfaceUuid}
+  Postman <-- lAIcP : {airInterfaceCurrentPerformance}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /air-interface-historical-performances
+  Collection --\\o Postman : {servers, mount-name,\n airInterfaceUuid}
+  note over Postman
+    if airInterfaceUuid != ""
+  end note
+  Postman -> coAIhP : {mount-name, airInterfaceUuid}
+  Postman <-- coAIhP : {airInterfaceHistoricalPerformances}
+  note right Postman
+    reference-schema testing
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> lAIhP : {mount-name, airInterfaceUuid}
+  Postman <-- lAIhP : {airInterfaceHistoricalPerformances}
+  note right Postman #Orange
+    schema validation
+  end note
+  note over Postman
+    if reference-schema=ok
+  end note
+  Postman -> caAIhP : {mount-name, airInterfaceUuid}
+  Postman <-- caAIhP : {airInterfaceHistoricalPerformances}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+deactivate Postman
+
+@enduml

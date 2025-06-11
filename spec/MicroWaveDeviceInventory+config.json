@@ -261,6 +261,25 @@
           }
         },
         {
+          "uuid": "mwdi-2-0-1-response-p-011",
+          "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+          "response-profile-1-0:response-profile-pac": {
+            "response-profile-capability": {
+              "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+              "field-name": {
+                "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=4/release-number"
+              },
+              "description": "Represents the 5th entry in the list of releases",
+              "datatype": "string"
+            },
+            "response-profile-configuration": {
+              "value": {
+                "value-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=4/changes"
+              }
+            }
+          }
+        },
+        {
           "uuid": "mwdi-2-0-1-file-p-000",
           "profile-name": "file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE",
           "file-profile-1-0:file-profile-pac": {

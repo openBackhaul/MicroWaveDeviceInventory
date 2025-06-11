@@ -80,7 +80,7 @@ Any issues found during implementer review will be found in [MWDI v2.0.1_spec](h
 - this e.g. contains updating the testcases
 - but also contains an issue related to a possible change in how MWDI interacts with Kafka
 
-**v1.2.1**  
+**v1.2.2**  
 Spec release version 1.2.2 fixes further findings found by implementers during implementation of v1.2.1.  
 The list of issues can be found in issue collection [MWDI v1.2.2_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/18).  
 

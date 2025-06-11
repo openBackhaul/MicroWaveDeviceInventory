@@ -2865,14 +2865,14 @@ paths:
                               description: 'The averaged score computed from the found differences'
                         example:
                           cache-quality-statistics:
-                          - device-type: 'AGS20'
-                            attribute-mismatches: 18
-                            attribute-class-mismatches: 2
-                            weighted-score: 31
-                          - device-type: 'MLTN'
-                            attribute-mismatches: 5
-                            attribute-class-mismatches: 3
-                            weighted-score: 19
+                            - device-type: 'AGS20'
+                              attribute-mismatches: 18
+                              attribute-class-mismatches: 2
+                              weighted-score: 31
+                            - device-type: 'MLTN'
+                              attribute-mismatches: 5
+                              attribute-class-mismatches: 3
+                              weighted-score: 19
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
@@ -23390,7 +23390,7 @@ paths:
                     example: '222250001'
                   description: >
                     'The mountName of the device that is addressed by this callback
-                    repeated for each mount-name (i.e. device) in deviceMetadataList 
+                    repeated for each mount-name (i.e. device) in deviceMetadataList
                     (a) which has been deleted from Controller, or
                     (b) which is no longer in connected state on the Controller and should be deleted according to historicalControlConstruct, or
                     (b) for which deviceMetadataList.connection-status!=connected and should be kept according to historicalControlConstruct, but that has expired according to mwdi-2-0-1-integer-p-005'
@@ -23563,19 +23563,19 @@ paths:
                             items:
                               type: object
                               required:
-                                  - logical-termination-point
+                                - logical-termination-point
                               properties:
                                 logical-termination-point:
                                   type: array
                                   items:
                                     required:
-                                    - uuid
-                                    - layer-protocol
+                                      - uuid
+                                      - layer-protocol
                                     properties:
                                       uuid:
                                         type: string
                                       layer-protocol:
-                                        description: > 
+                                        description: >
                                           'Layer-protocols without air-interface-2-0:air-interface-pac/air-interface-capability/type-of-equipment can be ignored'
                                         required:
                                           - local-id
@@ -23601,12 +23601,12 @@ paths:
                       example:
                         core-model-1-4:control-construct:
                           - logical-termination-point:
-                            - uuid: 'LTP-XYZ-TTP-3-4'
-                              layer-protocol:
-                                - local-id: 'LP-XYZ-TTP-3-4'
-                                  air-interface-2-0:air-interface-pac:
-                                    air-interface-capability:
-                                      type-of-equipment: 'OptiXRTN950N/abc/efg'
+                              - uuid: 'LTP-XYZ-TTP-3-4'
+                                layer-protocol:
+                                  - local-id: 'LP-XYZ-TTP-3-4'
+                                    air-interface-2-0:air-interface-pac:
+                                      air-interface-capability:
+                                        type-of-equipment: 'OptiXRTN950N/abc/efg'
                   headers:
                     x-correlator:
                       schema:

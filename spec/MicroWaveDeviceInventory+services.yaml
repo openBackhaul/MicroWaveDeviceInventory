@@ -1173,7 +1173,7 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 2.0.0
+      release-number: 2.0.1
       uuid: mwdi-2-0-1-http-c-mwdi-2-0-1-000
     tcp-client:
       remote-protocol: http

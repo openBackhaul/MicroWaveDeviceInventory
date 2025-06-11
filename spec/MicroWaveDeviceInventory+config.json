@@ -12164,7 +12164,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "2.0.0"
+                "release-number": "2.0.1"
               }
             }
           }

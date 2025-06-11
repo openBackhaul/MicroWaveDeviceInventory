@@ -987,17 +987,17 @@ clients:
   - http-client:
       application-name: MicroWaveDeviceInventory
       release-number: 2.0.0
-      uuid: mwdi-2-0-1-http-c-or-1-2-2-000
+      uuid: mwdi-2-0-1-http-c-or-2-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4024
-      uuid: mwdi-2-0-1-tcp-c-or-1-2-2-000
+      uuid: mwdi-2-0-1-tcp-c-or-2-0-0-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/bequeath-your-data-and-die
-            uuid: mwdi-2-0-1-op-c-bm-or-1-2-2-000
+            uuid: mwdi-2-0-1-op-c-bm-or-2-0-0-000
         individual:
       service:
         basic:
@@ -1006,22 +1006,22 @@ clients:
   - http-client:
       application-name: NewRelease
       release-number: 2.0.1
-      uuid: mwdi-2-0-1-http-c-nr-2-0-0-000
+      uuid: mwdi-2-0-1-http-c-nr-2-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4024
-      uuid: mwdi-2-0-1-tcp-c-nr-2-0-0-000
+      uuid: mwdi-2-0-1-tcp-c-nr-2-0-1-000
     operation-clients:
       own-oam:
         basic:
         individual:
           - operation-name: /v1/notify-attribute-value-changes
-            uuid: mwdi-2-0-1-op-c-im-nr-2-0-0-000
+            uuid: mwdi-2-0-1-op-c-im-nr-2-0-1-000
           - operation-name: /v1/notify-object-creations
-            uuid: mwdi-2-0-1-op-c-im-nr-2-0-0-001
+            uuid: mwdi-2-0-1-op-c-im-nr-2-0-1-001
           - operation-name: /v1/notify-object-deletions
-            uuid: mwdi-2-0-1-op-c-im-nr-2-0-0-002
+            uuid: mwdi-2-0-1-op-c-im-nr-2-0-1-002
       service:
         basic:
         individual:

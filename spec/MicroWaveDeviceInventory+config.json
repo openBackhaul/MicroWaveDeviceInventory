@@ -9713,12 +9713,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-bm-or-1-2-2-000",
+        "uuid": "mwdi-2-0-1-op-c-bm-or-2-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-or-1-2-2-000"
+          "mwdi-2-0-1-http-c-or-2-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9738,13 +9738,13 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-http-c-or-1-2-2-000",
+        "uuid": "mwdi-2-0-1-http-c-or-2-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-op-c-bm-or-1-2-2-000"
+          "mwdi-2-0-1-op-c-bm-or-2-0-0-000"
         ],
         "server-ltp": [
-          "mwdi-2-0-1-tcp-c-or-1-2-2-000"
+          "mwdi-2-0-1-tcp-c-or-2-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9760,10 +9760,10 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-tcp-c-or-1-2-2-000",
+        "uuid": "mwdi-2-0-1-tcp-c-or-2-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-http-c-or-1-2-2-000"
+          "mwdi-2-0-1-http-c-or-2-0-0-000"
         ],
         "server-ltp": [
         ],
@@ -9786,12 +9786,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-im-nr-2-0-0-000",
+        "uuid": "mwdi-2-0-1-op-c-im-nr-2-0-1-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-nr-2-0-0-000"
+          "mwdi-2-0-1-http-c-nr-2-0-1-000"
         ],
         "layer-protocol": [
           {
@@ -9811,12 +9811,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-im-nr-2-0-0-001",
+        "uuid": "mwdi-2-0-1-op-c-im-nr-2-0-1-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-nr-2-0-0-000"
+          "mwdi-2-0-1-http-c-nr-2-0-1-000"
         ],
         "layer-protocol": [
           {
@@ -9836,12 +9836,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-im-nr-2-0-0-002",
+        "uuid": "mwdi-2-0-1-op-c-im-nr-2-0-1-002",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-nr-2-0-0-000"
+          "mwdi-2-0-1-http-c-nr-2-0-1-000"
         ],
         "layer-protocol": [
           {
@@ -9861,15 +9861,15 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-http-c-nr-2-0-0-000",
+        "uuid": "mwdi-2-0-1-http-c-nr-2-0-1-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-op-c-im-nr-2-0-0-000",
-          "mwdi-2-0-1-op-c-im-nr-2-0-0-001",
-          "mwdi-2-0-1-op-c-im-nr-2-0-0-002"
+          "mwdi-2-0-1-op-c-im-nr-2-0-1-000",
+          "mwdi-2-0-1-op-c-im-nr-2-0-1-001",
+          "mwdi-2-0-1-op-c-im-nr-2-0-1-002"
         ],
         "server-ltp": [
-          "mwdi-2-0-1-tcp-c-nr-2-0-0-000"
+          "mwdi-2-0-1-tcp-c-nr-2-0-1-000"
         ],
         "layer-protocol": [
           {
@@ -9885,10 +9885,10 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-tcp-c-nr-2-0-0-000",
+        "uuid": "mwdi-2-0-1-tcp-c-nr-2-0-1-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-http-c-nr-2-0-0-000"
+          "mwdi-2-0-1-http-c-nr-2-0-1-000"
         ],
         "server-ltp": [
         ],
@@ -14326,7 +14326,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-bm-or-1-2-2-000"
+                "logical-termination-point": "mwdi-2-0-1-op-c-bm-or-2-0-0-000"
               }
             ]
           },
@@ -15871,7 +15871,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-im-nr-2-0-0-000"
+                "logical-termination-point": "mwdi-2-0-1-op-c-im-nr-2-0-1-000"
               }
             ]
           },
@@ -15896,7 +15896,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-im-nr-2-0-0-001"
+                "logical-termination-point": "mwdi-2-0-1-op-c-im-nr-2-0-1-001"
               }
             ]
           },
@@ -15921,7 +15921,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-im-nr-2-0-0-002"
+                "logical-termination-point": "mwdi-2-0-1-op-c-im-nr-2-0-1-002"
               }
             ]
           },

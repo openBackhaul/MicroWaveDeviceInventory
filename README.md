@@ -31,6 +31,10 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 ### Latest Update  
 
+**v2.0.1**  
+Fixes findings and completes missing changes from v2.0.0.  
+See issue collection [MWDI v2.0.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/21).  
+
 **v2.0.0**  
 **Summary of changes:**  
 - Optimized sliding window  

@@ -562,6 +562,18 @@
               ]
             }
           }
+        },
+        {
+          "uuid": "mwdi-1-2-2-string-p-002",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceStatusFromController.fieldsFilter"
+            },
+            "string-profile-configuration": {
+              "string-value": "node(node-id;netconf-node-topology:connection-status;netconf-node-topology:schema-cache-directory)"
+            }
+          }
         }
       ]
     },

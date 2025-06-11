@@ -2833,10 +2833,10 @@ paths:
                               description: 'The averaged score computed from the found differences'
                         example:
                           cache-quality-statistics:
-                          - device-type: 'all'
-                            attribute-mismatches: 18
-                            attribute-class-mismatches: 2
-                            weighted-score: 31
+                            - device-type: 'all'
+                              attribute-mismatches: 18
+                              attribute-class-mismatches: 2
+                              weighted-score: 31
                   - description: 'statistics grouped by device-type'
                     required:
                       - cache-quality-statistics

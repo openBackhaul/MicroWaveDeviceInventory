@@ -733,7 +733,7 @@ forwardings:
         uuid: mwdi-2-0-1-tcp-s-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation
-    uuid: mwdi-2-0-1-op-fc-im-005
+    uuid: mwdi-2-0-1-op-/05
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -807,7 +807,7 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-000
 
-  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromControllerNotificationsAtNP
     uuid: mwdi-2-0-1-op-fc-im-116
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -837,7 +837,7 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-001
 
-  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndAlarmNotificationsAtNP
     uuid: mwdi-2-0-1-op-fc-im-118
     forwarding-type: InvariantProcessSnippet
     management-requests:

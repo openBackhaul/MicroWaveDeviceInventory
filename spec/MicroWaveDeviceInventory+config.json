@@ -9672,7 +9672,7 @@
                   "user-name": "mwdi",
                   "password": " >>> password <<< "
                 },
-                "topic-name": "proper_notifications",
+                "topic-name": "device_change_notifications",
                 "client-id": "mwdi-instance-01",
                 "group-id": "mwdi-consumer-group"
               },
@@ -14428,7 +14428,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka"
+                "value": "PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka"
               }
             ],
             "fc-port": [

@@ -3,7 +3,7 @@ skinparam responseMessageBelowArrow true
 
 title 
 PromptForEmbeddingCausesSubscribingForNotificationsAtKafka
-PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka
+PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
@@ -13,7 +13,7 @@ end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "KafkaMessageBroker: \nproperNotifications topic" as kafka
+participant "KafkaMessageBroker: \ndeviceChangeNotifications topic" as kafka
 participant "call \n<i>MWDI://v1/regard-controller-attribute-value-change </i>\nvia javascript interface" as regardCtrlAttChange
 participant "call \n<i>MWDI://v1/regard-device-alarm </i>\nvia javascript interface" as regardAlarm
 participant "call \n<i>MWDI://v1/regard-device-attribute-value-change </i>\nvia javascript interface" as regardDevAttChange
@@ -26,16 +26,16 @@ activate mwdi
 
 == subscribe at Kafka ==
 note over mwdi
-<u>SubscribeForProperNotifications</u>
+<u>SubscribeFordeviceChangeNotifications</u>
   subscribe at Kafka topic with
-  topicName=proper_notifications
+  topicName=device_change_notifications
 end note
 mwdi -> kafka: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
 
 == cycically poll new notifications and process them ==
 note over mwdi
-<u>ProperNotificationPolling</u>
-  Cycically poll all new proper notifications from Kafka.
+<u>deviceChangeNotificationPolling</u>
+  Cycically poll all new device change notifications from Kafka.
   Time interval according to <i>notificationPollingInterval</i>
   profileInstance.
   As the MWDI (consumer) repeats polling cycically,
@@ -43,11 +43,11 @@ note over mwdi
   polling is completed.
 end note
 mwdi -> kafka: {pollWaitingTime=0}
-kafka -> mwdi: {consumerRecords = list-of(partition, offset, properNotification)}
+kafka -> mwdi: {consumerRecords = list-of(partition, offset, deviceChangeNotification)}
 
 note over mwdi
-<u>IdentifyAndProcessProperNotifications</u>
-  For each properNotification in the consumerRecords,
+<u>IdentifyAndProcessdeviceChangeNotifications</u>
+  For each deviceChangeNotification in the consumerRecords,
   identify the notification type and 
   call the respective notification processing
   functionality via javascript interface.

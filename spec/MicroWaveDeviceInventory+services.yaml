@@ -982,7 +982,7 @@ clients:
       uuid: mwdi-2-0-1-tcp-c-kmb-1-0-0-000
     kafka-client:
       uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-000
-      topic-name: proper_notifications
+      topic-name: device_change_notifications
 
   - http-client:
       application-name: MicroWaveDeviceInventory

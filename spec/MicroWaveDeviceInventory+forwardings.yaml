@@ -672,7 +672,7 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-000
 
-  - forwarding-name: PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka
+  - forwarding-name: PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka
     uuid: mwdi-2-0-1-op-fc-im-001
     forwarding-type: InvariantProcessSnippet
     management-requests:

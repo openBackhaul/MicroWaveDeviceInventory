@@ -985,6 +985,19 @@ clients:
       topic-name: device_change_notifications
 
   - http-client:
+      application-name: KafkaMessageBus
+      release-number: 1.0.0
+      uuid: mwdi-2-0-1-http-c-kmb-1-0-0-001
+    tcp-client:
+      remote-protocol: http
+      ip-address: 127.0.0.1
+      tcp-port: 3017
+      uuid: mwdi-2-0-1-tcp-c-kmb-1-0-0-001
+    kafka-client:
+      uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-001
+      topic-name: device_alarm_notifications
+
+  - http-client:
       application-name: MicroWaveDeviceInventory
       release-number: 2.0.0
       uuid: mwdi-2-0-1-http-c-or-2-0-0-000

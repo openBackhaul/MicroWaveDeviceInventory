@@ -33,17 +33,23 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 **v2.0.1**  
 Fixes findings and completes missing changes from v2.0.0.  
-
-Also introduces the following changes for notification handling:
-- Controller notifications indicating a device's connection-status change are not to be pulled from Kafka, but like in prior MWDI releases are received directly by NotificationProxy
-  - therefore NP calls the */v1/regard-controller-attribute-value-change* service, which is not marked as deprecated anymore
-- the other notifications are still to be pulled from Kafka ...
-  - but there are two separate topics now:
-    - device_change_notifications
-    - alarm_change_notifications
-  - a second KafkaMessageBroker http client has been added for the 2nd topic 
-
 See issue collection [MWDI v2.0.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/21).  
+
+#### Notification Handling
+MWDI v2.0.1 also adds the following changes to notification handling diverging from v2.0.0:
+- (1) Controller notifications shall not be pulled from Kafka, but again pushed to MWDI by NotificationProxy
+- (2) Device and alarm notifications are to be pulled from Kafka from two separate topics
+
+*Details*:  
+- for (1) the following changes were applied:
+  - deprecation of service */v1/regard-controller-attribute-value-change* has been reverted
+  - a 2nd NotificationProxy http client was added
+    - the 1st will handle only subscribing for/unsubscribing from Controller notifications and contains the actual NP address information
+    - the 2nd client will manage subscription handling for device and alarm notifications, but only becomes effective if valid address information is provided during runtime (receiving these notifications from NP directly is just a fallback)
+- for (2) the following changes were applied:
+  - a 2nd KafkaMessageBroker http client has been added
+  - the 1st http client is for pulling from topic *device_change_notifications*
+  - the 2nd http client is for pulling from topic *alarm_change_notifications*
 
 **v2.0.0**  
 **Summary of changes:**  

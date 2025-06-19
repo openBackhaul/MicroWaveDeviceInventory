@@ -2,12 +2,13 @@
 skinparam responseMessageBelowArrow true
 
 title
-PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
-PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
-PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
-PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka
-PromptForBequeathingDataCausesUnsubscribingFromDeviceAlarmNotificationsAtKafka
-PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+  PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
+  PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
+  PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
+  PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka
+  PromptForBequeathingDataCausesUnsubscribingFromDeviceAlarmNotificationsAtKafka
+  PromptForBequeathingDataCausesUnsubscribingFromControllerNotificationsAtNP
+  PromptForBequeathingDataCausesUnsubscribingFromDeviceAndAlarmNotificationsAtNP
 end title
 
 participant "NR://v1/embed-yourself" as NewRelease
@@ -38,15 +39,22 @@ with topic-names:
  - device_alarm_notifications
 end note
 OldRelease -> endSubsriptionAtKafkaDev: {own application info, topic-name=<i>device_change_notifications</i>}
-OldRelease -> endSubsriptionAtKafkaAlarm: {own application info, topic-name=</i>device_alarm_notifications</i>}
+OldRelease -> endSubsriptionAtKafkaAlarm: {own application info, topic-name=<i>device_alarm_notifications</i>}
 
 
 note over OldRelease
-Terminate existing subscriptions 
+Terminate existing subscription
+of Controller notifications 
 of discontinued release at NP
 end note
 OldRelease -> endSubsriptionAtNp: {own application info}
 
+note over OldRelease
+Terminate existing subscription
+of device and alarm notifications 
+of discontinued release at NP
+end note
+OldRelease -> endSubsriptionAtNp: {own application info}
 
 deactivate OldRelease
 

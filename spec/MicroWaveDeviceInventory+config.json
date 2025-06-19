@@ -1114,7 +1114,7 @@
                 "operation-name": "/v1/regard-controller-attribute-value-change"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED",
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "operation-key": "n.a."
               }
             }
@@ -13990,12 +13990,12 @@
       },
 
       {
-        "uuid": "mwdi-2-0-1-op-c-is-np-1-0-2-000",
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-000"
         ],
         "layer-protocol": [
           {
@@ -14015,12 +14015,87 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-is-np-1-0-2-010",
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-020",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-client-interface-1-0:operation-client-interface-pac": {
+              "operation-client-interface-configuration": {
+                "operation-name": "/v1/end-subscription",
+                "operation-key": "Operation key not yet provided."
+              },
+              "operation-client-interface-status": {
+                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL",
+                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-0-1-http-c-np-1-1-0-000",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+          "mwdi-2-0-1-op-c-is-np-1-1-0-000",
+          "mwdi-2-0-1-op-c-is-np-1-1-0-020"
+        ],
+        "server-ltp": [
+          "mwdi-2-0-1-tcp-c-np-1-1-0-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
+            "http-client-interface-1-0:http-client-interface-pac": {
+              "http-client-interface-configuration": {
+                "application-name": "NotificationProxy",
+                "release-number": "1.1.0"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-0-1-tcp-c-np-1-1-0-000",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+          "mwdi-2-0-1-http-c-np-1-1-0-000"
+        ],
+        "server-ltp": [
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+            "tcp-client-interface-1-0:tcp-client-interface-pac": {
+              "tcp-client-interface-configuration": {
+                "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                "remote-address": {
+                  "ip-address": {
+                    "ipv-4-address": "127.0.0.1"
+                  }
+                },
+                "remote-port": 4025
+              }
+            }
+          }
+        ]
+      },
+
+      {
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-010",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-0-1-http-c-np-1-1-0-001"
         ],
         "layer-protocol": [
           {
@@ -14040,12 +14115,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-is-np-1-0-2-011",
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-011",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-001"
         ],
         "layer-protocol": [
           {
@@ -14065,12 +14140,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-is-np-1-0-2-012",
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-012",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-001"
         ],
         "layer-protocol": [
           {
@@ -14090,12 +14165,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-is-np-1-0-2-013",
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-013",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-001"
         ],
         "layer-protocol": [
           {
@@ -14115,12 +14190,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-op-c-is-np-1-0-2-020",
+        "uuid": "mwdi-2-0-1-op-c-is-np-1-1-0-021",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-001"
         ],
         "layer-protocol": [
           {
@@ -14139,20 +14214,18 @@
           }
         ]
       },
-
       {
-        "uuid": "mwdi-2-0-1-http-c-np-1-0-2-000",
+        "uuid": "mwdi-2-0-1-http-c-np-1-1-0-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-op-c-is-np-1-0-2-000",
-          "mwdi-2-0-1-op-c-is-np-1-0-2-010",
-          "mwdi-2-0-1-op-c-is-np-1-0-2-011",
-          "mwdi-2-0-1-op-c-is-np-1-0-2-012",
-          "mwdi-2-0-1-op-c-is-np-1-0-2-013",
-          "mwdi-2-0-1-op-c-is-np-1-0-2-020"
+          "mwdi-2-0-1-op-c-is-np-1-1-0-010",
+          "mwdi-2-0-1-op-c-is-np-1-1-0-011",
+          "mwdi-2-0-1-op-c-is-np-1-1-0-012",
+          "mwdi-2-0-1-op-c-is-np-1-1-0-013",
+          "mwdi-2-0-1-op-c-is-np-1-1-0-021"
         ],
         "server-ltp": [
-          "mwdi-2-0-1-tcp-c-np-1-0-2-000"
+          "mwdi-2-0-1-tcp-c-np-1-1-0-001"
         ],
         "layer-protocol": [
           {
@@ -14161,17 +14234,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "NotificationProxy",
-                "release-number": "1.0.2"
+                "release-number": "1.1.0"
               }
             }
           }
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-tcp-c-np-1-0-2-000",
+        "uuid": "mwdi-2-0-1-tcp-c-np-1-1-0-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-http-c-np-1-0-2-000"
+          "mwdi-2-0-1-http-c-np-1-1-0-001"
         ],
         "server-ltp": [
         ],
@@ -14187,7 +14260,7 @@
                     "ipv-4-address": "replacing by actual operationClient could lead to receive notifications twice"
                   }
                 },
-                "remote-port": 4011
+                "remote-port": 4025
               }
             }
           }
@@ -14418,7 +14491,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesSubscribingForNotificationsAtNP"
+                "value": "PromptForEmbeddingCausesSubscribingForControllerNotificationsAtNP"
               }
             ],
             "fc-port": [
@@ -14430,27 +14503,47 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-000"
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-000"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-2-0-1-op-fc-im-071",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesSubscribingForDeviceAndAlarmNotificationsAtNP"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-0-1-op-s-bm-001"
               },
               {
                 "local-id": "2001",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-010"
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-010"
               },
               {
                 "local-id": "2002",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-011"
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-011"
               },
               {
                 "local-id": "2003",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-012"
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-012"
               },
               {
                 "local-id": "2004",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-013"
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-013"
               }
             ]
           },
@@ -14714,7 +14807,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP"
+                "value": "PromptForBequeathingDataCausesUnsubscribingFromControllerNotificationsAtNP"
               }
             ],
             "fc-port": [
@@ -14726,7 +14819,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-020"
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-020"
               }
             ]
           },
@@ -14752,6 +14845,32 @@
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
+              }
+            ]
+          },
+
+          {
+            "uuid": "mwdi-2-0-1-op-fc-im-118",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceAndAlarmNotificationsAtNP"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-0-1-op-s-im-000"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-1-0-021"
               }
             ]
           },

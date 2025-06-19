@@ -634,7 +634,7 @@ forwardings:
       - client-name: AccessAdministration://v1/approve-basic-auth-request
         uuid: mwdi-2-0-1-op-c-bs-aa-2-1-2-000
 
-  - forwarding-name: PromptForEmbeddingCausesSubscribingForNotificationsAtNP
+  - forwarding-name: PromptForEmbeddingCausesSubscribingForControllerNotificationsAtNP
     uuid: mwdi-2-0-1-op-fc-im-070
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -647,15 +647,28 @@ forwardings:
         uuid: mwdi-2-0-1-op-s-bm-001
     consequent-requests:
       - client-name: NotificationProxy://v1/notify-controller-attribute-value-changes
-        uuid: mwdi-2-0-1-op-c-is-np-1-0-2-000
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-000
+
+  - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceAndAlarmNotificationsAtNP
+    uuid: mwdi-2-0-1-op-fc-im-071
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/embed-yourself
+        uuid: mwdi-2-0-1-op-s-bm-001
+    consequent-requests:
       - client-name: NotificationProxy://v1/notify-device-alarms
-        uuid: mwdi-2-0-1-op-c-is-np-1-0-2-010
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-010
       - client-name: NotificationProxy://v1/notify-device-attribute-value-changes
-        uuid: mwdi-2-0-1-op-c-is-np-1-0-2-011
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-011
       - client-name: NotificationProxy://v1/notify-device-object-creations
-        uuid: mwdi-2-0-1-op-c-is-np-1-0-2-012
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-012
       - client-name: NotificationProxy://v1/notify-device-object-deletions
-        uuid: mwdi-2-0-1-op-c-is-np-1-0-2-013
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-013
 
   - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka
     uuid: mwdi-2-0-1-op-fc-im-000
@@ -733,7 +746,7 @@ forwardings:
         uuid: mwdi-2-0-1-tcp-s-000
 
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation
-    uuid: mwdi-2-0-1-op-fc-im-005
+    uuid: mwdi-2-0-1-op-/05
     forwarding-type: InvariantProcessSnippet
     management-requests:
       operation-client-update:
@@ -807,7 +820,7 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-000
 
-  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromControllerNotificationsAtNP
     uuid: mwdi-2-0-1-op-fc-im-116
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -820,7 +833,7 @@ forwardings:
         uuid: mwdi-2-0-1-op-s-im-000
     consequent-requests:
       - client-name: NotificationProxy://v1/end-subscription
-        uuid: mwdi-2-0-1-op-c-is-np-1-0-2-020
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-020
 
   - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAlarmNotificationsAtKafka
     uuid: mwdi-2-0-1-op-fc-im-117
@@ -836,6 +849,21 @@ forwardings:
     consequent-requests:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-001
+
+  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndAlarmNotificationsAtNP
+    uuid: mwdi-2-0-1-op-fc-im-118
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/bequeath-your-data-and-die
+        uuid: mwdi-2-0-1-op-s-im-000
+    consequent-requests:
+      - client-name: NotificationProxy://v1/end-subscription
+        uuid: mwdi-2-0-1-op-c-is-np-1-1-0-021
 
   - forwarding-name: PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
     uuid: mwdi-2-0-1-op-fc-im-110

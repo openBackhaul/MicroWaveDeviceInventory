@@ -6,7 +6,6 @@ PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka
 PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka
 PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka
 PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka
-PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation
@@ -15,9 +14,8 @@ end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "KafkaMessageBroker: \nyi>deviceChangeNotifications</i> topic" as kafkaDev
+participant "KafkaMessageBroker: \n<i>deviceChangeNotifications</i> topic" as kafkaDev
 participant "KafkaMessageBroker: \n<i>deviceAlarmNotifications</i> topic" as kafkaAlarm
-participant "call \n<i>MWDI://v1/regard-controller-attribute-value-change </i>\nvia javascript interface" as regardCtrlAttChange
 participant "call \n<i>MWDI://v1/regard-device-alarm </i>\nvia javascript interface" as regardAlarm
 participant "call \n<i>MWDI://v1/regard-device-attribute-value-change </i>\nvia javascript interface" as regardDevAttChange
 participant "call \n<i>MWDI://v1/regard-device-object-creation </i>\nvia javascript interface" as regardDevObjCreation

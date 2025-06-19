@@ -38,7 +38,9 @@ Also introduces the following changes for notification handling:
 - Controller notifications indicating a device's connection-status change are not to be pulled from Kafka, but like in prior MWDI releases are received directly by NotificationProxy
   - therefore NP calls the */v1/regard-controller-attribute-value-change* service, which is not marked as deprecated anymore
 - the other notifications are still to be pulled from Kafka ...
-  - but there are two separate topics: device_change_notifications and alarm_change_notifications
+  - but there are two separate topics now:
+    - device_change_notifications
+    - alarm_change_notifications
   - a second KafkaMessageBroker http client has been added for the 2nd topic 
 
 See issue collection [MWDI v2.0.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/21).  

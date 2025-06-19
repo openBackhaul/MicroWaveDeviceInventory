@@ -46,8 +46,6 @@ mwdi -> kafkaAlarm: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
 note over mwdi
 <u>deviceChangeNotificationPolling</u>
   Continuously poll all new device change notifications from Kafka.
-  Time interval according to <i>notificationPollingInterval</i>
-  profileInstance.
 end note
 mwdi -> kafkaDev: {pollWaitingTime=0}
 kafkaDev -> mwdi: {consumerRecords = list-of(partition, offset, deviceChangeNotification)}

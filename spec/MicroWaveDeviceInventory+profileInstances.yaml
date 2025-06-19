@@ -231,17 +231,6 @@ profile-instances:
     configuration:
       integer-value: 1440
 
-  - profile-name: 'IntegerProfile'
-    uuid: 'mwdi-2-0-1-integer-p-008'
-    capability:
-      integer-name: 'notificationPollingInterval'
-      purpose: 'Time interval with which MWDI shall poll notifications from Kafka.'
-      unit: 'seconds'
-      minimum: 0
-      maximum: 900
-    configuration:
-      integer-value: 60
-
   - profile-name: 'StringProfile'
     uuid: 'mwdi-2-0-1-string-p-000'
     capability:

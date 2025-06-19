@@ -14479,7 +14479,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesSubscribingForNotificationsAtKafka"
+                "value": "PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka"
               }
             ],
             "fc-port": [
@@ -14504,7 +14504,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka"
+                "value": "PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka"
               }
             ],
             "fc-port": [
@@ -14654,7 +14654,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka"
+                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka"
               }
             ],
             "fc-port": [

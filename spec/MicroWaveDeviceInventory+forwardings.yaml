@@ -657,7 +657,7 @@ forwardings:
       - client-name: NotificationProxy://v1/notify-device-object-deletions
         uuid: mwdi-2-0-1-op-c-is-np-1-0-2-013
 
-  - forwarding-name: PromptForEmbeddingCausesSubscribingForNotificationsAtKafka
+  - forwarding-name: PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka
     uuid: mwdi-2-0-1-op-fc-im-000
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -672,7 +672,7 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-000
 
-  - forwarding-name: PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka
+  - forwarding-name: PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka
     uuid: mwdi-2-0-1-op-fc-im-001
     forwarding-type: InvariantProcessSnippet
     management-requests:
@@ -762,7 +762,7 @@ forwardings:
       - client-name: MWDI
         uuid: mwdi-2-0-1-tcp-s-000
 
-  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka
+  - forwarding-name: PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka
     uuid: mwdi-2-0-1-op-fc-im-115
     forwarding-type: InvariantProcessSnippet
     management-requests:

@@ -2,8 +2,10 @@
 skinparam responseMessageBelowArrow true
 
 title 
-PromptForEmbeddingCausesSubscribingForNotificationsAtKafka
-PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka
+PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka
+PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka
+PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka
+PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
 PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange
@@ -13,7 +15,8 @@ end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
-participant "KafkaMessageBroker: \ndeviceChangeNotifications topic" as kafka
+participant "KafkaMessageBroker: \nyi>deviceChangeNotifications</i> topic" as kafkaDev
+participant "KafkaMessageBroker: \n<i>deviceAlarmNotifications</i> topic" as kafkaAlarm
 participant "call \n<i>MWDI://v1/regard-controller-attribute-value-change </i>\nvia javascript interface" as regardCtrlAttChange
 participant "call \n<i>MWDI://v1/regard-device-alarm </i>\nvia javascript interface" as regardAlarm
 participant "call \n<i>MWDI://v1/regard-device-attribute-value-change </i>\nvia javascript interface" as regardDevAttChange
@@ -26,30 +29,43 @@ activate mwdi
 
 == subscribe at Kafka ==
 note over mwdi
-<u>SubscribeFordeviceChangeNotifications</u>
+<u>SubscribeForDeviceChangeNotifications</u>
   subscribe at Kafka topic with
   topicName=device_change_notifications
 end note
-mwdi -> kafka: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
+mwdi -> kafkaDev: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
+
+note over mwdi
+<u>SubscribeForDeviceAlarmNotifications</u>
+  subscribe at Kafka topic with
+  topicName=device_alarm_notifications
+end note
+mwdi -> kafkaAlarm: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
 
 == cycically poll new notifications and process them ==
 note over mwdi
 <u>deviceChangeNotificationPolling</u>
-  Cycically poll all new device change notifications from Kafka.
+  Continuously poll all new device change notifications from Kafka.
   Time interval according to <i>notificationPollingInterval</i>
   profileInstance.
-  As the MWDI (consumer) repeats polling cycically,
-  it will not wait for new notifications at Kafka, before
-  polling is completed.
 end note
-mwdi -> kafka: {pollWaitingTime=0}
-kafka -> mwdi: {consumerRecords = list-of(partition, offset, deviceChangeNotification)}
+mwdi -> kafkaDev: {pollWaitingTime=0}
+kafkaDev -> mwdi: {consumerRecords = list-of(partition, offset, deviceChangeNotification)}
 
 note over mwdi
-<u>IdentifyAndProcessdeviceChangeNotifications</u>
+<u>deviceAlarmNotificationPolling</u>
+  Continuously poll all new device alarm notifications from Kafka.
+end note
+mwdi -> kafkaAlarm: {pollWaitingTime=0}
+kafkaAlarm -> mwdi: {consumerRecords = list-of(partition, offset, deviceAlarmNotification)}
+
+note over mwdi
+<u>IdentifyAndProcessDeviceChangeAndAlarmNotifications</u>
   For each deviceChangeNotification in the consumerRecords,
   identify the notification type and 
   call the respective notification processing
+  functionality via javascript interface.
+  For each alarmChangeNotification call the alarm processing
   functionality via javascript interface.
 
   (Functionality can be seen from <i>regard</i>-services,
@@ -57,11 +73,10 @@ note over mwdi
   calling the actual <i>regard</i>-services to prevent
   new http sessions to be opened for each notification.)
 end note
-mwdi -> regardCtrlAttChange: {controller-attribute-value-change-notification}
-mwdi -> regardAlarm: {device-alarm-notification}
 mwdi -> regardDevAttChange: {device-attribute-value-change-notification}
 mwdi -> regardDevObjCreation: {device-object-creation-notification}
 mwdi -> regardDevObjDeletion: {device-object-deletion-notification}
+mwdi -> regardAlarm: {device-alarm-notification}
 
 deactivate mwdi
 

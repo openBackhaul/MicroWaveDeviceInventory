@@ -57,10 +57,10 @@ servers:
           uuid: mwdi-2-0-1-op-s-bs-005
           operation-key: n.a.
       individual:
-        # receivers for notifications - deprecated since v2.0.0, but callbacks are to be used internally
         - operation-name: /v1/regard-controller-attribute-value-change
           uuid: mwdi-2-0-1-op-s-is-000
           operation-key: n.a.
+        # receivers for device change/alarm notifications - deprecated since v2.0.0, but callbacks are to be used internally
         - operation-name: /v1/regard-device-alarm
           uuid: mwdi-2-0-1-op-s-is-002
           operation-key: n.a.
@@ -1532,13 +1532,13 @@ clients:
 
   - http-client:
       application-name: NotificationProxy
-      release-number: 1.0.2
-      uuid: mwdi-2-0-1-http-c-np-1-0-2-000
+      release-number: 1.1.0
+      uuid: mwdi-2-0-1-http-c-np-1-1-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: replacing by actual operationClient could lead to receive notifications twice
-      tcp-port: 4011
-      uuid: mwdi-2-0-1-tcp-c-np-1-0-2-000
+      ip-address: 127.0.0.1
+      tcp-port: 4025
+      uuid: mwdi-2-0-1-tcp-c-np-1-1-0-000
     operation-clients:
       own-oam:
         basic:
@@ -1548,18 +1548,38 @@ clients:
         individual:
           ## subscribing for controller notifications
           - operation-name: /v1/notify-controller-attribute-value-changes
-            uuid: mwdi-2-0-1-op-c-is-np-1-0-2-000
-
-          ## subscribing for device notifications
-          - operation-name: /v1/notify-device-alarms
-            uuid: mwdi-2-0-1-op-c-is-np-1-0-2-010
-          - operation-name: /v1/notify-device-attribute-value-changes
-            uuid: mwdi-2-0-1-op-c-is-np-1-0-2-011
-          - operation-name: /v1/notify-device-object-creations
-            uuid: mwdi-2-0-1-op-c-is-np-1-0-2-012
-          - operation-name: /v1/notify-device-object-deletions
-            uuid: mwdi-2-0-1-op-c-is-np-1-0-2-013
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-000
 
           ## unsubscribe from notifications
           - operation-name: /v1/end-subscription
-            uuid: mwdi-2-0-1-op-c-is-np-1-0-2-020
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-020
+
+  - http-client:
+      application-name: NotificationProxy
+      release-number: 1.1.0
+      uuid: mwdi-2-0-1-http-c-np-1-1-0-001
+    tcp-client:
+      remote-protocol: http
+      ip-address: replacing by actual operationClient could lead to receive notifications twice
+      tcp-port: 4025
+      uuid: mwdi-2-0-1-tcp-c-np-1-1-0-001
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+        individual:
+          ## subscribing for device notifications
+          - operation-name: /v1/notify-device-alarms
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-010
+          - operation-name: /v1/notify-device-attribute-value-changes
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-011
+          - operation-name: /v1/notify-device-object-creations
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-012
+          - operation-name: /v1/notify-device-object-deletions
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-013
+
+          ## unsubscribe from notifications
+          - operation-name: /v1/end-subscription
+            uuid: mwdi-2-0-1-op-c-is-np-1-1-0-021

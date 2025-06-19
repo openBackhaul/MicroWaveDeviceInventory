@@ -23749,12 +23749,12 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         #PromptForEmbeddingCausesSubscribingForNotificationsAtKafka: omitted
-        #PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka: omitted
+        #PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka: omitted
         #PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka: omitted
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange:
           #description: >
           #  'call for notifications, which are controller-attribute-value-change notifications, retrieved
-          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #  from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
           applyControllerAttributeValueChange: #[regardControllerAttributeValueChange]
             post:
               requestBody:
@@ -23764,7 +23764,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:attribute-value-changed-notification
-                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                        from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:attribute-value-changed-notification
                       properties:
@@ -23814,7 +23814,7 @@ paths:
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange:
           #description: >
           #  'call for notifications, which are device-alarm notifications, retrieved
-          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #  from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
           applyDeviceAlarmChange: #[regardDeviceAlarm]
             post:
               requestBody:
@@ -23824,7 +23824,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:alarm-event-notification
-                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                        from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:alarm-event-notification
                       properties:
@@ -23877,7 +23877,7 @@ paths:
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange:
           #description: >
           #  'call for notifications, which are device attribute value change notifications, retrieved
-          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #  from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
           applyDeviceAttributeValueChange: #[regardDeviceAttributeValueChange]
             post:
               requestBody:
@@ -23887,7 +23887,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:attribute-value-changed-notification
-                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                        from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:attribute-value-changed-notification
                       properties:
@@ -23937,7 +23937,7 @@ paths:
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation:
           #description: >
           #  'call for notifications, which are device object creation notifications, retrieved
-          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #  from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
           applyDeviceObjectCreation: #[regardDeviceObjectCreation]
             post:
               requestBody:
@@ -23947,7 +23947,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:object-creation-notification
-                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                        from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:object-creation-notification
                       properties:
@@ -23998,7 +23998,7 @@ paths:
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion:
           #description: >
           #  'call for notifications, which are device object deletion notifications, retrieved
-          #  from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+          #  from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
           applyDeviceDeletionCreation: #[regardDeviceObjectDeletion]
             post:
               requestBody:
@@ -24008,7 +24008,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:object-deletion-notification
-                        from {$PromptForEmbeddingCausesCylicPollingOfProperNotificationsFromKafka}'
+                        from {$PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:object-deletion-notification
                       properties:

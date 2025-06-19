@@ -9654,13 +9654,12 @@
           }
         ]
       },
-
       {
-        "uuid": "mwdi-1-0-0-kmb-c-kmb-1-0-0-000",
+        "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [],
         "server-ltp": [
-          "mwdi-1-0-0-http-c-kmb-1-0-0-000"
+          "mwdi-2-0-1-http-c-kmb-1-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9685,13 +9684,13 @@
         ]
       },
       {
-        "uuid": "mwdi-1-0-0-http-c-kmb-1-0-0-000",
+        "uuid": "mwdi-2-0-1-http-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-0-0-kmb-c-kmb-1-0-0-000"
+          "mwdi-2-0-1-kmb-c-kmb-1-0-0-000"
         ],
         "server-ltp": [
-          "mwdi-1-0-0-tcp-c-kmb-1-0-0-000"
+          "mwdi-2-0-1-tcp-c-kmb-1-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9707,10 +9706,87 @@
         ]
       },
       {
-        "uuid": "mwdi-1-0-0-tcp-c-kmb-1-0-0-000",
+        "uuid": "mwdi-2-0-1-tcp-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-1-0-0-http-c-kmb-1-0-0-000"
+          "mwdi-2-0-1-http-c-kmb-1-0-0-000"
+        ],
+        "server-ltp": [],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+            "tcp-client-interface-1-0:tcp-client-interface-pac": {
+              "tcp-client-interface-configuration": {
+                "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                "remote-address": {
+                  "ip-address": {
+                    "ipv-4-address": "127.0.0.1"
+                  }
+                },
+                "remote-port": 3017
+              }
+            }
+          }
+        ]
+      },
+
+      {
+        "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001 ",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [],
+        "server-ltp": [
+          "mwdi-2-0-1-http-c-kmb-1-0-0-001 "
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER",
+            "kafka-client-interface-1-0:kafka-client-interface-pac": {
+              "kafka-client-interface-configuration": {
+                "auth": {
+                  "user-name": "mwdi",
+                  "password": " >>> password <<< "
+                },
+                "topic-name": "device_alarm_notifications",
+                "client-id": "mwdi-instance-01",
+                "group-id": "mwdi-consumer-group"
+              },
+              "kafka-client-interface-status": {
+                "operational-state": "kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                "life-cycle-state": "kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-0-1-http-c-kmb-1-0-0-001 ",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+          "mwdi-2-0-1-kmb-c-kmb-1-0-0-001 "
+        ],
+        "server-ltp": [
+          "mwdi-2-0-1-tcp-c-kmb-1-0-0-001 "
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
+            "http-client-interface-1-0:http-client-interface-pac": {
+              "http-client-interface-configuration": {
+                "application-name": "KafkaMessageBus",
+                "release-number": "1.0.0"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-0-1-tcp-c-kmb-1-0-0-001 ",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+        "client-ltp": [
+          "mwdi-2-0-1-http-c-kmb-1-0-0-001 "
         ],
         "server-ltp": [],
         "layer-protocol": [
@@ -14403,7 +14479,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesSubscribingForNotificationsAtKafka"
+                "value": "PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka"
               }
             ],
             "fc-port": [
@@ -14428,7 +14504,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForEmbeddingCausesCylicPollingOfdeviceChangeNotificationsFromKafka"
+                "value": "PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka"
               }
             ],
             "fc-port": [
@@ -14569,6 +14645,57 @@
               }
             ]
           },
+
+          {
+            "uuid": "mwdi-2-0-1-op-fc-im-007",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-0-1-op-s-bm-001"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-2-0-1-op-fc-im-008",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-0-1-op-s-bm-001"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
+              }
+            ]
+          },
           {
             "uuid": "mwdi-2-0-1-op-fc-im-115",
             "name": [
@@ -14578,7 +14705,7 @@
               },
               {
                 "value-name": "ForwardingName",
-                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka"
+                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka"
               }
             ],
             "fc-port": [
@@ -14616,6 +14743,31 @@
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                 "logical-termination-point": "mwdi-2-0-1-op-c-is-np-1-0-2-020"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-2-0-1-op-fc-im-117",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceAlarmNotificationsAtKafka"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-0-1-op-s-bm-001"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
               }
             ]
           },

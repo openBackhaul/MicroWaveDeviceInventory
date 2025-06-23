@@ -700,21 +700,6 @@ forwardings:
       - client-name: KafkaMessageBroker
         uuid: mwdi-2-0-1-kmb-c-kmb-1-0-0-000
 
-  - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange
-    uuid: mwdi-2-0-1-op-fc-im-002
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/embed-yourself
-        uuid: mwdi-2-0-1-op-s-bm-001
-    consequent-requests:
-      - client-name: MWDI
-        uuid: mwdi-2-0-1-tcp-s-000
-
   - forwarding-name: PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
     uuid: mwdi-2-0-1-op-fc-im-003
     forwarding-type: InvariantProcessSnippet

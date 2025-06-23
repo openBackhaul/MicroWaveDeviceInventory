@@ -23845,66 +23845,6 @@ paths:
         #PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka: omitted
         #PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka: omitted
         #PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka: omitted
-        PromptForEmbeddingCausesCyclicNotificationProcessingToApplyControllerAttributeValueChange:
-          #description: >
-          #  'call for notifications, which are controller-attribute-value-change notifications, retrieved
-          #  from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
-          applyControllerAttributeValueChange: #[regardControllerAttributeValueChange]
-            post:
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      description: >
-                        'notification-proxy-1-0:attribute-value-changed-notification
-                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
-                      required:
-                        - notification-proxy-1-0:attribute-value-changed-notification
-                      properties:
-                        notification-proxy-1-0:attribute-value-changed-notification:
-                          type: object
-                          properties:
-                            counter:
-                              type: integer
-                            timestamp:
-                              type: string
-                            resource:
-                              type: string
-                            attribute-name:
-                              type: string
-                            new-value:
-                              type: string
-                      example:
-                        notification-proxy-1-0:attribute-value-changed-notification:
-                          counter: 32
-                          timestamp: '2023-07-11T08:21:50+01:00'
-                          resource: '/core-model-1-4:network-control-domain=live/control-construct=odl-1/logical-termination-point=513250009/layer-protocol=0/mount-point-1-0:mount-point-pac/mount-point-status'
-                          attribute-name: 'connection-status'
-                          new-value: 'connecting'
-              responses:
-                '204':
-                  description: 'Notification processing started.'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '502':
-                  $ref: '#/components/responses/502'
-                '530':
-                  $ref: '#/components/responses/530'
-                '531':
-                  $ref: '#/components/responses/531'
-                '532':
-                  $ref: '#/components/responses/532'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange:
           #description: >
           #  'call for notifications, which are device-alarm notifications, retrieved

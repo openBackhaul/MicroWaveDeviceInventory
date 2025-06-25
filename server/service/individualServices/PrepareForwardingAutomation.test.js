@@ -4,7 +4,7 @@ const TcpServerInterface = require('onf-core-model-ap/applicationPattern/onfMode
 const onfFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const prepareALTForwardingAutomation = require('onf-core-model-ap-bs/basicServices/services/PrepareALTForwardingAutomation');
-  const PrepareForwardingAutomation = require('./PrepareForwardingAutomation')
+const PrepareForwardingAutomation = require('./PrepareForwardingAutomation')
 
 jest.mock('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface', () => ({
   getApplicationNameAsync: jest.fn(),
@@ -123,14 +123,14 @@ describe('regardApplication - All Scenarios', () => {
 describe('OAMLayerRequest - All Scenarios', () => {
   const mockUuid = '1234-5678-uuid';
 
-  
+
   afterEach(() => {
     jest.clearAllMocks();
-   
+
 
   });
 
-  test('✅ should resolve with forwarding input list when data is returned', async () => {
+  test('should resolve with forwarding input list when data is returned', async () => {
     const mockResult = [{ input: 'mocked-input' }];
     prepareALTForwardingAutomation.getALTForwardingAutomationInputForOamRequestAsync
       .mockResolvedValue(mockResult);
@@ -142,8 +142,8 @@ describe('OAMLayerRequest - All Scenarios', () => {
     expect(result).toEqual(mockResult);
   });
 
- 
-  test('✅ should reject when an error is thrown by the async call', async () => {
+
+  test('should reject when an error is thrown by the async call', async () => {
     const mockError = new Error('Service call failed');
     prepareALTForwardingAutomation.getALTForwardingAutomationInputForOamRequestAsync
       .mockRejectedValue(mockError);
@@ -151,7 +151,7 @@ describe('OAMLayerRequest - All Scenarios', () => {
     await expect(PrepareForwardingAutomation.OAMLayerRequest(mockUuid)).rejects.toThrow('Service call failed');
   });
 
-  test('✅ should reject if called with invalid UUID (e.g., null)', async () => {
+  test('should reject if called with invalid UUID (e.g., null)', async () => {
     const mockError = new Error('Invalid UUID');
     prepareALTForwardingAutomation.getALTForwardingAutomationInputForOamRequestAsync
       .mockImplementation((uuid) => {

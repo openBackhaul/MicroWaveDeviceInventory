@@ -33,7 +33,7 @@ exports.getAppInformation = async function() {
         try {
             appInformation = await BasicServices.informAboutApplication();
         } catch (exception) {
-            console.log.error(exception, "no application information found, using fallback");
+            console.error(exception, "no application information found, using fallback");
             appInformation["application-name"] = "MicroWaveDeviceInventory";
             appInformation["release-number"] = "1.0.0";
         }

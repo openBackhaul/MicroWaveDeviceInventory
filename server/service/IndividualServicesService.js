@@ -146,14 +146,15 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       var format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
-      if (matchLink || matchId) {
-        throw new createHttpError("400", "Fields must not contain special chars");
-      }
-      if (typeof link === 'object') {
+       if (typeof link === 'object') {
         throw new createHttpError(link[0].code, link[0].message);
       } else {
         correctLink = link;
       }
+      if (matchLink || matchId) {
+        throw new createHttpError("400", "Fields must not contain special chars");
+      }
+     
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -834,7 +835,12 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
         });
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
+          const keys = Object.keys(finalJson);
+        //  let objectKey = Object.keys(finalJson)[0];
+        if (keys.length === 0) {
+            throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+              }
+         let objectKey = keys[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
             myFields = decodeURIComponent(myFields);
@@ -4576,16 +4582,15 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_35
  **/
-exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  return new Promise(function (resolve, reject) {
+
+ 
     exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
       return new Promise(function (resolve, reject) {
         var examples = {};
         examples['application/json'] = {
           "wred-template-profile-1-0:wred-template-profile-capability": {}
         };
-        "wred-template-profile-1-0:wred-template-profile-capability": { }
-      };
+       
       if (Object.keys(examples).length > 0) {
         resolve(examples[Object.keys(examples)[0]]);
       } else {
@@ -9775,10 +9780,10 @@ exports.notifyAttributeValueChanges = async function (url, body, user, originato
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+          throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+         throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
       }
       resolve();
     } catch (error) {
@@ -9824,10 +9829,10 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+           throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
+         throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
       }
       resolve();
     } catch (error) {
@@ -9872,11 +9877,11 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-          throw new Error('notifyControllerObjectCreations: addSubscriber failed');
+          throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-        throw new Error('notifyControllerObjectCreations: invalid input data');
-      }
+        throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
+       }
 
 
       resolve();
@@ -10355,15 +10360,16 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       let link = uuid; //decodeLinkUuid(url, true);
       var format = /[ `!@#$%^&*()+\=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
-      if (matchLink) {
-        throw new createHttpError("400", "Fields must not contain special chars");
-      }
       if (typeof link === 'object') {
         throw new createHttpError(link[0].code, link[0].message);
         return;
       } else {
         correctLink = link;
       }
+      if (matchLink) {
+        throw new createHttpError("400", "Fields must not contain special chars");
+      }
+      
       let value = await ReadRecords(correctLink);
       let result = await ReadRecords("linkList");
       if (value != undefined) {
@@ -10503,6 +10509,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
         updateDeviceListFromNotification(2, logicalTerminationPoint);
         let indexAlias = common[1].indexAlias;
         const { deleteRecordFromElasticsearch } = module.exports;
+       // const deleteRecordFromElasticsearch = module.exports.deleteRecordFromElasticsearch;
 
         let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
         console.log('* ' + ret.result);

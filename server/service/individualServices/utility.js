@@ -28,7 +28,10 @@ exports.getIntegerProfileForIntegerName = async function (integerProfileName) {
         let profileInstance = profileList[i];
         let profileName = profileInstance[onfAttributes.PROFILE.PROFILE_NAME];
         if (profileName == Profile.profileNameEnum.INTEGER_PROFILE) {
-            let integerName = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.INTEGER_NAME];
+          const pac = profileInstance[onfAttributes.INTEGER_PROFILE.PAC];
+            const capability = pac?.[onfAttributes.INTEGER_PROFILE.CAPABILITY];
+            const integerName = capability?.[onfAttributes.INTEGER_PROFILE.INTEGER_NAME];
+
             if (integerName == integerProfileName) {
                 integerProfile = profileInstance;
                 break;
@@ -128,3 +131,34 @@ exports.getTime = function() {
   let d = new Date();
   return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
+
+exports.arraysHaveSameElements = async function (array1, array2) {
+  try {
+    if (array1.length !== array2.length) {
+      return false;
+    }
+
+    const frequencyMap = {};
+    for (const element of array1) {
+      frequencyMap[element] = (frequencyMap[element] || 0) + 1;
+    }
+
+
+    for (const element of array2) {
+      if (!(element in frequencyMap)) {
+        return false;
+      }
+      frequencyMap[element]--;
+      if (frequencyMap[element] === 0) {
+        delete frequencyMap[element];
+      }
+    }
+
+    return Object.keys(frequencyMap).length === 0;
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
+ 

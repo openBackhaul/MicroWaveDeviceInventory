@@ -25,7 +25,7 @@
 				"authorizationCode": "YOUR_BASIC_AUTH_CODE"
 			},
 			{
-				"serverName": "mwdi in mwdi+simulator.completeness.receiver",
+				"serverName": "mwdi in mwdi+simulator.completeness.receiver.deprecated",
 				"server": "http://localhost:3007",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
@@ -37,7 +37,7 @@
 				"customerJourney": ""
 			},
 			{
-				"serverName": "controller in mwdi+simulator.completeness.receiver",
+				"serverName": "controller in mwdi+simulator.completeness.receiver.deprecated",
 				"server": "http://localhost:3002",
 				"pathToControlConstruct": "/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct",
 				"authorizationCode": ""
@@ -45,19 +45,31 @@
 		],
 		"collectionInputList": [
 			{
-				"collectionName": "completeness.receiver",
+				"collectionName": "completeness.receiver.deprecated",
 				"applicationUnderTest": "mwdi",
 				"serverToBeApplied": "mwdi",
 				"controllerTobeApplied": "controller",
 				"mountName": "513250004",
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",				
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "External label not yet defined.",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500",
 				"kindOfReference": "dynamic"
 			},
 			{
-				"collectionName": "completeness.receiver_simulator",
-				"applicationUnderTest": "mwdi in mwdi+simulator.completeness.receiver",
-				"serverToBeApplied": "mwdi in mwdi+simulator.completeness.receiver",
-				"controllerTobeApplied": "controller in mwdi+simulator.completeness.receiver",
+				"collectionName": "completeness.receiver.deprecated_simulator",
+				"applicationUnderTest": "mwdi in mwdi+simulator.completeness.receiver.deprecated",
+				"serverToBeApplied": "mwdi in mwdi+simulator.completeness.receiver.deprecated",
+				"controllerTobeApplied": "controller in mwdi+simulator.completeness.receiver.deprecated",
 				"mountName": "305250001",
+				"deviceAlarm_mountName": "513250008",
+				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
+				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
+				"attributeValueChange_attributeName": "external-label",
+				"attributeValueChange_newValue": "513559992A",
+				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500",
 				"kindOfReference": "static"
 			}
 		]

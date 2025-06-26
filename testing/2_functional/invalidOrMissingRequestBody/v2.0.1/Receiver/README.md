@@ -11,4 +11,4 @@ Note:
 
 
 **Deprecated services**  
-![OverviewDeprecated](./_deprecated-services/mwdi+diagram.invalidOrMissingRequestBody.receiver.deprecated.png)  
+![OverviewDeprecated](./_deprecated-services%20/mwdi+diagram.invalidOrMissingRequestBody.receiver.deprecated.png)  

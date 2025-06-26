@@ -14,7 +14,7 @@ appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKey
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
 const { Console } = require('console');
-
+const kafkaClient = require("./service/individualServices/KafkaClient");
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 //appCommons.openApiValidatorOptions.validateSecurity = false;
@@ -61,3 +61,13 @@ prepareElasticsearch(false).catch(err => {
 );
 
 global.applicationDataPath = './application-data/';
+
+const topics = ['device-object-change', 'device-alarms']
+kafkaClient
+    .connect()
+    .then(() => {
+      kafkaClient.subscribe(topics);
+    })
+    .catch((error) => {
+      console.error("Error connecting to Kafka:", error);
+    });

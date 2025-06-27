@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
-  title: MWDI_2.0.1+simulator.unknownTargetObject.unknownClass.receiver
+  title: MWDI_2.0.1+simulator.unknownTargetObject.unknownClass.receiver.deprecated.deprecated
   version: 1.0.0
 
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part
-#   MWDI_2.0.1+simulator.unknownTargetObject.unknownClass.receiver in static reference mode
+#   MWDI_2.0.1+simulator.unknownTargetObject.unknownClass.receiver.deprecated.deprecated in static reference mode
 ########################################################################################################################
 
   /v1/regard-device-object-creation:

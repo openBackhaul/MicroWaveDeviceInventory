@@ -1,9 +1,23 @@
 # Functional Testing of Unknown Target Object (in RequestBody) Handling of the Receivers  
 
+Two separate testcase collections are provided, due to all device change/alarm *regard*-services being deprecated.
+
+### Not deprecated services
+
+The service to regard controller attribute value changes is not deprecated.
+
 ![Overview](./mwdi+diagram.unknownTargetObject.receiver.png)  
 
 Notes:
-- (1) `/v1/regard-controller-attribute-value-change`: for both known and unknown mount-names a 204 is returned
+(1) `/v1/regard-controller-attribute-value-change`: for both known and unknown mount-names a 204 is returned
+
+### Deprecated services
+
+The services to regard device notifications (including alarms) are all deprecated.
+
+![Overview](./_deprecated-services%20tests/mwdi+diagram.unknownTargetObject.receiver.deprecated.png)  
+
+Notes:
 - (2) `/v1/regard-device-attribute-value-change`: 500 expected
   - the mount-name is provided by the Controller/device itself, not by a 3rd party application or a user, therefore the provided mount-name can be considered valid
   - if it is not known by MWDI then this is not a client/caller error (400), but a MWDI (i.e. server) error 
@@ -24,5 +38,5 @@ Notes:
 Note: 
 - testing both (4.1) and (4.2) with the same simulator is not possible, as the simulators currently only return a single fixed answer
 - therefore two separate simulators are provided:
-  - `MicroWaveDeviceInventory+simu.unknownTargetObject.unknownMountName.receiver.yaml`: for all tests except (4.2) and (5.2)
-  - `MicroWaveDeviceInventory+simu.unknownTargetObject.unknownClass.receiver.yaml`: just for (4.2) and (5.2)
+  - `MicroWaveDeviceInventory+simu.unknownTargetObject.unknownMountName.receiver.deprecated.yaml`: for all tests except (4.2) and (5.2)
+  - `MicroWaveDeviceInventory+simu.unknownTargetObject.unknownClass.receiver.deprecated.yaml`: just for (4.2) and (5.2)

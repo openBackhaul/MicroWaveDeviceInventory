@@ -167,7 +167,17 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
           } else {
             if (newJSON != null) {
               let objectKey = Object.keys(newJSON)[0];
-              objJSON[arrayName] = newJSON[objectKey];
+              // if is latest
+              if (i == pathKeys.length -1 &&
+                objectKey.includes(":") && arrayName.includes("-pac")
+              ) {
+                logger.debug("This is PAC configuration");
+                let keyLast = objectKey.split(":");
+                objJSON[keyLast[1]] = newJSON[objectKey];
+              } else {
+                logger.debug("This doesn't have pac configuration");
+                objJSON[arrayName] = newJSON[objectKey];
+              }
             }
           }
         } else {

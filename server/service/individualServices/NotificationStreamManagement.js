@@ -98,11 +98,11 @@ async function removeStreamItem(applicationName, applicationRelease, streamType)
             for (let i = controllerNotificationStreams.length - 1; i >= 0; i--) {
                 if (controllerNotificationStreams[i].controllerKey === key) {
                     controllerNotificationStreams.splice(i, 1);
-                    console.log.debug("removed stream item for " + key);
+                    console.debug("removed stream item for " + key);
                 }
             }
         } catch (e) {
-            console.log.error("EventSource for " + key + " could not be closed");
+            console.error("EventSource for " + key + " could not be closed");
         }
     }
 }
@@ -119,7 +119,7 @@ function tryContinuousReconnectStream(registeredController, streamType) {
         //reconnect - build new stream
         let success = await notificationManagement.buildStreamsForController(registeredController, [streamType]);
         if (success) {
-            console.log.debug(registeredController.name + ': Stream reestablished ' + streamType);
+            console.debug(registeredController.name + ': Stream reestablished ' + streamType);
         } else {
             setTimeout(async function () {
                 tryContinuousReconnectStream(registeredController, streamType)

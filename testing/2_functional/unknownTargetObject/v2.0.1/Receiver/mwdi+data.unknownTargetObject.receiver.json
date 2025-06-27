@@ -49,26 +49,7 @@
 				"serverToBeApplied": "mwdi",
 				"mountName": "513250004",
 				"linkId": "101550001",
-				"kindOfReference": "dynamic",
-				"deviceAlarm_mountName": "513250008",
-				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
-				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
-				"attributeValueChange_attributeName": "external-label",
-				"attributeValueChange_newValue": "513559992A",
-				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500"
-			},
-			{
-				"collectionName": "unknownTargetObject.unknownClass.receiver",
-				"serverToBeApplied": "mwdi",
-				"mountName": "513250004",
-				"linkId": "101550001",
-				"kindOfReference": "dynamic",
-				"deviceAlarm_mountName": "513250008",
-				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
-				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
-				"attributeValueChange_attributeName": "external-label",
-				"attributeValueChange_newValue": "513559992A",
-				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500"
+				"kindOfReference": "dynamic"
 			},
 			{
 				"collectionName": "unknownTargetObject.unknownMountName.receiver_simulator",
@@ -76,27 +57,7 @@
 				"mountName": "305250001",
 				"linkId": "101550001",
 				"kindOfReference": "static",
-				"suffixUrlEncodingIsRequired": true,
-				"deviceAlarm_mountName": "513250008",
-				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
-				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
-				"attributeValueChange_attributeName": "external-label",
-				"attributeValueChange_newValue": "513559992A",
-				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500"
-			},
-			{
-				"collectionName": "unknownTargetObject.unknownClass.receiver_simulator",
-				"serverToBeApplied": "mwdi in mwdi+simulator.unknownTargetObject.unknownClass.receiver",
-				"mountName": "305250001",
-				"linkId": "101550001",
-				"kindOfReference": "static",
-				"suffixUrlEncodingIsRequired": true,
-				"deviceAlarm_mountName": "513250008",
-				"deviceAlarm_alarmTypeId": "siae-alarms-1-0:radioEquipConcatenationAlarm",
-				"attributeValueChange_target": "513250006/logical-termination-point=LTP-MWPS-TTP-ODU-A/ltp-augment-1-0:ltp-augment-pac",
-				"attributeValueChange_attributeName": "external-label",
-				"attributeValueChange_newValue": "513559992A",
-				"objectCreation_target": "513250007/forwarding-domain=VLAN-FD/fc=VLAN-500"
+				"suffixUrlEncodingIsRequired": true
 			}
 		]
 	}

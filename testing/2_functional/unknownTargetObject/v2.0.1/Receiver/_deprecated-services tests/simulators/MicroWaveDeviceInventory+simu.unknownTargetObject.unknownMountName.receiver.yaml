@@ -1,18 +1,73 @@
 openapi: 3.0.0
 info:
-  title: MWDI_2.0.1+simulator.unknownTargetObject.unknownMountName.receiver
+  title: MWDI_2.0.1+simulator.unknownTargetObject.unknownMountName.receiver.deprecated
   version: 1.0.0
 
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part
-#   MWDI_2.0.1+simulator.unknownTargetObject.unknownMountName.receiver in static reference mode
+#   MWDI_2.0.1+simulator.unknownTargetObject.unknownMountName.receiver.deprecated in static reference mode
 ########################################################################################################################
 
-  /v1/regard-controller-attribute-value-change:
+  /v1/regard-device-alarm:
     post:
-      operationId: regardControllerAttributeValueChange
-      summary: 'Receives notifications about attribute value changes at the Controller'
+      operationId: regardDeviceAlarm
+      summary: 'Receives notifications about alarms at devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:alarm-event-notification
+              properties:
+                notification-proxy-1-0:alarm-event-notification:
+                  type: object
+                  required:
+                    - alarm-event-sequence-number
+                    - timestamp
+                    - resource
+                    - alarm-type-id
+                    - alarm-type-qualifier
+                    - problem-severity
+                  properties:
+                    alarm-event-sequence-number:
+                      type: integer
+                    timestamp:
+                      type: string
+                    resource:
+                      type: string
+                    alarm-type-id:
+                      type: string
+                    alarm-type-qualifier:
+                      type: string
+                    problem-severity:
+                      type: string
+              example:
+                notification-proxy-1-0:alarm-event-notification:
+                  alarm-event-sequence-number: 1
+                  timestamp: '2023-07-11T08:45:02+01:00'
+                  resource: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=LTP-MWPS-TTP-RADIO-1A/layer-protocol=LP-MWPS-TTP-RADIO-1A/air-interface-2-0:air-interface-pac'
+                  alarm-type-id: 'siae-alarms-1-0:radioEquipLinkTelemetryFailAlarm'
+                  alarm-type-qualifier: ''
+                  problem-severity: 'major'
+      responses:
+        '500':
+          description: 'Response in case of errored service requests'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorDescription'
+
+  /v1/regard-device-attribute-value-change:
+    post:
+      operationId: regardDeviceAttributeValueChange
+      summary: 'Receives notifications about changes of values of attributes inside the devices'
       tags:
         - IndividualServices
       security:
@@ -31,7 +86,7 @@ paths:
                   required:
                     - counter
                     - timestamp
-                    - resource
+                    - object-path
                     - attribute-name
                     - new-value
                   properties:
@@ -39,7 +94,7 @@ paths:
                       type: integer
                     timestamp:
                       type: string
-                    resource:
+                    object-path:
                       type: string
                     attribute-name:
                       type: string
@@ -48,16 +103,103 @@ paths:
               example:
                 notification-proxy-1-0:attribute-value-changed-notification:
                   counter: 32
-                  timestamp: '2023-07-11T08:21:50+01:00'
-                  resource: '/core-model-1-4:network-control-domain=live/control-construct=odl-1/logical-termination-point=513250009/layer-protocol=0/mount-point-1-0:mount-point-pac/mount-point-status'
-                  attribute-name: 'connection-status'
-                  new-value: 'connecting'
+                  timestamp: '2010-11-20T14:00:00+01:00'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857/layer-protocol=2146697857/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                  attribute-name: 'performance-monitoring-is-on'
+                  new-value: 'true'
       responses:
-        '204':
-          description: 'Notification received'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
+        '500':
+          description: 'Response in case of errored service requests'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorDescription'
+
+  /v1/regard-device-object-creation:
+    post:
+      operationId: regardDeviceObjectCreation
+      summary: 'Receives notifications about objects that have been created inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:object-creation-notification
+              properties:
+                notification-proxy-1-0:object-creation-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+              example:
+                notification-proxy-1-0:object-creation-notification:
+                  counter: 2
+                  timestamp: '2023-07-10T12:27:03+01:00'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/profile-collection/profile=co-channel-17'
+      responses:
+        '404':
+          description: 'Response in case of errored service requests'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorDescription'
+
+  /v1/regard-device-object-deletion:
+    post:
+      operationId: regardDeviceObjectDeletion
+      summary: 'Receives notifications about objects that have been deleted inside the devices'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - notification-proxy-1-0:object-deletion-notification
+              properties:
+                notification-proxy-1-0:object-deletion-notification:
+                  type: object
+                  required:
+                    - counter
+                    - timestamp
+                    - object-path
+                  properties:
+                    counter:
+                      type: integer
+                    timestamp:
+                      type: string
+                    object-path:
+                      type: string
+              example:
+                notification-proxy-1-0:object-deletion-notification:
+                  counter: 14
+                  timestamp: '2023-07-13T09:31:48+01:00'
+                  object-path: '/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=RF-2146697857'
+      responses:
+        '500':
+          description: 'Response in case of errored service requests'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorDescription'
 
 ########################################################################################################################
 #   Common Components

@@ -420,7 +420,7 @@ paths:
                     type: string
       responses:
         '200':
-          description: 'Table with device status metadata provided'
+          description: 'Device status metadata provided'
           content:
             application/json:
               schema:
@@ -436,10 +436,13 @@ paths:
                         - connection-status
                         - changed-to-disconnected-time
                         - added-to-device-list-time
-                        - last-complete-control-construct-update-time
+                        - last-complete-control-construct-update-time-attempt
+                        - last-successful-complete-control-construct-update-time
                         - last-control-construct-notification-update-time
                         - number-of-partial-updates-since-last-complete-update
                         - schema-cache-directory
+                        - device-type
+                        - vendor
                       properties:
                         mount-name:
                           type: string
@@ -447,13 +450,14 @@ paths:
                           type: string
                           enum:
                             - 'connected'
-                            - 'connecting'
-                            - 'unable-to-connect'
+                            - 'disconnected'
                         changed-to-disconnected-time:
                           type: string
                         added-to-device-list-time:
                           type: string
-                        last-complete-control-construct-update-time:
+                        last-complete-control-construct-update-time-attempt:
+                          type: string
+                        last-successful-complete-control-construct-update-time:
                           type: string
                         last-control-construct-notification-update-time:
                           type: string
@@ -461,16 +465,23 @@ paths:
                           type: integer
                         schema-cache-directory:
                           type: string
-                example:
-                  device-status-metadata:
-                    - mount-name: '305251234'
-                      connection-status: 'connected'
-                      changed-to-disconnected-time: ''
-                      added-to-device-list-time: '2024-10-10T14:00:00+01:00'
-                      last-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
-                      last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
-                      number-of-partial-updates-since-last-complete-update: 7
-                      schema-cache-directory: 'hua'
+                        device-type:
+                          type: string
+                        vendor:
+                          type: string
+              example:
+                device-status-metadata:
+                  - mount-name: '305251234'
+                    connection-status: 'connected'
+                    changed-to-disconnected-time: ''
+                    added-to-device-list-time: '2024-10-10T14:00:00+01:00'
+                    last-complete-control-construct-update-time-attempt: '2024-10-10T14:00:05+01:00'
+                    last-successful-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+                    last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
+                    number-of-partial-updates-since-last-complete-update: 7
+                    schema-cache-directory: 'hua'
+                    device-type: 'RTN950'
+                    vendor: 'Huawei'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'

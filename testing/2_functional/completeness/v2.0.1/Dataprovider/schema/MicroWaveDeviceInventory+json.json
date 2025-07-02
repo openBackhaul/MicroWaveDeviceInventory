@@ -308,10 +308,13 @@
             "connection-status",
             "changed-to-disconnected-time",
             "added-to-device-list-time",
-            "last-complete-control-construct-update-time",
+            "last-complete-control-construct-update-time-attempt",
+            "last-successful-complete-control-construct-update-time",
             "last-control-construct-notification-update-time",
             "number-of-partial-updates-since-last-complete-update",
-            "schema-cache-directory"
+            "schema-cache-directory",
+            "device-type",
+            "vendor"
           ],
           "properties": {
             "mount-name": {
@@ -321,8 +324,7 @@
               "type": "string",
               "enum": [
                 "connected",
-                "connecting",
-                "unable-to-connect"
+                "disconnected"
               ]
             },
             "changed-to-disconnected-time": {
@@ -331,7 +333,10 @@
             "added-to-device-list-time": {
               "type": "string"
             },
-            "last-complete-control-construct-update-time": {
+            "last-complete-control-construct-update-time-attempt": {
+              "type": "string"
+            },
+            "last-successful-complete-control-construct-update-time": {
               "type": "string"
             },
             "last-control-construct-notification-update-time": {
@@ -341,6 +346,12 @@
               "type": "integer"
             },
             "schema-cache-directory": {
+              "type": "string"
+            },
+            "device-type": {
+              "type": "string"
+            },
+            "vendor": {
               "type": "string"
             }
           }
@@ -358,6 +369,39 @@
         "type": "array",
         "items": {
           "type": "string"
+        }
+      }
+    }
+  },
+  "/v1/provide-cache-quality-statistics": {
+    "type": "object",
+    "required": [
+      "cache-quality-statistics"
+    ],
+    "properties": {
+      "cache-quality-statistics": {
+        "type": "array",
+        "items": {
+          "required": [
+            "device-type",
+            "attribute-mismatches",
+            "attribute-class-mismatches",
+            "weighted-score"
+          ],
+          "properties": {
+            "device-type": {
+              "type": "string"
+            },
+            "attribute-mismatches": {
+              "type": "integer"
+            },
+            "attribute-class-mismatches": {
+              "type": "integer"
+            },
+            "weighted-score": {
+              "type": "integer"
+            }
+          }
         }
       }
     }

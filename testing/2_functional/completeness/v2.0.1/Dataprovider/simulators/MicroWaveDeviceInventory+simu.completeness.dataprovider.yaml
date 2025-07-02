@@ -9,35 +9,6 @@ paths:
 #   MWDI_2.0.1+simulator.completeness.dataprovider in static reference mode
 ########################################################################################################################
 
-  /v1/provide-list-of-connected-devices:
-    post:
-      operationId: provideListOfConnectedDevices
-      summary: 'Provides list of devices that are connected to the controller'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'List of connected devices provided'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - mount-name-list
-                properties:
-                  mount-name-list:
-                    type: array
-                    items:
-                      type: string
-                example:
-                  mount-name-list:
-                    - '305251234'
-                    - '105258888'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
 
   /v1/provide-list-of-device-interfaces:
     post:
@@ -402,7 +373,7 @@ paths:
   /v1/provide-device-status-metadata:
     post:
       operationId: provideDeviceStatusMetadata
-      summary: 'Provides metadata status table of devices'
+      summary: 'Provides metadata status of devices from deviceMetadataList'
       tags:
         - IndividualServices
       security:
@@ -412,12 +383,18 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                mount-name-list:
-                  type: array
-                  items:
-                    type: string
+              oneOf:
+                - description: 'Mount-name list filter'
+                  type: object
+                  properties:
+                    mount-name-list:
+                      type: array
+                      items:
+                        type: string
+                  example:
+                    mount-name-list:
+                      - '305251234'
+                      - '105258888'
       responses:
         '200':
           description: 'Device status metadata provided'
@@ -469,19 +446,112 @@ paths:
                           type: string
                         vendor:
                           type: string
-              example:
-                device-status-metadata:
-                  - mount-name: '305251234'
-                    connection-status: 'connected'
-                    changed-to-disconnected-time: ''
-                    added-to-device-list-time: '2024-10-10T14:00:00+01:00'
-                    last-complete-control-construct-update-time-attempt: '2024-10-10T14:00:05+01:00'
-                    last-successful-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
-                    last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
-                    number-of-partial-updates-since-last-complete-update: 7
-                    schema-cache-directory: 'hua'
-                    device-type: 'RTN950'
-                    vendor: 'Huawei'
+                example:
+                  device-status-metadata:
+                    - mount-name: '305251234'
+                      connection-status: 'connected'
+                      changed-to-disconnected-time: ''
+                      added-to-device-list-time: '2024-10-10T14:00:00+01:00'
+                      last-complete-control-construct-update-time-attempt: '2024-10-10T14:00:05+01:00'
+                      last-successful-complete-control-construct-update-time: '2024-10-10T14:00:05+01:00'
+                      last-control-construct-notification-update-time: '2024-10-10T15:17:00+01:00'
+                      number-of-partial-updates-since-last-complete-update: 7
+                      schema-cache-directory: 'hua'
+                      device-type: 'RTN950'
+                      vendor: 'Huawei'
+          headers:
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+
+  /v1/provide-cache-quality-statistics:
+    post:
+      operationId: provideCacheQualityStatistics
+      summary: 'Provides quality statistics for the cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group-by:
+                  type: string
+                  enum:
+                    - 'device-type'
+      responses:
+        '200':
+          description: 'Cache quality statistics provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - cache-quality-statistics
+                properties:
+                  cache-quality-statistics:
+                    type: array
+                    items:
+                      required:
+                        - device-type
+                        - attribute-mismatches
+                        - attribute-class-mismatches
+                        - weighted-score
+                      properties:
+                        device-type:
+                          type: string
+                        attribute-mismatches:
+                          type: integer
+                        attribute-class-mismatches:
+                          type: integer
+                        weighted-score:
+                          type: integer
+                example:
+                  cache-quality-statistics:
+                    - device-type: 'AGS20'
+                      attribute-mismatches: 18
+                      attribute-class-mismatches: 2
+                      weighted-score: 31
+                    - device-type: 'MLTN'
+                      attribute-mismatches: 5
+                      attribute-class-mismatches: 3
+                      weighted-score: 19
+          headers:
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+
+  /v1/provide-list-of-cached-devices:
+    post:
+      operationId: provideListOfCachedDevices
+      summary: 'Provides list of devices for which MWDI has a ControlConstruct in its cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of cached devices provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - mount-name-list
+                properties:
+                  mount-name-list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mount-name:
+                          type: string
+                example:
+                  mount-name-list:
+                    - '305251234'
+                    - '105258888'
           headers:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'

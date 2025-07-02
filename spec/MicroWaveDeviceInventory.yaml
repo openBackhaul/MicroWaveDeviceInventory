@@ -2715,19 +2715,17 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - description: 'Mount-name list filter'
-                  type: object
-                  properties:
-                    mount-name-list:
-                      type: array
-                      items:
-                        type: string
-                      description: 'List of names of devices for which the status metadata shall be provided.'
-                  example:
-                    mount-name-list:
-                      - '305251234'
-                      - '105258888'
+              type: object
+              properties:
+                mount-name-list:
+                  type: array
+                  items:
+                    type: string
+                  description: 'List of names of devices for which the status metadata shall be provided.'
+              example:
+                mount-name-list:
+                  - '305251234'
+                  - '105258888'
       responses:
         '200':
           description: 'Device status metadata provided'

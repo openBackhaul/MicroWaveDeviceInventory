@@ -9,7 +9,6 @@ participant "Postman" as Postman
 participant "Data" as Data
 participant "Collection" as Collection
 
-participant "/v1/provide-list-of-connected-devices" as PLOCD
 participant "/v1/provide-list-of-device-interfaces" as PLODI
 participant "/v1/provide-list-of-actual-device-equipment" as PLOADE
 participant "/v1/provide-list-of-links" as PLOL
@@ -18,22 +17,13 @@ participant "/v1/provide-list-of-parallel-links" as PLOPL
 participant "/v1/provide-list-of-link-ports" as PLOLP
 participant "/v1/provide-data-of-all-link-ports" as PDOALP
 participant "/v1/provide-device-status-metadata" as PDSM
-
+participant "/v1/provide-cache-quality-statistics" as PCQS
+participant "/v1/provide-list-of-cached-devices" as PLOCD
 
 group Preparation
   Data --\\o Postman : {servers, mount-name, linkd-id}
   activate Postman
   Postman --\\o Collection : {servers, mount-name, link-id}
-end
-
-group /v1/provide-list-of-connected-devices
-  Collection --\\o Postman : {servers}
-  Postman -> PLOCD
-  Postman <-- PLOCD : {mount-name-list}
-  note right Postman #Orange
-    schema validation
-  end note
-  Postman --\\o Collection : {mount-name-list}
 end
 
 group /v1/provide-list-of-device-interfaces
@@ -102,10 +92,29 @@ end
 group /v1/provide-device-status-metadata
   Collection --\\o Postman : {servers, mount-name}
   Postman -> PDSM : {mount-name}
-  Postman <-- PDSM : {[mount-name, connection-status, changed-to-disconnected-time, added-to-device-list-time,\n last-complete-control-construct-update-time, last-control-construct-notification-update-time,\n number-of-partial-updates-since-last-complete-update, schema-cache-directory]}
+  Postman <-- PDSM : {metadata}
   note right Postman #Orange
     schema validation
   end note
+end
+
+group /v1/provide-cache-quality-statistics
+  Collection --\\o Postman : {servers, mount-name}
+  Postman -> PCQS : {mount-name}
+  Postman <-- PCQS : {quality-statistics}
+  note right Postman #Orange
+    schema validation
+  end note
+end
+
+group /v1/provide-list-of-cached-devices
+  Collection --\\o Postman : {servers}
+  Postman -> PLOCD
+  Postman <-- PLOCD : {mount-name-list}
+  note right Postman #Orange
+    schema validation
+  end note
+  Postman --\\o Collection : {mount-name-list}
 end
 
 deactivate Postman

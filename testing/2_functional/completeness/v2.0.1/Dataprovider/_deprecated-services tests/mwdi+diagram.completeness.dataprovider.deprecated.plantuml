@@ -1,0 +1,34 @@
+@startuml mwdi+diagram.completeness.dataprovider.deprecated
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.completeness.dataprovider.deprecated
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/provide-list-of-connected-devices" as PLOCD
+
+
+
+group Preparation
+  Data --\\o Postman : {servers, mount-name, linkd-id}
+  activate Postman
+  Postman --\\o Collection : {servers, mount-name, link-id}
+end
+
+group /v1/provide-list-of-connected-devices
+  Collection --\\o Postman : {servers}
+  Postman -> PLOCD
+  Postman <-- PLOCD : {mount-name-list}
+  note right Postman #Orange
+    schema validation
+  end note
+  Postman --\\o Collection : {mount-name-list}
+end
+
+deactivate Postman
+
+@enduml

@@ -4,7 +4,6 @@
 
 The following list contains the services from the above diagram, for which completness tests are provided.  
 The list gives some information about testing limitations (currently this applies only for the link-related services):   
-- /v1/provide-list-of-connected-devices
 - /v1/provide-list-of-device-interfaces
 - /v1/provide-list-of-actual-device-equipment
 - /v1/provide-list-of-links:
@@ -19,6 +18,10 @@ The list gives some information about testing limitations (currently this applie
 - /v1/provide-list-of-link-ports
 - /v1/provide-data-of-all-link-ports
 - /v1/provide-device-status-metadata
+- /v1/provide-cache-quality-statistics
+  - and optional filter for the link type can be provided in the requestBody upon call
+  - the completeness test will be executed without providing the optional filter
+- /v1/provide-list-of-cached-devices
 
 ---
 
@@ -31,3 +34,11 @@ Therefore the related services will not return any data, unless testers add test
 *The examples for the complete service responses (for services under test) should have the same identation as the* schema *keyword*.  
 *However, if the simulators are created from the OAS accordingly, the import in Mockoon will lead to empty examples, altough the examples are shown correctly in the Swagger editor.*
 *Therefore, it was necessary to change the identation of response examples in the simulators to match the identation of the* properties *keyword.*
+
+
+### Deprecated services
+
+The below diagram shows the deprecated services, for which the related testcase collection can be found in the subfolder *_deprecated-services tests*.  
+
+![OverviewDeprecated](./_deprecated-services%20tests/mwdi+diagram.completeness.dataprovider.deprecated.png)
+

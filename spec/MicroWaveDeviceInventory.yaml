@@ -2881,77 +2881,54 @@ paths:
             application/json:
               schema:
                 type: object
-                oneOf:
-                  - description: 'statistics per device without grouping (default)'
-                    required:
-                      - cache-quality-statistics
-                    properties:
-                      cache-quality-statistics:
-                        description: 'Statistics are only aggregated if there are qualityMeasurementSampleNumber samples'
-                        type: array
-                        items:
-                          required:
-                            - device-type
-                            - attribute-mismatches
-                            - attribute-class-mismatches
-                            - weighted-score
-                          properties:
-                            device-type:
-                              type: string
-                              enum:
-                                - 'all'
-                              description: 'The deviceType for aggregation over all devices is to be set to all'
-                            attribute-mismatches:
-                              type: integer
-                              description: 'The averaged number of attribute mismatches'
-                            attribute-class-mismatches:
-                              type: integer
-                              description: 'The averaged number of attribute classes existing only in either cache or live'
-                            weighted-score:
-                              type: integer
-                              description: 'The averaged score computed from the found differences'
-                        example:
-                          cache-quality-statistics:
-                            - device-type: 'all'
-                              attribute-mismatches: 18
-                              attribute-class-mismatches: 2
-                              weighted-score: 31
-                  - description: 'statistics grouped by device-type'
-                    required:
-                      - cache-quality-statistics
-                    properties:
-                      cache-quality-statistics:
-                        description: 'Statistics are only aggregated and grouped by deviceType if there are qualityMeasurementSampleNumber samples'
-                        type: array
-                        items:
-                          required:
-                            - device-type
-                            - attribute-mismatches
-                            - attribute-class-mismatches
-                            - weighted-score
-                          properties:
-                            device-type:
-                              type: string
-                              description: 'The deviceType for which the aggregated values are provided'
-                            attribute-mismatches:
-                              type: integer
-                              description: 'The averaged number of attribute mismatches'
-                            attribute-class-mismatches:
-                              type: integer
-                              description: 'The averaged number of attribute classes existing only in either cache or live'
-                            weighted-score:
-                              type: integer
-                              description: 'The averaged score computed from the found differences'
-                        example:
-                          cache-quality-statistics:
-                            - device-type: 'AGS20'
-                              attribute-mismatches: 18
-                              attribute-class-mismatches: 2
-                              weighted-score: 31
-                            - device-type: 'MLTN'
-                              attribute-mismatches: 5
-                              attribute-class-mismatches: 3
-                              weighted-score: 19
+                required:
+                  - cache-quality-statistics
+                properties:
+                  cache-quality-statistics:
+                    description: > 
+                      'There are two cases for aggregation and grouping of response data. Both only take place if there are qualityMeasurementSampleNumber samples.
+                        - case 1 (default): if no requestBody is provided, the statistics are aggregated over all samples and a single output record is generated. The device-type for this record must be set to string
+                          all
+                        - case 2: if the service has been called with the group-by device-type requestBody, statistics are aggregated and grouped by device-type, resulting in one record per device-type.
+                    type: array
+                    items:
+                      required:
+                        - device-type
+                        - attribute-mismatches
+                        - attribute-class-mismatches
+                        - weighted-score
+                      properties:
+                        device-type:
+                          type: string
+                          description: 'The deviceType for which the aggregated values are provided'
+                        attribute-mismatches:
+                          type: integer
+                          description: 'The averaged number of attribute mismatches'
+                        attribute-class-mismatches:
+                          type: integer
+                          description: 'The averaged number of attribute classes existing only in either cache or live'
+                        weighted-score:
+                          type: integer
+                          description: 'The averaged score computed from the found differences'
+              examples:
+                no-grouping:
+                  value:
+                    cache-quality-statistics:
+                      - device-type: 'all'
+                        attribute-mismatches: 18
+                        attribute-class-mismatches: 2
+                        weighted-score: 31
+                grouping-per-device-type:
+                  value:
+                    cache-quality-statistics:
+                      - device-type: 'AGS20'
+                        attribute-mismatches: 18
+                        attribute-class-mismatches: 2
+                        weighted-score: 31
+                      - device-type: 'MLTN'
+                        attribute-mismatches: 5
+                        attribute-class-mismatches: 3
+                        weighted-score: 19
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'

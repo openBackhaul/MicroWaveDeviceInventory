@@ -1,14 +1,3 @@
-
-  /v1/provide-list-of-connected-devices:
-    type: object
-    required:
-      - mount-name-list
-    properties:
-      mount-name-list:
-        type: array
-        items:
-          type: string
-
   /v1/provide-list-of-device-interfaces:
     type: object
     required:
@@ -250,3 +239,13 @@
               type: integer
             schema-cache-directory:
               type: string
+
+  /v1/provide-list-of-cached-devices:
+    type: object
+    required:
+      - mount-name-list
+    properties:
+      mount-name-list:
+        type: array
+        items:
+          type: string

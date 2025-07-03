@@ -7,3 +7,7 @@
 
 #### The following application specific tests are supported:  
 - ./.
+
+
+#### Additional notes
+For deprecated services, which are still included in the release to be tested, separate testcase collections are provided.

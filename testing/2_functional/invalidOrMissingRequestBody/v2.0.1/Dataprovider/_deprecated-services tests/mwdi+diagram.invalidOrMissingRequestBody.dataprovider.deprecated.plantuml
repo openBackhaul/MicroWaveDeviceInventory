@@ -1,0 +1,33 @@
+@startuml mwdi+diagram.invalidOrMissingRequestBody.dataprovider.deprecated
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidOrMissingRequestBody.dataprovider.deprecated
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+'no requestBody
+participant "/v1/provide-list-of-connected-devices" as PLOCD
+
+group Preparation
+  Data --\\o Postman : {servers}
+  activate Postman
+  Postman --\\o Collection : {servers}
+end
+
+== No requestBody == 
+  group /v1/provide-list-of-connected-devices
+    Collection --\\o Postman : {servers}
+    Postman -> PLOCD : {dummyRequestBody}
+    Postman <-- PLOCD : 200
+    note right Postman #Orange
+      check for 200
+    end note
+  end
+
+deactivate Postman
+
+@enduml

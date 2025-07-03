@@ -18,6 +18,7 @@ participant "/v1/provide-device-status-metadata" as PDSM
 'optional requestBody
 participant "/v1/provide-list-of-links" as PLOL
 participant "/v1/provide-data-of-all-links" as PDOAL
+participant "/v1/provide-cache-quality-statistics" as PCQS
 
 'no requestBody
 participant "/v1/provide-list-of-connected-devices" as PLOCD

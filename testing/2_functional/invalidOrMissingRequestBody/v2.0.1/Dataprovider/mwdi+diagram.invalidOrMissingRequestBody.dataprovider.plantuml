@@ -18,12 +18,12 @@ participant "/v1/provide-device-status-metadata" as PDSM
 'optional requestBody
 participant "/v1/provide-list-of-links" as PLOL
 participant "/v1/provide-data-of-all-links" as PDOAL
+participant "/v1/provide-cache-quality-statistics" as PCQS
 
 'no requestBody
-participant "/v1/provide-list-of-connected-devices" as PLOCD
 participant "/v1/provide-list-of-link-ports" as PLOLP
 participant "/v1/provide-data-of-all-link-ports" as PDOALP
-
+participant "/v1/provide-list-of-cached-devices" as PLOCD
 
 group Preparation
   Data --\\o Postman : {servers}
@@ -96,18 +96,17 @@ end
     end note
   end
 
-
-'-------------------------------------------------------------
-== No requestBody == 
-  group /v1/provide-list-of-connected-devices
+  group /v1/provide-cache-quality-statistics
     Collection --\\o Postman : {servers}
-    Postman -> PLOCD : {dummyRequestBody}
-    Postman <-- PLOCD : 200
+    Postman -> PCQS : {invalidRequestBody}
+    Postman <-- PCQS : 400
     note right Postman #Orange
-      check for 200
+      check for 400
     end note
   end
 
+'-------------------------------------------------------------
+== No requestBody == 
   group /v1/provide-list-of-link-ports
     Collection --\\o Postman : {servers}
     Postman -> PLOLP : {dummyRequestBody}
@@ -125,6 +124,16 @@ end
       check for 200
     end note
   end
+
+  group /v1/provide-list-of-cached-devices
+    Collection --\\o Postman : {servers}
+    Postman -> PLOCD : {dummyRequestBody}
+    Postman <-- PLOCD : 200
+    note right Postman #Orange
+      check for 200
+    end note
+  end
+
 
 deactivate Postman
 

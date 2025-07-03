@@ -180,37 +180,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/errorDescription'
 
-
-  # --- category 3: no requestBody -----------------------------------------------------------
-  /v1/provide-list-of-connected-devices:
+  /v1/provide-cache-quality-statistics:
     post:
-      operationId: provideListOfConnectedDevices
-      summary: 'Provides list of devices that are connected to the controller'
+      operationId: provideCacheQualityStatistics
+      summary: 'Provides quality statistics for the cache'
       tags:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group-by:
+                  type: string
+                  enum:
+                    - 'device-type'
       responses:
-        '200':
-          description: 'List of connected devices provided'
+        '400':
+          description: 'Response in case of errored service requests'
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - mount-name-list
-                properties:
-                  mount-name-list:
-                    type: array
-                    items:
-                      type: string
-                example:
-                  mount-name-list:
-                    - '305251234'
-                    - '105258888'
-          headers:
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
+                $ref: '#/components/schemas/errorDescription'
+
+  # --- category 3: no requestBody -----------------------------------------------------------
 
   /v1/provide-list-of-link-ports:
     post:
@@ -309,6 +306,38 @@ paths:
             life-cycle-state:
               $ref: '#/components/headers/life-cycle-state'
 
+  /v1/provide-list-of-cached-devices:
+    post:
+      operationId: provideListOfCachedDevices
+      summary: 'Provides list of devices for which MWDI has a ControlConstruct in its cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of cached devices provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - mount-name-list
+                properties:
+                  mount-name-list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        mount-name:
+                          type: string
+              example:
+                mount-name-list:
+                  - '305251234'
+                  - '105258888'
+          headers:
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
 
 ########################################################################################################################
 #   Common Components

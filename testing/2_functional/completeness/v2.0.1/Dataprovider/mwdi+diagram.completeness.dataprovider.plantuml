@@ -100,7 +100,7 @@ end
 
 group /v1/provide-cache-quality-statistics
   Collection --\\o Postman : {servers, mount-name}
-  Postman -> PCQS : {mount-name}
+  Postman -> PCQS : 1. no requestBody, \n2. group-by deviceType 
   Postman <-- PCQS : {quality-statistics}
   note right Postman #Orange
     schema validation

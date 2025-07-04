@@ -20,7 +20,8 @@ The list gives some information about testing limitations (currently this applie
 - /v1/provide-device-status-metadata
 - /v1/provide-cache-quality-statistics
   - and optional filter for the link type can be provided in the requestBody upon call
-  - the completeness test will be executed without providing the optional filter
+  - the test will be executed once without requestBody
+  - and once with the groupBy deviceType in the requestBody (uses separate simulator)
 - /v1/provide-list-of-cached-devices
 
 ---

@@ -20,7 +20,7 @@
 			},
 			{
 				"serverName": "mwdi in mwdi+simulator.completeness.dataprovider",
-				"server": "http://localhost:3002",
+				"server": "http://localhost:3000",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
 				"operationKey": "Operation key not yet provided.",
@@ -29,10 +29,10 @@
 				"xCorrelator": "00000000-0000-0000-0000-000000000532",
 				"traceIndicator": "1",
 				"customerJourney": ""
-			}
+			},
 			{
 				"serverName": "mwdi in mwdi+simulator.completeness.dataprovider.qs",
-				"server": "http://localhost:3002",
+				"server": "http://localhost:3001",
 				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
 				"authorizationCode": "",
 				"operationKey": "Operation key not yet provided.",

@@ -10,27 +10,31 @@ const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
+const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
+const fileProfileOperation = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/FileProfile')
+const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
+const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
+const executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
+const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
+const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
+const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
+
 // Extra Libs
+const urlf = require('url');
+const fs = require('fs');
+const crypto = require("crypto");
+const axios = require('axios');
 const createHttpError = require('http-errors');
 const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
 const fieldsManager = require('./individualServices/fieldsManagement');
-const { getIndexAliasAsync, createResultArray, elasticsearchService } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
-const RequestHeader = require('onf-core-model-ap/applicationPattern/rest/client/RequestHeader');
-const axios = require('axios');
-const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
-const RequestBuilder = require('onf-core-model-ap/applicationPattern/rest/client/RequestBuilder');
 const subscriberManagement = require('./individualServices/SubscriberManagement');
 const inputValidation = require('./individualServices/InputValidation');
 const notificationManagement = require('./individualServices/NotificationManagement');
-const executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
-const responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHandler');
 const alarmHandler = require('./individualServices/alarmUpdater')
-
-const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
 const { getDeviceListInMemory } = require('./individualServices/CyclicProcessService/cyclicProcess');
 
@@ -10758,7 +10762,7 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
       const logicalTerminationPoint = match ? match[1] : null;
       // Create an object req 
       let urlString = '/core-model-1-4:network-control-domain=live/control-construct=' + logicalTerminationPoint;
-      const urlf = require('url');
+      
       const parsedUrl = urlf.parse(urlString);
 
       // const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()
@@ -10920,7 +10924,6 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
         resolve();
       }
     } catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -10995,7 +10998,6 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
         resolve();
       }
     } catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -11069,7 +11071,6 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
 
       resolve();
     } catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -12383,13 +12384,10 @@ function decodeLinkUuid(url, uuid) {
 
 async function extractProfileConfiguration(uuid) {
   try {
-    const profileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
     let profile = await profileCollection.getProfileAsync(uuid);
     let objectKey = Object.keys(profile)[2];
     profile = profile[objectKey];
     let filepath = profile["file-profile-configuration"]["file-name"];
-    const fs = require('fs');
-    const fileProfileOperation = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/FileProfile')
 
     let applicationDataFile = await fileProfileOperation.getApplicationDataFileContent();
     const data = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
@@ -12602,7 +12600,6 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
       }
     }
     catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }

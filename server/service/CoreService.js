@@ -10,8 +10,8 @@ const { elasticsearchService } = require('onf-core-model-ap/applicationPattern/s
 exports.getControlConstruct = function () {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync("core-model-1-4:control-construct");
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync("core-model-1-4:control-construct");
+      let response = {};
       response['application/json'] = {
         "core-model-1-4:control-construct": await elasticsearchService.updateControlConstructWithServicePolicy(value)
       };
@@ -35,8 +35,8 @@ exports.getControlConstruct = function () {
 exports.getProfileInstance = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "core-model-1-4:profile" : value
       };

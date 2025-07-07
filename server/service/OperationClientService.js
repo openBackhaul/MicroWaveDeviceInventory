@@ -12,8 +12,8 @@ const operationClientInterface = require('onf-core-model-ap/applicationPattern/o
 exports.getOperationClientDetailedLoggingIsOn = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "operation-client-interface-1-0:detailed-logging-is-on": value
       };
@@ -38,8 +38,8 @@ exports.getOperationClientDetailedLoggingIsOn = function (url) {
 exports.getOperationClientLifeCycleState = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "operation-client-interface-1-0:life-cycle-state": value
       };
@@ -64,8 +64,8 @@ exports.getOperationClientLifeCycleState = function (url) {
 exports.getOperationClientOperationKey = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "operation-client-interface-1-0:operation-key": value
       };
@@ -89,8 +89,8 @@ exports.getOperationClientOperationKey = function (url) {
 exports.getOperationClientOperationName = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "operation-client-interface-1-0:operation-name": value
       };
@@ -115,8 +115,8 @@ exports.getOperationClientOperationName = function (url) {
 exports.getOperationClientOperationalState = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "operation-client-interface-1-0:operational-state": value
       };

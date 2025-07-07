@@ -1279,6 +1279,8 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedCurrentAlarms - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1287,6 +1289,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
@@ -1319,6 +1322,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1356,6 +1360,8 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1364,6 +1370,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1395,6 +1402,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1433,6 +1441,8 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1441,6 +1451,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1472,6 +1483,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1510,6 +1522,8 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1518,6 +1532,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1549,6 +1564,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1587,6 +1603,8 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1595,6 +1613,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1626,6 +1645,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1664,6 +1684,8 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedEthernetContainerStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1672,6 +1694,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1703,6 +1726,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1741,6 +1765,8 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedExpectedEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1749,6 +1775,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1780,6 +1807,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1816,6 +1844,8 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1824,6 +1854,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1855,6 +1886,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1892,6 +1924,8 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareComponentCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1900,6 +1934,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -1931,6 +1966,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -1968,6 +2004,8 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareComponentList - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -1976,6 +2014,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -2006,6 +2045,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2043,6 +2083,8 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedFirmwareComponentStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2051,6 +2093,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -2082,6 +2125,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2119,6 +2163,8 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedForwardingConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2127,6 +2173,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -2158,6 +2205,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2197,6 +2245,8 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedForwardingConstructPort - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2205,6 +2255,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -2236,6 +2287,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2273,6 +2325,8 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedForwardingDomain - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2281,6 +2335,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -2312,6 +2367,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -2350,6 +2406,8 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getCachedHybridMwStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -2358,6 +2416,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
+      logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
@@ -2389,6 +2448,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       resolve(returnObject);
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });

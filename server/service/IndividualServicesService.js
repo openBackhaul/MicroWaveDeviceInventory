@@ -5178,11 +5178,13 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5243,11 +5245,13 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5328,11 +5332,13 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAirInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5411,11 +5417,13 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAlarmCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5495,11 +5503,13 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAlarmConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5579,11 +5589,13 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveAlarmEventRecords - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5663,11 +5675,13 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveCoChannelProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5747,11 +5761,13 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveCoChannelProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5832,11 +5848,13 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveConnector - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5917,11 +5935,13 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveContainedHolder - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -5995,6 +6015,8 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
+        logger.error("getLiveControlConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
         return;
       } else {
@@ -6004,12 +6026,13 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (result == false) {
           //resolve(NotFound());
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
         } else if (result.status != 200) {
+          logger.error(result, "Get CC from live network fails, result.status!=200");
           if (result.statusText == undefined) {
             throw new createHttpError(502, "Bad Gateway");
           } else if (result.statusText == 401 || result.statusText == 403) {
@@ -6096,11 +6119,13 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveCurrentAlarms - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6181,11 +6206,13 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6266,11 +6293,13 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6351,11 +6380,13 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6435,11 +6466,13 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6500,11 +6533,13 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6585,11 +6620,13 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveEthernetContainerStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6670,11 +6707,13 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveExpectedEquipment - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6753,11 +6792,13 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6837,11 +6878,13 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareComponentCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6921,11 +6964,13 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareComponentList - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7005,11 +7050,13 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveFirmwareComponentStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7089,11 +7136,13 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveForwardingConstruct - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7175,11 +7224,13 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveForwardingConstructPort - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7259,11 +7310,13 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveForwardingDomain - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7343,11 +7396,13 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7428,11 +7483,13 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7512,11 +7569,13 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7577,11 +7636,13 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7662,11 +7723,13 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveHybridMwStructureStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -7915,11 +7978,13 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8000,11 +8065,13 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8085,11 +8152,13 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveMacInterfaceStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8169,11 +8238,13 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePolicingProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8253,11 +8324,13 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePolicingProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8337,11 +8410,13 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveProfile - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8420,11 +8495,13 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveProfileCollection - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8505,11 +8582,13 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8590,11 +8669,13 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureConfiguration- Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8674,11 +8755,13 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8739,11 +8822,13 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureHistoricalPerformances - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8824,11 +8909,13 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLivePureEthernetStructureStatus - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8908,11 +8995,13 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveQosProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -8992,11 +9081,13 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveQosProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9076,11 +9167,13 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveSchedulerProfileCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9159,11 +9252,13 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveSchedulerProfileConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9244,11 +9339,13 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9292,6 +9389,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9329,11 +9427,13 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveVlanInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9377,6 +9477,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9413,11 +9514,13 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceCapability - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9461,6 +9564,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9498,11 +9602,13 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceConfiguration - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9546,6 +9652,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9582,11 +9689,13 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        logger.error("getLiveWireInterfaceCurrentPerformance - Wrong decoding mountname, is an object:");
+        logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctCc = mountname;
       }
-      if (common[0].applicationName.indexOf("OpenDayLight") != -1) {
+      if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
         const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
         if (res == false) {
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -9610,6 +9719,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9697,6 +9807,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9783,7 +9894,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9869,7 +9980,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -9955,7 +10066,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10668,7 +10779,6 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       }
       resolve();
     } catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -10726,7 +10836,6 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       }
       resolve();
     } catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -10762,7 +10871,6 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
       const logicalTerminationPoint = match ? match[1] : null;
       // Create an object req 
       let urlString = '/core-model-1-4:network-control-domain=live/control-construct=' + logicalTerminationPoint;
-      
       const parsedUrl = urlf.parse(urlString);
 
       // const appNameAndUuidFromForwarding = await NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache()

@@ -29,16 +29,17 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
                 httpRequestHeader, 
                 httpRequestBody
                 );
-            let responseCode = response.status;
-            if (responseCode.toString().startsWith("2")) {
-                result = true;
-                //resolve(response);
-            } /* else {
-                resolve(false)
-            } */
+            // let responseCode = response.status;
+            // if (responseCode.toString().startsWith("2")) {
+            //     result = true;
+            //     //resolve(response);
+            // } /* else {
+            //     resolve(false)
+            // } */
             resolve(response);
         } catch (error) {
-            reject(error);
+            //reject(error);
+            resolve(false);
         }
     });
 }

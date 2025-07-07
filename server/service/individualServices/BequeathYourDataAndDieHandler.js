@@ -114,6 +114,10 @@ exports.handleRequest = async function (body, requestUrl) {
         //cyclicProcess.stopCyclicProcess();
         const {stopCyclicProcess} = require('./CyclicProcessService/cyclicProcess.js');
         stopCyclicProcess();
+
+        const {stopMetaDataCyclicProcess} = require('./CyclicProcessService/metaDataTableCyclicProcess.js');
+        stopMetaDataCyclicProcess();
+
     }
     
     return success;

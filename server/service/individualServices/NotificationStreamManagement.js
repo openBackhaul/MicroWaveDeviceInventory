@@ -32,7 +32,7 @@ function addStreamItem(name, release, eventSource, streamType) {
         logString += controllerNotificationStream.controllerKey + ", ";
     }
 
-    console.log.debug("notification streams after adding: " + logString);
+    console.debug("notification streams after adding: " + logString);
 }
 
 /**
@@ -50,7 +50,7 @@ function increaseCounter(name, release, streamType) {
         element.counter = element.counter + 1;
         return element.counter;
     } else {
-        console.log.warn("no stream found to increase counter for: " + name);
+        console.warn("no stream found to increase counter for: " + name);
         return -1;
     }
 }
@@ -98,11 +98,11 @@ async function removeStreamItem(applicationName, applicationRelease, streamType)
             for (let i = controllerNotificationStreams.length - 1; i >= 0; i--) {
                 if (controllerNotificationStreams[i].controllerKey === key) {
                     controllerNotificationStreams.splice(i, 1);
-                    console.log.debug("removed stream item for " + key);
+                    console.debug("removed stream item for " + key);
                 }
             }
         } catch (e) {
-            console.log.error("EventSource for " + key + " could not be closed");
+            console.error("EventSource for " + key + " could not be closed");
         }
     }
 }
@@ -119,7 +119,7 @@ function tryContinuousReconnectStream(registeredController, streamType) {
         //reconnect - build new stream
         let success = await notificationManagement.buildStreamsForController(registeredController, [streamType]);
         if (success) {
-            console.log.debug(registeredController.name + ': Stream reestablished ' + streamType);
+            console.debug(registeredController.name + ': Stream reestablished ' + streamType);
         } else {
             setTimeout(async function () {
                 tryContinuousReconnectStream(registeredController, streamType)
@@ -134,7 +134,7 @@ async function startStream(controllerTargetUrl, registeredController, handleFunc
 
     let base64encodedData = Buffer.from(user + ':' + password).toString('base64');
 
-    console.log.debug("starting eventsource " + controllerTargetUrl);
+    console.debug("starting eventsource " + controllerTargetUrl);
 
     const eventSource = new EventSource(controllerTargetUrl, {
         withCredentials: true,
@@ -144,31 +144,31 @@ async function startStream(controllerTargetUrl, registeredController, handleFunc
     });
 
     eventSource.onopen = (event) => {
-        console.log.debug("listening to stream for notifications: " + controllerTargetUrl);
+        console.debug("listening to stream for notifications: " + controllerTargetUrl);
     };
 
     eventSource.onmessage = (event) => {
-        console.log.debug("received event: " + event.data);
+        console.debug("received event: " + event.data);
         handleFunction(event.data, registeredController.name, registeredController.release, controllerTargetUrl);
     };
 
     eventSource.onerror = async (err) => {
 
-        console.log.error(err, registeredController.name + ": SSE-Error on EventSource (" + streamType + ", readyState is " + eventSource.readyState + "), details: ");
+        console.error(err, registeredController.name + ": SSE-Error on EventSource (" + streamType + ", readyState is " + eventSource.readyState + "), details: ");
 
         //checking for closed state - may indicate severe network error
         if (eventSource.readyState === 2) {
-            console.log.debug(registeredController.name + ': SSE-Connection to controller interrupted. Trying to reconnect after 60 seconds');
+            console.debug(registeredController.name + ': SSE-Connection to controller interrupted. Trying to reconnect after 60 seconds');
 
             await removeStreamItem(registeredController.name, registeredController.release, streamType);
-            console.log.debug(registeredController.name + ': Closed old stream ' + streamType);
+            console.debug(registeredController.name + ': Closed old stream ' + streamType);
 
             tryContinuousReconnectStream(registeredController, streamType);
         }
     };
 
     eventSource.onclose = (event) => {
-        console.log.debug("EventSource closed");
+        console.debug("EventSource closed");
     };
 
     //add to global list of open eventSources

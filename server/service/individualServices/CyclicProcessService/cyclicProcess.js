@@ -7,6 +7,7 @@ const individualServicesService = require("../../IndividualServicesService.js");
 const shuffleArray = require('shuffle-array');
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const notificationManagement = require('../../individualServices/NotificationManagement');
+const { eviceIsDeletedduetoPeroidicUpdate} = require('./metaDataUtility.js');
 
 // SIMULATION
 const startModule = require('../../../temporarySupportFiles/StartModule.js');
@@ -471,6 +472,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
         let leftDL = deviceList.slice(0, lastDeviceListIndex + 1);
         let nodeObj = { 'node-id': node_id, 'netconf-node-topology:connection-status': 'connected' };
         let middleDL = [].concat(nodeObj);
+        // Device added to device List
         let rightDL = deviceList.slice(lastDeviceListIndex + 1);
         printDL('Device List before connected notification')
         deviceList = [].concat(leftDL, middleDL, rightDL);
@@ -492,7 +494,7 @@ module.exports.updateDeviceListFromNotification = async function updateDeviceLis
             }
         }
         if (found == false) {
-            console.log("Notification: element " + node_id + " not present in device list. Ignore that.");
+             console.log("Notification: element " + node_id + " not present in device list. Ignore that.");
             return;
         }
         for (let i = 0; i < slidingWindow.length; i++) {
@@ -572,9 +574,9 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
             }
         }
         if (!found) {
-            dropEsElements.push(esDeviceList[i]);
+            dropEsElements.push(esDeviceList[i]);   
         }
-    }
+    }  
     //
     // Calculate new elements of ODL-DL and print ODL-DL
     //
@@ -660,7 +662,7 @@ module.exports.deviceListSynchronization = async function deviceListSynchronizat
     //
     let deviceListCleaned = [];
     for (let i = 0; i < deviceList.length; i++) {
-        deviceListCleaned.push({ "node-id": deviceList[i]["node-id"] });
+      deviceListCleaned.push({ "node-id": deviceList[i]["node-id"] });
     }
     deviceList = deviceListCleaned;
     var deviceListStringiflied = JSON.stringify(deviceList);
@@ -900,7 +902,7 @@ module.exports.startCyclicProcess = async function startCyclicProcess(logging_le
 }
 
 /**
- * Stops the cyclic process disabling the time to live check
+ * Stops the cyclic process disabling the time to live check the device list
  * 
  **/
 module.exports.stopCyclicProcess = async function stopCyclicProcess() {

@@ -30,7 +30,23 @@ const alarmHandler = require('./individualServices/alarmUpdater')
 const crypto = require("crypto");
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
 const { getDeviceListInMemory } = require('./individualServices/CyclicProcessService/cyclicProcess');
+
+const logger = require('./LoggingService.js').getLogger();
+// ---------------------------------------------------------
 let lastSentMessages = [];
+
+// ------ Constants definition
+// -- Application
+const OPENDAYLIGHT_STR = "OpenDayLight";
+const ELASTICSEARCH_STR = "ElasticSearch";
+
+// -- Control-construct
+const NODE_ID = "node-id";
+const CTR_CONST = "control-construct";
+const CORE_MODEL = "core-model-1-4:link";
+const END_POINT_LIST = "end-point-list";
+
+
 
 /**
  * Initiates process of embedding a new release
@@ -143,7 +159,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       let correctLink = null;
       let link = uuid;//decodeLinkUuid(url, true);
       let id = localId;
-      var format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
+      const format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
        if (typeof link === 'object') {
@@ -593,6 +609,8 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        // logger.error("getCachedAlarmCapability - Wrong decoding mountname, is an object:");
+        // logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -668,6 +686,8 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        // logger.error("getCachedAlarmConfiguration - Wrong decoding mountname, is an object:");
+        // logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -744,6 +764,8 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
+        // logger.error("getCachedAlarmEventRecords - Wrong decoding mountname, is an object:");
+        // logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -4681,7 +4703,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -4766,7 +4788,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -4851,7 +4873,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -4934,7 +4956,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
             let jsonObj = res.data;
-            // modificaUUID(jsonObj, correctCc);
+            // modifyUUID(jsonObj, correctCc);
             resolve(jsonObj);
           }
         }
@@ -5000,7 +5022,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5085,7 +5107,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5169,7 +5191,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5253,7 +5275,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5336,7 +5358,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5420,7 +5442,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5504,7 +5526,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5589,7 +5611,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5674,7 +5696,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5758,7 +5780,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
             let jsonObj = result.data;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             if (myFields === undefined) {
               try {
                 let elapsedTime = await recordRequest(jsonObj, correctCc);
@@ -5854,7 +5876,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -5938,7 +5960,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6023,7 +6045,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6108,7 +6130,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6191,7 +6213,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
             let jsonObj = res.data;
-            // modificaUUID(jsonObj, correctCc);
+            // modifyUUID(jsonObj, correctCc);
             resolve(jsonObj);
           }
         }
@@ -6257,7 +6279,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6342,7 +6364,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6427,7 +6449,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6510,7 +6532,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6594,7 +6616,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6678,7 +6700,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6762,7 +6784,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6846,7 +6868,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -6932,7 +6954,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7016,7 +7038,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7100,7 +7122,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7185,7 +7207,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7268,7 +7290,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
             let jsonObj = res.data;
-            // modificaUUID(jsonObj, correctCc);
+            // modifyUUID(jsonObj, correctCc);
             resolve(jsonObj);
           }
         }
@@ -7334,7 +7356,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7419,7 +7441,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7503,7 +7525,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7587,7 +7609,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7672,7 +7694,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7757,7 +7779,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7842,7 +7864,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -7926,7 +7948,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8010,7 +8032,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8094,7 +8116,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8177,7 +8199,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8262,7 +8284,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8347,7 +8369,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8430,7 +8452,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
             let jsonObj = res.data;
-            // modificaUUID(jsonObj, correctCc);
+            // modifyUUID(jsonObj, correctCc);
             resolve(jsonObj);
           }
         }
@@ -8496,7 +8518,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8581,7 +8603,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8665,7 +8687,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8749,7 +8771,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8833,7 +8855,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -8916,7 +8938,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9001,7 +9023,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9086,7 +9108,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9170,7 +9192,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9255,7 +9277,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9338,7 +9360,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
             throw new createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
           } else {
             let jsonObj = res.data;
-            // modificaUUID(jsonObj, correctCc);
+            // modifyUUID(jsonObj, correctCc);
             resolve(jsonObj);
           }
         }
@@ -9404,7 +9426,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9489,7 +9511,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9573,7 +9595,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -9657,7 +9679,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
           } else {
             let jsonObj = res.data;
             retJson = jsonObj;
-            modificaUUID(jsonObj, correctCc);
+            modifyUUID(jsonObj, correctCc);
             let filters = false;
             if (myFields !== undefined) {
               filters = true;
@@ -10565,7 +10587,7 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
 
       alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
       // Write updated Json to ES
-      modificaUUID(result, mountname);
+      modifyUUID(result, mountname);
       let elapsedTime = await recordRequest(result, mountname);
 
       //update meta-data for update of alarm data into CC -- partial update
@@ -10770,7 +10792,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       // Update json object
       let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
       // Write updated Json to ES
-      modificaUUID(result, controlConstruct);
+      modifyUUID(result, controlConstruct);
       let elapsedTime = await recordRequest(result, controlConstruct);
       let appInformation = proxy;
       const releaseNumber = appInformation["release-number"];
@@ -11876,12 +11898,12 @@ async function ReadRecords(cc) {
 
 
 // Function to modify UUID to mountName+UUID
-function modificaUUID(obj, mountName) {
+function modifyUUID(obj, mountName) {
   try {
     for (const key in obj) {
       if (typeof obj[key] === 'object') {
         // if the value is an object, recall the function recursively
-        modificaUUID(obj[key], mountName);
+        modifyUUID(obj[key], mountName);
       } else if (key === 'uuid' || key === 'local-id') {
         obj[key] = mountName + "+" + obj[key];
       }
@@ -12274,7 +12296,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           }
         } else if (await checkMountNameInDeviceList(correctCc)) {
           let jsonObj = result.data;
-          modificaUUID(jsonObj, correctCc);
+          modifyUUID(jsonObj, correctCc);
           if (myFields === undefined) {
             try {
               let elapsedTime = await recordRequest(jsonObj, correctCc);

@@ -8,6 +8,7 @@ const forwardingConstruct = require('onf-core-model-ap/applicationPattern/onfMod
 const configConstants = require('./ConfigConstants');
 const fcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const notificationManagement = require('./NotificationManagement');
+const logger = require('../LoggingService.js').getLogger();
 
 exports.addSubscriberToConfig = async function (requestUrl, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
                                                 subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation) {
@@ -66,7 +67,7 @@ exports.addSubscriberToConfig = async function (requestUrl, subscribingApplicati
 
         return true;
     } catch (exception) {
-        console.log(exception, "error adding subscriber to config");
+        logger.error(exception, "error adding subscriber to config");
         return false;
     }
 }
@@ -79,7 +80,7 @@ exports.logActiveSubscribers = async function () {
         configConstants.OAM_PATH_ATTRIBUTE_OBJECT_DELETIONS
     ]
 
-    console.log("Active subscribers: ");
+    logger.info("Active subscribers: ");
 
     for (const notificationType of notificationTypes) {
         let activeSubscribers = await notificationManagement.getActiveSubscribers(notificationType);
@@ -88,6 +89,6 @@ exports.logActiveSubscribers = async function () {
             logString += activeSubscriber.name + "/" + activeSubscriber.release + ", ";
         }
 
-        console.log(notificationType + " -> " + logString);
+        logger.info(notificationType + " -> " + logString);
     }
 }

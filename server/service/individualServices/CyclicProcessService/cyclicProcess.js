@@ -46,11 +46,11 @@ async function sendRequest(device) {
         let requestHeader = notificationManagement.createRequestHeader();
         let fields = "";
         let mountName = "";
-        let user = requestHeader.user;
-        let originator = requestHeader.originator;
-        let xCorrelator = requestHeader.xCorrelator;
-        let traceIndicator = requestHeader.traceIndicator;
-        let customerJourney = requestHeader.customerJourney;
+        // let user = requestHeader.user;
+        // let originator = requestHeader.originator;
+        // let xCorrelator = requestHeader.xCorrelator;
+        // let traceIndicator = requestHeader.traceIndicator;
+        // let customerJourney = requestHeader.customerJourney;
         let req = {
             'url': '/' + coreModelPrefix + ':network-control-domain=live/control-construct=' + device[NODE_ID],
             'body': {}

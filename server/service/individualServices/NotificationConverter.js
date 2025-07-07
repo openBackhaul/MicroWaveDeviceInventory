@@ -1,5 +1,4 @@
 const configConstants = require("./ConfigConstants");
-const logger = require('../LoggingService.js').getLogger();
 
 const callbackCounters = [
     {
@@ -406,7 +405,7 @@ function convertControllerNotificationEvent(controllerEvent, controllerName, con
             nodeID = path.substring(nodeIDStartIndex + 8, nodeIDStartIndex + nodeIDEndIndex - 1);
         }
     } else {
-       logger.warn("missing node-id for controller " + controllerName + " in path: " + path);
+       console.log("missing node-id for controller " + controllerName + " in path: " + path);
     }
 
     let dataKey = null;
@@ -512,7 +511,7 @@ exports.convertControllerNotification = function (notification, controllerName, 
                     subscriberNotificationType = configConstants.OAM_PATH_CONTROLLER_ATTRIBUTE_OBJECT_DELETIONS;
                     break;
                 default:
-                    logger.warn("notificationType unknown: " + inboundNotificationType);
+                    console.log("notificationType unknown: " + inboundNotificationType);
                     break;
             }
 

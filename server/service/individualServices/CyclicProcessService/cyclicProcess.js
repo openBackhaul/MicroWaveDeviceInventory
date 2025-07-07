@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('path');
 const { strict } = require('assert');
 const { setTimeout, clearInterval } = require('timers');
-const shuffleArray = require('shuffle-array');
+// const shuffleArray = require('shuffle-array'); // Not used
 const notificationManagement = require('../../individualServices/NotificationManagement');
 const individualServicesService = require("../../IndividualServicesService.js");
 

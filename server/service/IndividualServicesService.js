@@ -10921,6 +10921,7 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -10995,6 +10996,7 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
       }
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -11068,6 +11070,7 @@ exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCor
       resolve();
     } catch (error) {
       console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -11196,7 +11199,7 @@ async function resolveApplicationNameAndHttpClientLtpUuidFromForwardingNameForDe
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11218,16 +11221,16 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMe
     let activeSubscribers = await notificationManagement.getActiveSubscribers(deviceNotificationType);
 
     if (activeSubscribers.length > 0) {
-      console.log("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
+      logger.info("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
 
       for (let subscriber of activeSubscribers) {
         sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
       }
     } else {
-      console.warn("no subscribers for " + deviceNotificationType + ", message discarded");
+      logger.warn("no subscribers for " + deviceNotificationType + ", message discarded");
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11247,7 +11250,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
   let isDuplicate = checkNotificationDuplicate(notificationType, targetOperationURL, notificationMessage);
 
   if (isDuplicate) {
-    console.warn("notification duplicate ignored");
+    logger.warn("notification duplicate ignored");
   } else {
     let sendingTimestampMs = Date.now();
 
@@ -11272,7 +11275,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
     let uniqueSendingID = crypto.randomUUID();
 
     //send notification
-    console.log("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
+    logger.info("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
 
     axios.post(targetOperationURL, notificationMessage, {
       // axios.post("http://localhost:1237", notificationMessage, {
@@ -11286,7 +11289,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
       }
     })
       .then((response) => {
-        console.warn("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
+        logger.info("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
 
         executionAndTraceService.recordServiceRequestFromClient(
           appInformation["application-name"],
@@ -11301,7 +11304,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
           response.data);
       })
       .catch(e => {
-        console.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
+        logger.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
 
         executionAndTraceService.recordServiceRequestFromClient(
           appInformation["application-name"],
@@ -11337,7 +11340,7 @@ function cleanupOutboundNotificationCache() {
     //remove timed out elements
     lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11367,7 +11370,7 @@ function checkNotificationDuplicate(notificationType, targetOperationURL, notifi
     }
     return false;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11384,7 +11387,7 @@ async function sentDataToRequestor(body, user, originator, xCorrelator, traceInd
   );
 
   httpRequestHeaderRequestor = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
-  console.log('Send data to Requestor:' + requestorUrl);
+  logger.info('Send data to Requestor:' + requestorUrl);
 
   try {
     let response = await axios(requestorUrl, {
@@ -11457,13 +11460,13 @@ exports.PromptForEmbeddingCausesSubscribingForNotifications = async function (us
       let response = await RequestBuilder.BuildAndTriggerRestRequest(opLtpUuidOutput, "POST", httpRequestHeader, httpRequestBody);
       let responseCodeValue = response.status.toString();
       if (responseCodeValue.startsWith("2")) {
-        console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+        logger.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
       }
-      console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
+      logger.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${response.status}`);
     }
 
   } catch (error) {
-    console.error(`SubscribingForNotifications - subscribing request from MWDI with body ${JSON.stringify(httpRequestBody)} failed with response status: ${error.message}`);
+    logger.error(`SubscribingForNotifications - subscribing request from MWDI, failed with response status: ${error.message}`);
     return false;
   }
 }
@@ -11523,7 +11526,7 @@ exports.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache = asy
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11582,7 +11585,7 @@ async function NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter) {
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11745,7 +11748,7 @@ exports.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName = async fun
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11763,7 +11766,7 @@ async function getTcpClientConnectionInfoAsync(operationClientUuid) {
     let remoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpServerUuid);
     return remoteProtocol.toLowerCase() + "://" + remoteAddress + ":" + remotePort;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11780,7 +11783,7 @@ function getConfiguredRemoteAddress(remoteAddress) {
     }
     return remoteAddress;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11788,29 +11791,33 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
   try {
     const urlParts = originalUrl.split("?fields=");
     const myFields = urlParts[1];
-    let ControlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    let controlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
     let placeHolder = "";
-    if (applicationName === "OpenDayLight") {
+    if (applicationName ===  OPENDAYLIGHT_STR) { // "OpenDayLight"
       placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
-    } else if (applicationName === "ElasticSearch") {
+    } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
       placeHolder = "/";
     }
-    var sequenzaDaCercare = "control-construct=" + ControlConstruct;
-    var indiceSequenza = originalUrl.indexOf(sequenzaDaCercare);
 
-    if (indiceSequenza !== -1) {
-      var parte1 = urlParts[0].substring(0, indiceSequenza);
-      if (applicationName === "OpenDayLight") {
-        var parte2 = urlParts[0].substring(indiceSequenza + sequenzaDaCercare.length);
-      } else if (applicationName === "ElasticSearch") {
-        var parte2 = urlParts[0].substring(indiceSequenza);
+    let ctrlConstrToFind = CTR_CONST +"=" + controlConstruct;
+    let ctrlConstrIdx = originalUrl.indexOf(ctrlConstrToFind);
+
+    let subStringCC = "";
+    if (ctrlConstrIdx !== -1) {
+      // let subtringCCextra = urlParts[0].substring(0, ctrlConstrIdx); // is not needed
+      if (applicationName === OPENDAYLIGHT_STR) { //"OpenDayLight"
+        subStringCC = urlParts[0].substring(ctrlConstrIdx + ctrlConstrToFind.length);
+      } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
+        subStringCC = urlParts[0].substring(ctrlConstrIdx);
       }
     }
 
-    let correctPlaceHolder = placeHolder.replace("tochange", ControlConstruct);
-    let final = path + correctPlaceHolder + parte2;
+    let correctPlaceHolder = placeHolder.replace("tochange", controlConstruct);
+    let final = path + correctPlaceHolder + subStringCC;
+
+    let correctUrl = "";
     if (final.indexOf("+") != -1) {
-      var correctUrl = final.replace(/=.*?\+/g, "=");
+      correctUrl = final.replace(/=.*?\+/g, "=");
     } else {
       correctUrl = final;
     }
@@ -11819,7 +11826,7 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     }
     return final;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -11870,7 +11877,7 @@ async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName)
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12030,7 +12037,7 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
     }
     return applicationNameList;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12050,10 +12057,10 @@ async function recordRequest(body, cc) {
   } catch (error) {
     if (error.statusCode === 404) {
       // Pipeline does not exist
-      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
     } else {
       // Other errors
-      console.error("An error occurred while checking the pipeline:", error);
+      logger.error(error, "An error occurred while checking the pipeline:");
       throw error; // Re-throw the error if it's not a 404
     }
   }
@@ -12081,14 +12088,14 @@ async function recordRequest(body, cc) {
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
-      console.info("Result is: ", result.body.result)
+      logger.debug("Result is: " + result.body.result);
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     } else {
       console.warn("result is ", result.body.result);
       return { "took": -1 };
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12112,7 +12119,7 @@ async function deleteRequest(cc) {
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12143,7 +12150,7 @@ async function ReadRecords(cc) {
     const resultArray = createResultArray(result);
     return (resultArray[0])
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12160,7 +12167,7 @@ function modifyUUID(obj, mountName) {
       }
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12182,7 +12189,7 @@ function modifyReturnJson(obj) {
       }
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12207,7 +12214,7 @@ function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
     }
     return modifiedString;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 
 }
@@ -12244,7 +12251,7 @@ function formatUrlForOdl(url, fields) {
     }
     return newUrl;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12307,7 +12314,7 @@ function decodeMountName(url, cc) {
       return response;
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12370,7 +12377,7 @@ function decodeLinkUuid(url, uuid) {
       return response;
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12388,7 +12395,7 @@ async function extractProfileConfiguration(uuid) {
     const data = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
     return data["api-key"];
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12416,7 +12423,7 @@ function arraysHaveSameElements(array1, array2) {
 
     return Object.keys(frequencyMap).length === 0;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12484,7 +12491,7 @@ function replaceFilterString(filter) {
 
     return replacedFilter;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -12557,7 +12564,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
               let elapsedTime = await recordRequest(jsonObj, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(jsonObj);
             let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
@@ -12576,7 +12583,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
               let elapsedTime = await recordRequest(result1, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
@@ -12589,7 +12596,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           }
 
         } else {
-          console.log(new createHttpError.BadRequest);
+          logger.error("This request is not for ODL, so throwing BAD_REQUEST error");
           resolve(new createHttpError.BadRequest);
         }
       }

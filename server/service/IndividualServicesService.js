@@ -12192,19 +12192,20 @@ async function recordRequest(body, cc) {
     let backendTime = process.hrtime(startTime);
 
     if (result == undefined || result.body == undefined) {
-      console.warn("result is undefined, ELK not updated")
+      logger.warn("result is undefined, ELK not updated")
       return { "took": -1 };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
-      logger.debug("Result is: " + result.body.result);
+      logger.debug(`ELK - Result is: ${result.body.result}`);
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     } else {
-      console.warn("result is ", result.body.result);
+      logger.warn(`ELK - result is: ${result.body.result}`);
       return { "took": -1 };
     }
   } catch (error) {
-    logger.error(error);
+    logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
+    logger.trace(error);
   }
 }
 

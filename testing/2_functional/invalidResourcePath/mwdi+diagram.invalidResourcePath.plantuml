@@ -1,0 +1,26 @@
+@startuml mwdi+diagram.invalidResourcePath
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidResourcePath
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+group domain=cache resource paths
+  note right Postman
+    see mwdi+diagram.invalidResourcePath.cache
+  end note
+end
+
+group domain=live resource paths
+  note right Postman
+    see mwdi+diagram.invalidResourcePath.live
+  end note
+end
+
+deactivate Postman
+
+@enduml

@@ -21,6 +21,12 @@ group domain=live resource paths
   end note
 end
 
+group cache=live/link* resource paths
+  note right Postman
+    see mwdi+diagram.invalidResourcePath.cache-enrichment
+  end note
+end
+
 deactivate Postman
 
 @enduml

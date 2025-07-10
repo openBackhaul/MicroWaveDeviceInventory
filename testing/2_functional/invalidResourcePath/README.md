@@ -16,7 +16,12 @@ ResponseCode for
 - (b) cache=domain paths with valid mount-name, but invalid other path parameters
   - 470
   - example: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment={uuid}/actual-equipment
-- (c) cache=live paths: todo
+- (c) cache=live paths with invalid mount-name:
+  - 503
+  - same as responseCode of Controller
+- (d) cache=live paths with valid mount-name, but invalid other path parameters
+  - 409
+  - same as responseCode of Controller
 
 
 ### Comments  

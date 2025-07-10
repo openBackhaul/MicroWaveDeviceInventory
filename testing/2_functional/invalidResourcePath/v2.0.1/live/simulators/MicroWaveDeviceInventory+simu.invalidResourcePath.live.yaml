@@ -1922,7 +1922,7 @@ components:
                 type: string
                 enum:
                   - 'Too many requests'
-    '503':
+    '460':
       description: 'Response in case the mountName provided in the request is not found in the list of connected devices'
       content:
         application/json:
@@ -1934,8 +1934,8 @@ components:
             properties:
               code:
                 type: integer
-                minimum: 503
-                maximum: 503
+                minimum: 460
+                maximum: 460
                 format: int32
               message:
                 type: string
@@ -1960,7 +1960,7 @@ components:
                 type: string
                 enum:
                   - 'Not available. The topology (parent) object is currently not found in the cache.'
-    '502':
+    '470':
       description: 'Response in case the resource specified in the request does not exist within the connected device'
       content:
         application/json:
@@ -1972,8 +1972,8 @@ components:
             properties:
               code:
                 type: integer
-                minimum: 502
-                maximum: 502
+                minimum: 470
+                maximum: 470
                 format: int32
               message:
                 type: string

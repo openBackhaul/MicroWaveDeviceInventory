@@ -35,7 +35,7 @@
 			{
 				"collectionName": "invalidResourcePath.cache-enrichment",
 				"serverToBeApplied": "mwdi",
-				"validLinkId": "101550001",
+				"validLinkId": "genericLink1",
 				"invalidLinkId": "dummyLink",
 				"invalidLinkPort": "dummyLinkPort",
 				"kindOfReference": "dynamic"
@@ -43,7 +43,7 @@
 			{
 				"collectionName": "invalidResourcePath.cache-enrichment_simulator",
 				"serverToBeApplied": "mwdi in mwdi+simulator.invalidResourcePath.cache-enrichment",
-				"validLinkId": "101550001",
+				"validLinkId": "genericLink1",
 				"invalidLinkId": "dummyLink",
 				"linkPortValid": "1",
 				"invalidLinkPort": "dummyLinkPort",

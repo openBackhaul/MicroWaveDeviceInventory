@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
-  title: MWDI_1.3.0+simulator.invalidResourcePath.live
+  title: MWDI_2.0.1+simulator.invalidResourcePath.live
   version: 1.0.0
 
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part
-#   MWDI_1.3.0+simulator.invalidResourcePath.live in static reference mode
+#   MWDI_2.0.1+simulator.invalidResourcePath.live in static reference mode
 ########################################################################################################################
 
   # ----------------------------------------------------------------------------------------------------------------------------------------------- #

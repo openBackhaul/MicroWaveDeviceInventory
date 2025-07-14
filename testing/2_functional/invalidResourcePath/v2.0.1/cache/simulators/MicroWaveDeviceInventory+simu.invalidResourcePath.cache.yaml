@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
-  title: MWDI_1.3.0+simulator.invalidResourcePath.cache
+  title: MWDI_2.0.10+simulator.invalidResourcePath.cache
   version: 1.0.0
 
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part
-#   MWDI_1.3.0+simulator.invalidResourcePath.cache in static reference mode
+#   MWDI_2.0.1+simulator.invalidResourcePath.cache in static reference mode
 ########################################################################################################################
 
   # ----------------------------------------------------------------------------------------------------------------------------------------------- #

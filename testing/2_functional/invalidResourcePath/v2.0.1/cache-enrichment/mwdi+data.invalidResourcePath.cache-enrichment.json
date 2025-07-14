@@ -1,0 +1,55 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://IP_ADRESS:PORT",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "YOUR_BASIC_AUTH_CODE",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "mwdi in mwdi+simulator.invalidResourcePath.cache-enrichment",
+				"server": "http://localhost:3000",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Redouane Chyiy",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "invalidResourcePath.cache-enrichment",
+				"serverToBeApplied": "mwdi",
+				"validLinkId": "genericLink1",
+				"invalidLinkId": "dummyLink",
+				"invalidLinkPort": "dummyLinkPort",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "invalidResourcePath.cache-enrichment_simulator",
+				"serverToBeApplied": "mwdi in mwdi+simulator.invalidResourcePath.cache-enrichment",
+				"validLinkId": "genericLink1",
+				"invalidLinkId": "dummyLink",
+				"linkPortValid": "1",
+				"invalidLinkPort": "dummyLinkPort",
+				"kindOfReference": "static",
+				"suffixUrlEncodingIsRequired": true
+			}
+		]
+	}
+]

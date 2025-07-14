@@ -4,17 +4,14 @@
 
 Expected responseCodes are as follows:
 
-| path category                   | case                                    | expected responseCode |
-|---------------------------------|-----------------------------------------|-----------------------|
-| (1) cache=domain/link           | invalid linkId                          | 461                   |
-| (2) cache=domain/link/link-port | invalid parent linkId                   | 461                   |
-| (3) cache=domain/link/link-port | valid parent linkId, invalid linkPortId | 471                   |
+| path category                   | case                                    | expected responseCode | to be tested     |
+|---------------------------------|-----------------------------------------|-----------------------|------------------|
+| (1) cache=domain/link           | invalid linkId                          | 461                   | GET, DELETE      |
+| (2) cache=domain/link/link-port | invalid parent linkId                   | 461                   | GET, PUT, DELETE |
+| (3) cache=domain/link/link-port | valid parent linkId, invalid linkPortId | 471                   | GET, DELETE      |
 
 Note:  
-- link and link-port resource paths support GET, PUT and DELETE, but not all combinations need to be tested
-  - case (1): GET, DELETE
-  - case (2): GET, PUT, DELETE
-  - case (3): GET, DELETE
+- link and link-port resource paths support GET, PUT and DELETE, but not all combinations need to be tested (see table)
 - link and link-port data is enrichment data, hence they will not be populated automatically from device data
   - tests for case (1) can be executed right away, as there are no prerequisites
   - tests for case (3) require a valid linkId already to be present in the database before the actual tests can be executed

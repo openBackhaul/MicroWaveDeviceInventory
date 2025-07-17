@@ -34542,6 +34542,18 @@ components:
                 - 'tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
             tdm-container-2-0:tdm-container-pac:
               $ref: '#/components/schemas/TDM_CONTAINER_PAC'
+        - description: 'synchronization'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_SYNCHRONIZATION_LAYER'
         - description: 'default, if none of above matching'
           type: object
     FORWARDING_DOMAIN:

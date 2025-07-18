@@ -34554,6 +34554,7 @@ components:
               type: string
               enum:
                 - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_SYNCHRONIZATION_LAYER'
+                - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_PTP_LAYER'
         - description: 'default, if none of above matching'
           type: object
     FORWARDING_DOMAIN:

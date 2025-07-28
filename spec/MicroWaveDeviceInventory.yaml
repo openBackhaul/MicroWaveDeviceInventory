@@ -34079,11 +34079,6 @@ components:
       type: object
       required:
         - uuid
-        - alarms-1-0:alarm-pac
-        - equipment
-        - firmware-1-0:firmware-collection
-        - profile-collection
-        - logical-termination-point
       properties:
         uuid:
           type: string

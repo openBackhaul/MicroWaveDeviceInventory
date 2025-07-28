@@ -60,7 +60,7 @@ async function logActiveControllers() {
     for (const activeController of listOfActiveControllers) {
         activeControllerLog += activeController.name + "/" + activeController.release + ", ";
     }
-    console.log.info("active controllers: " + activeControllerLog);
+    console.info("active controllers: " + activeControllerLog);
 }
 
 /**
@@ -158,7 +158,7 @@ exports.registerController = async function (inputControllerName, inputControlle
 
                                 let successFc = await forwardingConstruct.addFcPortAsync(forwardingConstructInstance.uuid, newFcPort);
                                 if (!successFc) {
-                                    console.log.error("addFcPortAsync failed for operationUUID=" + operationUUID);
+                                    console.error("addFcPortAsync failed for operationUUID=" + operationUUID);
                                 }
                             }
                         }
@@ -172,7 +172,7 @@ exports.registerController = async function (inputControllerName, inputControlle
         return true;
 
     } catch (exception) {
-        console.log.error(exception);
+        console.error(exception);
         return false;
     }
 }
@@ -210,7 +210,7 @@ exports.deregisterController = async function (inputControllerName, inputControl
 
         return true;
     } catch (exception) {
-        console.log.error(exception, "deregisterController failed with name " + inputControllerName);
+        console.error(exception, "deregisterController failed with name " + inputControllerName);
         return false;
     }
 }

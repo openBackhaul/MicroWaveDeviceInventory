@@ -13,8 +13,8 @@ const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfMode
 exports.getTcpServerDescription = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-server-interface-1-0:description" : value
       };
@@ -38,8 +38,8 @@ exports.getTcpServerDescription = function(url) {
 exports.getTcpServerLocalAddress = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-server-interface-1-0:local-address": value
       };
@@ -63,8 +63,8 @@ exports.getTcpServerLocalAddress = function (url) {
 exports.getTcpServerLocalPort = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-server-interface-1-0:local-port": value
       };
@@ -88,8 +88,8 @@ exports.getTcpServerLocalPort = function (url) {
 exports.getTcpServerLocalProtocol = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-server-interface-1-0:local-protocol" : value
       };

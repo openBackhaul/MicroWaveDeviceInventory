@@ -34213,7 +34213,17 @@ components:
           items:
             $ref: '#/components/schemas/PROFILE'
     PROFILE:
-      oneOf:
+      anyOf:
+        - description: 'default'
+          type: object
+          required:
+            - uuid
+            - profile-name
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
         - description: 'co-channel-profile'
           type: object
           required:

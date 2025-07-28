@@ -34410,8 +34410,17 @@ components:
     EMBEDDED_CLOCK:
       type: object
     LAYER_PROTOCOL:
-      #must use anyOf instead of oneOf, to allow having the default option
       anyOf:
+        - description: 'default'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
         - description: 'air-interface'
           type: object
           required:
@@ -34560,8 +34569,6 @@ components:
               enum:
                 - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_SYNCHRONIZATION_LAYER'
                 - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_PTP_LAYER'
-        - description: 'default, if none of above matching'
-          type: object
     FORWARDING_DOMAIN:
       type: object
       required:

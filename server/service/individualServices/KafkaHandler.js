@@ -35,10 +35,11 @@ function getNotificationType(notification) {
 exports.connectToKafka = async function () {
     try {
         let ltpForKafkaClient = await exports.getKafkaClient();
+        let groupId = await exports.getKafkaGroupId(ltpForKafkaClient);
         let clientId = await exports.getKafkaClientId(ltpForKafkaClient);
         let brokerList = [].concat(await exports.getBrokerForKafka(ltpForKafkaClient));
-        let kafkaTopic = exports.getKafkaTopicName(ltpForKafkaClient);
-        await kafka.connect(clientId, brokerList);
+        let kafkaTopic = await exports.getKafkaTopicName(ltpForKafkaClient);
+        await kafka.connect(groupId, clientId, brokerList);
         kafka.subscribeMessages(kafkaTopic, handleNotifications);
     } catch (error) {
         console.log("Error in connection to kafka");
@@ -90,11 +91,24 @@ exports.getKafkaClientId = async function (kafkaClientLtp) {
     }
 }
 
+exports.getKafkaGroupId = async function (kafkaClientLtp) {
+    try {
+        let kafkaConfig = kafkaClientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.KAFKA_CLIENT_INTERFACE_PAC][onfAttributes.KAFKA_CLIENT.CONFIGURATION];
+        let groupId = kafkaConfig[onfAttributes.KAFKA_CLIENT.GROUP_ID];
+        return groupId;
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+
 exports.getKafkaTopicName = async function (kafkaClientLtp) {
+    let topics = [];
     try {
         let kafkaConfig = kafkaClientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.KAFKA_CLIENT_INTERFACE_PAC][onfAttributes.KAFKA_CLIENT.CONFIGURATION];
         let topicName = kafkaConfig[onfAttributes.KAFKA_CLIENT.TOPIC_NAME];
-        return topicName;
+        topics.push(topicName);
+        return topics;
     } catch (error) {
         console.log(error);
         y

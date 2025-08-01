@@ -9580,7 +9580,7 @@
                 "auth": {
                   "api-key": "API key not yet defined."
                 },
-                "index-alias": "7"
+                "index-alias": "mwdi-1"
               },
               "elasticsearch-client-interface-status": {
                 "operational-state": "elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
@@ -9639,7 +9639,7 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-000",
+        "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [],
         "server-ltp": [
@@ -9668,59 +9668,11 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-http-c-kmb-1-0-0-000",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-        "client-ltp": [
-          "mwdi-2-0-1-kmb-c-kmb-1-0-0-000"
-        ],
-        "server-ltp": [
-          "mwdi-2-0-1-tcp-c-kmb-1-0-0-000"
-        ],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
-            "http-client-interface-1-0:http-client-interface-pac": {
-              "http-client-interface-configuration": {
-                "application-name": "KafkaMessageBus",
-                "release-number": "1.0.0"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "uuid": "mwdi-2-0-1-tcp-c-kmb-1-0-0-000",
-        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-        "client-ltp": [
-          "mwdi-2-0-1-http-c-kmb-1-0-0-000"
-        ],
-        "server-ltp": [],
-        "layer-protocol": [
-          {
-            "local-id": "0",
-            "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
-            "tcp-client-interface-1-0:tcp-client-interface-pac": {
-              "tcp-client-interface-configuration": {
-                "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
-                "remote-address": {
-                  "ip-address": {
-                    "ipv-4-address": "127.0.0.1"
-                  }
-                },
-                "remote-port": 3017
-              }
-            }
-          }
-        ]
-      },
-
-      {
-        "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-001 ",
+        "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [],
         "server-ltp": [
-          "mwdi-2-0-1-http-c-kmb-1-0-0-001 "
+          "mwdi-2-0-1-http-c-kmb-1-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9745,13 +9697,14 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-http-c-kmb-1-0-0-001 ",
+        "uuid": "mwdi-2-0-1-http-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-kmb-c-kmb-1-0-0-001 "
+          "mwdi-2-0-1-kmb-c-kmb-1-0-0-000",
+          "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
         ],
         "server-ltp": [
-          "mwdi-2-0-1-tcp-c-kmb-1-0-0-001 "
+          "mwdi-2-0-1-tcp-c-kmb-1-0-0-000"
         ],
         "layer-protocol": [
           {
@@ -9767,10 +9720,10 @@
         ]
       },
       {
-        "uuid": "mwdi-2-0-1-tcp-c-kmb-1-0-0-001 ",
+        "uuid": "mwdi-2-0-1-tcp-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-0-1-http-c-kmb-1-0-0-001 "
+          "mwdi-2-0-1-http-c-kmb-1-0-0-000"
         ],
         "server-ltp": [],
         "layer-protocol": [

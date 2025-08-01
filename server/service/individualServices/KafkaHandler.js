@@ -6,7 +6,9 @@ const kafka = require("onf-core-model-ap/applicationPattern/services/KafkaConsum
 const individualServices = require("../IndividualServicesService");
 
 const handleNotifications = (receivedMessage) => {
+    try {        
     let notification = JSON.parse(receivedMessage);
+    console.log(notification);
     let notificationType = getNotificationType(notification);
     if (notificationType == "ALARM") {
         individualServices.regardDeviceAlarm(notification);
@@ -16,6 +18,9 @@ const handleNotifications = (receivedMessage) => {
         individualServices.regardDeviceObjectCreation(notification);
     } else if (notificationType == "OBJECT_DELETION") {
         individualServices.regardDeviceObjectDeletion(notification);
+    }
+    } catch (error) {
+        console.log(error);
     }
 }
 

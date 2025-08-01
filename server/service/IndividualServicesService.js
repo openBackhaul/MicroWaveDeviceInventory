@@ -10600,6 +10600,12 @@ exports.regardDeviceAttributeValueChange = function (body) {
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
+      let originator = "MicroWaveDeviceInventory";
+      let requestHeader = new RequestHeader(undefined,originator)
+      let user = requestHeader.user;
+      let xCorrelator = requestHeader.xCorrelator;
+      let customerJourney = requestHeader.customerJourney;
+      let traceIndicator = requestHeader.traceIndicator;
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {

@@ -19,10 +19,10 @@
                         "node-id": "CO12126",
                         "netconf-node-topology:connection-status": "connected"
                     },
-					{
+                    {
                         "node-id": "513250009",
                         "netconf-node-topology:connection-status": "connected"
-                    },                    
+                    },
                     {
                         "node-id": "CO12124",
                         "netconf-node-topology:connection-status": "connected"
@@ -30,7 +30,7 @@
                     {
                         "node-id": "CO13306",
                         "netconf-node-topology:connection-status": "connected"
-                    },                                        
+                    },
                     {
                         "node-id": "CCCCCCC",
                         "netconf-node-topology:connection-status": "connected"

@@ -56,7 +56,7 @@ exports.disregardApplication = function (operationClientConfigurationStatusList)
                     forwardingConfigurationInputList.push(
                         forwardingConfigurationInput
                     );
-                }                
+                }
             }
             resolve(forwardingConfigurationInputList);
         } catch (error) {

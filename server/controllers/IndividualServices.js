@@ -2833,7 +2833,7 @@ module.exports.regardDeviceAlarm = function regardDeviceAlarm(req, res, next, bo
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  IndividualServices.regardDeviceAlarm(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.regardDeviceAlarm(body)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
@@ -2853,7 +2853,7 @@ module.exports.regardDeviceAttributeValueChange = function regardDeviceAttribute
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  IndividualServices.regardDeviceAttributeValueChange(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.regardDeviceAttributeValueChange(body)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
@@ -2873,7 +2873,7 @@ module.exports.regardDeviceObjectCreation = function regardDeviceObjectCreation(
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  IndividualServices.regardDeviceObjectCreation(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.regardDeviceObjectCreation(body)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
@@ -2893,7 +2893,7 @@ module.exports.regardDeviceObjectDeletion = function regardDeviceObjectDeletion(
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  IndividualServices.regardDeviceObjectDeletion(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.regardDeviceObjectDeletion(body)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);

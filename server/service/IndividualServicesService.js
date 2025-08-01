@@ -10917,14 +10917,9 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
  * Receives notifications about alarms at devices
  *
  * body V1_regarddevicealarm_body 
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+exports.regardDeviceAlarm = function (body) {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];
@@ -10972,14 +10967,9 @@ exports.regardDeviceAlarm = function (url, body, user, originator, xCorrelator, 
  * Receives notifications about changes of values of attributes inside the devices
  *
  * body V1_regarddeviceattributevaluechange_body 
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+exports.regardDeviceAttributeValueChange = function (body) {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];
@@ -10998,6 +10988,12 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
+      let originator = "MicroWaveDeviceInventory";
+      let requestHeader = new RequestHeader(undefined,originator)
+      let user = requestHeader.user;
+      let xCorrelator = requestHeader.xCorrelator;
+      let customerJourney = requestHeader.customerJourney;
+      let traceIndicator = requestHeader.traceIndicator;
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
       if (resRequestor == null) {
@@ -11042,15 +11038,10 @@ exports.regardDeviceAttributeValueChange = function (url, body, user, originator
 /**
  * Receives notifications about objects that have been created inside the devices
  *
- * body V1_regarddeviceobjectcreation_body 
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * body V1_regarddeviceobjectcreation_body
  * no response value expected for this operation
  **/
-exports.regardDeviceObjectCreation = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+exports.regardDeviceObjectCreation = function (body) {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];
@@ -11117,14 +11108,9 @@ exports.regardDeviceObjectCreation = function (url, body, user, originator, xCor
  * Receives notifications about objects that have been deleted inside the devices
  *
  * body V1_regarddeviceobjectdeletion_body 
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.regardDeviceObjectDeletion = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+exports.regardDeviceObjectDeletion = function (body) {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];

@@ -8,9 +8,13 @@
     "start": "node index.js",
     "test": "jest"
   },
-   "babel": {
-    "presets": ["@babel/preset-env"],
-    "plugins": ["babel-plugin-rewire"]
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "babel-plugin-rewire"
+    ]
   },
   "jest": {
     "transform": {
@@ -25,11 +29,12 @@
   "dependencies": {
     "connect": "^3.7.0",
     "console-stamp": "3.1.2",
+    "deep-diff": "^1.0.2",
     "eventsource": "^2.0.2",
     "http-errors": "2.0.0",
     "js-yaml": "^4.1.0",
-    "onf-core-model-ap": "2.1.2",
-    "onf-core-model-ap-bs": "2.1.2",
+    "onf-core-model-ap": "2.1.2-b",
+    "onf-core-model-ap-bs": "2.1.2-b",
     "openbackhaul-oas3-tools": "2.3.1-alpha.3",
     "qs": "^6.11.2",
     "request": "^2.88.2",

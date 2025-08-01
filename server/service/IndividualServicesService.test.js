@@ -1908,7 +1908,7 @@ describe('regardDeviceObjectDeletion', () => {
     IndividualService.__Rewire__('cacheUpdate', {
       cacheUpdateBuilder: jest.fn().mockReturnValue({ updated: true }),
     });
-    IndividualService.__Rewire__('modificaUUID', jest.fn());
+    IndividualService.__Rewire__('modifyUUID', jest.fn());
     IndividualService.__Rewire__('recordRequest', jest.fn().mockResolvedValue(456));
     IndividualService.__Rewire__('notifyAllDeviceSubscribers', jest.fn().mockResolvedValue());
     IndividualService.__Rewire__('decodeMountName', jest.fn().mockReturnValue('mount-1'));
@@ -1922,7 +1922,7 @@ describe('regardDeviceObjectDeletion', () => {
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('modifyReturnJson');
     IndividualService.__ResetDependency__('cacheUpdate');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('notifyAllDeviceSubscribers');
     IndividualService.__ResetDependency__('decodeMountName');
@@ -2241,7 +2241,7 @@ describe('regardDeviceAlarm', () => {
     readRecordsMock,
     modifyJsonMock,
     updateAlarmMock,
-    modificaUUIDMock,
+    modifyUUIDMock,
     recordRequestMock,
     metaUpdateMock;
 
@@ -2252,7 +2252,7 @@ describe('regardDeviceAlarm', () => {
     readRecordsMock = jest.fn();
     modifyJsonMock = jest.fn();
     updateAlarmMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     recordRequestMock = jest.fn(() => 123);
     metaUpdateMock = {
       updateMDTableForPartialCCUpdate: jest.fn()
@@ -2262,7 +2262,7 @@ describe('regardDeviceAlarm', () => {
     IndividualService.__Rewire__('ReadRecords', readRecordsMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyJsonMock);
     IndividualService.__Rewire__('alarmHandler', { updateAlarmByTypeAndResource: updateAlarmMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('metaDataUtility', metaUpdateMock);
   });
@@ -13861,7 +13861,7 @@ describe('getLiveControlConstruct', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
   let cacheResponseBuilderMock;
@@ -13881,7 +13881,7 @@ describe('getLiveControlConstruct', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
     cacheResponseBuilderMock = jest.fn();
@@ -13893,7 +13893,7 @@ describe('getLiveControlConstruct', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
     IndividualService.__Rewire__('cacheResponse', { cacheResponseBuilder: cacheResponseBuilderMock });
@@ -13927,7 +13927,7 @@ describe('getLiveControlConstruct', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
     IndividualService.__ResetDependency__('cacheResponse');
@@ -14002,7 +14002,7 @@ describe('getLiveAlarmCapability', () => {
   let formatUrlForOdlMock;
   let dispatchEventMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
   let recordRequestMock;
@@ -14020,7 +14020,7 @@ describe('getLiveAlarmCapability', () => {
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
@@ -14044,7 +14044,7 @@ describe('getLiveAlarmCapability', () => {
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
@@ -14057,7 +14057,7 @@ describe('getLiveAlarmCapability', () => {
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
@@ -14179,7 +14179,7 @@ describe('getLiveAlarmConfiguration', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -14201,7 +14201,7 @@ describe('getLiveAlarmConfiguration', () => {
   retrieveCorrectUrlMock = jest.fn();
   formatUrlForOdlMock = jest.fn();
   dispatchEventMock = jest.fn();
-  modificaUUIDMock = jest.fn();
+  modifyUUIDMock = jest.fn();
   modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
   ReadRecordsMock = jest.fn();
   cacheUpdateBuilderMock = jest.fn();
@@ -14212,7 +14212,7 @@ describe('getLiveAlarmConfiguration', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -14238,7 +14238,7 @@ describe('getLiveAlarmConfiguration', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -14263,7 +14263,7 @@ describe('getLiveAlarmConfiguration', () => {
     expect(retrieveCorrectUrlMock).toHaveBeenCalled();
     expect(formatUrlForOdlMock).toHaveBeenCalled();
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ alarm: 'active' }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ alarm: 'active' }, dummyMountName);
     expect(modifyUrlConcatenateMountNamePlusUuidMock).toHaveBeenCalled();
     expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
     expect(cacheUpdateBuilderMock).toHaveBeenCalled();
@@ -14832,7 +14832,7 @@ describe('getLiveEquipment', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -14851,7 +14851,7 @@ describe('getLiveEquipment', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -14862,7 +14862,7 @@ describe('getLiveEquipment', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -14873,7 +14873,7 @@ describe('getLiveEquipment', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -14886,7 +14886,7 @@ describe('getLiveEquipment', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid equipment object and validate schema', async () => {
@@ -15030,7 +15030,7 @@ describe('getLiveConnector', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15049,7 +15049,7 @@ describe('getLiveConnector', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -15061,7 +15061,7 @@ describe('getLiveConnector', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -15073,7 +15073,7 @@ describe('getLiveConnector', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -15087,7 +15087,7 @@ describe('getLiveConnector', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid connector data object', async () => {
@@ -15233,7 +15233,7 @@ describe('getLiveContainedHolder', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15252,7 +15252,7 @@ describe('getLiveContainedHolder', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -15264,7 +15264,7 @@ describe('getLiveContainedHolder', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -15276,7 +15276,7 @@ describe('getLiveContainedHolder', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -15290,7 +15290,7 @@ describe('getLiveContainedHolder', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid contained holder object', async () => {
@@ -15412,7 +15412,7 @@ describe('getLiveExpectedEquipment', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15431,7 +15431,7 @@ describe('getLiveExpectedEquipment', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -15443,7 +15443,7 @@ describe('getLiveExpectedEquipment', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -15455,7 +15455,7 @@ describe('getLiveExpectedEquipment', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -15469,7 +15469,7 @@ describe('getLiveExpectedEquipment', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid expected equipment object', async () => {
@@ -15613,7 +15613,7 @@ describe('getLiveActualEquipment', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15632,7 +15632,7 @@ describe('getLiveActualEquipment', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -15644,7 +15644,7 @@ describe('getLiveActualEquipment', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -15656,7 +15656,7 @@ describe('getLiveActualEquipment', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -15670,7 +15670,7 @@ describe('getLiveActualEquipment', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid equipment data object', async () => {
@@ -15813,7 +15813,7 @@ describe('getLiveFirmwareCollection', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15832,7 +15832,7 @@ describe('getLiveFirmwareCollection', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -15844,7 +15844,7 @@ describe('getLiveFirmwareCollection', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -15856,7 +15856,7 @@ describe('getLiveFirmwareCollection', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -15870,7 +15870,7 @@ describe('getLiveFirmwareCollection', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid firmware collection object', async () => {
@@ -16210,7 +16210,7 @@ describe('getLiveFirmwareComponentCapability', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -16229,7 +16229,7 @@ describe('getLiveFirmwareComponentCapability', () => {
     cacheUpdateBuilderMock = jest.fn().mockReturnValue({ status: { value: 'active' } });
     recordRequestMock = jest.fn().mockResolvedValue();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire or mock dependencies in your IndividualService module
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -16241,7 +16241,7 @@ describe('getLiveFirmwareComponentCapability', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
   });
 
   afterEach(() => {
@@ -16254,7 +16254,7 @@ describe('getLiveFirmwareComponentCapability', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should resolve with firmware component capability object', async () => {
@@ -16265,7 +16265,7 @@ describe('getLiveFirmwareComponentCapability', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Schema validation example
@@ -17143,7 +17143,7 @@ describe('getLiveCoChannelProfileConfiguration', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -17162,7 +17162,7 @@ describe('getLiveCoChannelProfileConfiguration', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -17174,7 +17174,7 @@ describe('getLiveCoChannelProfileConfiguration', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -17185,7 +17185,7 @@ describe('getLiveCoChannelProfileConfiguration', () => {
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
     formatUrlForOdlMock.mockReturnValue('http://formatted.url');
     dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
-    modificaUUIDMock.mockImplementation((json, cc) => { /* mock: no-op */
+    modifyUUIDMock.mockImplementation((json, cc) => { /* mock: no-op */
     
     
     });
@@ -17201,7 +17201,7 @@ describe('getLiveCoChannelProfileConfiguration', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -17217,7 +17217,7 @@ describe('getLiveCoChannelProfileConfiguration', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // AJV schema validation
@@ -17739,7 +17739,7 @@ describe('getLivePolicingProfileConfiguration', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -17758,7 +17758,7 @@ describe('getLivePolicingProfileConfiguration', () => {
     cacheUpdateBuilderMock = jest.fn().mockReturnValue({ status: { value: 'active' } });
     recordRequestMock = jest.fn().mockResolvedValue();
     modifyReturnJsonMock = jest.fn((json) => json);
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -17769,7 +17769,7 @@ describe('getLivePolicingProfileConfiguration', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
   });
 
   afterEach(() => {
@@ -17782,7 +17782,7 @@ describe('getLivePolicingProfileConfiguration', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid policing profile configuration object', async () => {
@@ -17794,7 +17794,7 @@ describe('getLivePolicingProfileConfiguration', () => {
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
     expect(modifyReturnJsonMock).toHaveBeenCalled();
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
 
     // Schema validation example
     const ajv = new Ajv();
@@ -18105,7 +18105,7 @@ describe('getLiveQosProfileConfiguration', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -18124,7 +18124,7 @@ describe('getLiveQosProfileConfiguration', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -18136,7 +18136,7 @@ describe('getLiveQosProfileConfiguration', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -18148,7 +18148,7 @@ describe('getLiveQosProfileConfiguration', () => {
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
     formatUrlForOdlMock.mockReturnValue('http://formatted.url');
     dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
     modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
     ReadRecordsMock.mockResolvedValue({ some: 'record' });
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
@@ -18162,7 +18162,7 @@ describe('getLiveQosProfileConfiguration', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -18178,7 +18178,7 @@ describe('getLiveQosProfileConfiguration', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Schema validation
@@ -18316,7 +18316,7 @@ describe('getLiveSchedulerProfileCapability', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -18335,7 +18335,7 @@ describe('getLiveSchedulerProfileCapability', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -18347,7 +18347,7 @@ describe('getLiveSchedulerProfileCapability', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -18358,7 +18358,7 @@ describe('getLiveSchedulerProfileCapability', () => {
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
     formatUrlForOdlMock.mockReturnValue('http://formatted.url');
     dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
     modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
     ReadRecordsMock.mockResolvedValue({ some: 'record' });
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
@@ -18371,7 +18371,7 @@ describe('getLiveSchedulerProfileCapability', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -18387,7 +18387,7 @@ describe('getLiveSchedulerProfileCapability', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -18484,7 +18484,7 @@ describe('getLiveSchedulerProfileConfiguration', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -18503,7 +18503,7 @@ describe('getLiveSchedulerProfileConfiguration', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -18515,7 +18515,7 @@ describe('getLiveSchedulerProfileConfiguration', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -18526,7 +18526,7 @@ describe('getLiveSchedulerProfileConfiguration', () => {
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
     formatUrlForOdlMock.mockReturnValue('http://formatted.url');
     dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
     modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
     ReadRecordsMock.mockResolvedValue({ some: 'record' });
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
@@ -18539,7 +18539,7 @@ describe('getLiveSchedulerProfileConfiguration', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -18555,7 +18555,7 @@ describe('getLiveSchedulerProfileConfiguration', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -18650,7 +18650,7 @@ describe('getLiveWredProfileCapability', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -18669,7 +18669,7 @@ describe('getLiveWredProfileCapability', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -18681,7 +18681,7 @@ describe('getLiveWredProfileCapability', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -18693,7 +18693,7 @@ describe('getLiveWredProfileCapability', () => {
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
     formatUrlForOdlMock.mockReturnValue('http://formatted.url');
     dispatchEventMock.mockResolvedValue({ status: 200, statusText: 'OK', data: { status: { value: 'active' } } });
-    modificaUUIDMock.mockImplementation((json, cc) => {});
+    modifyUUIDMock.mockImplementation((json, cc) => {});
     modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
     ReadRecordsMock.mockResolvedValue({ status: { value: 'active' } });
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
@@ -18706,7 +18706,7 @@ describe('getLiveWredProfileCapability', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -18722,7 +18722,7 @@ describe('getLiveWredProfileCapability', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Schema validation example
@@ -19077,7 +19077,7 @@ describe('getLiveLogicalTerminationPoint', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19096,7 +19096,7 @@ describe('getLiveLogicalTerminationPoint', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -19108,7 +19108,7 @@ describe('getLiveLogicalTerminationPoint', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -19132,7 +19132,7 @@ describe('getLiveLogicalTerminationPoint', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid logical termination point object', async () => {
@@ -19150,7 +19150,7 @@ describe('getLiveLogicalTerminationPoint', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -19302,7 +19302,7 @@ describe('getLiveLtpAugment', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19321,7 +19321,7 @@ describe('getLiveLtpAugment', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -19333,7 +19333,7 @@ describe('getLiveLtpAugment', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -19357,7 +19357,7 @@ describe('getLiveLtpAugment', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid LTP augment object', async () => {
@@ -19375,7 +19375,7 @@ describe('getLiveLtpAugment', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -19527,7 +19527,7 @@ describe('getLiveForwardingDomain', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19546,7 +19546,7 @@ describe('getLiveForwardingDomain', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -19558,7 +19558,7 @@ describe('getLiveForwardingDomain', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -19570,7 +19570,7 @@ describe('getLiveForwardingDomain', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -19584,7 +19584,7 @@ describe('getLiveForwardingDomain', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid forwarding domain object', async () => {
@@ -19903,7 +19903,7 @@ describe('getLiveForwardingConstructPort', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19922,7 +19922,7 @@ describe('getLiveForwardingConstructPort', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -19934,7 +19934,7 @@ describe('getLiveForwardingConstructPort', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -19946,7 +19946,7 @@ describe('getLiveForwardingConstructPort', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -19960,7 +19960,7 @@ describe('getLiveForwardingConstructPort', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid forwarding construct port object', async () => {
@@ -20434,7 +20434,7 @@ describe('getLiveAirInterfaceStatus', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -20453,7 +20453,7 @@ describe('getLiveAirInterfaceStatus', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -20465,7 +20465,7 @@ describe('getLiveAirInterfaceStatus', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mock implementations
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -20477,7 +20477,7 @@ describe('getLiveAirInterfaceStatus', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -20491,7 +20491,7 @@ describe('getLiveAirInterfaceStatus', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid air interface status object', async () => {
@@ -20777,7 +20777,7 @@ describe('getLiveAirInterfaceHistoricalPerformances', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -20796,7 +20796,7 @@ describe('getLiveAirInterfaceHistoricalPerformances', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -20807,7 +20807,7 @@ describe('getLiveAirInterfaceHistoricalPerformances', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -20830,7 +20830,7 @@ describe('getLiveAirInterfaceHistoricalPerformances', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid historical performance object', async () => {
@@ -20841,7 +20841,7 @@ describe('getLiveAirInterfaceHistoricalPerformances', () => {
 
     expect(result).toEqual({ status: { value: 'historical' } });
     expect(dispatchEventMock).toHaveBeenCalled();
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     const ajv = new Ajv();
@@ -20960,7 +20960,7 @@ describe('getLiveEthernetContainerCapability', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -20979,7 +20979,7 @@ describe('getLiveEthernetContainerCapability', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -20991,7 +20991,7 @@ describe('getLiveEthernetContainerCapability', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     // Mocks return values
     decodeMountNameMock.mockReturnValue(dummyMountName);
@@ -21016,7 +21016,7 @@ describe('getLiveEthernetContainerCapability', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid ethernet container capability object on success', async () => {
@@ -21027,7 +21027,7 @@ describe('getLiveEthernetContainerCapability', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Schema validation example (optional)
@@ -21159,7 +21159,7 @@ describe('getLiveEthernetContainerConfiguration', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -21178,7 +21178,7 @@ describe('getLiveEthernetContainerConfiguration', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -21189,7 +21189,7 @@ describe('getLiveEthernetContainerConfiguration', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -21212,7 +21212,7 @@ describe('getLiveEthernetContainerConfiguration', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid ethernet container configuration object', async () => {
@@ -21223,7 +21223,7 @@ describe('getLiveEthernetContainerConfiguration', () => {
 
     expect(result).toEqual({ status: { value: 'ethernet' } });
     expect(dispatchEventMock).toHaveBeenCalled();
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     const ajv = new Ajv();
@@ -21343,7 +21343,7 @@ describe('getLiveEthernetContainerStatus', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -21362,7 +21362,7 @@ describe('getLiveEthernetContainerStatus', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -21374,7 +21374,7 @@ describe('getLiveEthernetContainerStatus', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -21398,7 +21398,7 @@ describe('getLiveEthernetContainerStatus', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid ethernet container status object on success', async () => {
@@ -21409,7 +21409,7 @@ describe('getLiveEthernetContainerStatus', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Validate result against schema
@@ -21676,7 +21676,7 @@ describe('getLiveEthernetContainerHistoricalPerformances', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -21695,7 +21695,7 @@ describe('getLiveEthernetContainerHistoricalPerformances', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -21706,7 +21706,7 @@ describe('getLiveEthernetContainerHistoricalPerformances', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -21727,7 +21727,7 @@ describe('getLiveEthernetContainerHistoricalPerformances', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -21744,7 +21744,7 @@ describe('getLiveEthernetContainerHistoricalPerformances', () => {
     expect(decodeMountNameMock).toHaveBeenCalled();
     expect(retrieveCorrectUrlMock).toHaveBeenCalled();
     expect(dispatchEventMock).toHaveBeenCalled();
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(ReadRecordsMock).toHaveBeenCalled();
     expect(cacheUpdateBuilderMock).toHaveBeenCalled();
     expect(recordRequestMock).toHaveBeenCalled();
@@ -21860,7 +21860,7 @@ describe('getLiveHybridMwStructureCapability', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -21879,7 +21879,7 @@ describe('getLiveHybridMwStructureCapability', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     // Rewire dependencies
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
@@ -21891,7 +21891,7 @@ describe('getLiveHybridMwStructureCapability', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -21914,7 +21914,7 @@ describe('getLiveHybridMwStructureCapability', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid structure capability object on success', async () => {
@@ -21925,7 +21925,7 @@ describe('getLiveHybridMwStructureCapability', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith(result, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith(result, dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // JSON schema validation
@@ -22069,7 +22069,7 @@ describe('getLiveHybridMwStructureConfiguration', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -22088,7 +22088,7 @@ describe('getLiveHybridMwStructureConfiguration', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -22100,7 +22100,7 @@ describe('getLiveHybridMwStructureConfiguration', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -22116,7 +22116,7 @@ describe('getLiveHybridMwStructureConfiguration', () => {
       statusText: 'OK',
       data: { status: { value: 'active' } }
     });
-    modificaUUIDMock.mockImplementation((jsonObj) => { /* no-op */ });
+    modifyUUIDMock.mockImplementation((jsonObj) => { /* no-op */ });
     modifyUrlConcatenateMountNamePlusUuidMock.mockReturnValue('http://resolved.url/device-abc');
     ReadRecordsMock.mockResolvedValue({ some: 'record' });
     cacheUpdateBuilderMock.mockReturnValue({ updated: 'json' });
@@ -22130,7 +22130,7 @@ describe('getLiveHybridMwStructureConfiguration', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -22147,7 +22147,7 @@ describe('getLiveHybridMwStructureConfiguration', () => {
     expect(result).toEqual({ status: { value: 'active' } });
 
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalledWith({ status: { value: 'active' } });
 
     // Schema validation
@@ -22298,7 +22298,7 @@ describe('getLiveHybridMwStructureStatus', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -22317,7 +22317,7 @@ describe('getLiveHybridMwStructureStatus', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -22328,7 +22328,7 @@ describe('getLiveHybridMwStructureStatus', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -22351,7 +22351,7 @@ describe('getLiveHybridMwStructureStatus', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid hybrid MW structure status object on success', async () => {
@@ -22362,7 +22362,7 @@ describe('getLiveHybridMwStructureStatus', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Schema validation
@@ -22682,7 +22682,7 @@ describe('getLiveHybridMwStructureHistoricalPerformances', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -22701,7 +22701,7 @@ describe('getLiveHybridMwStructureHistoricalPerformances', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -22712,7 +22712,7 @@ describe('getLiveHybridMwStructureHistoricalPerformances', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -22735,7 +22735,7 @@ describe('getLiveHybridMwStructureHistoricalPerformances', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid historical performances data on success', async () => {
@@ -22746,7 +22746,7 @@ describe('getLiveHybridMwStructureHistoricalPerformances', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     // Schema validation example (optional)
@@ -22893,7 +22893,7 @@ describe('getLiveMacInterfaceCapability', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyReturnJsonMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
@@ -22912,7 +22912,7 @@ describe('getLiveMacInterfaceCapability', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
@@ -22923,7 +22923,7 @@ describe('getLiveMacInterfaceCapability', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
@@ -22944,7 +22944,7 @@ describe('getLiveMacInterfaceCapability', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyReturnJson');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
@@ -22964,7 +22964,7 @@ describe('getLiveMacInterfaceCapability', () => {
     expect(retrieveCorrectUrlMock).toHaveBeenCalledTimes(2);
     expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://resolved.url', 'status');
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
     expect(modifyUrlConcatenateMountNamePlusUuidMock).toHaveBeenCalled();
     expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
     expect(cacheUpdateBuilderMock).toHaveBeenCalled();
@@ -23080,7 +23080,7 @@ describe('getLiveMacInterfaceConfiguration', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23099,7 +23099,7 @@ describe('getLiveMacInterfaceConfiguration', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -23110,7 +23110,7 @@ describe('getLiveMacInterfaceConfiguration', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -23133,7 +23133,7 @@ describe('getLiveMacInterfaceConfiguration', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should resolve with correct data on success', async () => {
@@ -23144,7 +23144,7 @@ describe('getLiveMacInterfaceConfiguration', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -23261,7 +23261,7 @@ describe('getLiveMacInterfaceStatus', () => {
   let retrieveCorrectUrlMock;
   let formatUrlForOdlMock;
   let dispatchEventMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyReturnJsonMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
@@ -23280,7 +23280,7 @@ describe('getLiveMacInterfaceStatus', () => {
     retrieveCorrectUrlMock = jest.fn();
     formatUrlForOdlMock = jest.fn();
     dispatchEventMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
@@ -23291,7 +23291,7 @@ describe('getLiveMacInterfaceStatus', () => {
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
     IndividualService.__Rewire__('formatUrlForOdl', formatUrlForOdlMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
@@ -23312,7 +23312,7 @@ describe('getLiveMacInterfaceStatus', () => {
     IndividualService.__ResetDependency__('retrieveCorrectUrl');
     IndividualService.__ResetDependency__('formatUrlForOdl');
     IndividualService.__ResetDependency__('RestClient');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyReturnJson');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
@@ -23332,7 +23332,7 @@ describe('getLiveMacInterfaceStatus', () => {
     expect(retrieveCorrectUrlMock).toHaveBeenCalledTimes(2);
     expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://resolved.url', 'status');
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
     expect(modifyUrlConcatenateMountNamePlusUuidMock).toHaveBeenCalled();
     expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
     expect(cacheUpdateBuilderMock).toHaveBeenCalled();
@@ -23437,7 +23437,7 @@ describe('getLivePureEthernetStructureCapability', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23456,7 +23456,7 @@ describe('getLivePureEthernetStructureCapability', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -23467,7 +23467,7 @@ describe('getLivePureEthernetStructureCapability', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -23490,7 +23490,7 @@ describe('getLivePureEthernetStructureCapability', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should resolve with correct data on success', async () => {
@@ -23501,7 +23501,7 @@ describe('getLivePureEthernetStructureCapability', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ status: { value: 'active' } }, dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -23615,7 +23615,7 @@ describe('getLivePureEthernetStructureConfiguration', () => {
 
   let decodeMountNameMock, retrieveCorrectUrlMock, formatUrlForOdlMock, dispatchEventMock;
   let modifyUrlConcatenateMountNamePlusUuidMock, ReadRecordsMock, cacheUpdateBuilderMock;
-  let recordRequestMock, modifyReturnJsonMock, modificaUUIDMock;
+  let recordRequestMock, modifyReturnJsonMock, modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23634,7 +23634,7 @@ describe('getLivePureEthernetStructureConfiguration', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -23645,7 +23645,7 @@ describe('getLivePureEthernetStructureConfiguration', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -23668,7 +23668,7 @@ describe('getLivePureEthernetStructureConfiguration', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid ethernet structure config object', async () => {
@@ -23808,7 +23808,7 @@ describe('getLivePureEthernetStructureStatus', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23826,7 +23826,7 @@ describe('getLivePureEthernetStructureStatus', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -23837,7 +23837,7 @@ describe('getLivePureEthernetStructureStatus', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -23848,7 +23848,7 @@ describe('getLivePureEthernetStructureStatus', () => {
     cacheUpdateBuilderMock.mockReturnValue({ status: { value: 'active' } });
     recordRequestMock.mockResolvedValue();
     modifyReturnJsonMock.mockImplementation((json) => json);
-    modificaUUIDMock.mockImplementation(() => {});
+    modifyUUIDMock.mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -23861,7 +23861,7 @@ describe('getLivePureEthernetStructureStatus', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid PureEthernetStructureStatus object', async () => {
@@ -23873,7 +23873,7 @@ describe('getLivePureEthernetStructureStatus', () => {
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
     expect(modifyReturnJsonMock).toHaveBeenCalled();
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
 
     const ajv = new Ajv();
     const schema = {
@@ -24146,7 +24146,7 @@ describe('getLivePureEthernetStructureHistoricalPerformances', () => {
 
   let decodeMountNameMock, retrieveCorrectUrlMock, formatUrlForOdlMock, dispatchEventMock;
   let modifyUrlConcatenateMountNamePlusUuidMock, ReadRecordsMock;
-  let modificaUUIDMock, cacheUpdateBuilderMock, recordRequestMock, modifyReturnJsonMock;
+  let modifyUUIDMock, cacheUpdateBuilderMock, recordRequestMock, modifyReturnJsonMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24162,7 +24162,7 @@ describe('getLivePureEthernetStructureHistoricalPerformances', () => {
     dispatchEventMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
@@ -24173,7 +24173,7 @@ describe('getLivePureEthernetStructureHistoricalPerformances', () => {
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
@@ -24198,7 +24198,7 @@ describe('getLivePureEthernetStructureHistoricalPerformances', () => {
     IndividualService.__ResetDependency__('RestClient');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
@@ -24210,7 +24210,7 @@ describe('getLivePureEthernetStructureHistoricalPerformances', () => {
     );
 
     expect(result).toEqual({ history: [{ timestamp: 't1', value: 123 }] });
-    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
     expect(modifyReturnJsonMock).toHaveBeenCalledWith(expect.any(Object));
   });
 
@@ -24307,7 +24307,7 @@ describe('getLiveVlanInterfaceCapability', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24326,7 +24326,7 @@ describe('getLiveVlanInterfaceCapability', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -24337,7 +24337,7 @@ describe('getLiveVlanInterfaceCapability', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -24360,7 +24360,7 @@ describe('getLiveVlanInterfaceCapability', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid VLAN interface capability object', async () => {
@@ -24372,7 +24372,7 @@ describe('getLiveVlanInterfaceCapability', () => {
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
     expect(modifyReturnJsonMock).toHaveBeenCalled();
-    expect(modificaUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith(expect.any(Object), dummyMountName);
   });
 
   it('should reject if decodeMountName returns error object', async () => {
@@ -24486,7 +24486,7 @@ describe('getLiveVlanInterfaceConfiguration', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24505,7 +24505,7 @@ describe('getLiveVlanInterfaceConfiguration', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -24516,7 +24516,7 @@ describe('getLiveVlanInterfaceConfiguration', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -24539,7 +24539,7 @@ describe('getLiveVlanInterfaceConfiguration', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return valid vlan interface configuration object', async () => {
@@ -24550,7 +24550,7 @@ describe('getLiveVlanInterfaceConfiguration', () => {
 
     expect(result).toEqual({ status: { value: 'active' } });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
 
     const ajv = new Ajv();
@@ -24670,7 +24670,7 @@ describe('getLiveWireInterfaceCapability', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24689,7 +24689,7 @@ describe('getLiveWireInterfaceCapability', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -24700,7 +24700,7 @@ describe('getLiveWireInterfaceCapability', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -24727,7 +24727,7 @@ describe('getLiveWireInterfaceCapability', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return a valid wire interface capability object', async () => {
@@ -24739,7 +24739,7 @@ describe('getLiveWireInterfaceCapability', () => {
 
     expect(result).toEqual({ status: 'up' });
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalled();
+    expect(modifyUUIDMock).toHaveBeenCalled();
     expect(modifyReturnJsonMock).toHaveBeenCalled();
   });
 
@@ -24850,7 +24850,7 @@ describe('getLiveWireInterfaceConfiguration', () => {
   let cacheUpdateBuilderMock;
   let recordRequestMock;
   let modifyReturnJsonMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -24869,7 +24869,7 @@ describe('getLiveWireInterfaceConfiguration', () => {
     cacheUpdateBuilderMock = jest.fn();
     recordRequestMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
 
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('retrieveCorrectUrl', retrieveCorrectUrlMock);
@@ -24880,7 +24880,7 @@ describe('getLiveWireInterfaceConfiguration', () => {
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
     IndividualService.__Rewire__('recordRequest', recordRequestMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
 
     decodeMountNameMock.mockReturnValue(dummyMountName);
     retrieveCorrectUrlMock.mockResolvedValue('http://resolved.url');
@@ -24903,7 +24903,7 @@ describe('getLiveWireInterfaceConfiguration', () => {
     IndividualService.__ResetDependency__('cacheUpdate');
     IndividualService.__ResetDependency__('recordRequest');
     IndividualService.__ResetDependency__('modifyReturnJson');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
   });
 
   it('should return a valid wire interface configuration object', async () => {
@@ -25029,7 +25029,7 @@ describe('getLiveWireInterfaceStatus', () => {
   let decodeMountNameMock;
   let RestClientDispatchEventMock;
   let createHttpErrorMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
   let cacheUpdateBuilderMock;
@@ -25047,7 +25047,7 @@ describe('getLiveWireInterfaceStatus', () => {
       error.statusCode = code;
       return error;
     });
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
     cacheUpdateBuilderMock = jest.fn();
@@ -25059,7 +25059,7 @@ describe('getLiveWireInterfaceStatus', () => {
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: RestClientDispatchEventMock });
     IndividualService.__Rewire__('createHttpError', createHttpErrorMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
     IndividualService.__Rewire__('cacheUpdate', { cacheUpdateBuilder: cacheUpdateBuilderMock });
@@ -25092,7 +25092,7 @@ describe('getLiveWireInterfaceStatus', () => {
     IndividualService.__ResetDependency__('decodeMountName');
     IndividualService.__ResetDependency__('RestClient');
     IndividualService.__ResetDependency__('createHttpError');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
     IndividualService.__ResetDependency__('cacheUpdate');
@@ -25123,7 +25123,7 @@ describe('getLiveWireInterfaceStatus', () => {
       '',
       'auth-key-0'
     );
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ some: 'data' }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ some: 'data' }, dummyMountName);
     expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
     expect(cacheUpdateBuilderMock).toHaveBeenCalled();
     expect(recordRequestMock).toHaveBeenCalled();
@@ -25554,7 +25554,7 @@ describe('getLiveWireInterfaceHistoricalPerformances', () => {
   let decodeMountNameMock;
   let dispatchEventMock;
   let createHttpErrorMock;
-  let modificaUUIDMock;
+  let modifyUUIDMock;
   let modifyReturnJsonMock;
   let modifyUrlConcatenateMountNamePlusUuidMock;
   let ReadRecordsMock;
@@ -25574,7 +25574,7 @@ describe('getLiveWireInterfaceHistoricalPerformances', () => {
       error.code = code;
       return error;
     });
-    modificaUUIDMock = jest.fn();
+    modifyUUIDMock = jest.fn();
     modifyReturnJsonMock = jest.fn();
     modifyUrlConcatenateMountNamePlusUuidMock = jest.fn();
     ReadRecordsMock = jest.fn();
@@ -25587,7 +25587,7 @@ describe('getLiveWireInterfaceHistoricalPerformances', () => {
     IndividualService.__Rewire__('decodeMountName', decodeMountNameMock);
     IndividualService.__Rewire__('RestClient', { dispatchEvent: dispatchEventMock });
     IndividualService.__Rewire__('createHttpError', createHttpErrorMock);
-    IndividualService.__Rewire__('modificaUUID', modificaUUIDMock);
+    IndividualService.__Rewire__('modifyUUID', modifyUUIDMock);
     IndividualService.__Rewire__('modifyReturnJson', modifyReturnJsonMock);
     IndividualService.__Rewire__('modifyUrlConcatenateMountNamePlusUuid', modifyUrlConcatenateMountNamePlusUuidMock);
     IndividualService.__Rewire__('ReadRecords', ReadRecordsMock);
@@ -25618,7 +25618,7 @@ describe('getLiveWireInterfaceHistoricalPerformances', () => {
     IndividualService.__ResetDependency__('decodeMountName');
     IndividualService.__ResetDependency__('RestClient');
     IndividualService.__ResetDependency__('createHttpError');
-    IndividualService.__ResetDependency__('modificaUUID');
+    IndividualService.__ResetDependency__('modifyUUID');
     IndividualService.__ResetDependency__('modifyReturnJson');
     IndividualService.__ResetDependency__('modifyUrlConcatenateMountNamePlusUuid');
     IndividualService.__ResetDependency__('ReadRecords');
@@ -25647,7 +25647,7 @@ describe('getLiveWireInterfaceHistoricalPerformances', () => {
     expect(formatUrlForOdlMock).toHaveBeenCalledWith('http://correct.url', 'somefield');
     expect(decodeMountNameMock).toHaveBeenCalledWith(expect.any(String), false);
     expect(dispatchEventMock).toHaveBeenCalledWith('http://formatted.url', 'GET', '', 'auth-key');
-    expect(modificaUUIDMock).toHaveBeenCalledWith({ some: 'data' }, dummyMountName);
+    expect(modifyUUIDMock).toHaveBeenCalledWith({ some: 'data' }, dummyMountName);
     expect(ReadRecordsMock).toHaveBeenCalledWith(dummyMountName);
     expect(cacheUpdateBuilderMock).toHaveBeenCalled();
     expect(recordRequestMock).toHaveBeenCalled();

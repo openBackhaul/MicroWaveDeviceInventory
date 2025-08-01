@@ -13,14 +13,28 @@ const notificationManagement = require('./service/individualServices/Notificatio
 appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
+<<<<<<< HEAD
 const {performQualityMeasurement} = require('./service/individualServices/CyclicProcessService/CacheQualityMeasurement/measurementProcess')
 const { Console } = require('console');
 let kafkaConnection = require('./service/individualServices/KafkaHandler');
 
+=======
+const logger = require('./service/LoggingService.js').getLogger();
+>>>>>>> origin/develop
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
-//appCommons.openApiValidatorOptions.validateSecurity = false;
-appCommons.openApiValidatorOptions.validateResponses = false;
+// appCommons.openApiValidatorOptions.validateSecurity = false;
+if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
+    logger.warn("Working in debug mode");
+    logger.warn("Checking validation")
+    // appCommons.openApiValidatorOptions.validateSecurity = false;
+    appCommons.openApiValidatorOptions.validateResponses = false;
+    // appCommons.openApiValidatorOptions.validateRequests = false;
+    logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
+    logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
+    logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);
+}
+
 // swaggerRouter configuration
 var options = {
     routing: {
@@ -50,12 +64,12 @@ global.databasePath = './database/load.json';
 
 
 prepareElasticsearch(false).catch(err => {
-    console.error(`Error preparing Elasticsearch : ${err}`);
+    logger.error(`Error preparing Elasticsearch : ${err}`);
 }).finally(() => {
     // Initialize the Swagger middleware
     http.createServer(app).listen(serverPort, function () {
-        console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-        console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+        logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+        logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
     appCommons.performApplicationRegistration();
     //performQualityMeasurement();

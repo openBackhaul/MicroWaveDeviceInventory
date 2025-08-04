@@ -12289,17 +12289,47 @@ function modifyUUID(obj, mountName) {
 // function to convert the response from String1+String2 to String1
 function modifyReturnJson(obj) {
   try {
+    const stack = [obj];
+
+    while (stack.length > 0) {
+      const current = stack.pop();
+
+      if (Array.isArray(current)) {
+        for (let i = 0; i < current.length; i++) {
+          stack.push(current[i]);
+        }
+      } else if (current && typeof current === 'object') {
+        for (const key in current) {
+          const val = current[key];
+
+          if (val && typeof val === 'object') {
+            stack.push(val);
+          } else if ((key === 'uuid' || key === 'local-id') && typeof val === 'string') {
+            const plusIndex = val.indexOf('+');
+            if (plusIndex !== -1 && plusIndex < val.length - 1) {
+              current[key] = val.slice(plusIndex + 1);
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    logger.error('Error in modifyReturnJson:', error);
+  }
+}
+
+function modifyReturnJsonOrig(obj) {
+  try {
     for (const key in obj) {
       if (Array.isArray(obj[key])) {
         obj[key].forEach(item => {
-          modifyReturnJson(item);
+          modifyReturnJsonOrig(item);
         });
       } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        modifyReturnJson(obj[key]);
+        modifyReturnJsonOrig(obj[key]);
       } else {
         if (key === 'uuid' || key === 'local-id') {
-          const parts = obj[key].split('+');
-          obj[key] = parts[1];
+          obj[key] = obj[key].split('+')[1];
         }
       }
     }

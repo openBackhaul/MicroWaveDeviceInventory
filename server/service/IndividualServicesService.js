@@ -2919,9 +2919,11 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
+      logger.info(`Cached LTP Augmented - get from url ${url}`);
       let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
+          logger.error("Cached LTP Augmented - Wrong decoding mountname, is an object:");
           throw new createHttpError.BadRequest;
         }
       }
@@ -2934,7 +2936,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
-        logger.error("getLiveLtpAugment - Wrong decoding mountname, is an object:");
+        logger.error("getcacheLtpAugment - Wrong decoding mountname, is an object:");
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
@@ -2943,14 +2945,17 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       let returnObject = {};
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
+      logger.info("Cached LTP Augmented - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
+      logger.info("Cached LTP - Read from ELK done");
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
+        logger.info("Cached LTP Augmented - get cacheResponseBuilder");
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
+          logger.info("Cached LTP Augmented - modify JSON done");
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
@@ -2970,8 +2975,8 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
+      logger.info("Cached LTP Augmented - Return data");
       resolve(returnObject);
     } catch (error) {
       console.error(error);

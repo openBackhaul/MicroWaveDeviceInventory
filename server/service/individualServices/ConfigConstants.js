@@ -8,6 +8,10 @@ const OAM_PATH_DEVICE_ATTR_VALUE_CHANGES = "/v1/notify-device-attribute-value-ch
 const OAM_PATH_DEVICE_OBJECT_CREATIONS = "/v1/notify-device-object-creations";
 const OAM_PATH_DEVICE_OBJECT_DELETIONS = "/v1/notify-device-object-deletions";
 
+const OAM_PATH_CONTROLLER_ATTRIBUTE_VALUE_CHANGES = "/v1/regard-controller-attribute-value-change";
+const OAM_PATH_CONTROLLER_ATTRIBUTE_OBJECT_CREATIONS = "/v1/regard-controller-object-creations"; // API not yet declared into MWDI
+const OAM_PATH_CONTROLLER_ATTRIBUTE_OBJECT_DELETIONS = "/v1/regard-controller-object-deletions"; // API not yet declared into MWDI
+
 const OPERATION_SUB_NOTIF_CONTROLLER_CHANGED_ATTR = "SubscriptionCausesNotifyingOfChangedControllerAttributeValue";
 const OPERATION_SUB_NOTIF_CONTROLLER_OBJ_CREATION = "SubscriptionCausesNotifyingOfControllerObjectCreation";
 const OPERATION_SUB_NOTIF_CONTROLLER_OBJ_DELETION = "SubscriptionCausesNotifyingOfControllerObjectDeletion";
@@ -41,7 +45,7 @@ function getForwardingName(requestUrl) {
         case OAM_PATH_ATTRIBUTE_OBJECT_CREATIONS:
             return OPERATION_SUB_NOTIF_OBJ_CREATION;
         case OAM_PATH_ATTRIBUTE_OBJECT_DELETIONS:
-            return OPERATION_SUB_NOTIF_OBJ_DELETION;    
+            return OPERATION_SUB_NOTIF_OBJ_DELETION;
         case OAM_PATH_DEVICE_ALARMS:
             return OPERATION_SUB_NOTIF_DEVICE_ALARMS;
         case OAM_PATH_DEVICE_ATTR_VALUE_CHANGES:
@@ -56,7 +60,6 @@ function getForwardingName(requestUrl) {
 }
 
 module.exports = {
-
     OAM_PATH_ATTRIBUTE_VALUE_CHANGES,
     OAM_PATH_ATTRIBUTE_OBJECT_CREATIONS,
     OAM_PATH_ATTRIBUTE_OBJECT_DELETIONS,
@@ -64,6 +67,10 @@ module.exports = {
     OAM_PATH_DEVICE_ATTR_VALUE_CHANGES,
     OAM_PATH_DEVICE_OBJECT_CREATIONS,
     OAM_PATH_DEVICE_OBJECT_DELETIONS,
+
+    OAM_PATH_CONTROLLER_ATTRIBUTE_VALUE_CHANGES,
+    OAM_PATH_CONTROLLER_ATTRIBUTE_OBJECT_CREATIONS,
+    OAM_PATH_CONTROLLER_ATTRIBUTE_OBJECT_DELETIONS,
 
     OPERATION_SUB_NOTIF_CONTROLLER_CHANGED_ATTR,
     OPERATION_SUB_NOTIF_CONTROLLER_OBJ_CREATION,

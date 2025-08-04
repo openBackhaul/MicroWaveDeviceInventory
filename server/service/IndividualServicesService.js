@@ -2836,6 +2836,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
 exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
+      logger.info(`Cached LTP - get from url ${url}`);
       let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
@@ -2851,7 +2852,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
-        logger.error("getLiveLogicalTerminationPoint - Wrong decoding mountname, is an object:");
+        logger.error("Cached LTP - Wrong decoding mountname, is an object:");
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
@@ -2860,14 +2861,17 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       let returnObject = {};
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
+      logger.info("Cached LTP - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
+      logger.info("Cached LTP - Read from ELK done");
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
+        logger.info("Cached LTP - get cacheResponseBuilder");
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
+          logger.info("Cached LTP - modify JSON done");
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
@@ -2887,8 +2891,8 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
+      logger.info("Cached LTP - Return data");
       resolve(returnObject);
     } catch (error) {
       console.error(error);
@@ -2915,9 +2919,11 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
+      logger.info(`Cached LTP Augmented - get from url ${url}`);
       let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
+          logger.error("Cached LTP Augmented - Wrong decoding mountname, is an object:");
           throw new createHttpError.BadRequest;
         }
       }
@@ -2930,7 +2936,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
-        logger.error("getLiveLtpAugment - Wrong decoding mountname, is an object:");
+        logger.error("getcacheLtpAugment - Wrong decoding mountname, is an object:");
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
@@ -2939,14 +2945,17 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       let returnObject = {};
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
+      logger.info("Cached LTP Augmented - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
+      logger.info("Cached LTP - Read from ELK done");
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
+        logger.info("Cached LTP Augmented - get cacheResponseBuilder");
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
+          logger.info("Cached LTP Augmented - modify JSON done");
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
@@ -2966,8 +2975,8 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
+      logger.info("Cached LTP Augmented - Return data");
       resolve(returnObject);
     } catch (error) {
       console.error(error);
@@ -12289,17 +12298,47 @@ function modifyUUID(obj, mountName) {
 // function to convert the response from String1+String2 to String1
 function modifyReturnJson(obj) {
   try {
+    const stack = [obj];
+
+    while (stack.length > 0) {
+      const current = stack.pop();
+
+      if (Array.isArray(current)) {
+        for (let i = 0; i < current.length; i++) {
+          stack.push(current[i]);
+        }
+      } else if (current && typeof current === 'object') {
+        for (const key in current) {
+          const val = current[key];
+
+          if (val && typeof val === 'object') {
+            stack.push(val);
+          } else if ((key === 'uuid' || key === 'local-id') && typeof val === 'string') {
+            const plusIndex = val.indexOf('+');
+            if (plusIndex !== -1 && plusIndex < val.length - 1) {
+              current[key] = val.slice(plusIndex + 1);
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    logger.error('Error in modifyReturnJson:', error);
+  }
+}
+
+function modifyReturnJsonOrig(obj) {
+  try {
     for (const key in obj) {
       if (Array.isArray(obj[key])) {
         obj[key].forEach(item => {
-          modifyReturnJson(item);
+          modifyReturnJsonOrig(item);
         });
       } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        modifyReturnJson(obj[key]);
+        modifyReturnJsonOrig(obj[key]);
       } else {
         if (key === 'uuid' || key === 'local-id') {
-          const parts = obj[key].split('+');
-          obj[key] = parts[1];
+          obj[key] = obj[key].split('+')[1];
         }
       }
     }

@@ -2836,6 +2836,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
 exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
   return new Promise(async function (resolve, reject) {
     try {
+      logger.info(`Cached LTP - get from url ${url}`);
       let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
@@ -2851,7 +2852,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, false);
       if (typeof mountname === 'object') {
-        logger.error("getLiveLogicalTerminationPoint - Wrong decoding mountname, is an object:");
+        logger.error("Cached LTP - Wrong decoding mountname, is an object:");
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
@@ -2860,14 +2861,17 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       let returnObject = {};
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
-
+      logger.info("Cached LTP - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
+      logger.info("Cached LTP - Read from ELK done");
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
+        logger.info("Cached LTP - get cacheResponseBuilder");
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
+          logger.info("Cached LTP - modify JSON done");
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
@@ -2887,8 +2891,8 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
+      logger.info("Cached LTP - Return data");
       resolve(returnObject);
     } catch (error) {
       console.error(error);

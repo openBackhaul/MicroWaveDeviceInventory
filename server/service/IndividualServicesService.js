@@ -1189,9 +1189,11 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
 exports.getCachedControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   return new Promise(async function (resolve, reject) {
     try {
+      logger.info(`CachedControlConstruct - get from url ${url}`);
       let myFields = fields;
       if (myFields != undefined) {
         if (!isFilterValid(myFields)) {
+          logger.warn("CachedControlConstruct - Filters are not valid, throwing BadRequest");
           throw new createHttpError.BadRequest;
         }
       }
@@ -1204,7 +1206,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
-        logger.error("getCachedControlConstruct - Wrong decoding mountname, is an object:");
+        logger.error("CachedControlConstruct - Wrong decoding mountname, is an object:");
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
@@ -1214,14 +1216,17 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
-      logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
+      logger.info("CachedControlConstruct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
+      logger.info("CachedControlConstruct - Read from ELK done");
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
+        logger.info("CachedControlConstruct - get cacheResponseBuilder");
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
+          logger.info("CachedControlConstruct - modify JSON done");
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
@@ -1243,9 +1248,9 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
       }
+      logger.info("CachedControlConstruct - Return data");
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -12258,7 +12263,7 @@ async function ReadRecords(cc) {
       }
     });
     const resultArray = createResultArray(result);
-    return (resultArray[0])
+    return (resultArray[0]);
   } catch (error) {
     logger.error(error);
   }

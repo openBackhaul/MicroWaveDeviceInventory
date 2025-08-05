@@ -9580,7 +9580,7 @@
                 "auth": {
                   "api-key": "API key not yet defined."
                 },
-                "index-alias": "mwdi-1"
+                "index-alias": "7"
               },
               "elasticsearch-client-interface-status": {
                 "operational-state": "elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
@@ -9655,7 +9655,7 @@
                   "user-name": "mwdi",
                   "password": " >>> password <<< "
                 },
-                "topic-name": "device_change_notifications",
+                "topic-name": "device_alarm_notifications",
                 "client-id": "mwdi-instance-01",
                 "group-id": "mwdi-consumer-group"
               },
@@ -9667,7 +9667,7 @@
           }
         ]
       },
-      {
+	  {
         "uuid": "mwdi-2-0-1-kmb-c-kmb-1-0-0-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [],
@@ -9684,7 +9684,7 @@
                   "user-name": "mwdi",
                   "password": " >>> password <<< "
                 },
-                "topic-name": "device_alarm_notifications",
+                "topic-name": "device_change_notifications",
                 "client-id": "mwdi-instance-01",
                 "group-id": "mwdi-consumer-group"
               },
@@ -9701,7 +9701,7 @@
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
           "mwdi-2-0-1-kmb-c-kmb-1-0-0-000",
-          "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
+		      "mwdi-2-0-1-kmb-c-kmb-1-0-0-001"
         ],
         "server-ltp": [
           "mwdi-2-0-1-tcp-c-kmb-1-0-0-000"

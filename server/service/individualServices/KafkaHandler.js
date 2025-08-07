@@ -42,8 +42,9 @@ exports.connectToKafka = async function () {
         let ltpForKafkaClient = await exports.getKafkaClient();
         let groupId = await exports.getKafkaGroupId(ltpForKafkaClient);
         let clientId = await exports.getKafkaClientId(ltpForKafkaClient);
-        let brokerList = [].concat(await exports.getBrokerForKafka(ltpForKafkaClient));
-        let kafkaTopic = await exports.getKafkaTopicName(ltpForKafkaClient);
+        let brokerList = [].concat(await exports.getBrokerForKafka(ltpForKafkaClient));        
+        let kafkaClientList = await exports.getKafkaClientList();
+        let kafkaTopic = await exports.getKafkaTopicName(kafkaClientList);
         await kafka.connect(groupId, clientId, brokerList);
         kafka.subscribeMessages(kafkaTopic, handleNotifications);
     } catch (error) {
@@ -85,6 +86,16 @@ exports.getKafkaClient = async function () {
     }
 }
 
+exports.getKafkaClientList = async function () {
+    try {
+        let ltpListForKafkaClientList = await controlConstruct.getLogicalTerminationPointListAsync(LayerProtocol.layerProtocolNameEnum.KAFKA_CLIENT);
+        return ltpListForKafkaClientList;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
 exports.getKafkaClientId = async function (kafkaClientLtp) {
     try {
         let kafkaConfig = kafkaClientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.KAFKA_CLIENT_INTERFACE_PAC][onfAttributes.KAFKA_CLIENT.CONFIGURATION];
@@ -107,16 +118,18 @@ exports.getKafkaGroupId = async function (kafkaClientLtp) {
     }
 }
 
-exports.getKafkaTopicName = async function (kafkaClientLtp) {
+exports.getKafkaTopicName = async function (kafkaClientLtpList) {
     let topics = [];
     try {
-        let kafkaConfig = kafkaClientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.KAFKA_CLIENT_INTERFACE_PAC][onfAttributes.KAFKA_CLIENT.CONFIGURATION];
-        let topicName = kafkaConfig[onfAttributes.KAFKA_CLIENT.TOPIC_NAME];
-        topics.push(topicName);
+        for (let index = 0; index < kafkaClientLtpList.length; index++) {
+            const kafkaClientLtp = kafkaClientLtpList[index];
+            let kafkaConfig = kafkaClientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.KAFKA_CLIENT_INTERFACE_PAC][onfAttributes.KAFKA_CLIENT.CONFIGURATION];
+            let topicName = kafkaConfig[onfAttributes.KAFKA_CLIENT.TOPIC_NAME];
+            topics.push(topicName);
+        }        
         return topics;
     } catch (error) {
         console.log(error);
-        y
         return undefined;
     }
 }

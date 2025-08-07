@@ -13,14 +13,7 @@ const notificationManagement = require('./service/individualServices/Notificatio
 appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
-<<<<<<< HEAD
-const {performQualityMeasurement} = require('./service/individualServices/CyclicProcessService/CacheQualityMeasurement/measurementProcess')
-const { Console } = require('console');
-let kafkaConnection = require('./service/individualServices/KafkaHandler');
-
-=======
 const logger = require('./service/LoggingService.js').getLogger();
->>>>>>> origin/develop
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // appCommons.openApiValidatorOptions.validateSecurity = false;
@@ -72,12 +65,8 @@ prepareElasticsearch(false).catch(err => {
         logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
     appCommons.performApplicationRegistration();
-    //performQualityMeasurement();
     
-    kafkaConnection.connectToKafka();
 }
 );
-
-//setInterval(performQualityMeasurement, 300);
 
 global.applicationDataPath = './application-data/';

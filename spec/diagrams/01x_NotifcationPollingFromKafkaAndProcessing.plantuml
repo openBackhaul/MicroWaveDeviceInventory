@@ -41,6 +41,13 @@ end note
 mwdi -> kafkaAlarm: {topicName, brokerId, groupId, clientId} (apiKeyAuth)
 
 == cycically poll new notifications and process them ==
+note over mwdi #LightPink
+  Only poll deviceChangeNotifications and deviceAlarmNotifications
+  while profileInstance
+  <i>kafkaNotificationReceiptAndProcessingSwitch</i> == "on",
+  when set to "off" no polling to be executed
+end note
+
 note over mwdi
 <u>deviceChangeNotificationPolling</u>
   Continuously poll all new device change notifications from Kafka.

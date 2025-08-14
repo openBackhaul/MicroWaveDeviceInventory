@@ -186,6 +186,8 @@ Depending on the respective notification the cached ControlConstruct is modified
 
 Also note that in the past MWDI had a subscription to NotificationProxy, which did push the notifications to MWDI. For this, NP called the *regard*-services each time a new notification was pushed, thereby creating a new http session every time. With MWDI 2.0.0 this approach has been changed. MWDI pulls the messages from Kafka and processes the notifications then directly. For this, MWDI executes the functionality from *regard*-services internally (i.e. without opening a new http-session), which is why the *regard*-services along with their related forwardings are kept in the specification, but marked as deprecated.
 
+Polling notifications from Kafka can be switched on/off via profileInstance *kafkaNotificationReceiptAndProcessingSwitch*. If it is turned *off*, no notifications shall be fetched and processed until it is changed back to *on* (default).
+
 **User-initiated updates of ControlConstruct parts**  
 Certain parts of the ControlConstruct can be updated upon “user” demand. I.e. if another application calls a *live* path for e.g. the air interface capabilities, they are retrieved from the device and then the air interface capabilities inside the cached ControlConstruct are updated with the newly retrieved information. The other parts of the ControlConstruct are not updated by this.
 

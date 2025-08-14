@@ -39,6 +39,7 @@ See issue collection [MWDI v2.0.1_spec](https://github.com/openBackhaul/MicroWav
 MWDI v2.0.1 also adds the following changes to notification handling diverging from v2.0.0:
 - (1) Controller notifications shall not be pulled from Kafka, but again pushed to MWDI by NotificationProxy
 - (2) Device and alarm notifications are to be pulled from Kafka from two separate topics
+- (3) Pulling of notifications from Kafka and processing them can be turned on/off via a profileInstance
 
 *Details*:  
 - for (1) the following changes were applied:

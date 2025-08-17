@@ -5,23 +5,26 @@ const TcpClientInterface = require('onf-core-model-ap/applicationPattern/onfMode
 const kafka = require("onf-core-model-ap/applicationPattern/services/KafkaConsumerService");
 const individualServices = require("../IndividualServicesService");
 
-const handleNotifications = (receivedMessage) => {
-    try {        
-    let notification = JSON.parse(receivedMessage);
-    console.log(notification);
-    let notificationType = getNotificationType(notification);
-    if (notificationType == "ALARM") {
-        individualServices.regardDeviceAlarm(notification);
-    } else if (notificationType == "ATTRIBUTE_VALUE_CHANGED") {
-        individualServices.regardDeviceAttributeValueChange(notification);
-    } else if (notificationType == "OBJECT_CREATION") {
-        individualServices.regardDeviceObjectCreation(notification);
-    } else if (notificationType == "OBJECT_DELETION") {
-        individualServices.regardDeviceObjectDeletion(notification);
-    }
+const handleNotifications = (receivedMessage, topic) => {
+    try {
+        let notification = receivedMessage;
+        console.log(notification, "--------", topic);
+        let notificationType = getNotificationType(notification);
+        if (notificationType == "ALARM") {
+            individualServices.regardDeviceAlarm(notification);
+        } else if (notificationType == "ATTRIBUTE_VALUE_CHANGED") {
+            individualServices.regardDeviceAttributeValueChange(notification);
+        } else if (notificationType == "OBJECT_CREATION") {
+            individualServices.regardDeviceObjectCreation(notification);
+        } else if (notificationType == "OBJECT_DELETION") {
+            individualServices.regardDeviceObjectDeletion(notification);
+        } else {
+            console.log(`improper notification received: ${notification} for topic: ${topic}`);
+        }
     } catch (error) {
         console.log(error);
     }
+    return;
 }
 
 function getNotificationType(notification) {
@@ -34,6 +37,8 @@ function getNotificationType(notification) {
         return "OBJECT_CREATION";
     } else if (notificationType.includes("object-deletion")) {
         return "OBJECT_DELETION";
+    } else {
+        return "undefined";
     }
 }
 
@@ -42,7 +47,7 @@ exports.connectToKafka = async function () {
         let ltpForKafkaClient = await exports.getKafkaClient();
         let groupId = await exports.getKafkaGroupId(ltpForKafkaClient);
         let clientId = await exports.getKafkaClientId(ltpForKafkaClient);
-        let brokerList = [].concat(await exports.getBrokerForKafka(ltpForKafkaClient));        
+        let brokerList = [].concat(await exports.getBrokerForKafka(ltpForKafkaClient));
         let kafkaClientList = await exports.getKafkaClientList();
         let kafkaTopic = await exports.getKafkaTopicName(kafkaClientList);
         await kafka.connect(groupId, clientId, brokerList);
@@ -126,7 +131,7 @@ exports.getKafkaTopicName = async function (kafkaClientLtpList) {
             let kafkaConfig = kafkaClientLtp[onfAttributes.LOGICAL_TERMINATION_POINT.LAYER_PROTOCOL][0][onfAttributes.LAYER_PROTOCOL.KAFKA_CLIENT_INTERFACE_PAC][onfAttributes.KAFKA_CLIENT.CONFIGURATION];
             let topicName = kafkaConfig[onfAttributes.KAFKA_CLIENT.TOPIC_NAME];
             topics.push(topicName);
-        }        
+        }
         return topics;
     } catch (error) {
         console.log(error);

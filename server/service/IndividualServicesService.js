@@ -10275,8 +10275,83 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
   });
 }
 
-//to add
+/**
+ * Provides quality statistics for the cache
+ *
+ * body Body_12 If no requestBody is provided, the service returns a single aggregated record (optional)
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * returns inline_response_200_9
+ **/
+exports.provideCacheQualityStatistics = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {      
+      let aggregatedResponse = [];
+      let cacheQualityStatistics = await ReadRecords("cache-quality-statistics");
+      if (cacheQualityStatistics != undefined) {
+        if(body){
+          if(body["group-by"]){
+          aggregatedResponse = aggregateData(cacheQualityStatistics["cache-quality-statistics"], true)
+        }else{
+          aggregatedResponse = [aggregateData(cacheQualityStatistics["cache-quality-statistics"])]
+        }
+        resolve({"cache-quality-statistics" : aggregatedResponse});
+      } else {
+        throw new createHttpError(500, "Error in Elasticsearch communication or no cacheQualityStatistics available");
+      }
+    } 
+  }catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+}
 
+function aggregateData(data, summarizeByDevice = false) {
+  if (!summarizeByDevice) {
+      // Case 1: No input → aggregate everything
+      return data.reduce((device, item) => {
+      device["device-type"] = "all";
+      device["attribute-mismatches"] += item["attribute-mismatches"] || 0;
+      device["attribute-class-mismatches"] += item["attribute-class-mismatches"] || 0;
+      device["weighted-score"] += item["weighted-score"] || 0;
+      return device;
+    }, {
+      "device-type": "all",
+      "attribute-mismatches": 0,
+      "attribute-class-mismatches": 0,
+      "weighted-score": 0
+      });
+  } 
+  else {
+  // Case 2: Input given → group by device-type
+      let summary = [];
+      let result = {};
+      data.forEach(item => {
+      const deviceType = item["device-type"];
+      if (!result[deviceType]) {
+      result[deviceType] = {
+      "device-type": deviceType,
+      "attribute-mismatches": 0,
+      "attribute-class-mismatches": 0,
+      "weighted-score": 0
+      };
+      }
+      result[deviceType]["attribute-mismatches"] += item["attribute-mismatches"] || 0;
+      result[deviceType]["attribute-class-mismatches"] += item["attribute-class-mismatches"] || 0;
+      result[deviceType]["weighted-score"] += item["weighted-score"] || 0;
+    });
+
+    for (const [key, value] of Object.entries(result)) {
+      summary.push(value);
+      console.log(`${key}: ${value}`);
+}
+  return Object.values(summary);
+  }
+}
 
 /**
  * Provides data of linkports in cache
@@ -11065,6 +11140,12 @@ exports.regardDeviceObjectCreation = function (body) {
       // Construct the base URL
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
+      let originator = "MicroWaveDeviceInventory";
+      let requestHeader = new RequestHeader(undefined,originator)
+      let user = requestHeader.user;
+      let xCorrelator = requestHeader.xCorrelator;
+      let customerJourney = requestHeader.customerJourney;
+      let traceIndicator = requestHeader.traceIndicator;
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       if (resRequestor == null) {
         throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");

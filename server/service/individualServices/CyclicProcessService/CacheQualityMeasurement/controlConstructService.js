@@ -5,7 +5,8 @@ const RandExp = require('randexp');
 
 async function getCachedControlConstruct(mountName) {
   // retrieval from local cache
-  let cachedControlConstruct = await readRecords(mountName);
+  let url = "/core-model-1-4:network-control-domain=cache/control-construct=" + mountName;
+  let cachedControlConstruct = await individualServices.getCachedControlConstruct(url)
   return cachedControlConstruct;
 }
 

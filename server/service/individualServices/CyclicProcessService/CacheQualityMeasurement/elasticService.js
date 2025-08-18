@@ -1,48 +1,35 @@
 
-async function logResult(result) {
-  await client.index({
-    index: common[1].indexAlias,
-    document: result
-  });
-  console.log('Logged to Elasticsearch:', result);
-}
+'use strict';
 
-/**
- * Read from ES
- *
- * response value expected for this operation
- **/
-async function readRecords(entity) {
-  try {
-    let query = {
-      term: {
-        _id: entity
+const utility = require('../../utility');
+
+exports.writeCacheQualityListToElasticsearch = function (qualityList) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let qualityListToWrite = '{"cache-quality-statistics":' + qualityList + '}';
+      let result = await utility.recordRequest(qualityListToWrite, "cache-quality-statistics");
+      if (result.took !== undefined) {
+        resolve(true);
+      } else {
+        reject("Error in writing CacheQuality list to elasticsearch.")
       }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
 
-    };
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      body: {
-        query: query
+exports.readCacheQualityListFromElasticsearch = function () {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let esCacheQualityList = [];
+      let result = await utility.ReadRecords("cache-quality-statistics");
+      if (result != undefined) {
+        esCacheQualityList = result["cache-quality-statistics"];
       }
-    });
-    const resultArray = createResultArray(result);
-    return (resultArray[0])
-  } catch (error) {
-    console.error(error);
-  }
+      resolve(esCacheQualityList);
+    } catch (error) {
+      reject(error);
+    }
+  })
 }
-
-function createResultArray(result) {
-  const resultArray = [];
-  if (result.body.hits) {
-    result.body.hits.hits.forEach((item) => {
-      resultArray.push(item._source);
-    });
-  }
-  return resultArray;
-}
-
-module.exports = { logResult,readRecords };

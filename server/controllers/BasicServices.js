@@ -14,6 +14,7 @@ const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/on
 const metadataTableUpdateStartModule = require('../service/individualServices/CyclicProcessService/metaDataTableCyclicProcess.js')
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 let kafkaConnection = require('../service/individualServices/KafkaHandler');
+let cacheQualityMeasurementProcess = require('../service/individualServices/CyclicProcessService/CacheQualityMeasurement/measurementProcess.js')
 
 const NEW_RELEASE_FORWARDING_NAME = undefined;
 const OLD_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
@@ -96,8 +97,14 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
       // start cyclic process for metadata List update
       metadataTableUpdateStartModule.MetaDataTableCyclicProcess();
       // starts further notification process
+      try {        
       kafkaConnection.connectToKafka();
+      } catch (error) {
+        console.log(error);
+      }
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
+      // starts cacheQualityMeasurementProcess
+      cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);

@@ -44,19 +44,13 @@ async function deviceMetaDataListUpdateProcess() {
     let odlDeviceMetaDataList = [];
     let deviceMetaDataListFromElasticSearch = [];
     let deviceMetaDataList = [];
-    /**
-     * to be reverted to original code. Temporarily get input data from file instead of controller. 
-     * Remove line 55 and 56
-     * 
+    
     //get device meta data list from live controller
     odlDeviceMetaDataList = await deviceMetaDataUtility.getLiveDeviceMetaDataListFromController()
       .catch(error => {
         throw error;
       });
-     */
 
-    odlDeviceMetaDataList = await fileSystem.promises.readFile("service/individualServices/CyclicProcessService/DeviceMetaDataProcess/testBedTempDevicesFile.json", 'utf-8');
-    odlDeviceMetaDataList = JSON.parse(odlDeviceMetaDataList);
     // get existing device meta data from elastic search
     deviceMetaDataListFromElasticSearch = await deviceMetaDataUtility.readDeviceMetaDataListFromElasticSearch()
       .catch(error => {

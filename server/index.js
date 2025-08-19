@@ -5,12 +5,12 @@ var http = require('http');
 require('console-stamp')(console);
 
 var oas3Tools = require('openbackhaul-oas3-tools');
-var serverPort = 4015;
+var serverPort = 4024;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 var individual = require('./service/IndividualServicesService');
-var apiKeyAuth = require('./utils/apiKeyAuth');
+//var apiKeyAuth = require('./utils/apiKeyAuth');
 const notificationManagement = require('./service/individualServices/NotificationManagement');
-appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
+//appCommons.openApiValidatorOptions.validateSecurity.handlers.apiKeyAuth = apiKeyAuth.validateOperationKey;
 
 const prepareElasticsearch = require('./service/individualServices/ElasticsearchPreparation');
 const logger = require('./service/LoggingService.js').getLogger();
@@ -21,7 +21,7 @@ if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
     logger.warn("Working in debug mode");
     logger.warn("Checking validation")
     // appCommons.openApiValidatorOptions.validateSecurity = false;
-    appCommons.openApiValidatorOptions.validateResponses = false;
+    // appCommons.openApiValidatorOptions.validateResponses = false;
     // appCommons.openApiValidatorOptions.validateRequests = false;
     logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
     logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
@@ -46,7 +46,7 @@ appCommons.setupExpressApp(app);
     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 });
 */
-global.databasePath = './database/load.json';
+global.databasePath = './database/config.json';
 (async () => {
     global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
     global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();

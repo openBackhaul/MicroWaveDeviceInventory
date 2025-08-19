@@ -3,6 +3,12 @@ const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
+/**
+ * This function returns the string-value object for given string-name
+ * 
+ * @param {String} stringProfileName - name of the string-profile
+ * @returns {Object} stringValue - returns the integer-profile/configuration/string-value
+ */
 exports.getStringValueForStringProfileNameAsync = async function (stringProfileName) {
     let stringValue;
     let profileList = await ProfileCollection.getProfileListAsync();
@@ -20,7 +26,12 @@ exports.getStringValueForStringProfileNameAsync = async function (stringProfileN
     return stringValue;
 }
 
-
+/**
+ * This function returns the integer-profile object for given integer-name
+ * 
+ * @param {String} integerProfileName - name of the integer-profile
+ * @returns {Object} integerProfile - returns the integer-profile instance for given integer-name
+ */
 exports.getIntegerProfileForIntegerName = async function (integerProfileName) {
     let integerProfile = {};
     let profileList = await ProfileCollection.getProfileListAsync();
@@ -39,6 +50,29 @@ exports.getIntegerProfileForIntegerName = async function (integerProfileName) {
         }
     }
     return integerProfile;
+}
+
+/**
+ * This function returns the mapping-list of given regex-profile instance
+ * 
+ * @param {String} expectedMappingName - name of the regex-pattern-mapping-profile
+ * @returns {List} mappingList - value given in regex-pattern-mapping-profile/configuration/mapping-list
+ */
+exports.getMappingListForRegexProfile = async function (expectedMappingName) {
+    let mappingList = [];
+    let profileList = await ProfileCollection.getProfileListAsync();
+    for (let i = 0; i < profileList.length; i++) {
+        let profileInstance = profileList[i];
+        let profileName = profileInstance[onfAttributes.PROFILE.PROFILE_NAME];
+        if (profileName == Profile.profileNameEnum.REGEX_PATTERN_MAPPING_PROFILE) {
+            let mappingName = profileInstance[onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.PAC][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.CAPABILITY][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAPPING_NAME];
+            if (mappingName == expectedMappingName) {
+                mappingList = profileInstance[onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.PAC][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.CONFIGURATION][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAPPING_LIST];
+                break;
+            }
+        }
+    }
+    return mappingList;
 }
 
 /**
@@ -160,5 +194,7 @@ exports.arraysHaveSameElements = async function (array1, array2) {
   }
 
 }
+
+
 
  

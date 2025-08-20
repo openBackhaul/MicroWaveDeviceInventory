@@ -7,8 +7,10 @@
  * @param {String} "connection-status" - connection-status of a device to controller
  * @param {String} "locked-status" - true if it is processed in sliding window
  * @param {String} "exclude-from-qm" - true if this does not have successful CC retrieved in history to compare
+ * @property {Boolean} "cc-synced" - this attribute is set to true if CC has been updated in this cycle. 
+ *                                      false if new cycle started and all devices in meta-data list shall be synced with cc
  */
-class DeviceMetadataPriorityList {
+class DeviceMetaDataPriorityList {
     constructor() {
         this.deviceMetadataPriorityList = [];
     }
@@ -25,16 +27,21 @@ class DeviceMetadataPriorityList {
             deviceMetadata["mount-name"] = deviceMetadataToBeUpdated["mount-name"];
             deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
             deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"] || "unknown";
-            deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
-            deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
 
             const index = this.deviceMetadataPriorityList.findIndex(d => d["mount-name"] === deviceMetadata["mount-name"]);
 
             if (index > -1) {
                 // update existing
+                if(deviceMetadataToBeUpdated["locked-status"]) deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"];
+                if(deviceMetadataToBeUpdated["exclude-from-qm"]) deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"];
+                if(deviceMetadataToBeUpdated["cc-synced"]) deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"]
                 this.deviceMetadataPriorityList[index] = { ...this.deviceMetadataPriorityList[index], ...deviceMetadata };
+                //check conditions for three attributes
             } else {
                 // insert new
+                deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
+                deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
+                deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
                 this.deviceMetadataPriorityList.push(deviceMetadata);
             }
             this.sortDevices();
@@ -65,9 +72,10 @@ class DeviceMetadataPriorityList {
     getNextDeviceMetaData() {
         try {
             if (this.deviceMetadataPriorityList.length > 0) {
-                return this.deviceMetadataPriorityList.find(d=> {
-                    d["connection-status"] == "connected" && d["locked-status"] == false 
+                let nextDevice = this.deviceMetadataPriorityList.find(d => {
+                    return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
                 })
+                return nextDevice;
             }
         } catch (error) {
             throw error;
@@ -78,8 +86,8 @@ class DeviceMetadataPriorityList {
     getNextDeviceMetaDataForQm() {
         try {
             if (this.deviceMetadataPriorityList.length > 0) {
-                return this.deviceMetadataPriorityList.find(d=> {
-                    d["connection-status"] == "connected" && d["locked-status"] == false && d["exclude-from-qm"] == false 
+                return this.deviceMetadataPriorityList.find(d => {
+                    return d["connection-status"] == "connected" && d["locked-status"] == false && d["exclude-from-qm"] == false
                 })
             }
         } catch (error) {
@@ -105,6 +113,84 @@ class DeviceMetadataPriorityList {
         }
     }
 
+    // reset cc-synced attribute of all device's metadata to false
+    // this is expected to be called in start of all cycle
+    resetCCSyncedOfAllDevices() {
+        try {
+            this.deviceMetadataPriorityList = this.deviceMetadataPriorityList.map(d => ({
+                ...d,
+                "cc-synced" : false
+            }));
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // get cc-synced attribute of given mount-name
+    getCcSyncedOfDevice(mountName) {
+        try {
+            let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName );
+            if (device) return device["cc-synced"];
+            else { throw `device-metadata for given node: ${mountName} not found` };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // set cc-synced attribute of given mount-name
+    setCcSyncedOfDevice(mountName, value) {
+        try {
+            let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName );
+            if (deviceMetaData) deviceMetaData["cc-synced"] = value;
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // get locked-status attribute of given mount-name
+    getLockedStatusOfDevice(mountName) {
+        try {
+            let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName );
+            if (device) return device["locked-status"];
+            else { throw `device-metadata for given node: ${mountName} not found` };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // set locked-status attribute of given mount-name
+    setLockedStatusOfDevice(mountName, value) {
+        try {
+            let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName );
+            if (deviceMetaData) deviceMetaData["locked-status"] = value;
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // get exclude-from-qm attribute of given mount-name
+    getExcludeFromQmOfDevice(mountName) {
+        try {
+            let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName );
+            if (device) return device["exclude-from-qm"];
+            else { throw `device-metadata for given node: ${mountName} not found` };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // set exclude-from-qm attribute of given mount-name
+    setExcludeFromQmOfDevice(mountName, value) {
+        try {
+            let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName );
+            if (deviceMetaData) deviceMetaData["exclude-from-qm"] = value;
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
-module.exports = new DeviceMetadataPriorityList();
+module.exports = new DeviceMetaDataPriorityList();

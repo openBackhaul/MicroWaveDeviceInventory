@@ -3,13 +3,12 @@ const fileSystem = require('fs');
 const utility = require('../../utility');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
-let controlConstructUtility = require('./controlConstructUtility');
+let slidingWindowProcess = require('./SlidingWindow');
 let periodicConnectionStatusSynchTimerId = 0;
 
-
-
-
-
+/**
+* Starts the cyclic process for retrieving deviceMetaDataList from Controller and update in ES
+*/
 exports.start = async function deviceMetaDataCyclicProcess() {
   try {
     /**
@@ -41,15 +40,22 @@ exports.start = async function deviceMetaDataCyclicProcess() {
 */
 async function deviceMetaDataListUpdateProcess() {
   try {
+    /** stops sliding window process (if already running)
+        no data will be missed out. latest added devices are pushed to end of deviceMetaDataPriorityList. 
+        Older devices will still be present in top, so when next sliding-window cycle starts, it will continute
+      */
+    await slidingWindowProcess.stopSlidingWindowProcessForCCUpdate();
+
     let odlDeviceMetaDataList = [];
     let deviceMetaDataListFromElasticSearch = [];
     let deviceMetaDataList = [];
-    
+
     //get device meta data list from live controller
     odlDeviceMetaDataList = await deviceMetaDataUtility.getLiveDeviceMetaDataListFromController()
       .catch(error => {
         throw error;
       });
+
 
     // get existing device meta data from elastic search
     deviceMetaDataListFromElasticSearch = await deviceMetaDataUtility.readDeviceMetaDataListFromElasticSearch()
@@ -88,9 +94,7 @@ async function deviceMetaDataListUpdateProcess() {
             "number-of-partial-updates-since-last-complete-update": 0,
             "schema-cache-directory": schemaCacheDirectory,
             "device-type": "unknown",
-            "vendor": "unknown",
-            "locked-status": false,
-            "exclude-from-qm": true
+            "vendor": "unknown"
           };
           if (connectionStatus != "connected") {
             if (historicalControlConstructPolicy == "keep-on-disconnect") {
@@ -127,7 +131,7 @@ async function deviceMetaDataListUpdateProcess() {
             found = true;
             if (deviceMetaDataListFromElasticSearch[i]["connection-status"] !==
               odlDeviceMetaDataList[j]["netconf-node-topology:connection-status"]) {
-                // if device status changes from non-connected to connected
+              // if device status changes from non-connected to connected
               if (deviceMetaDataListFromElasticSearch[i]["connection-status"] == "unable-to-connect" || deviceMetaDataListFromElasticSearch[i]["connection-status"] == 'connecting' && odlDeviceMetaDataList[j]["netconf-node-topology:connection-status"] == "connected") {
                 deviceMetaDataListFromElasticSearch[i]["connection-status"] = "connected";
                 deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] = null;
@@ -241,9 +245,7 @@ async function deviceMetaDataListUpdateProcess() {
               "number-of-partial-updates-since-last-complete-update": 0,
               "schema-cache-directory": schemaCacheDirectory,
               "device-type": "unknown",
-              "vendor": "unknown",
-              "locked-status": false,
-              "exclude-from-qm": true
+              "vendor": "unknown"
             };
             if (connectionStatus != "connected") {
               if (historicalControlConstructPolicy == "keep-on-disconnect") {
@@ -274,7 +276,9 @@ async function deviceMetaDataListUpdateProcess() {
         .catch((error) => {
           throw error;
         });
-        controlConstructUtility.processControlConstructRequest();
+
+      // starts sliding window process
+      slidingWindowProcess.startSlidingWindowProcessForCCUpdate();
     }
 
     console.log('*******************************************************************************************************');
@@ -283,6 +287,7 @@ async function deviceMetaDataListUpdateProcess() {
     console.log('*                                 ( ' + utility.getTime() + ' )                                             *');
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
+
     return;
   } catch (error) {
     console.log(error);

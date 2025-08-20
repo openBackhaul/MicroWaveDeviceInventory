@@ -15,7 +15,7 @@ const logger = require('../../../LoggingService.js').getLogger();
  * This funtion formulates the request body based on the operation name and application 
  * @param {object} httpRequestBody request body for the operation
  */
-exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
+exports.dispatchEvent = function (url, method, httpRequestBody, Authorization, responseTimeOut = 0) {
     return new Promise(async function (resolve, reject) {
         let result = false;
         try {
@@ -27,7 +27,8 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
                 //decodeURIComponent(url),
                 url,
                 httpRequestHeader,
-                httpRequestBody
+                httpRequestBody,
+                responseTimeOut
                 );
             // let responseCode = response.status;
             // if (responseCode.toString().startsWith("2")) {

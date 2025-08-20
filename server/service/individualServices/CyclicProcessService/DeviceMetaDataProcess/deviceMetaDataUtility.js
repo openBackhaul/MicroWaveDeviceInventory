@@ -6,9 +6,9 @@
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const RestClient = require('../../rest/client/dispacher');
 const utility = require('../../utility');
-const controlConstructUtility = require('./controlConstructUtility');
+const deviceControlConstructUtility = require('./deviceControlConstructUtility');
 const individualServicesService = require('../../../IndividualServicesService');
-const deviceMetadataPriorityList = require('./deviceMetaDataPriorityList');
+const deviceMetadataPriorityList = require('./DeviceMetaDataPriorityList');
 
 /**
  * This function gets netconf data of devices connected to given controller 
@@ -93,9 +93,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
     let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-    let metadataTableRetentionPeriod;
-    if (unit == "days") metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
-    else if (unit == "hours") metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    let metadataTableRetentionPeriod = await utility.calculateTimeInMilliSeconds(integerValue, unit);
 
     if (diffTime > metadataTableRetentionPeriod) {
       isDeviceCrossedRetentionPeriod = true;
@@ -104,7 +102,6 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
     console.log(error);
   }
   return isDeviceCrossedRetentionPeriod;
-
 }
 
 /**
@@ -117,7 +114,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
 exports.getDeviceTypeOfMountName = async function (mountName) {
   let deviceType = "unknown";
   try {
-    let urlToGetCCFromCache = await controlConstructUtility.getControlConstructPathForCache(mountName);
+    let urlToGetCCFromCache = await deviceControlConstructUtility.getControlConstructPathForCache(mountName);
     let fieldsPathToDeviceType = await utility.getStringValueForStringProfileNameAsync("PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter");
     let urlToGetDeviceType = urlToGetCCFromCache + "?fields=" + fieldsPathToDeviceType;
     const result = await individualServicesService.getCachedControlConstruct(urlToGetDeviceType);
@@ -203,7 +200,7 @@ exports.getVendorNameForDeviceType = async function (deviceType) {
  */
 exports.updateDeviceMetadataPriorityList = async function(deviceMetaData) {
   try {
-    let keys = ["mount-name", "connection-status", "last-complete-control-construct-update-time-attempt", "locked-status", "exclude-from-qm"];
+    let keys = ["mount-name", "connection-status", "last-complete-control-construct-update-time-attempt"];
     let deviceData = keys.reduce((acc, key)=>{
       if(key in deviceMetaData) acc[key] = deviceMetaData[key];
       return acc;

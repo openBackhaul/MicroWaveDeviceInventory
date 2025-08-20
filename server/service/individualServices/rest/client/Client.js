@@ -15,10 +15,13 @@ const logger = require('../../../LoggingService.js').getLogger();
 exports.post = async function (options) {
     return new Promise(async function (resolve, reject) {
         const url = options.url;
-        const header = { headers: { Authorization: options.headers.Authorization}};
+        const config = { headers: { Authorization: options.headers.Authorization}};
+        if(options.timeout) {
+            config.timeout = options.timeout;
+        }
         //const Agent = {httpsAgent: agent};
         try {
-            let response = await axios(url, header);
+            let response = await axios(url, config);
             resolve(response);
             // logger.trace(JSON.stringify(response.data));
         } catch (error) {

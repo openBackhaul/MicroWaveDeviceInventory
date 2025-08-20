@@ -5,13 +5,12 @@ var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server
 var restResponseHeader = require('onf-core-model-ap/applicationPattern/rest/server/ResponseHeader');
 var restResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
 var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
-var deviceListUpdateStartModule = require('../temporarySupportFiles/StartModule.js');
 var individualServices = require('../service/IndividualServicesService.js');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const LogicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
-const metadataTableUpdateStartModule = require('../service/individualServices/CyclicProcessService/metaDataTableCyclicProcess.js')
+const deviceMetadataTableUpdateStartModule = require('../service/individualServices/CyclicProcessService/DeviceMetaDataProcess/deviceMetaDataCyclicProcess')
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 let kafkaConnection = require('../service/individualServices/KafkaHandler');
 let cacheQualityMeasurementProcess = require('../service/individualServices/CyclicProcessService/CacheQualityMeasurement/measurementProcess.js')
@@ -90,12 +89,11 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
+
   await BasicServices.embedYourself(body, user, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
-      // start cyclic process for deviceList update
-      deviceListUpdateStartModule.start();
-      // start cyclic process for metadata List update
-      metadataTableUpdateStartModule.MetaDataTableCyclicProcess();
+      // start cyclic process for deviceMetadataList
+      deviceMetadataTableUpdateStartModule.start();
       // starts further notification process
       try {        
       kafkaConnection.connectToKafka();

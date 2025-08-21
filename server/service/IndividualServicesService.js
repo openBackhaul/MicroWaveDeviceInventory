@@ -25,7 +25,9 @@ const fs = require('fs');
 const crypto = require("crypto");
 const axios = require('axios');
 const createHttpError = require('http-errors');
-const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility')
+const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility');
+const deviceMetadataUtility = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/deviceMetaDataUtility');
+const deviceMetadataCacheUpdate = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataCacheUpdate')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
 const cacheUpdate = require('./individualServices/cacheUpdateBuilder');
@@ -173,7 +175,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       const format = /[ `!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
       const matchLink = format.test(link);
       const matchId = format.test(id);
-       if (typeof link === 'object') {
+      if (typeof link === 'object') {
         throw new createHttpError(link[0].code, link[0].message);
       } else {
         correctLink = link;
@@ -181,7 +183,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
       if (matchLink || matchId) {
         throw new createHttpError("400", "Fields must not contain special chars");
       }
-     
+
       let result = await ReadRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
@@ -898,11 +900,11 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           const keys = Object.keys(finalJson);
-        //  let objectKey = Object.keys(finalJson)[0];
-        if (keys.length === 0) {
+          //  let objectKey = Object.keys(finalJson)[0];
+          if (keys.length === 0) {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
-              }
-         let objectKey = keys[0];
+          }
+          let objectKey = keys[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
             myFields = decodeURIComponent(myFields);
@@ -1241,7 +1243,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
+        throw new createHttpError(460, `Requested device ${correctMountname} is currently not in connected state at the controller`);
       }
       resolve(returnObject);
     } catch (error) {
@@ -4839,20 +4841,20 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * returns inline_response_200_35
  **/
 
- 
-    exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-      return new Promise(function (resolve, reject) {
-        var examples = {};
-        examples['application/json'] = {
-          "wred-template-profile-1-0:wred-template-profile-capability": {}
-        };
-       
-      if (Object.keys(examples).length > 0) {
-        resolve(examples[Object.keys(examples)[0]]);
-      } else {
-        resolve();
-      }
-    });
+
+exports.getCachedWredTemplateProfileCapability = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+      "wred-template-profile-1-0:wred-template-profile-capability": {}
+    };
+
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
 }
 
 //to add
@@ -4869,8 +4871,8 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_36
  **/
-exports.getCachedWredTemplateProfileConfiguration = function(user,originator,xCorrelator,traceIndicator,customerJourney,mountName,uuid,fields) {
-  return new Promise(function(resolve, reject) {
+exports.getCachedWredTemplateProfileConfiguration = function (user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = {
       "wred-template-profile-1-0:wred-template-profile-configuration": {}
@@ -10167,7 +10169,7 @@ exports.notifyAttributeValueChanges = async function (url, body, user, originato
           throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-         throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
+        throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
       }
       resolve();
     } catch (error) {
@@ -10213,10 +10215,10 @@ exports.notifyObjectCreations = function (url, body, user, originator, xCorrelat
           subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
 
         if (!success) {
-           throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
+          throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
         }
       } else {
-         throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
+        throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
       }
       resolve();
     } catch (error) {
@@ -10265,7 +10267,7 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
         }
       } else {
         throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
-       }
+      }
 
 
       resolve();
@@ -10286,24 +10288,24 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_9
  **/
-exports.provideCacheQualityStatistics = function(body,user,originator,xCorrelator,traceIndicator,customerJourney) {
+exports.provideCacheQualityStatistics = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
-    try {      
+    try {
       let aggregatedResponse = [];
       let cacheQualityStatistics = await ReadRecords("cache-quality-statistics");
       if (cacheQualityStatistics != undefined) {
-        if(body){
-          if(body["group-by"]){
-          aggregatedResponse = aggregateData(cacheQualityStatistics["cache-quality-statistics"], true)
-        }else{
-          aggregatedResponse = [aggregateData(cacheQualityStatistics["cache-quality-statistics"])]
+        if (body) {
+          if (body["group-by"]) {
+            aggregatedResponse = aggregateData(cacheQualityStatistics["cache-quality-statistics"], true)
+          } else {
+            aggregatedResponse = [aggregateData(cacheQualityStatistics["cache-quality-statistics"])]
+          }
+          resolve({ "cache-quality-statistics": aggregatedResponse });
+        } else {
+          throw new createHttpError(500, "Error in Elasticsearch communication or no cacheQualityStatistics available");
         }
-        resolve({"cache-quality-statistics" : aggregatedResponse});
-      } else {
-        throw new createHttpError(500, "Error in Elasticsearch communication or no cacheQualityStatistics available");
       }
-    } 
-  }catch (error) {
+    } catch (error) {
       console.log(error);
       reject(error);
     }
@@ -10312,8 +10314,8 @@ exports.provideCacheQualityStatistics = function(body,user,originator,xCorrelato
 
 function aggregateData(data, summarizeByDevice = false) {
   if (!summarizeByDevice) {
-      // Case 1: No input → aggregate everything
-      return data.reduce((device, item) => {
+    // Case 1: No input → aggregate everything
+    return data.reduce((device, item) => {
       device["device-type"] = "all";
       device["attribute-mismatches"] += item["attribute-mismatches"] || 0;
       device["attribute-class-mismatches"] += item["attribute-class-mismatches"] || 0;
@@ -10324,21 +10326,21 @@ function aggregateData(data, summarizeByDevice = false) {
       "attribute-mismatches": 0,
       "attribute-class-mismatches": 0,
       "weighted-score": 0
-      });
-  } 
+    });
+  }
   else {
-  // Case 2: Input given → group by device-type
-      let summary = [];
-      let result = {};
-      data.forEach(item => {
+    // Case 2: Input given → group by device-type
+    let summary = [];
+    let result = {};
+    data.forEach(item => {
       const deviceType = item["device-type"];
       if (!result[deviceType]) {
-      result[deviceType] = {
-      "device-type": deviceType,
-      "attribute-mismatches": 0,
-      "attribute-class-mismatches": 0,
-      "weighted-score": 0
-      };
+        result[deviceType] = {
+          "device-type": deviceType,
+          "attribute-mismatches": 0,
+          "attribute-class-mismatches": 0,
+          "weighted-score": 0
+        };
       }
       result[deviceType]["attribute-mismatches"] += item["attribute-mismatches"] || 0;
       result[deviceType]["attribute-class-mismatches"] += item["attribute-class-mismatches"] || 0;
@@ -10348,8 +10350,8 @@ function aggregateData(data, summarizeByDevice = false) {
     for (const [key, value] of Object.entries(result)) {
       summary.push(value);
       console.log(`${key}: ${value}`);
-}
-  return Object.values(summary);
+    }
+    return Object.values(summary);
   }
 }
 
@@ -10461,13 +10463,13 @@ exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrela
     try {
       let mountNameListFromRequestBody = body["mount-name-list"];
       let responseMetaDataList = [];
-
-      let metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch();
-      for(let i=0; i<mountNameListFromRequestBody.length; i++) {
+      await deviceMetadataCacheUpdate.deviceMetaDataListSync();
+      let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
+      for (let i = 0; i < mountNameListFromRequestBody.length; i++) {
         let mountName = mountNameListFromRequestBody[i];
-        for(let j=0; j<metaDataListFromElasticSearch.length; j++) {
+        for (let j = 0; j < metaDataListFromElasticSearch.length; j++) {
           let metaDataMountName = metaDataListFromElasticSearch[j]["mount-name"];
-          if(metaDataMountName == mountName) {
+          if (metaDataMountName == mountName) {
             responseMetaDataList.push(metaDataListFromElasticSearch[j]);
             break;
           }
@@ -10829,7 +10831,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
       if (matchLink) {
         throw new createHttpError("400", "Fields must not contain special chars");
       }
-      
+
       let value = await ReadRecords(correctLink);
       let result = await ReadRecords("linkList");
       if (value != undefined) {
@@ -10958,7 +10960,8 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
       if (attributeName == 'connection-status' && newValue == 'connected') {
-        updateDeviceListFromNotification(1, logicalTerminationPoint);
+        deviceMetadataUtility.updateMetaData(logicalTerminationPoint, newValue);
+        // updateDeviceListFromNotification(1, logicalTerminationPoint);
         /*try {
           let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
           //let ret = getLiveControlConstruct(simulatedReq, res, null, null, null, user, originator, xCorrelator, traceIndicator, customerJourney);
@@ -10968,17 +10971,18 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
           reject(error);
         } */
       } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-        updateDeviceListFromNotification(2, logicalTerminationPoint);
-        let indexAlias = common[1].indexAlias;
-        const { deleteRecordFromElasticsearch } = module.exports;
-       // const deleteRecordFromElasticsearch = module.exports.deleteRecordFromElasticsearch;
+        deviceMetadataUtility.updateMetaData(logicalTerminationPoint, newValue);
+        //updateDeviceListFromNotification(2, logicalTerminationPoint);
+        //let indexAlias = common[1].indexAlias;
+        //   const { deleteRecordFromElasticsearch } = module.exports;
+        //  // const deleteRecordFromElasticsearch = module.exports.deleteRecordFromElasticsearch;
 
-        let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
-        logger.info('* ' + ret.result);
+        //   let ret = await deleteRecordFromElasticsearch(indexAlias, '_doc', logicalTerminationPoint);
+        //   logger.info('* ' + ret.result);
       }
       //update meta-data for update of connection-status
-      let timestamp = currentJSON['timestamp'];
-      metaDataUtility.updateMDTableForDeviceStatusChange(logicalTerminationPoint, newValue, timestamp)
+      // let timestamp = currentJSON['timestamp'];
+      //metaDataUtility.updateMDTableForDeviceStatusChange(logicalTerminationPoint, newValue, timestamp)
       resolve();
     } catch (error) {
       logger.error(error);
@@ -11027,8 +11031,8 @@ exports.regardDeviceAlarm = function (body) {
       let elapsedTime = await recordRequest(result, mountname);
 
       //update meta-data for update of alarm data into CC -- partial update
-      metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
-
+      //metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+      deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
       resolve();
     } catch (error) {
       //logger.error(error);
@@ -11053,7 +11057,7 @@ exports.regardDeviceAttributeValueChange = function (body) {
       let counter = currentJSON['counter'];
       let attributeName = currentJSON['attribute-name'];
       let jsonObj = "";
-      url = decodeURIComponent(url);
+     // url = decodeURIComponent(resource);
 
       // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
       const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
@@ -11064,7 +11068,7 @@ exports.regardDeviceAttributeValueChange = function (body) {
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
       let originator = "MicroWaveDeviceInventory";
-      let requestHeader = new RequestHeader(undefined,originator)
+      let requestHeader = new RequestHeader(undefined, originator)
       let user = requestHeader.user;
       let xCorrelator = requestHeader.xCorrelator;
       let customerJourney = requestHeader.customerJourney;
@@ -11098,7 +11102,7 @@ exports.regardDeviceAttributeValueChange = function (body) {
         //update meta-data for update of device attribute change data into CC -- partial update
         let mountname = decodeMountName(resource, false);
         let timeStamp = currentJSON['timestamp'];
-        metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+        deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
 
         resolve();
       }
@@ -11130,7 +11134,7 @@ exports.regardDeviceObjectCreation = function (body) {
       //      const lastIndex = resource.lastIndexOf("/");
       // Truncate path at last "/"
       //      const truncatedPath = resource.substring(0, lastIndex);
-      url = decodeURIComponent(url);
+     // url = decodeURIComponent(url);
 
       //  const appNameAndUuidFromForwarding = await NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter)
       const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
@@ -11141,7 +11145,7 @@ exports.regardDeviceObjectCreation = function (body) {
       const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
       const finalUrl = baseUrl + resource;
       let originator = "MicroWaveDeviceInventory";
-      let requestHeader = new RequestHeader(undefined,originator)
+      let requestHeader = new RequestHeader(undefined, originator)
       let user = requestHeader.user;
       let xCorrelator = requestHeader.xCorrelator;
       let customerJourney = requestHeader.customerJourney;
@@ -11174,7 +11178,7 @@ exports.regardDeviceObjectCreation = function (body) {
         //update meta-data for update of device attribute change data into CC -- partial update
         let mountname = decodeMountName(resource, false);
         let timeStamp = currentJSON['timestamp'];
-        metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+        deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
         resolve();
       }
     } catch (error) {
@@ -11242,7 +11246,7 @@ exports.regardDeviceObjectDeletion = function (body) {
       //update meta-data for update of device attribute change data into CC -- partial update
       let mountname = decodeMountName(resource, false);
       let timeStamp = currentJSON['timestamp'];
-      metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+      deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
 
       resolve();
     } catch (error) {
@@ -11969,13 +11973,13 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     const myFields = urlParts[1];
     let controlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
     let placeHolder = "";
-    if (applicationName ===  OPENDAYLIGHT_STR) { // "OpenDayLight"
+    if (applicationName === OPENDAYLIGHT_STR) { // "OpenDayLight"
       placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
     } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
       placeHolder = "/";
     }
 
-    let ctrlConstrToFind = CTR_CONST +"=" + controlConstruct;
+    let ctrlConstrToFind = CTR_CONST + "=" + controlConstruct;
     let ctrlConstrIdx = originalUrl.indexOf(ctrlConstrToFind);
 
     let subStringCC = "";

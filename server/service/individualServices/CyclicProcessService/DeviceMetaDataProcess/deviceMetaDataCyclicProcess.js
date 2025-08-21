@@ -1,9 +1,11 @@
 'use strict';
 const fileSystem = require('fs');
 const utility = require('../../utility');
+const deviceMetaDatacaching = require('./DeviceMetaDataCacheUpdate');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
-let slidingWindowProcess = require('./SlidingWindow');
+const slidingWindowProcess = require('./SlidingWindow');
+
 let periodicConnectionStatusSynchTimerId = 0;
 
 /**
@@ -171,6 +173,16 @@ async function deviceMetaDataListUpdateProcess() {
               // no changes in device connection status
               if (deviceMetaDataListFromElasticSearch[i]["connection-status"] == "connected") {
                 await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaDataListFromElasticSearch[i]);
+                if (deviceMetaDataListFromElasticSearch[i]["device-type"] == "unknown") {
+                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  if (deviceType != "unknown") {
+                    deviceMetaDataListFromElasticSearch[i]["device-type"] = deviceType;
+                    let vendorName = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType);
+                    if (vendorName != "unknown") {
+                      deviceMetaDataListFromElasticSearch[i]["vendor"] = vendorName;
+                    }
+                  }
+                }
                 commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
               } else {
                 if (historicalControlConstructPolicy == "keep-on-disconnect") {
@@ -276,10 +288,10 @@ async function deviceMetaDataListUpdateProcess() {
         .catch((error) => {
           throw error;
         });
-
-      // starts sliding window process
-      slidingWindowProcess.startSlidingWindowProcessForCCUpdate();
     }
+    deviceMetaDatacaching.startDeviceMetaDatacaching(deviceMetaDataList);
+    // starts sliding window process
+    slidingWindowProcess.startSlidingWindowProcessForCCUpdate();
 
     console.log('*******************************************************************************************************');
     console.log('*                             DeviceMetaData Update Cyclic PROCESS PROCEDURE COMPLETED                                        *');

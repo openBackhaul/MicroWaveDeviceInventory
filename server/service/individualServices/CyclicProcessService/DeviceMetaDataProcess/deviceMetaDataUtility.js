@@ -1,14 +1,12 @@
 'use strict';
 
-
-'use strict';
-
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const RestClient = require('../../rest/client/dispacher');
 const utility = require('../../utility');
 const deviceControlConstructUtility = require('./deviceControlConstructUtility');
 const individualServicesService = require('../../../IndividualServicesService');
 const deviceMetadataPriorityList = require('./DeviceMetaDataPriorityList');
+const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
 /**
  * This function gets netconf data of devices connected to given controller 
@@ -60,7 +58,7 @@ exports.readDeviceMetaDataListFromElasticSearch = function () {
 /**
  * This function writes device meta data list to Elasticsearch at given index
  * 
- * @param {List} deviceList - list of deviceMetadatalist for writing/updating to ES at configured index
+ * @param {String} deviceList - stringified list of deviceMetadatalist for writing/updating to ES at configured index
  */
 exports.writeDeviceMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
@@ -88,15 +86,19 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
   let isDeviceCrossedRetentionPeriod = false;
   try {
     let currentTime = Date.now();
-    let diffTime = currentTime - new Date(changedToDisconnectedTime).getTime();
-    let profileInstance = await utility.getIntegerProfileForIntegerName("metadataRetentionPeriod");
-    let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
-    let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
+    if (changedToDisconnectedTime) {
+      let diffTime = currentTime - new Date(changedToDisconnectedTime).getTime();
+      let profileInstance = await utility.getIntegerProfileForIntegerName("metadataRetentionPeriod");
+      let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
+      let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-    let metadataTableRetentionPeriod = await utility.calculateTimeInMilliSeconds(integerValue, unit);
+      let metadataTableRetentionPeriod = await utility.calculateTimeInMilliSeconds(integerValue, unit);
 
-    if (diffTime > metadataTableRetentionPeriod) {
-      isDeviceCrossedRetentionPeriod = true;
+      if (diffTime > metadataTableRetentionPeriod) {
+        isDeviceCrossedRetentionPeriod = true;
+      }
+    } else {
+      return false;
     }
   } catch (error) {
     console.log(error);
@@ -193,21 +195,93 @@ exports.getVendorNameForDeviceType = async function (deviceType) {
 }
 
 /**
+ * This function either creates or updates or remove DeviceMetadata in cache
+ * 
+ * @param {String} mountName - node-id
+ * @param {String} connectionStatus - "connected" or "unable-to-connect" or "connecting"
+ * @returns {Boolean} true if successfully updated
+ */
+exports.updateMetaData = async function (mountName, connectionStatus) {
+  let dataUpdated = false;
+  try {
+    let deviceData = await deviceMetaDataCacheUpdate.getDeviceMetaData(mountName);
+    if (connectionStatus == "connected") {
+      if (deviceData) {
+        if (deviceData["connection-status"] != "connected") {
+          deviceData["changed-to-disconnected-time"] = null;
+        }
+        deviceData["connection-status"] = connectionStatus;
+      } else {
+        deviceData = {
+          "mount-name": mountName,
+          "connection-status": connectionStatus,
+          "changed-to-disconnected-time": null,
+          "added-to-device-list-time": new Date().toJSON(),
+          "last-complete-control-construct-update-time-attempt": new Date("01-01-1997").toJSON(),
+          "last-successful-complete-control-construct-update-time": null,
+          "last-control-construct-notification-update-time": null,
+          "number-of-partial-updates-since-last-complete-update": 0,
+          "schema-cache-directory": null,
+          "device-type": "unknown",
+          "vendor": "unknown"
+        }
+      }
+      dataUpdated = await deviceMetaDataCacheUpdate.createOrUpdateDeviceMetaData(deviceData);
+      if (dataUpdated) dataUpdated = await exports.updateDeviceMetadataPriorityList(deviceData);
+      if (dataUpdated) console.log(`Device metadata update for ${mountName} success`);
+      else {
+        console.log(`Device metadata update for ${mountName} failed`);
+        return false;
+      }
+    } else {
+      let historicalControlConstructPolicy = await utility.getStringValueForStringProfileNameAsync("historicalControlConstructPolicy");
+      if (historicalControlConstructPolicy == "keep-on-disconnect") {
+        let isDeviceCrossedRetentionPeriod = await exports.isDeviceCrossedRetentionPeriod(deviceData["changed-to-disconnected-time"]);
+        if (!isDeviceCrossedRetentionPeriod) {
+          if (!deviceData["changed-to-disconnected-time"]) {
+            deviceData["changed-to-disconnected-time"] = new Date().toJSON();
+          }
+          deviceData["connection-status"] = connectionStatus;
+          deviceData["number-of-partial-updates-since-last-complete-update"] = 0;
+          deviceData["last-complete-control-construct-update-time-attempt"] = new Date("01-01-1997").toJSON();
+          await deviceMetaDataCacheUpdate.createOrUpdateDeviceMetaData(deviceData);
+          await exports.updateDeviceMetadataPriorityList(deviceData);
+        } else {
+          await exports.removeDeviceDataFromCache(mountName);
+        }
+      } else {
+        dataUpdated = await exports.removeDeviceDataFromCache(mountName);
+        if (dataUpdated) console.log(`Device metadata removal for ${mountName} success`)
+        else {
+          console.log(`Device metadata removal for ${mountName} failed`);
+          return false;
+        }
+      }
+    }
+    await deviceMetaDataCacheUpdate.deviceMetaDataListSync();
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+/**
  * This function updates DeviceMetadataPriorityList in cache
  * 
  * @param {Object} deviceMetaData - meta-data of device
  * @returns {Boolean} true if successfully updated
  */
-exports.updateDeviceMetadataPriorityList = async function(deviceMetaData) {
+exports.updateDeviceMetadataPriorityList = async function (deviceMetaData) {
   try {
     let keys = ["mount-name", "connection-status", "last-complete-control-construct-update-time-attempt"];
-    let deviceData = keys.reduce((acc, key)=>{
-      if(key in deviceMetaData) acc[key] = deviceMetaData[key];
+    let deviceData = keys.reduce((acc, key) => {
+      if (key in deviceMetaData) acc[key] = deviceMetaData[key];
       return acc;
     }, {});
     await deviceMetadataPriorityList.createOrUpdateDevice(deviceData);
     return true;
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     return false;
   }
@@ -219,18 +293,22 @@ exports.updateDeviceMetadataPriorityList = async function(deviceMetaData) {
  * @param {Object} mountName - node-id
  * @returns {Boolean} true if successfully updated
  */
-exports.removeDeviceDataFromCache = async function(mountName) {
+exports.removeDeviceDataFromCache = async function (mountName) {
+  let isDeleted = false;
   try {
-    await deviceMetadataPriorityList.removeMetaDataOfDevice(mountName);
-    console.log(`************************* attempting to CC of ${mountName} from ES **************************`);
-    let indexAlias = common[1].indexAlias;
-    let ret = await individualServicesService.deleteRecordFromElasticsearch(indexAlias, '_doc', mountName);
-    console.log('*************************' + ret.result , '**************************');
-    return true;
-  } catch(error) {
+    isDeleted = await deviceMetadataPriorityList.removeMetaDataOfDevice(mountName);
+    if (isDeleted) await deviceMetaDataCacheUpdate.removeDevicemetadata(mountName);
+    if (isDeleted) {
+      console.log(`************************* attempting to CC of ${mountName} from ES **************************`);
+      let indexAlias = common[1].indexAlias;
+      let ret = await individualServicesService.deleteRecordFromElasticsearch(indexAlias, '_doc', mountName);
+      console.log('*************************' + ret.result, '**************************');
+      return true;
+    }
+  } catch (error) {
     console.log(error);
-    return false;
   }
+  return false;
 }
 
 //-----------------------------------these functions are part of notifications. This shall be updated. 
@@ -246,7 +324,7 @@ exports.removeDeviceDataFromCache = async function(mountName) {
  */
 exports.updateMDTableForDeviceStatusChange = async function (mountName, connectionStatus, timestamp) {
   try {
-    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readDeviceMetaDataListFromElasticSearch()
       .catch(error => {
         throw error;
       });
@@ -269,13 +347,13 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
             metaDataListFromElasticSearch[i]["last-control-construct-notification-update-time"] = null;
             metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = 0;
           }
-          await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+          await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
         } else {
           if (connectionStatus != "connected") {
             let isDeviceCrossedRetentionPeriod = await exports.isDeviceCrossedRetentionPeriod(metaDataListFromElasticSearch[i]["changed-to-disconnected-time"]);
             if (isDeviceCrossedRetentionPeriod) {
               metaDataListFromElasticSearch.splice(i, 1);
-              await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+              await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
               console.log("removed device's meta data from list that crossed maximum retention period ", mountName);
             } else {
               console.log("skipped removing device's meta data from list since maximum retention period not crossed ", mountName)
@@ -301,7 +379,7 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
         deviceMetaData["changed-to-disconnected-time"] = timestamp;
       }
       metaDataListFromElasticSearch.push(deviceMetaData);
-      await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
+      await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
     }
   } catch (error) {
     console.log(error);
@@ -318,7 +396,7 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
  */
 exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp = '') {
   try {
-    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readDeviceMetaDataListFromElasticSearch()
       .catch(error => {
         throw error;
       });
@@ -330,7 +408,7 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
         let updateCounter = metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"];
         metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = updateCounter + 1;
 
-        await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+        await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
     if (!found) {
@@ -351,7 +429,7 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
 */
 exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp = '') {
   try {
-    let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
+    let metaDataListFromElasticSearch = await exports.readDeviceMetaDataListFromElasticSearch()
       .catch(error => {
         throw error;
       });
@@ -362,7 +440,7 @@ exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp 
         metaDataListFromElasticSearch[i]["last-complete-control-construct-update-time"] = timestamp;
         metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = 0;
 
-        await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+        await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
     if (!found) {

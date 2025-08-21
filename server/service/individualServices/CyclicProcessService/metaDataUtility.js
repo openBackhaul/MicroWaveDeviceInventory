@@ -8,12 +8,12 @@ const utility = require('../utility');
 exports.writeMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
-      let deviceListToWrite = '{"MetaDataList":' + deviceList + '}';
-      let result = await utility.recordRequest(deviceListToWrite, "MetaDataList");
+      let deviceListToWrite = '{"DeviceMetaDataList":' + deviceList + '}';
+      let result = await utility.recordRequest(deviceListToWrite, "DeviceMetaDataList");
       if (result.took !== undefined) {
         resolve(true);
       } else {
-        reject("Error in writing MetaDataList list to elasticsearch.")
+        reject("Error in writing DeviceMetaDataList list to elasticsearch.")
       }
     } catch (error) {
       reject(error);
@@ -25,9 +25,9 @@ exports.readMetaDataListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
       let esMetaDataList = [];
-      let result = await utility.ReadRecords("MetaDataList");
+      let result = await utility.ReadRecords("DeviceMetaDataList");
       if (result != undefined) {
-        esMetaDataList = result["MetaDataList"];
+        esMetaDataList = result["DeviceMetaDataList"];
       }
       resolve(esMetaDataList);
     } catch (error) {
@@ -116,13 +116,13 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
             metaDataListFromElasticSearch[i]["last-control-construct-notification-update-time"] = null;
             metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = 0;
           }
-          await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+          await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
         } else {
           if (connectionStatus != "connected") {
             let isDeviceCrossedRetentionPeriod = await exports.isDeviceCrossedRetentionPeriod(metaDataListFromElasticSearch[i]["changed-to-disconnected-time"]);
             if (isDeviceCrossedRetentionPeriod) {
               metaDataListFromElasticSearch.splice(i, 1);
-              await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+              await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
               console.log("removed device's meta data from list that crossed maximum retention period ", mountName);
             } else {
               console.log("skipped removing device's meta data from list since maximum retention period not crossed ", mountName)
@@ -176,8 +176,7 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
         metaDataListFromElasticSearch[i]["last-control-construct-notification-update-time"] = timestamp;
         let updateCounter = metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"];
         metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = updateCounter + 1;
-
-        await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+        await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
       if (!found) {
@@ -209,7 +208,7 @@ exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp 
         metaDataListFromElasticSearch[i]["last-complete-control-construct-update-time"] = timestamp;
         metaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = 0;
 
-        await exports.writeDeviceListToElasticsearch(metaDataListFromElasticSearch);
+        await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
       if (!found) {

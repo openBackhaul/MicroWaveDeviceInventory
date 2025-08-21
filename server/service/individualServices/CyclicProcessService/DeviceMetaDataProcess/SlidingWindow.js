@@ -5,6 +5,7 @@ const integerProfile = require('onf-core-model-ap/applicationPattern/onfModel/mo
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const deviceControlConstructUtility = require('./deviceControlConstructUtility');
 const deviceMetaDataPriorityList = require('./DeviceMetaDataPriorityList');
+const deviceMetadataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
 let slidingWindowSize = 0;
 let responseTimeOut = 0;
@@ -47,17 +48,21 @@ class SlidingWindow {
                 deviceControlConstructUtility.syncControllerCcToEs(device["mount-name"], responseTimeOut, maximumNumberOfRetries)
                     .then(async (response) => {
                         if (response) {
-                            device["last-complete-control-construct-update-time-attempt"] = new Date().toJSON();
+                            let currentTime = new Date().toJSON();
+                            device["last-complete-control-construct-update-time-attempt"] = currentTime;
                             device["locked-status"] = false;
                             device["exclude-from-qm"] = false;
                             device["cc-synced"] = true;
                             await deviceMetaDataPriorityList.createOrUpdateDevice(device);
+                            await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
+                            await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(device["mount-name"], currentTime);
 
                             // update Metadata in ES for last-cc-successful and attempt
                         } else {
                             device["last-complete-control-construct-update-time-attempt"] = new Date().toJSON();
                             device["locked-status"] = false;
                             device["cc-synced"] = false;
+                            await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                             await deviceMetaDataPriorityList.createOrUpdateDevice(device);
                         }
                     })

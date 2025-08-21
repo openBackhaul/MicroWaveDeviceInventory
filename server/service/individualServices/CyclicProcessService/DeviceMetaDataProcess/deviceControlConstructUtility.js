@@ -19,12 +19,12 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
     try {
         let ccObjectFromLive = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries);
         let modifiedCc = {};
-        if(Object.keys(ccObjectFromLive).length !=0 ) {
+        if (Object.keys(ccObjectFromLive).length != 0) {
             modifiedCc = await exports.modifyCCWithModifiedKeys(ccObjectFromLive, nodeId);
-            isSyncSuccess = await exports.updateControlConstructToEs(nodeId, modifiedCc);
-        } 
+            isSyncSuccess = await exports.updateControlConstructToEs(nodeId, modifiedCc, maxRetries);
+        }
     } catch (error) {
-        throw error;
+        console.log(error);
     }
     return isSyncSuccess;
 }
@@ -50,7 +50,7 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
                 controlConstructFromController = result["data"];
                 console.log(`********************************CC retrieved for ${nodeId} *************************** `);
                 return controlConstructFromController;
-                
+
             } else {
                 if (maxRetries > 0) {
                     await sleep(2000);
@@ -75,14 +75,20 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
  * 
  * @returns {Boolean} true - incase of successful update
  */
-exports.updateControlConstructToEs = async function (nodeId, ccObject) {
+exports.updateControlConstructToEs = async function (nodeId, ccObject, maxRetries) {
     try {
         let result = await utility.recordRequest(ccObject, nodeId);
         if (result.took !== undefined) {
             console.log(`********************************CC updated to ES for ${nodeId} *************************** `);
             return true;
         } else {
-            console.log(`Error in writing control-construct of ${nodeId} to elasticsearch.`);
+            if (maxRetries > 0) {
+                await sleep(2000);
+                console.log(`******************************** CC update to ES for ${nodeId} - ${maxRetries - 1}`);
+                await exports.updateControlConstructToEs(nodeId, ccObject, maxRetries - 1);
+            } else {
+                console.log(`Error in writing control-construct of ${nodeId} to elasticsearch.`);
+            }
         }
     } catch (error) {
         console.log(error);

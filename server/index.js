@@ -64,7 +64,7 @@ prepareElasticsearch(false).catch(err => {
         logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
         logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
-    appCommons.performApplicationRegistration();
+   // appCommons.performApplicationRegistration();
     
 }
 );

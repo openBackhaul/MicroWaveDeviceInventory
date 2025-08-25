@@ -5,7 +5,7 @@ var http = require('http');
 require('console-stamp')(console);
 
 var oas3Tools = require('openbackhaul-oas3-tools');
-var serverPort = 4024;
+var serverPort = 4015;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 var individual = require('./service/IndividualServicesService');
 //var apiKeyAuth = require('./utils/apiKeyAuth');
@@ -64,7 +64,7 @@ prepareElasticsearch(false).catch(err => {
         logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
         logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
     });
-   // appCommons.performApplicationRegistration();
+    appCommons.performApplicationRegistration();
     
 }
 );

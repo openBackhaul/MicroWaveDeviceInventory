@@ -5,7 +5,7 @@ var http = require('http');
 require('console-stamp')(console);
 
 var oas3Tools = require('openbackhaul-oas3-tools');
-var serverPort = 4015;
+var serverPort = 4024;
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 var individual = require('./service/IndividualServicesService');
 //var apiKeyAuth = require('./utils/apiKeyAuth');

@@ -59,10 +59,9 @@ async function performQualityMeasurement() {
   console.log('*                                                                                                     *');
   console.log('*******************************************************************************************************');
   
-  let deviceMetadataList = deviceMetaDataPriorityList.getAllDeviceMetaData(); 
-  let deviceMetadataListForProcessing = [...deviceMetadataList];
+  let deviceMetadataList = deviceMetaDataPriorityList.getAllDeviceMetaData();
   
-  const device = deviceMetadataListForProcessing[0];
+  const device = deviceMetadataList[0];
   if (device["connection-status"] == "connected" &&
     device["locked-status"] == false &&
     device["exclude-from-qm"] == false) {

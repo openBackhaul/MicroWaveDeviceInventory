@@ -61,49 +61,62 @@ async function performQualityMeasurement() {
   
   let deviceMetadataList = deviceMetaDataPriorityList.getAllDeviceMetaData(); 
   let deviceMetadataListForProcessing = [...deviceMetadataList];
-  for (let index = 0; index < deviceMetadataListForProcessing.length; index++) {
-    const device = deviceMetadataListForProcessing[index];
-    if (device["connection-status"] == "connected" &&
-      device["locked-status"] == false &&
-      device["exclude-from-qm"] == false) {
-      try {
-        if (!device) {
-          console.log('No eligible device for quality measurement');
-          return;
-        }
-        let cached = await getCachedControlConstruct(device["mount-name"]);
-        let live = await getLiveControlConstruct(device["mount-name"]);
-
-        const differences = diff(cached, live);
-        const score = calculateScore(differences);
-        let deviceType = deviceMetadataCacheUpdate.getDeviceTypeAndVendorForDevice(device["mount-name"]);
-        const result = {
-          'mount-name': device["mount-name"],
-          'device-type': deviceType.deviceType,
-          'vendor': deviceType.vendor,
-          'timestamp': new Date().toISOString(),
-          'attribute-mismatches': score.attributeMismatch,
-          'attribute-class-mismatches': score.classMismatch,
-          'weighted-score': score.weightedScore
-        };
-
-        console.log(result);
-        let cacheQualityListFromElasticSearch = await readCacheQualityListFromElasticsearch()
-          .catch(error => {
-            throw error;
-          });
-
-        cacheQualityListFromElasticSearch.push(result);
-        let stringifiedResult = JSON.stringify(cacheQualityListFromElasticSearch);
-        await writeCacheQualityListToElasticsearch(stringifiedResult);
-      } catch (error) {
-        console.log(error);
+  
+  const device = deviceMetadataListForProcessing[0];
+  if (device["connection-status"] == "connected" &&
+    device["locked-status"] == false &&
+    device["exclude-from-qm"] == false) {
+    try {
+      if (!device) {
+        console.log('No eligible device for quality measurement');
+        return;
       }
+      let cached = await getCachedControlConstruct(device["mount-name"]);
+      let live = await getLiveControlConstruct(device["mount-name"]);
+
+      const differences = diff(cached, live);
+      const score = calculateScore(differences);
+      let deviceType = deviceMetadataCacheUpdate.getDeviceTypeAndVendorForDevice(device["mount-name"]);
+      const result = {
+        'mount-name': device["mount-name"],
+        'device-type': deviceType.deviceType,
+        'vendor': deviceType.vendor,
+        'timestamp': new Date().toISOString(),
+        'attribute-mismatches': score.attributeMismatch,
+        'attribute-class-mismatches': score.classMismatch,
+        'weighted-score': score.weightedScore
+      };
+
+      console.log(result);
+      let cacheQualityListFromElasticSearch = await readCacheQualityListFromElasticsearch()
+        .catch(error => {
+          throw error;
+        });
+      
+      let qualityMeasurementSampleNumber = (await getQualityMeasurementSampleNumber()) - 1;
+      if(cacheQualityListFromElasticSearch.length >= (qualityMeasurementSampleNumber)){
+        let difference = cacheQualityListFromElasticSearch.length - qualityMeasurementSampleNumber;
+        for (let index = 0; index < difference; index++) {
+          cacheQualityListFromElasticSearch.shift();
+        }
+      }
+      cacheQualityListFromElasticSearch.push(result);
+      let stringifiedResult = JSON.stringify(cacheQualityListFromElasticSearch);
+      await writeCacheQualityListToElasticsearch(stringifiedResult);
+    } catch (error) {
+      console.log(error);
     }
   }
+  
   } catch (error) {
     console.log(error)
   }
+}
+
+async function getQualityMeasurementSampleNumber(){
+  let profileInstance = await utility.getIntegerProfileForIntegerName("qualityMeasurementSampleNumber");
+  let qualityMeasurementSampleNumber = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
+  return qualityMeasurementSampleNumber;
 }
 
 

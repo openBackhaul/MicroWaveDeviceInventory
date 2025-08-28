@@ -10278,6 +10278,13 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
   });
 }
 
+async function getQualityMeasurementSampleNumber(){
+  let profileInstance = await utility.getIntegerProfileForIntegerName("qualityMeasurementSampleNumber");
+  let qualityMeasurementSampleNumber = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
+  return qualityMeasurementSampleNumber;
+}
+
+
 /**
  * Provides quality statistics for the cache
  *
@@ -10295,6 +10302,11 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
       let aggregatedResponse = [];
       let cacheQualityStatistics = await ReadRecords("cache-quality-statistics");
       if (cacheQualityStatistics != undefined) {
+        let qualityMeasurementSampleNumber = await getQualityMeasurementSampleNumber();
+        if(cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber)
+        {
+          throw new createHttpError(530, 'Data invalid. Response data not available, incomplete or corrupted');
+        }
         if (body) {
           if (body["group-by"]) {
             aggregatedResponse = aggregateData(cacheQualityStatistics["cache-quality-statistics"], true)

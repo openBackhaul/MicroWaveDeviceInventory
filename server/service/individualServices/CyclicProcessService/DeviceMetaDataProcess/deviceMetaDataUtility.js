@@ -120,7 +120,7 @@ exports.getDeviceTypeOfMountName = async function (mountName) {
     let fieldsPathToDeviceType = await utility.getStringValueForStringProfileNameAsync("PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter");
     let urlToGetDeviceType = urlToGetCCFromCache + "?fields=" + fieldsPathToDeviceType;
     const result = await individualServicesService.getCachedControlConstruct(urlToGetDeviceType);
-    let ltpList = result["core-model-1-4:control-construct"]["logical-termination-point"];
+    let ltpList = result["core-model-1-4:control-construct"][0]["logical-termination-point"];
     let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
     deviceType = await exports.getMatchingDeviceType(airInterfaceLtpList);
     return deviceType;

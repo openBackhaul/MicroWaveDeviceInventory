@@ -40,6 +40,7 @@ const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHand
 const alarmHandler = require('./individualServices/alarmUpdater')
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
 const { getDeviceListInMemory } = require('./individualServices/CyclicProcessService/cyclicProcess');
+const deviceMetadataPriorityList = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataPriorityList');
 
 const logger = require('./LoggingService.js').getLogger();
 // ---------------------------------------------------------
@@ -6009,6 +6010,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
 exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, traceIndicator, customerJourney, mountname, fields) {
   return new Promise(async function (resolve, reject) {
     try {
+      let currentTime = new Date().toJSON();
       url = decodeURIComponent(url);
       //const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const urlParts = url.split("?fields=");
@@ -6053,8 +6055,21 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             if (myFields === undefined) {
               try {
                 let elapsedTime = await recordRequest(jsonObj, correctCc);
+                let device = {
+                  "mount-name": correctCc,
+                  "last-complete-control-construct-update-time-attempt": currentTime
+                };
+                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
+                await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(device["mount-name"], currentTime);
               }
               catch (error) {
+                let device = {
+                  "mount-name": correctCc,
+                  "last-complete-control-construct-update-time-attempt": currentTime
+                };
+                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                 console.error(error);
               }
               modifyReturnJson(jsonObj);
@@ -6068,11 +6083,25 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               try {
                 // read from ES
                 let result1 = await ReadRecords(correctCc);
+                let ccFromLive = jsonObj;
                 // Update json object
                 let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
                 // Write updated Json to ES
-                let elapsedTime = await recordRequest(result1, correctCc);
+                let elapsedTime = await recordRequest(ccFromLive, correctCc);
+                let device = {
+                  "mount-name": correctCc,
+                  "last-complete-control-construct-update-time-attempt": currentTime
+                };
+                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
+                await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(device["mount-name"], currentTime);
               } catch (error) {
+                let device = {
+                  "mount-name": correctCc,
+                  "last-complete-control-construct-update-time-attempt": currentTime
+                };
+                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                 console.error(error);
               }
               modifyReturnJson(jsonObj)
@@ -10317,6 +10346,8 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
         } else {
           throw new createHttpError(500, "Error in Elasticsearch communication or no cacheQualityStatistics available");
         }
+      } else {
+        throw new createHttpError(530, 'Data invalid. Response data not available, incomplete or corrupted');
       }
     } catch (error) {
       console.log(error);

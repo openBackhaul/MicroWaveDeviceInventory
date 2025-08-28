@@ -10334,6 +10334,7 @@ function aggregateData(data, summarizeByDevice = false) {
     let summary = [];
     let result = {};
     data.forEach(item => {
+      console.log(item["mount-name"]);
       const deviceType = item["device-type"];
       if (!result[deviceType]) {
         result[deviceType] = {
@@ -10476,7 +10477,9 @@ exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrela
           }
         }
       }
-      resolve(responseMetaDataList);
+      resolve({
+          "device-status-metadata": responseMetaDataList
+        });
     } catch (error) {
       console.log(error);
       reject(error);

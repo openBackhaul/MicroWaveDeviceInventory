@@ -1,10 +1,11 @@
 'use strict';
-const fileSystem = require('fs');
+
 const utility = require('../../utility');
 const deviceMetaDatacaching = require('./DeviceMetaDataCacheUpdate');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
 const slidingWindowProcess = require('./SlidingWindow');
+const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
 let periodicConnectionStatusSynchTimerId = 0;
 
@@ -64,6 +65,8 @@ async function deviceMetaDataListUpdateProcess() {
       .catch(error => {
         throw error;
       });
+
+    await deviceMetaDataCacheUpdate.createOrUpdateDeviceMetaData(deviceMetaDataListFromElasticSearch);
 
     console.log('*******************************************************************************************************');
     console.log('*                             DeviceMetaData Table PROCESS PROCEDURE STARTED                                        *');

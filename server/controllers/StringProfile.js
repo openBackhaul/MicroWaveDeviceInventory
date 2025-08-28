@@ -57,9 +57,9 @@ module.exports.getStringProfileStringValue = async function getStringProfileStri
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putStringProfileStringValue = async function putStringProfileStringValue(req, res, next, body) {
+module.exports.putStringProfileStringValue = async function putStringProfileStringValue(req, res, next, body, uuid) {
   let responseCode = responseCodeEnum.code.NO_CONTENT;
-  await StringProfile.putStringProfileStringValue(body, req.url)
+  await StringProfile.putStringProfileStringValue(body, req.url, uuid)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })

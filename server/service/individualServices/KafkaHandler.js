@@ -27,6 +27,18 @@ const handleNotifications = (receivedMessage, topic) => {
     return;
 }
 
+exports.handleKafkaNotificationReceiptAndProcessingSwitch = async function (value) {
+    try {
+        if (value == "on") {
+            await kafka.resumeKafkaConnection();
+        } else {
+            await kafka.pauseKafkaConnection();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 function getNotificationType(notification) {
     let notificationType = Object.keys(notification)[0];
     if (notificationType.includes("alarm-event")) {

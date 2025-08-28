@@ -2,11 +2,9 @@
 'use strict';
 
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-const individualServicesService = require('./IndividualServicesService');
-const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
-const Profile = require('onf-core-model-ap/applicationPattern/onfModel/models/Profile');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const createHttpError = require('http-errors');
+const utility = require('./individualServices/utility');
+const kafkaHandler = require('./individualServices/KafkaHandler');
 
 /**
  * Returns the enumeration values of the String
@@ -74,6 +72,19 @@ exports.getStringProfileStringValue = async function (url) {
  * body Stringprofileconfiguration_stringvalue_body 
  * no response value expected for this operation
  **/
-exports.putStringProfileStringValue = async function (body, url) {
-  await fileOperation.writeToDatabaseAsync(url, body, false);
+exports.putStringProfileStringValue = async function (body, url, uuid) {
+  try {
+    let stringNameForUuid = await utility.getStringNameForUuidAsync(uuid);
+    if (stringNameForUuid === "kafkaNotificationReceiptAndProcessingSwitch") {
+      let stringValue = body["string-profile-1-0:string-value"];
+      if (stringValue === "on" || stringValue === "off") {
+        await kafkaHandler.handleKafkaNotificationReceiptAndProcessingSwitch(stringValue);
+      } else {
+        throw createHttpError(400, "invalid input in request-body");
+      }
+    }
+    await fileOperation.writeToDatabaseAsync(url, body, false);
+  } catch (error) {
+    return error;
+  }
 }

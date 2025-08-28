@@ -153,6 +153,7 @@ exports.recordRequest = async function (body, cc) {
   } catch (error) {
     console.error(error);
   }
+  return {};
 }
 
 /**
@@ -226,7 +227,7 @@ exports.ReadIdsFromEs = async function () {
     const result = await client.search({
       index: indexAlias,
       _source: false,
-      from: 0, 
+      from: 0,
       size: 9999
     });
     const resultArray = [];

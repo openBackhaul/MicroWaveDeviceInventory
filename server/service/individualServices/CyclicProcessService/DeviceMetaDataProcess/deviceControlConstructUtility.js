@@ -78,7 +78,7 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
 exports.updateControlConstructToEs = async function (nodeId, ccObject, maxRetries) {
     try {
         let result = await utility.recordRequest(ccObject, nodeId);
-        if (result.took !== undefined) {
+        if (result.took) {
             console.log(`********************************CC updated to ES for ${nodeId} *************************** `);
             return true;
         } else {

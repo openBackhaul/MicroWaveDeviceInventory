@@ -15,10 +15,8 @@ let deviceMetadataListSyncProcessId = 0;
  * @param {String} "last-control-construct-notification-update-time" - the time when a CC in ES is partially updated by notification
  * @param {Number} "number-of-partial-updates-since-last-complete-update" - the total count of CC attributes changes after coming to connection status. This is triggered by notifications
  * @param {Object} "schema-cache-directory" - retrieved from netconf request
- * @param {Boolean} "locked-status" - true if it is processed in sliding window
- * @param {Boolean} "exclude-from-qm" - true if this does not have successful CC retrieved in history to compare
- * @property {Boolean} "cc-synced" - this attribute is set to true if CC has been updated in this cycle. 
- *                                      false if new cycle started and all devices in meta-data list shall be synced with cc
+ * @param {String} "device-type" - device-type calculated during cyclic process
+ * @param {String} "vendor" - vendor-name calculated during cyclic process
  */
 class DeviceMetaDataList {
     constructor() {
@@ -131,6 +129,27 @@ class DeviceMetaDataList {
             return false;
         }
     }
+
+    // returns { deviceType, Vendor } for given mount-name
+    getDeviceTypeAndVendorForDevice(nodeId) {
+        let response = {
+            "deviceType": "unknown",
+            "vendor": "unknown"
+        }
+        try {
+            if (this.deviceMetaDataList.length > 0) {
+                let device = this.deviceMetaDataList.find(d => d["mount-name"] == nodeId);
+                if (device) {
+                    response.deviceType = device["device-type"];
+                    response.vendor = device["vendor"];
+                    return response;
+                }
+            }
+        } catch (error) {
+            throw error;
+        }
+        return response;
+    }
 }
 
 // creates object for the above class
@@ -144,8 +163,8 @@ deviceMetaDataObj.updateMDForPartialCCUpdate = async function (mountName, timest
     try {
         result = await deviceMetaDataObj.setLastControlConstructNotificationUpdateTime(mountName, timestamp);
         if (result) result = await deviceMetaDataObj.updateNumberOfPartialUpdatesSinceLastCompleteUpdate(mountName);
-        if(result) result = await deviceMetaDataObj.deviceMetaDataListSync();
-        if(result) console.log(`******************* partial update for ${mountName} success *************************`);
+        if (result) result = await deviceMetaDataObj.deviceMetaDataListSync();
+        if (result) console.log(`******************* partial update for ${mountName} success *************************`);
         return result;
     } catch (error) {
         console.log(error);

@@ -2710,6 +2710,9 @@ module.exports.provideListOfCachedDevices = function provideListOfCachedDevices(
     });
 };
 
+/**
+ * @deprecated This function is deprecated.
+ */
 module.exports.provideListOfConnectedDevices = function provideListOfConnectedDevices(req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
@@ -2871,6 +2874,9 @@ module.exports.regardControllerAttributeValueChange = function regardControllerA
     });
 };
 
+/**
+ * @deprecated This function is deprecated.
+ */
 module.exports.regardDeviceAlarm = function regardDeviceAlarm(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
@@ -2891,6 +2897,9 @@ module.exports.regardDeviceAlarm = function regardDeviceAlarm(req, res, next, bo
     });
 };
 
+/**
+ * @deprecated This function is deprecated.
+ */
 module.exports.regardDeviceAttributeValueChange = function regardDeviceAttributeValueChange(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
@@ -2911,6 +2920,9 @@ module.exports.regardDeviceAttributeValueChange = function regardDeviceAttribute
     });
 };
 
+/**
+ * @deprecated This function is deprecated.
+ */
 module.exports.regardDeviceObjectCreation = function regardDeviceObjectCreation(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
@@ -2931,6 +2943,9 @@ module.exports.regardDeviceObjectCreation = function regardDeviceObjectCreation(
     });
 };
 
+/**
+ * @deprecated This function is deprecated.
+ */
 module.exports.regardDeviceObjectDeletion = function regardDeviceObjectDeletion(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;

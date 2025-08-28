@@ -13,8 +13,9 @@ const {
   readCacheQualityListFromElasticsearch
 } = require('./elasticService');
 
-const {getAllDeviceMetaData} = require('../DeviceMetaDataProcess/deviceMetaDataCyclicProcess.js');
+const deviceMetaDataPriorityList = require('../DeviceMetaDataProcess/DeviceMetaDataPriorityList');
 const utility = require('../../utility');
+const deviceMetadataCacheUpdate = require('../DeviceMetaDataProcess/DeviceMetaDataCacheUpdate');
 let iteration = 1;
 
 
@@ -45,7 +46,7 @@ async function performQualityMeasurementAsPerCycle() {
   let profileInstance = await utility.getIntegerProfileForIntegerName("qualityMeasurementUpdatePeriod");
   let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
   let valueInSeconds = integerValue * 60;
-  setTimeout(performQualityMeasurement, valueInSeconds * 1000);
+  setInterval(performQualityMeasurement, valueInSeconds * 1000);
 }
 
 
@@ -58,7 +59,7 @@ async function performQualityMeasurement() {
   console.log('*                                                                                                     *');
   console.log('*******************************************************************************************************');
   
-  let deviceMetadataList = getAllDeviceMetaData(); 
+  let deviceMetadataList = deviceMetaDataPriorityList.getAllDeviceMetaData(); 
   let deviceMetadataListForProcessing = [...deviceMetadataList];
   for (let index = 0; index < deviceMetadataListForProcessing.length; index++) {
     const device = deviceMetadataListForProcessing[index];
@@ -75,11 +76,11 @@ async function performQualityMeasurement() {
 
         const differences = diff(cached, live);
         const score = calculateScore(differences);
-
+        let deviceType = deviceMetadataCacheUpdate.getDeviceTypeAndVendorForDevice(device["mount-name"]);
         const result = {
-          'mount-name': device.id,
-          'device-type': device.type,
-          'vendor': device.vendor,
+          'mount-name': device["mount-name"],
+          'device-type': deviceType.deviceType,
+          'vendor': deviceType.vendor,
           'timestamp': new Date().toISOString(),
           'attribute-mismatches': score.attributeMismatch,
           'attribute-class-mismatches': score.classMismatch,

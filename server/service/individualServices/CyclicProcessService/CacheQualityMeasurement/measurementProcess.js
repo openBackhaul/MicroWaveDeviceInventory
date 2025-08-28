@@ -59,12 +59,8 @@ async function performQualityMeasurement() {
   console.log('*                                                                                                     *');
   console.log('*******************************************************************************************************');
   
-  let deviceMetadataList = deviceMetaDataPriorityList.getAllDeviceMetaData();
-  
-  const device = deviceMetadataList[0];
-  if (device["connection-status"] == "connected" &&
-    device["locked-status"] == false &&
-    device["exclude-from-qm"] == false) {
+  let device = deviceMetaDataPriorityList.getNextDeviceMetaDataForQm(); 
+  if (device != undefined) {
     try {
       if (!device) {
         console.log('No eligible device for quality measurement');

@@ -2588,7 +2588,7 @@ module.exports.notifyObjectDeletions = function notifyObjectDeletions(req, res, 
     });
 };
 
-module.exports.provideCacheQualityStatistics = function provideCacheQualityStatistics (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.provideCacheQualityStatistics = function provideCacheQualityStatistics(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
@@ -2675,6 +2675,26 @@ module.exports.provideListOfActualDeviceEquipment = function provideListOfActual
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
   IndividualServices.provideListOfActualDeviceEquipment(req.url, body, user, originator, xCorrelator, traceIndicator, customerJourney)
+    .then(async function (responseBody) {
+      responseBodyToDocument = responseBody;
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    })
+    .catch(async function (responseBody) {
+      let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);
+      let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+      responseCode = sentResp.code;
+      responseBodyToDocument = sentResp.body;
+      executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+    });
+};
+
+module.exports.provideListOfCachedDevices = function provideListOfCachedDevices(req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.provideListOfCachedDevices(req.url, user, originator, xCorrelator, traceIndicator, customerJourney)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.openapi.openApiRoute);

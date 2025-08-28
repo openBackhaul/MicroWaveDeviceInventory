@@ -214,4 +214,57 @@ exports.calculateTimeInMilliSeconds = function (value, unit) {
 }
 
 
+/**
+ * Read only _id list from ES
+ *
+ * response value expected for this operation
+ **/
+exports.ReadIdsFromEs = async function () {
+  try {
+    let indexAlias = common[1].indexAlias
+    let client = await common[1].EsClient;
+    const result = await client.search({
+      index: indexAlias,
+      _source: false,
+      from: 0, 
+      size: 9999
+    });
+    const resultArray = [];
+    if (result.body.hits) {
+      result.body.hits.hits.forEach((item) => {
+        resultArray.push(item._id);
+      });
+    }
+    return (resultArray)
+  } catch (error) {
+    console.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * This function returns the string-name for given uuid
+ * 
+ * @param {String} uuid - uuid of the string-profile
+ * @returns {String} stringName - returns the string-profile/capability/string-name
+ */
+exports.getStringNameForUuidAsync = async function (uuid) {
+  let stringName;
+  try {
+    let profileList = await ProfileCollection.getProfileListForProfileNameAsync(Profile.profileNameEnum.STRING_PROFILE);
+    for (let i = 0; i < profileList.length; i++) {
+      let profileInstance = profileList[i];
+      let stringProfileUuid = profileInstance["uuid"];
+      if (stringProfileUuid == uuid) {
+        stringName = profileInstance[onfAttributes.STRING_PROFILE.PAC][onfAttributes.STRING_PROFILE.CAPABILITY][onfAttributes.STRING_PROFILE.STRING_NAME];
+        break;
+      }
+    }
+    return stringName;
+  } catch (error) {
+    throw error;
+  }
+
+}
+
 

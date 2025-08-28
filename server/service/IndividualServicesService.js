@@ -27,6 +27,7 @@ const axios = require('axios');
 const createHttpError = require('http-errors');
 const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility');
 const deviceMetadataUtility = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/deviceMetaDataUtility');
+const utility = require('./individualServices/utility');
 const deviceMetadataCacheUpdate = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataCacheUpdate')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
@@ -10549,6 +10550,35 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
   });
 }
 
+/**
+ * Provides list of devices for which MWDI has a ControlConstruct in its cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customerâ€™s journey to which the execution applies
+ * returns inline_response_200_10
+ **/
+exports.provideListOfCachedDevices = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      
+      let result = await utility.ReadIdsFromEs();
+      result = result.filter(d=> d != "DeviceMetaDataList").map(d=> ({"mount-name": d}));
+      if (result != undefined) {
+        const outputJson = {
+          "mount-name-list": result
+        };
+        resolve(outputJson);
+      } else {
+        throw new createHttpError.NotFound("Device list not found");
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 /**
  * Provides list of devices that are connected to the controller
@@ -10563,12 +10593,12 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
 exports.provideListOfConnectedDevices = function (url, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let mountname = "DeviceList"
-      let returnObject = {};
-      let result = await ReadRecords(mountname);
+      await deviceMetadataCacheUpdate.deviceMetaDataListSync();
+      let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
+      let result = metaDataListFromElasticSearch.filter(d => d["connection-status"] == "connected").map(d => d["mount-name"]);
       if (result != undefined) {
         const outputJson = {
-          "mount-name-list": result.deviceList.map(item => item[NODE_ID])
+          "mount-name-list": result
         };
         resolve(outputJson);
       } else {
@@ -11036,7 +11066,7 @@ exports.regardDeviceAlarm = function (body) {
       resolve();
     } catch (error) {
       //logger.error(error);
-      reject(error);
+      throw error;
     }
   });
 }
@@ -11057,7 +11087,7 @@ exports.regardDeviceAttributeValueChange = function (body) {
       let counter = currentJSON['counter'];
       let attributeName = currentJSON['attribute-name'];
       let jsonObj = "";
-     // url = decodeURIComponent(resource);
+      // url = decodeURIComponent(resource);
 
       // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
       const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
@@ -11134,7 +11164,7 @@ exports.regardDeviceObjectCreation = function (body) {
       //      const lastIndex = resource.lastIndexOf("/");
       // Truncate path at last "/"
       //      const truncatedPath = resource.substring(0, lastIndex);
-     // url = decodeURIComponent(url);
+      // url = decodeURIComponent(url);
 
       //  const appNameAndUuidFromForwarding = await NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath(counter)
       const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);

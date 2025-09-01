@@ -27844,6 +27844,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
@@ -28202,6 +28203,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
@@ -28270,6 +28272,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
@@ -31394,6 +31397,7 @@ paths:
                     enum:
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                      - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
                     example: 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
         '400':

@@ -481,55 +481,55 @@
             "regex-pattern-mapping-configuration": {
               "mapping-list": [
                 {
-                  "regex-string": "(?i).*AGS[-_\\s]?20(?![-]?L).*",
+                  "regex-string": "/.*AGS[-_\\s]?20(?![-]?L).*/i",
                   "map-to-string": "AGS20"
                 },
                 {
-                  "regex-string": "(?i).*AGS[-_\\s]?20L.*",
+                  "regex-string": "/.*AGS[-_\\s]?20L.*/i",
                   "map-to-string": "AGS20L"
                 },
                 {
-                  "regex-string": "(?i).*ALC(plus|p)?2e.*",
+                  "regex-string": "/.*ALC(plus|p)?2e.*/i",
                   "map-to-string": "ALCPlus2e"
                 },
                 {
-                  "regex-string": "(?i).*ALFO[-_\\s]?80.*",
+                  "regex-string": "/.*ALFO[-_\\s]?80.*/i",
                   "map-to-string": "ALFO80"
                 },
                 {
-                  "regex-string": "(?i).*RTN[-_\\s]?950.*",
+                  "regex-string": "/.*RTN[-_\\s]?950.*/i",
                   "map-to-string": "RTN950"
                 },
                 {
-                  "regex-string": "(?i).*RTN[-_\\s]?905.*",
+                  "regex-string": "/.*RTN[-_\\s]?905.*/i",
                   "map-to-string": "RTN905"
                 },
                 {
-                  "regex-string": "(?i).*RTN[-_\\s]?380(?!H|AX).*",
+                  "regex-string": "/.*RTN[-_\\s]?380(?!H|AX).*/i",
                   "map-to-string": "RTN380"
                 },
                 {
-                  "regex-string": "(?i).*RTN[-_\\s]?380AX.*",
+                  "regex-string": "/.*RTN[-_\\s]?380AX.*/i",
                   "map-to-string": "RTN380AX"
                 },
                 {
-                  "regex-string": "(?i).*RTN[-_\\s]?380H.*",
+                  "regex-string": "/.*RTN[-_\\s]?380H.*/i",
                   "map-to-string": "RTN380H"
                 },
                 {
-                  "regex-string": "(?i).*(mini[-]?link|ml)[-]?6352.*",
+                  "regex-string": "/.*(mini[-]?link|ml)[-]?6352.*/i",
                   "map-to-string": "ML6352"
                 },
                 {
-                  "regex-string": "(?i).*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*",
+                  "regex-string": "/.*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*/i",
                   "map-to-string": "ML6600"
                 },
                 {
-                  "regex-string": "(?i).*(mltn|traffic[-_\\s]?node).*",
+                  "regex-string": "/.*(mltn|traffic[-_\\s]?node).*/i",
                   "map-to-string": "MLTN"
                 },
                 {
-                  "regex-string": "(?i)^(?!.*AGS[-_\\s]?20(?![-]?L).*)(?!.*AGS[-_\\s]?20L.*)(?!.*ALC(plus|p)?2e.*)(?!.*ALFO[-_\\s]?80.*)(?!.*RTN[-_\\s]?950.*)(?!.*RTN[-_\\s]?905.*)(?!.*RTN[-_\\s]?380(?!H|AX).*)(?!.*RTN[-_\\s]?380AX.*)(?!.*RTN[-_\\s]?380H.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?6352.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*)(?!.*(mltn|traffic[-_\\s]?node).*).*",
+                  "regex-string": "/^(?!.*AGS[-_\\s]?20(?![-]?L).*)(?!.*AGS[-_\\s]?20L.*)(?!.*ALC(plus|p)?2e.*)(?!.*ALFO[-_\\s]?80.*)(?!.*RTN[-_\\s]?950.*)(?!.*RTN[-_\\s]?905.*)(?!.*RTN[-_\\s]?380(?!H|AX).*)(?!.*RTN[-_\\s]?380AX.*)(?!.*RTN[-_\\s]?380H.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?6352.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*)(?!.*(mltn|traffic[-_\\s]?node).*).*/i",
                   "map-to-string": "unknown"
                 }
               ]

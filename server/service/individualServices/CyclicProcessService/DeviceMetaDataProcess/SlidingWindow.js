@@ -47,8 +47,8 @@ class SlidingWindow {
                 // start syncing live CC to ES
                 deviceControlConstructUtility.syncControllerCcToEs(device["mount-name"], responseTimeOut, maximumNumberOfRetries)
                     .then(async (response) => {
+                        let currentTime = new Date().toJSON();
                         if (response) {
-                            let currentTime = new Date().toJSON();
                             device["last-complete-control-construct-update-time-attempt"] = currentTime;
                             device["locked-status"] = false;
                             device["exclude-from-qm"] = false;
@@ -95,7 +95,7 @@ async function getNextDeviceMetaDataLocal() {
     try {
         let device = await deviceMetaDataPriorityList.getNextDeviceMetaData();
         return device;
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return {};
     }
@@ -132,10 +132,9 @@ exports.startSlidingWindowProcessForCCUpdate = async function () {
         console.log('*******************************************************************************************************');
         if (slidingWindowRunner) {
             await exports.stopSlidingWindowProcessForCCUpdate();
-        } else {
-            await initializeDependentIntegerValues();
-            slidingWindowRunner = new SlidingWindow(getNextDeviceMetaDataLocal);
         }
+        await initializeDependentIntegerValues();
+        slidingWindowRunner = new SlidingWindow(getNextDeviceMetaDataLocal);
     } catch (error) {
         console.log(error);
     }

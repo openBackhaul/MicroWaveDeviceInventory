@@ -356,22 +356,6 @@
           }
         },
         {
-          "uuid": "mwdi-2-0-1-integer-p-004",
-          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
-          "integer-profile-1-0:integer-profile-pac": {
-            "integer-profile-capability": {
-              "integer-name": "connectionStatusSyncPeriod",
-              "purpose": "Time period between the sync of connection-status in MWDI metadata table with the connection-status of devices at the Controller.",
-              "unit": "hour",
-              "minimum": 1,
-              "maximum": 72
-            },
-            "integer-profile-configuration": {
-              "integer-value": 1
-            }
-          }
-        },
-        {
           "uuid": "mwdi-2-0-1-integer-p-005",
           "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
           "integer-profile-1-0:integer-profile-pac": {

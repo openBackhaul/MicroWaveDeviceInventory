@@ -31,9 +31,9 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, hasFilter) {
       if (Array.isArray(currentJSON[key])) {
         // If the field is an array try to find the elemnt with the corrispondent UUID
         const uuidToFind = decodeURIComponent(value);
-        const indexToChange = currentJSON[key].findIndex(item =>
-          (item.uuid && item.uuid === uuidToFind) ||
-          (item['local-id'] && item['local-id'] === uuidToFind)
+        const indexToChange = currentJSON[key].findIndex(item => {
+          return (item.uuid == uuidToFind || item['local-id'] == uuidToFind)
+        }
         );
         if (indexToChange !== -1) {
           // Substitute only the element into the array with the new JSON
@@ -67,7 +67,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, hasFilter) {
         currentJSON = currentJSON[key];
       }
     } else {
-      // logger.trace(`Field not found: ${key}`);
+      lastKey = lastKey + "." + key;
       break;
     }
     i += 1;
@@ -150,7 +150,7 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
               objJSON[arrayName][index] = newJSON[objectKey];
             }
           }
-        } else { 
+        } else {
           // Otherwise go on parsing the object
           objJSON = objJSON[arrayName][index];
         }
@@ -168,15 +168,27 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
             if (newJSON != null) {
               let objectKey = Object.keys(newJSON)[0];
               // if is latest
-              if (i == pathKeys.length -1 &&
-                objectKey.includes(":") && arrayName.includes("-pac")
-              ) {
+              if (i == pathKeys.length - 1 && objectKey.includes(":") && arrayName.includes("-pac")) {
                 logger.debug("This is PAC configuration");
                 let keyLast = objectKey.split(":");
                 objJSON[keyLast[1]] = newJSON[objectKey];
               } else {
                 logger.debug("This doesn't have pac configuration");
-                objJSON[arrayName] = newJSON[objectKey];
+                if (Array.isArray(objJSON[keyToUse])) {
+                  if (Array.isArray(newJSON[objectKey])) {
+                    newJSON[objectKey].forEach(item => {
+                      objJSON[keyToUse].push(item);
+                    })
+                  } else {
+                    objJSON[keyToUse].push(newJSON[objectKey]);
+                  }
+                } else if (typeof objJSON[keyToUse] == "object") {
+                  objJSON[keyToUse] = [...newJSON[objectKey]];
+                } else if (pathKeys.length == 2) {
+                  objJSON[arrayName] = newJSON[objectKey];
+                } else {
+                  objJSON[keyToUse] = newJSON[objectKey];
+                }
               }
             }
           }

@@ -1229,6 +1229,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           let objectKey = Object.keys(finalJson)[0];
           finalJson = finalJson[objectKey];
           if (myFields != undefined) {
+            let ccUuid = finalJson[0]['uuid'];
             myFields = decodeURIComponent(myFields);
             var objList = [];
             var rootObj = { value: "root", children: [] }
@@ -1239,6 +1240,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
             if (isJsonEmpty(finalJson)) {
               throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
             }
+            finalJson[0]['uuid'] = ccUuid;
           }
           returnObject[objectKey] = finalJson;
         } else {
@@ -10307,7 +10309,7 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
   });
 }
 
-async function getQualityMeasurementSampleNumber(){
+async function getQualityMeasurementSampleNumber() {
   let profileInstance = await utility.getIntegerProfileForIntegerName("qualityMeasurementSampleNumber");
   let qualityMeasurementSampleNumber = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
   return qualityMeasurementSampleNumber;
@@ -10332,8 +10334,7 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
       let cacheQualityStatistics = await ReadRecords("cache-quality-statistics");
       if (cacheQualityStatistics != undefined) {
         let qualityMeasurementSampleNumber = await getQualityMeasurementSampleNumber();
-        if(cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber)
-        {
+        if (cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber) {
           throw new createHttpError(530, 'Data invalid. Response data not available, incomplete or corrupted');
         }
         if (body) {
@@ -10506,23 +10507,32 @@ exports.provideDataOfLinks = function (body, user, originator, xCorrelator, trac
 exports.provideDeviceStatusMetadata = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      let mountNameListFromRequestBody = body["mount-name-list"];
       let responseMetaDataList = [];
-      await deviceMetadataCacheUpdate.deviceMetaDataListSync();
-      let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
-      for (let i = 0; i < mountNameListFromRequestBody.length; i++) {
-        let mountName = mountNameListFromRequestBody[i];
-        for (let j = 0; j < metaDataListFromElasticSearch.length; j++) {
-          let metaDataMountName = metaDataListFromElasticSearch[j]["mount-name"];
-          if (metaDataMountName == mountName) {
-            responseMetaDataList.push(metaDataListFromElasticSearch[j]);
-            break;
+      let mountNameListFromRequestBody = body["mount-name-list"];
+      if (mountNameListFromRequestBody) {
+        if (mountNameListFromRequestBody.length > 0) {
+          await deviceMetadataCacheUpdate.deviceMetaDataListSync();
+          let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
+          for (let i = 0; i < mountNameListFromRequestBody.length; i++) {
+            let mountName = mountNameListFromRequestBody[i];
+            for (let j = 0; j < metaDataListFromElasticSearch.length; j++) {
+              let metaDataMountName = metaDataListFromElasticSearch[j]["mount-name"];
+              if (metaDataMountName == mountName) {
+                responseMetaDataList.push(metaDataListFromElasticSearch[j]);
+                break;
+              }
+            }
           }
+          responseMetaDataList = responseMetaDataList.map(metadata => {
+            let stringifiedData = JSON.stringify(metadata);
+            let convertedData = stringifiedData.replace(/:null/g, ':"null"');
+            return JSON.parse(convertedData);
+          });
         }
       }
       resolve({
-          "device-status-metadata": responseMetaDataList
-        });
+        "device-status-metadata": responseMetaDataList
+      });
     } catch (error) {
       console.log(error);
       reject(error);
@@ -10609,9 +10619,9 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
 exports.provideListOfCachedDevices = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      
+
       let result = await utility.ReadIdsFromEs();
-      result = result.filter(d=> d != "DeviceMetaDataList").map(d=> ({"mount-name": d}));
+      result = result.filter(d => d != "DeviceMetaDataList").map(d => ({ "mount-name": d }));
       if (result != undefined) {
         const outputJson = {
           "mount-name-list": result
@@ -11111,8 +11121,8 @@ exports.regardDeviceAlarm = function (body) {
       deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
       resolve();
     } catch (error) {
-      //logger.error(error);
-      throw error;
+      logger.error(error);
+      reject(error);
     }
   });
 }

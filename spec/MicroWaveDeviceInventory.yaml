@@ -2739,6 +2739,7 @@ paths:
                   device-status-metadata:
                     type: array
                     items:
+                      type: object
                       required:
                         - mount-name
                         - connection-status

@@ -30067,7 +30067,7 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
 
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-profile-capability/mapping-name:
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/mapping-name:
     parameters:
       - in: path
         name: uuid
@@ -30109,7 +30109,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-profile-capability/purpose:
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/purpose:
     parameters:
       - in: path
         name: uuid
@@ -30151,7 +30151,7 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-profile-configuration/mapping-list:
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-configuration/mapping-list:
     parameters:
       - in: path
         name: uuid

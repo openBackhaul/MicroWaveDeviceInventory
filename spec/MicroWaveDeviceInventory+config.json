@@ -493,7 +493,7 @@
                   "map-to-string": "ALCPlus2e"
                 },
                 {
-                  "regex-string": "/.*ALFO[-_\\s]?80.*/i",
+                  "regex-string": "/.*ALFO.80.*/i",
                   "map-to-string": "ALFO80"
                 },
                 {
@@ -518,6 +518,10 @@
                 },
                 {
                   "regex-string": "/.*(mini[-]?link|ml)[-]?6352.*/i",
+                  "map-to-string": "ML6352"
+                },
+                {
+                  "regex-string": "/^UKL\\s501\\s57.*/i",
                   "map-to-string": "ML6352"
                 },
                 {

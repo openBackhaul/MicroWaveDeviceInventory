@@ -288,7 +288,7 @@ profile-instances:
           map-to-string: 'AGS20L'
         - regex-string: '(?i).*ALC(plus|p)?2e.*'
           map-to-string: 'ALCPlus2e'
-        - regex-string: '(?i).*ALFO[-_\s]?80.*'
+        - regex-string: '(?i).*ALFO.80.*'
           map-to-string: 'ALFO80'
         # HUA: RTN900 (=RTN950/RTN905), RTN380* (380, 380AX, 380H)
         - regex-string: '(?i).*RTN[-_\s]?950.*'
@@ -303,6 +303,8 @@ profile-instances:
           map-to-string: 'RTN380H'
         # ERI: ML6352, ML6600 (=ML6691, ML6693), MLTN (TrafficNode)
         - regex-string: '(?i).*(mini[-]?link|ml)[-]?6352.*'
+          map-to-string: 'ML6352'
+        - regex-string: '(?i)^UKL\s501\s57.*'
           map-to-string: 'ML6352'
         - regex-string: '(?i).*(mini[-_\s]?link|ml)[-_\s]?66\d{2}.*'
           map-to-string: 'ML6600'

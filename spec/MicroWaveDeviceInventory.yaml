@@ -28537,6 +28537,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           action-profile-1-0:action-profile-pac:
                             type: object
                             required:
@@ -28591,6 +28592,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           response-profile-1-0:response-profile-pac:
                             type: object
                             required:
@@ -28652,6 +28654,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           file-profile-1-0:file-profile-pac:
                             type: object
                             required:
@@ -28699,6 +28702,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           integer-profile-1-0:integer-profile-pac:
                             type: object
                             required:
@@ -28770,6 +28774,56 @@ paths:
                                 properties:
                                   string-value:
                                     type: string
+                      - description: 'mapping profile'
+                        type: object
+                        required:
+                          - uuid
+                          - profile-name
+                          - mapping-profile-1-0:string-profile-pac
+                        properties:
+                          uuid:
+                            type: string
+                          profile-name:
+                            type: string
+                            enum:
+                              - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                              - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                              - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                              - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                              - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                          mapping-profile-1-0:string-profile-pac:
+                            type: object
+                            required:
+                              - mapping-profile-capability
+                              - mapping-profile-configuration
+                            properties:
+                              mapping-profile-capability:
+                                type: object
+                                required:
+                                  - mapping-name
+                                properties:
+                                  mapping-name:
+                                    type: string
+                                  purpose:
+                                    type: string
+                              mapping-profile-configuration:
+                                type: object
+                                required:
+                                  - mapping-list
+                                properties:
+                                  mapping-list:
+                                    type: array
+                                    items:
+                                      type: object
+                                      required:
+                                        - regex-string
+                                        - map-to-string
+                                      properties:
+                                        regex-string:
+                                          type: string
+                                        map-to-string:
+                                          type: string
               example:
                 core-model-1-4:profile:
                   uuid: 'xy-15-3-2-action-p-000'

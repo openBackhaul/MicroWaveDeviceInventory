@@ -1,0 +1,1210 @@
+  /core-model-1-4:control-construct:
+    get:
+      operationId: getControlConstruct
+      summary: 'Returns entire data tree'
+      tags:
+        - Core
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: 'ControlConstruct provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - core-model-1-4:control-construct
+                properties:
+                  core-model-1-4:control-construct:
+                    type: object
+                    required:
+                      - uuid
+                      - profile-collection
+                      - logical-termination-point
+                      - forwarding-domain
+                    properties:
+                      uuid:
+                        type: string
+                        pattern: '^([a-z]{2,6})-([0-9]+)-([0-9]+)-([0-9]+)$'
+                        example: 'xy-15-3-2'
+                      profile-collection:
+                        type: object
+                        required:
+                          - profile
+                        properties:
+                          profile:
+                            type: array
+                            uniqueItems: true
+                            items:
+                              oneOf:
+                                - description: 'action profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    # Bug in the postman mock server
+                                    # original code is:
+                                    # - action-profile-1-0:action-profile-pac
+                                    # workaround code is:
+                                    # - empty line -
+                                  additionalProperties: false
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                    action-profile-1-0:action-profile-pac:
+                                      type: object
+                                      required:
+                                        - action-profile-capability
+                                        - action-profile-configuration
+                                      properties:
+                                        action-profile-capability:
+                                          type: object
+                                          required:
+                                            - operation-name
+                                            - label
+                                            - display-in-new-browser-window
+                                          properties:
+                                            operation-name:
+                                              type: string
+                                            label:
+                                              type: string
+                                            input-value-list:
+                                              type: array
+                                              items:
+                                                type: object
+                                                required:
+                                                  - field-name
+                                                properties:
+                                                  field-name:
+                                                    type: string
+                                                  unit:
+                                                    type: string
+                                            display-in-new-browser-window:
+                                              type: boolean
+                                        action-profile-configuration:
+                                          type: object
+                                          required:
+                                            - consequent-operation-reference
+                                          properties:
+                                            consequent-operation-reference:
+                                              type: string
+                                - description: 'generic response profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    - response-profile-1-0:response-profile-pac
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                    response-profile-1-0:response-profile-pac:
+                                      type: object
+                                      required:
+                                        - response-profile-capability
+                                        - response-profile-configuration
+                                      properties:
+                                        response-profile-capability:
+                                          type: object
+                                          required:
+                                            - operation-name
+                                            - field-name
+                                            - datatype
+                                          properties:
+                                            operation-name:
+                                              type: string
+                                            field-name:
+                                              type: object
+                                              minProperties: 1
+                                              maxProperties: 1
+                                              additionalProperties: false
+                                              properties:
+                                                static-field-name:
+                                                  type: string
+                                                field-name-reference:
+                                                  type: string
+                                            description:
+                                              type: string
+                                            datatype:
+                                              type: string
+                                        response-profile-configuration:
+                                          type: object
+                                          required:
+                                            - value
+                                          properties:
+                                            value:
+                                              type: object
+                                              minProperties: 1
+                                              maxProperties: 1
+                                              additionalProperties: false
+                                              properties:
+                                                static-value:
+                                                  type: string
+                                                value-reference:
+                                                  type: string
+                                - description: 'file profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    - file-profile-1-0:file-profile-pac
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                    file-profile-1-0:file-profile-pac:
+                                      type: object
+                                      required:
+                                        - file-profile-capability
+                                        - file-profile-configuration
+                                      properties:
+                                        file-profile-capability:
+                                          type: object
+                                          required:
+                                            - file-identifier
+                                            - file-description
+                                          properties:
+                                            file-identifier:
+                                              type: string
+                                            file-description:
+                                              type: string
+                                        file-profile-configuration:
+                                          type: object
+                                          required:
+                                            - file-name
+                                          properties:
+                                            file-name:
+                                              type: string
+                                            operation:
+                                              type: string
+                                              enum:
+                                                - 'file-profile-1-0:OPERATION_TYPE_READ_ONLY'
+                                                - 'file-profile-1-0:OPERATION_TYPE_READ_WRITE'
+                                                - 'file-profile-1-0:OPERATION_TYPE_OFF'
+                                                - 'file-profile-1-0:OPERATION_TYPE_NOT_YET_DEFINED'
+                                - description: 'integer profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    - integer-profile-1-0:integer-profile-pac
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                    integer-profile-1-0:integer-profile-pac:
+                                      type: object
+                                      required:
+                                        - integer-profile-capability
+                                        - integer-profile-configuration
+                                      properties:
+                                        integer-profile-capability:
+                                          type: object
+                                          required:
+                                            - integer-name
+                                          properties:
+                                            integer-name:
+                                              type: string
+                                            purpose:
+                                              type: string
+                                            unit:
+                                              type: string
+                                            minimum:
+                                              type: integer
+                                            maximum:
+                                              type: integer
+                                        integer-profile-configuration:
+                                          type: object
+                                          required:
+                                            - integer-value
+                                          properties:
+                                            integer-value:
+                                              type: integer
+                                - description: 'string profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    - string-profile-1-0:string-profile-pac
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                    string-profile-1-0:string-profile-pac:
+                                      type: object
+                                      required:
+                                        - string-profile-capability
+                                        - string-profile-configuration
+                                      properties:
+                                        string-profile-capability:
+                                          type: object
+                                          required:
+                                            - string-name
+                                          properties:
+                                            string-name:
+                                              type: string
+                                            enumeration:
+                                              type: array
+                                              items:
+                                                type: string
+                                            pattern:
+                                              type: string
+                                        string-profile-configuration:
+                                          type: object
+                                          required:
+                                            - string-value
+                                          properties:
+                                            string-value:
+                                              type: string
+                            example:
+                              - uuid: 'xy-15-3-2-integer-p-000'
+                                profile-name: 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                integer-profile-1-0:integer-profile-pac:
+                                  integer-profile-capability:
+                                    integer-name: 'maximumNumberOfEntries'
+                                    purpose: 'Limiting the number of entries for controlling the storage consumption and access response time'
+                                    unit: 'records'
+                                    minimum: 0
+                                    maximum: 1000000
+                                  integer-profile-configuration:
+                                    integer-value: 1000000
+                      logical-termination-point:
+                        type: array
+                        uniqueItems: true
+                        items:
+                          type: object
+                          required:
+                            - uuid
+                            - ltp-direction
+                            - client-ltp
+                            - server-ltp
+                            - layer-protocol
+                          properties:
+                            uuid:
+                              type: string
+                            ltp-direction:
+                              type: string
+                              enum:
+                                - 'core-model-1-4:TERMINATION_DIRECTION_BIDIRECTIONAL'
+                                - 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+                                - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+                                - 'core-model-1-4:TERMINATION_DIRECTION_UNDEFINED_OR_UNKNOWN'
+                            client-ltp:
+                              type: array
+                              uniqueItems: true
+                              items:
+                                type: string
+                            server-ltp:
+                              type: array
+                              uniqueItems: true
+                              items:
+                                type: string
+                            layer-protocol:
+                              type: array
+                              minItems: 1
+                              maxItems: 1
+                              items:
+                                oneOf:
+                                  - description: 'operation server'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - operation-server-interface-1-0:operation-server-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      operation-server-interface-1-0:operation-server-interface-pac:
+                                        type: object
+                                        required:
+                                          - operation-server-interface-capability
+                                          - operation-server-interface-configuration
+                                        properties:
+                                          operation-server-interface-capability:
+                                            type: object
+                                            required:
+                                              - operation-name
+                                            properties:
+                                              operation-name:
+                                                type: string
+                                          operation-server-interface-configuration:
+                                            type: object
+                                            required:
+                                              - life-cycle-state
+                                              - operation-key
+                                            properties:
+                                              life-cycle-state:
+                                                type: string
+                                                enum:
+                                                  - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
+                                                  - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
+                                                  - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
+                                                  - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
+                                                  - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                                              operation-key:
+                                                type: string
+                                  - description: 'http server'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - http-server-interface-1-0:http-server-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      http-server-interface-1-0:http-server-interface-pac:
+                                        type: object
+                                        required:
+                                          - http-server-interface-capability
+                                        properties:
+                                          http-server-interface-capability:
+                                            type: object
+                                            required:
+                                              - application-name
+                                              - release-number
+                                              - application-purpose
+                                              - data-update-period
+                                              - owner-name
+                                              - owner-email-address
+                                              - release-list
+                                            properties:
+                                              application-name:
+                                                type: string
+                                              release-number:
+                                                type: string
+                                              application-purpose:
+                                                type: string
+                                              data-update-period:
+                                                type: string
+                                                enum:
+                                                  - 'http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME'
+                                                  - 'http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_1H_PERIOD'
+                                                  - 'http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_24H_PERIOD'
+                                                  - 'http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_MANUAL'
+                                              owner-name:
+                                                type: string
+                                              owner-email-address:
+                                                type: string
+                                              release-list:
+                                                type: array
+                                                uniqueItems: true
+                                                items:
+                                                  type: object
+                                                  required:
+                                                    - local-id
+                                                    - release-number
+                                                    - release-date
+                                                    - changes
+                                                  properties:
+                                                    local-id:
+                                                      type: string
+                                                    release-number:
+                                                      type: string
+                                                    release-date:
+                                                      type: string
+                                                    changes:
+                                                      type: string
+                                  - description: 'tcp server'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - tcp-server-interface-1-0:tcp-server-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      tcp-server-interface-1-0:tcp-server-interface-pac:
+                                        type: object
+                                        required:
+                                          - tcp-server-interface-configuration
+                                        properties:
+                                          tcp-server-interface-configuration:
+                                            type: object
+                                            required:
+                                              - description
+                                              - local-protocol
+                                              - local-address
+                                              - local-port
+                                            properties:
+                                              description:
+                                                type: string
+                                              local-protocol:
+                                                type: string
+                                              local-address:
+                                                type: object
+                                                minProperties: 1
+                                                maxProperties: 1
+                                                additionalProperties: false
+                                                properties:
+                                                  ipv-4-address:
+                                                    type: string
+                                                  domain-name:
+                                                    type: string
+                                              local-port:
+                                                type: integer
+                                  - description: 'operation client'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - operation-client-interface-1-0:operation-client-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      operation-client-interface-1-0:operation-client-interface-pac:
+                                        type: object
+                                        required:
+                                          - operation-client-interface-configuration
+                                          - operation-client-interface-status
+                                        properties:
+                                          operation-client-interface-configuration:
+                                            type: object
+                                            required:
+                                              - operation-name
+                                              - operation-key
+                                            properties:
+                                              operation-name:
+                                                type: string
+                                              operation-key:
+                                                type: string
+                                              detailed-logging-is-on:
+                                                type: boolean
+                                          operation-client-interface-status:
+                                            type: object
+                                            required:
+                                              - operational-state
+                                              - life-cycle-state
+                                            properties:
+                                              operational-state:
+                                                type: string
+                                                enum:
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+                                              life-cycle-state:
+                                                type: string
+                                                enum:
+                                                  - 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
+                                                  - 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
+                                                  - 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
+                                                  - 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
+                                                  - 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                                  - description: 'elasticsearch client'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac:
+                                        type: object
+                                        required:
+                                          - elasticsearch-client-interface-configuration
+                                          - elasticsearch-client-interface-status
+                                        properties:
+                                          elasticsearch-client-interface-configuration:
+                                            type: object
+                                            required:
+                                              - auth
+                                              - index-alias
+                                            properties:
+                                              auth:
+                                                type: object
+                                                minProperties: 1
+                                                additionalProperties: false
+                                                properties:
+                                                  api-key:
+                                                    type: string
+                                                    description: 'base64EncodedKey'
+                                              index-alias:
+                                                type: string
+                                              service-records-policy:
+                                                type: object
+                                                required:
+                                                  - service-records-policy-name
+                                                  - phases
+                                                properties:
+                                                  service-records-policy-name:
+                                                    type: string
+                                                  description:
+                                                    type: string
+                                                  project:
+                                                    type: object
+                                                    properties:
+                                                      name:
+                                                        type: string
+                                                      department:
+                                                        type: string
+                                                  phases:
+                                                    type: object
+                                                    properties:
+                                                      hot:
+                                                        type: object
+                                                        properties:
+                                                          min-age:
+                                                            type: string
+                                                          actions:
+                                                            type: object
+                                                            properties:
+                                                              forcemerge:
+                                                                type: object
+                                                                required:
+                                                                  - max-num-segments
+                                                                properties:
+                                                                  max-num-segments:
+                                                                    type: integer
+                                                                  index-codec:
+                                                                    type: string
+                                                              readonly:
+                                                                type: object
+                                                              rollover:
+                                                                type: object
+                                                                minProperties: 1
+                                                                additionalProperties: false
+                                                                properties:
+                                                                  max-age:
+                                                                    type: string
+                                                                  max-docs:
+                                                                    type: integer
+                                                                  max-size:
+                                                                    type: string
+                                                                  max-primary-shard-size:
+                                                                    type: string
+                                                                  max-primary-shard-docs:
+                                                                    type: integer
+                                                                  min-age:
+                                                                    type: string
+                                                                  min-docs:
+                                                                    type: integer
+                                                                  min-size:
+                                                                    type: string
+                                                                  min-primary-shard-size:
+                                                                    type: string
+                                                                  min-primary-shard-docs:
+                                                                    type: integer
+                                                              searchable-snapshot:
+                                                                type: object
+                                                                required:
+                                                                  - snapshot-repository
+                                                                properties:
+                                                                  snapshot-repository:
+                                                                    type: string
+                                                                  force-merge-index:
+                                                                    type: boolean
+                                                              set-priority:
+                                                                type: object
+                                                                required:
+                                                                  - priority
+                                                                properties:
+                                                                  priority:
+                                                                    type: integer
+                                                              shrink:
+                                                                type: object
+                                                                properties:
+                                                                  number-of-shards:
+                                                                    type: integer
+                                                                  max-primary-shard-size:
+                                                                    type: string
+                                                              unfollow:
+                                                                type: object
+                                                      warm:
+                                                        type: object
+                                                        properties:
+                                                          min-age:
+                                                            type: string
+                                                          actions:
+                                                            type: object
+                                                            properties:
+                                                              allocate:
+                                                                type: object
+                                                                minProperties: 1
+                                                                additionalProperties: false
+                                                                properties:
+                                                                  number-of-replicas:
+                                                                    type: integer
+                                                                  total-shards-per-node:
+                                                                    type: integer
+                                                                  include:
+                                                                    type: object
+                                                                    properties:
+                                                                      box-type:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'hot'
+                                                                          - 'warm'
+                                                                          - 'cold'
+                                                                          - 'frozen'
+                                                                          - 'delete'
+                                                                  exclude:
+                                                                    type: object
+                                                                    properties:
+                                                                      box-type:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'hot'
+                                                                          - 'warm'
+                                                                          - 'cold'
+                                                                          - 'frozen'
+                                                                          - 'delete'
+                                                                  require:
+                                                                    type: object
+                                                                    properties:
+                                                                      box-type:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'hot'
+                                                                          - 'warm'
+                                                                          - 'cold'
+                                                                          - 'frozen'
+                                                                          - 'delete'
+                                                                      storage:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'high'
+                                                              forcemerge:
+                                                                type: object
+                                                                required:
+                                                                  - max-num-segments
+                                                                properties:
+                                                                  max-num-segments:
+                                                                    type: integer
+                                                                  index-codec:
+                                                                    type: string
+                                                              migrate:
+                                                                type: object
+                                                                properties:
+                                                                  enabled:
+                                                                    type: boolean
+                                                              readonly:
+                                                                type: object
+                                                              set-priority:
+                                                                type: object
+                                                                required:
+                                                                  - priority
+                                                                properties:
+                                                                  priority:
+                                                                    type: integer
+                                                              shrink:
+                                                                type: object
+                                                                properties:
+                                                                  number-of-shards:
+                                                                    type: integer
+                                                                  max-primary-shard-size:
+                                                                    type: string
+                                                              unfollow:
+                                                                type: object
+                                                      cold:
+                                                        type: object
+                                                        properties:
+                                                          min-age:
+                                                            type: string
+                                                          actions:
+                                                            type: object
+                                                            properties:
+                                                              allocate:
+                                                                type: object
+                                                                minProperties: 1
+                                                                additionalProperties: false
+                                                                properties:
+                                                                  number-of-replicas:
+                                                                    type: integer
+                                                                  total-shards-per-node:
+                                                                    type: integer
+                                                                  include:
+                                                                    type: object
+                                                                    properties:
+                                                                      box-type:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'hot'
+                                                                          - 'warm'
+                                                                          - 'cold'
+                                                                          - 'frozen'
+                                                                          - 'delete'
+                                                                  exclude:
+                                                                    type: object
+                                                                    properties:
+                                                                      box-type:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'hot'
+                                                                          - 'warm'
+                                                                          - 'cold'
+                                                                          - 'frozen'
+                                                                          - 'delete'
+                                                                  require:
+                                                                    type: object
+                                                                    properties:
+                                                                      box-type:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'hot'
+                                                                          - 'warm'
+                                                                          - 'cold'
+                                                                          - 'frozen'
+                                                                          - 'delete'
+                                                                      storage:
+                                                                        type: string
+                                                                        enum:
+                                                                          - 'high'
+                                                              migrate:
+                                                                type: object
+                                                                properties:
+                                                                  enabled:
+                                                                    type: boolean
+                                                              readonly:
+                                                                type: object
+                                                              searchable-snapshot:
+                                                                type: object
+                                                                required:
+                                                                  - snapshot-repository
+                                                                properties:
+                                                                  snapshot-repository:
+                                                                    type: string
+                                                                  force-merge-index:
+                                                                    type: boolean
+                                                              set-priority:
+                                                                type: object
+                                                                required:
+                                                                  - priority
+                                                                properties:
+                                                                  priority:
+                                                                    type: integer
+                                                              unfollow:
+                                                                type: object
+                                                      frozen:
+                                                        type: object
+                                                        properties:
+                                                          min-age:
+                                                            type: string
+                                                          actions:
+                                                            type: object
+                                                            properties:
+                                                              searchable-snapshot:
+                                                                type: object
+                                                                required:
+                                                                  - snapshot-repository
+                                                                properties:
+                                                                  snapshot-repository:
+                                                                    type: string
+                                                                  force-merge-index:
+                                                                    type: boolean
+                                                              unfollow:
+                                                                type: object
+                                                      delete:
+                                                        type: object
+                                                        properties:
+                                                          min-age:
+                                                            type: string
+                                                          actions:
+                                                            type: object
+                                                            required:
+                                                              - delete
+                                                            properties:
+                                                              delete:
+                                                                type: object
+                                                                properties:
+                                                                  delete-searchable-snapshot:
+                                                                    type: boolean
+                                                              wait-for-snapshot:
+                                                                type: object
+                                                                required:
+                                                                  - policy
+                                                                properties:
+                                                                  policy:
+                                                                    type: string
+                                          elasticsearch-client-interface-status:
+                                            type: object
+                                            required:
+                                              - operational-state
+                                              - life-cycle-state
+                                            properties:
+                                              operational-state:
+                                                type: string
+                                                enum:
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+                                              life-cycle-state:
+                                                type: string
+                                                enum:
+                                                  - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
+                                                  - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
+                                                  - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
+                                                  - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
+                                                  - 'elasticsearch-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                                  - description: 'kafka client'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - kafka-client-interface-1-0:kafka-client-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      kafka-client-interface-1-0:kafka-client-interface-pac:
+                                        type: object
+                                        required:
+                                          - kafka-client-interface-configuration
+                                          - kafka-client-interface-status
+                                        properties:
+                                          kafka-client-interface-configuration:
+                                            type: object
+                                            required:
+                                              - auth
+                                              - topic-name
+                                            properties:
+                                              auth:
+                                                type: object
+                                                minProperties: 1
+                                                additionalProperties: false
+                                                properties:
+                                                  user-name:
+                                                    type: string
+                                                  password:
+                                                    type: string
+                                              topic-name:
+                                                type: string
+                                              client-id:
+                                                type: string
+                                              group-id:
+                                                type: string
+                                          kafka-client-interface-status:
+                                            type: object
+                                            required:
+                                              - operational-state
+                                              - life-cycle-state
+                                            properties:
+                                              operational-state:
+                                                type: string
+                                                enum:
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+                                              life-cycle-state:
+                                                type: string
+                                                enum:
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_DEPRECATED'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_OBSOLETE'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_UNKNOWN'
+                                                  - 'kafka-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                                  - description: 'http client'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - http-client-interface-1-0:http-client-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      http-client-interface-1-0:http-client-interface-pac:
+                                        type: object
+                                        required:
+                                          - http-client-interface-configuration
+                                        properties:
+                                          http-client-interface-configuration:
+                                            type: object
+                                            required:
+                                              - application-name
+                                              - release-number
+                                            properties:
+                                              application-name:
+                                                type: string
+                                              release-number:
+                                                type: string
+                                  - description: 'tcp client'
+                                    type: object
+                                    required:
+                                      - local-id
+                                      - layer-protocol-name
+                                      - tcp-client-interface-1-0:tcp-client-interface-pac
+                                    properties:
+                                      local-id:
+                                        type: string
+                                      layer-protocol-name:
+                                        type: string
+                                        enum:
+                                          - 'operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                          - 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                          - 'elasticsearch-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_ELASTICSEARCH_LAYER'
+                                          - 'kafka-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_KAFKA_LAYER'
+                                          - 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                          - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                                      tcp-client-interface-1-0:tcp-client-interface-pac:
+                                        type: object
+                                        required:
+                                          - tcp-client-interface-configuration
+                                        properties:
+                                          tcp-client-interface-configuration:
+                                            type: object
+                                            required:
+                                              - remote-protocol
+                                              - remote-address
+                                              - remote-port
+                                            properties:
+                                              remote-protocol:
+                                                type: string
+                                              remote-address:
+                                                type: object
+                                                minProperties: 1
+                                                maxProperties: 1
+                                                additionalProperties: false
+                                                properties:
+                                                  ip-address:
+                                                    type: object
+                                                    minProperties: 1
+                                                    additionalProperties: false
+                                                    properties:
+                                                      ipv-4-address:
+                                                        type: string
+                                                  domain-name:
+                                                    type: string
+                                              remote-port:
+                                                type: integer
+                        example:
+                          - uuid: 'xy-15-3-2-op-c-bm-yz-34-4-4-000'
+                            ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+                            client-ltp: []
+                            server-ltp: ['xy-15-3-2-http-c-yz-34-4-4-000']
+                            layer-protocol:
+                              - local-id: '0'
+                                layer-protocol-name: 'operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER'
+                                operation-client-interface-1-0:operation-client-interface-pac:
+                                  operation-client-interface-configuration:
+                                    operation-name: '/v2/register-application'
+                                    operation-key: 'Operation key not yet provided.'
+                                  operation-client-interface-status:
+                                    operational-state: 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
+                                    life-cycle-state: 'operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED'
+                          - uuid: 'xy-15-3-2-http-c-yz-34-4-4-000'
+                            ltp-direction: 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+                            client-ltp: ['xy-15-3-2-op-c-bm-yz-34-4-4-000']
+                            server-ltp: ['xy-15-3-2-tcp-c-yz-34-4-4-000']
+                            layer-protocol:
+                              - local-id: '0'
+                                layer-protocol-name: 'http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
+                                http-client-interface-1-0:http-client-interface-pac:
+                                  http-client-interface-configuration:
+                                    application-name: 'ApplicationName'
+                                    release-number: '15.3.2'
+                      forwarding-domain:
+                        type: array
+                        minItems: 1
+                        maxItems: 1
+                        items:
+                          type: object
+                          required:
+                            - uuid
+                            - forwarding-construct
+                          properties:
+                            uuid:
+                              type: string
+                            forwarding-construct:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - uuid
+                                  - name
+                                  - fc-port
+                                properties:
+                                  uuid:
+                                    type: string
+                                  name:
+                                    type: array
+                                    items:
+                                      type: object
+                                      required:
+                                        - value-name
+                                        - value
+                                      properties:
+                                        value-name:
+                                          type: string
+                                        value:
+                                          type: string
+                                  fc-port:
+                                    type: array
+                                    items:
+                                      type: object
+                                      required:
+                                        - local-id
+                                        - port-direction
+                                        - logical-termination-point
+                                      properties:
+                                        local-id:
+                                          type: string
+                                        port-direction:
+                                          type: string
+                                          enum:
+                                            - 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
+                                            - 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
+                                            - 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
+                                        logical-termination-point:
+                                          type: string
+                        example:
+                          - uuid: 'xy-15-3-2-op-fd-000'
+                            forwarding-construct:
+                              - uuid: 'xy-15-3-2-op-fc-bm-003'
+                                name:
+                                  - value-name: 'ForwardingKind'
+                                    value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
+                                  - value-name: 'ForwardingName'
+                                    value: 'OamRequestCausesLoggingRequest'
+                                fc-port:
+                                  - local-id: '000'
+                                    port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-003'
+                                  - local-id: '200'
+                                    port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
+                                    logical-termination-point: 'xy-15-3-2-op-c-bs-yz-34-3-3-000'
+                              - uuid: 'xy-15-3-2-op-fc-bm-004'
+                                name:
+                                  - value-name: 'ForwardingKind'
+                                    value: 'core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET'
+                                  - value-name: 'ForwardingName'
+                                    value: 'BasicAuthRequestCausesInquiryForAuthentication'
+                                fc-port:
+                                  - local-id: '000'
+                                    port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT'
+                                    logical-termination-point: 'xy-15-3-2-op-s-bm-005'
+                                  - local-id: '200'
+                                    port-direction: 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
+                                    logical-termination-point: 'xy-15-3-2-op-c-bs-yz-34-3-3-000'
+        '400':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredOamRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredOamRequests'

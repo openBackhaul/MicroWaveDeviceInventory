@@ -9,17 +9,35 @@ const ALARM_TYPE_ID = "alarm-type-id";
 const N_OF_CURRENT_ALARMS = "number-of-current-alarms";
 
 exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, alarmStatus, updatedAttributes) {
-    let resourceToUpdate = resource.replace(/core-model-1-4:network-control-domain=live\/control-construct=.+?\//g, 'core-model-1-4:control-construct/');
+   try {
+	let resourceToUpdate = resource.replace(/core-model-1-4:network-control-domain=live\/control-construct=.+?\//g, 'core-model-1-4:control-construct/');
     resourceToUpdate = modifyResource(resourceToUpdate);
+    if(json == null || json == undefined){
+	     console.log("JSON Object is null ************************");
+	    return;
+    }
+	   console.log(json);
     let objectKey = Object.keys(json)[0];
 
     // Get the current alarms list
     let alarms = json[objectKey][ALARMS_PAC][CURRENT_ALARMS]["current-alarm-list"];
-    logger.info("Get List of current alarms, size is: " + alarms.length);
+    if(alarms == undefined)
+	   {
+          let currentAlarm = json[objectKey][ALARMS_PAC][CURRENT_ALARMS];
+	  if(currentAlarm){
+	  json[objectKey][ALARMS_PAC][CURRENT_ALARMS]["current-alarm-list"]=[];
+	  alarms = json[objectKey][ALARMS_PAC][CURRENT_ALARMS]["current-alarm-list"];
+	  }else{
+	  return;
+	  }
+	  console.log("************Whats the empty object**********************");
+	   }
+    logger.info("Get List of current alarms, size is: " + alarms);
     logger.debug(alarms);
     let found = false;
-
+	
     // Iterate on the list
+
     for (let i = 0; i < alarms.length; i++) {
         let resourceToCompare = modifyResource(alarms[i]["resource"]);
         if (alarms[i][ALARM_TYPE_ID] === alarmTypeId && resourceToCompare === resourceToUpdate) {
@@ -79,7 +97,10 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
         }
     } else {
         logger.debug("Alarm found in the list");
-    }
+    } 
+   } catch(error) {
+   	console.log(error);
+   }
 }
 
 function modifyResource(resource) {

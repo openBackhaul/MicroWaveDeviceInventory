@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npm install",
-    "start": "node index.js",
+    "start": "node --max-old-space-size=4096 index.js",
     "test": "jest"
   },
   "babel": {
@@ -36,12 +36,12 @@
     "onf-core-model-ap": "2.1.2-e",
     "onf-core-model-ap-bs": "2.1.2-e",
     "openbackhaul-oas3-tools": "2.3.1-alpha.3",
-    "qs": "^6.11.2",
-    "request": "^2.88.2",
-    "shuffle-array": "^1.0.1",
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
-    "pino-roll": "^2.2.0"
+    "pino-roll": "^2.2.0",
+    "qs": "^6.11.2",
+    "request": "^2.88.2",
+    "shuffle-array": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",

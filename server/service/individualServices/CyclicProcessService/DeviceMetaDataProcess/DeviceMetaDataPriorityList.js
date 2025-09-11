@@ -47,17 +47,26 @@ class DeviceMetaDataPriorityList {
                 if (deviceMetadataToBeUpdated["exclude-from-qm"]) deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"];
                 if (deviceMetadataToBeUpdated["cc-synced"]) deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"]
                 this.deviceMetadataPriorityList[index] = { ...this.deviceMetadataPriorityList[index], ...deviceMetadata };
+                this.deviceMetadataPriorityList.splice(index,1);
+                if(deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"]=="connected"){                    
+                this.deviceMetadataPriorityList.push(deviceMetadata);
+                }
                 //check conditions for three attributes
             } else {
                 // insert new
+                if(deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"]=="connected"){                    
                 deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
-                deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"] || "unknown";
+                deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"];
                 deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
                 deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
                 deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
                 this.deviceMetadataPriorityList.push(deviceMetadata);
+                }else
+                {
+                    //do nothing
+                }
             }
-            this.sortDevices();
+            //this.sortDevices();
             return;
         }
         catch (error) {
@@ -111,7 +120,7 @@ class DeviceMetaDataPriorityList {
     // returns all device metadata stored in list
     getAllDeviceMetaData() {
         try {
-            return [...this.deviceMetadataPriorityList];
+            return this.deviceMetadataPriorityList;
         } catch (error) {
             throw error;
         }
@@ -209,3 +218,4 @@ class DeviceMetaDataPriorityList {
 }
 
 module.exports = new DeviceMetaDataPriorityList();
+

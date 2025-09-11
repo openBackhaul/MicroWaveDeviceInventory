@@ -24,7 +24,6 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
             isSyncSuccess = await exports.updateControlConstructToEs(nodeId, modifiedCc, maxRetries);
         }
     } catch (error) {
-        console.log(error);
     }
     return isSyncSuccess;
 }
@@ -40,7 +39,9 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
 exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries) {
     let controlConstructFromController = {};
     try {
-        const finalUrl = common[0].tcpConn + await exports.getControlConstructPathForLive(nodeId);
+        //const finalUrl = common[0].tcpConn + await exports.getControlConstructPathForLive(nodeId);
+        let finalUrl = common[0].tcpConn + "/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct";
+        finalUrl = finalUrl.replace("{mountName}", nodeId);
         const Authorization = common[0].key;
         const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization, responseTimeOut);
         if (!result) {
@@ -63,7 +64,6 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
         }
     } catch (error) {
         console.error(`Error at receiving CC for node: ${nodeId} from live`)
-        console.log(error);
     }
     return controlConstructFromController;
 }
@@ -91,7 +91,6 @@ exports.updateControlConstructToEs = async function (nodeId, ccObject, maxRetrie
             }
         }
     } catch (error) {
-        console.log(error);
     }
     return false;
 }
@@ -114,7 +113,6 @@ exports.modifyCCWithModifiedKeys = function (obj, mountName) {
         }
         return obj;
     } catch (error) {
-        console.log(error);
         return obj;
     }
 };
@@ -141,7 +139,6 @@ exports.modifyCCToActualKeys = function (obj, mountName) {
         }
         return obj;
     } catch (error) {
-        console.log(error);
         return obj;
     }
 };
@@ -160,7 +157,6 @@ exports.getControlConstructPathForLive = async function (nodeId) {
         } else { return undefined }
     } catch (error) {
         console.error(`Error at retrieving live CC path from config file`);
-        console.log(error);
         return undefined;
     }
 }
@@ -179,7 +175,6 @@ exports.getControlConstructPathForCache = async function (nodeId) {
         } else { return undefined }
     } catch (error) {
         console.error(`Error at retrieving cache CC path from config file`);
-        console.log(error);
         return undefined;
     }
 }

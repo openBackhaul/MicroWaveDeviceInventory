@@ -63,7 +63,7 @@ class DeviceMetaDataList {
 
     // returns the list of all metadata 
     getDeviceMetaDataList() {
-        return [...this.deviceMetaDataList];
+        return this.deviceMetaDataList;
     }
 
     // returns metadata object for given node-id

@@ -101,7 +101,6 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
       return false;
     }
   } catch (error) {
-    console.log(error);
   }
   return isDeviceCrossedRetentionPeriod;
 }
@@ -125,7 +124,6 @@ exports.getDeviceTypeOfMountName = async function (mountName) {
     deviceType = await exports.getMatchingDeviceType(airInterfaceLtpList);
     return deviceType;
   } catch (error) {
-    console.log(error);
     return "unknown";
   }
 }
@@ -162,7 +160,6 @@ exports.getMatchingDeviceType = async function (airInterfaceLtpList) {
     }
     return deviceType;
   } catch (error) {
-    console.log(error);
     return "unknown";
   }
 }
@@ -189,7 +186,6 @@ exports.getVendorNameForDeviceType = async function (deviceType) {
     }
     return vendor;
   } catch (error) {
-    console.log(error);
     return "unknown";
   }
 }
@@ -261,7 +257,6 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
     await deviceMetaDataCacheUpdate.deviceMetaDataListSync();
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 }
@@ -282,7 +277,6 @@ exports.updateDeviceMetadataPriorityList = async function (deviceMetaData) {
     await deviceMetadataPriorityList.createOrUpdateDevice(deviceData);
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 }
@@ -306,7 +300,6 @@ exports.removeDeviceDataFromCache = async function (mountName) {
       return true;
     }
   } catch (error) {
-    console.log(error);
   }
   return false;
 }
@@ -382,7 +375,6 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
       await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
     }
   } catch (error) {
-    console.log(error);
     return error;
   }
 }
@@ -415,7 +407,6 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
       console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
   } catch (error) {
-    console.log(error);
     return error;
   }
 }
@@ -447,7 +438,6 @@ exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp 
       console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
   } catch (error) {
-    console.log(error);
     return error;
   }
 }

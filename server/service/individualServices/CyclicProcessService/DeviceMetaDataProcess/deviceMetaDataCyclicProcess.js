@@ -56,9 +56,11 @@ async function deviceMetaDataListUpdateProcess() {
     //get device meta data list from live controller
     odlDeviceMetaDataList = await deviceMetaDataUtility.getLiveDeviceMetaDataListFromController()
       .catch(error => {
+	      console.log(error);
         throw error;
       });
-
+   console.log("List of Devices in the MetaData**********************");
+	  console.log(odlDeviceMetaDataList);
 
     // get existing device meta data from elastic search
     deviceMetaDataListFromElasticSearch = await deviceMetaDataUtility.readDeviceMetaDataListFromElasticSearch()
@@ -75,7 +77,12 @@ async function deviceMetaDataListUpdateProcess() {
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     //get string-value of historicalControlConstructPolicy
+    console.log("before getting historicalControlConstructPolicy");
     let historicalControlConstructPolicy = await utility.getStringValueForStringProfileNameAsync("historicalControlConstructPolicy");
+    console.log("after getting historicalControlConstructPolicy");
+
+
+
     let currentTime = new Date().toJSON();
     let defaultDisconnectionTime = new Date("01-01-1997").toJSON();
 
@@ -83,7 +90,11 @@ async function deviceMetaDataListUpdateProcess() {
       /**
         CREATING NEW DEVICEMETADATALIST IN ES 
       */
+     console.log("Current lenght of the odlDeviceMetaDataList ");
+     console.log(odlDeviceMetaDataList.length);
       for (let i = 0; i < odlDeviceMetaDataList.length; i++) {
+console.log("Iteration " + i + " for the node " + odlDeviceMetaDataList[i]["node-id"]);
+await sleep(10);
         let mountName = odlDeviceMetaDataList[i]["node-id"];
         let connectionStatus = odlDeviceMetaDataList[i]["netconf-node-topology:connection-status"];
         let schemaCacheDirectory = odlDeviceMetaDataList[i]["netconf-node-topology:schema-cache-directory"];
@@ -120,7 +131,9 @@ async function deviceMetaDataListUpdateProcess() {
       let stringifiedMetaDataList = JSON.stringify(deviceMetaDataList);
       //Writing the metaData list into Elasticsearch
       try {
+      console.log("before writing to ES for MetaData");
         await deviceMetaDataUtility.writeDeviceMetaDataListToElasticsearch(stringifiedMetaDataList);
+      console.log("after writing to ES for MetaData");
       } catch (error) {
         console.log(error);
       }
@@ -325,4 +338,7 @@ module.exports.stopMetaDataCyclicProcess = async function stopMetaDataCyclicProc
   console.log('*******************************************************************************************************');
 
   clearInterval(periodicConnectionStatusSynchTimerId);
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -11098,7 +11098,9 @@ exports.regardDeviceAlarm = function (body) {
 
       let result = await ReadRecords(mountname);
       if (result == undefined) {
-        throw new createHttpError.NotFound("unable to find device")
+        //throw new createHttpError.NotFound("unable to find device")
+	//throw new createHttpError(500, "unable to find device");
+	resolve();
       }
       modifyReturnJson(result);
 
@@ -11134,8 +11136,7 @@ exports.regardDeviceAlarm = function (body) {
  * body V1_regarddeviceattributevaluechange_body 
  * no response value expected for this operation
  **/
-exports.regardDeviceAttributeValueChange = function (body) {
-  return new Promise(async function (resolve, reject) {
+exports.regardDeviceAttributeValueChange = async function (body) {
     try {
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
@@ -11146,7 +11147,9 @@ exports.regardDeviceAttributeValueChange = function (body) {
       // url = decodeURIComponent(resource);
 
       // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
-      const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
+      console.log("*********DEBUG for attribute value change *********");
+	    console.log(notify[0]);
+	    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
       // Parse the URL
       const parsedUrl = new URL(tempUrl);
 
@@ -11165,10 +11168,10 @@ exports.regardDeviceAttributeValueChange = function (body) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
         if (resRequestor.statusText == undefined) {
-          throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
-        } else {
-          throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
-        }
+        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+	} else {
+        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+	}
       } else if (!hasAttribute(resRequestor.data, attributeName)) {
         throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
       } else {
@@ -11189,14 +11192,11 @@ exports.regardDeviceAttributeValueChange = function (body) {
         let mountname = decodeMountName(resource, false);
         let timeStamp = currentJSON['timestamp'];
         deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
-
-        resolve();
       }
     } catch (error) {
       logger.error(error);
-      reject(error);
+      return(error);
     }
-  });
 }
 
 
@@ -11243,10 +11243,10 @@ exports.regardDeviceObjectCreation = function (body) {
         if (resRequestor.status == 404) {
           throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
         } else if (resRequestor.response.statusText == undefined) {
-          throw new createHttpError(resRequestor.response.status, resRequestor.response.message);
-        } else {
-          throw new createHttpError(resRequestor.response.status, resRequestor.response.statusText);
-        }
+		throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+	} else {
+		throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+	}
       } else {
         let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];

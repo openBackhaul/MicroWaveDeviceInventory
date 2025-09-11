@@ -34,7 +34,9 @@ class SlidingWindow {
              * 
              */
             while (this.active < this.slidingWindowSize && !this.stopped) {
-                const device = await this.getNextDevice();
+                await sleep(100);
+		const device = await this.getNextDevice();
+                
                 if (!device) {
                     // queue empty → retry later
                     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -61,7 +63,7 @@ class SlidingWindow {
                         } else {
                             device["last-complete-control-construct-update-time-attempt"] = new Date().toJSON();
                             device["locked-status"] = false;
-                            device["cc-synced"] = false;
+                            device["cc-synced"] = true;
                             await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                             await deviceMetaDataPriorityList.createOrUpdateDevice(device);
                         }
@@ -152,4 +154,7 @@ async function initializeDependentIntegerValues() {
     } catch (error) {
         console.log(error);
     }
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

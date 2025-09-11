@@ -1,207 +1,162 @@
 'use strict';
-/**
- * This class includes functions that shall be accessed to process the DeviceMetadataPriorityList
- * This class handles following five parameters
- * 
- * @param {String} "mount-name" - node-id
- * @param {String} "last-complete-control-construct-update-time-attempt" - this contains timestamp of last attempt to CC retrival / doesnot matter if it is success/failure
- * @param {String} "connection-status" - connection-status of a device to controller
- * @param {Boolean} "locked-status" - true if it is processed in sliding window
- * @param {Boolean} "exclude-from-qm" - true if this does not have successful CC retrieved in history to compare
- * @property {Boolean} "cc-synced" - this attribute is set to true if CC has been updated in this cycle. 
- *                                      false if new cycle started and all devices in meta-data list shall be synced with cc
- */
+const level = require('level');
+
+// Open or create a LevelDB database folder
+const db = level('./deviceMetaDB', { valueEncoding: 'json' });
+
 class DeviceMetaDataPriorityList {
     constructor() {
-        this.deviceMetadataPriorityList = [];
+        // No in-memory array; storage is LevelDB
     }
 
     // Add or update a device
-    createOrUpdateDevice(deviceMetadataToBeUpdated) {
+    async createOrUpdateDevice(deviceMetadataToBeUpdated) {
         try {
-            // Ensure required fields exist
             if (!deviceMetadataToBeUpdated["mount-name"]) {
-                throw new Error(`"mount-name" is required `);
+                throw new Error(`"mount-name" is required`);
             }
+
+            // Get existing device if it exists
+            let existingDevice;
+            try {
+                existingDevice = await db.get(deviceMetadataToBeUpdated["mount-name"]);
+            } catch (err) {
+                existingDevice = null; // not found
+            }
+
             let deviceMetadata = {};
-            // Default values
+
+            // Merge defaults with existing values if any
             deviceMetadata["mount-name"] = deviceMetadataToBeUpdated["mount-name"];
+            deviceMetadata["last-complete-control-construct-update-time-attempt"] =
+                deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] ||
+                (existingDevice ? existingDevice["last-complete-control-construct-update-time-attempt"] : new Date("01-01-1997").toJSON());
+            deviceMetadata["connection-status"] =
+                deviceMetadataToBeUpdated["connection-status"] ||
+                (existingDevice ? existingDevice["connection-status"] : "unknown");
+            deviceMetadata["locked-status"] =
+                deviceMetadataToBeUpdated["locked-status"] ?? (existingDevice ? existingDevice["locked-status"] : false);
+            deviceMetadata["exclude-from-qm"] =
+                deviceMetadataToBeUpdated["exclude-from-qm"] ?? (existingDevice ? existingDevice["exclude-from-qm"] : true);
+            deviceMetadata["cc-synced"] =
+                deviceMetadataToBeUpdated["cc-synced"] ?? (existingDevice ? existingDevice["cc-synced"] : false);
 
-            const index = this.deviceMetadataPriorityList.findIndex(d => d["mount-name"] === deviceMetadata["mount-name"]);
+            await db.put(deviceMetadata["mount-name"], deviceMetadata);
 
-            if (index > -1) {
-                // update existing
-                if (deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"]) {
-                    deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"];
-                } else {
-                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"] : new Date("01-01-1997").toJSON();
-                }
+        } catch (error) {
+            throw error;
+        }
+    }
 
-                if (deviceMetadataToBeUpdated["connection-status"]) {
-                    deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"];
-                } else {
-                    (this.deviceMetadataPriorityList[index]["connection-status"]) ? (deviceMetadata["connection-status"] = this.deviceMetadataPriorityList[index]["connection-status"]) : "unknown";
-                }
-
-                if (deviceMetadataToBeUpdated["locked-status"]) deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"];
-                if (deviceMetadataToBeUpdated["exclude-from-qm"]) deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"];
-                if (deviceMetadataToBeUpdated["cc-synced"]) deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"]
-                this.deviceMetadataPriorityList[index] = { ...this.deviceMetadataPriorityList[index], ...deviceMetadata };
-                //check conditions for three attributes
-            } else {
-                // insert new
-                deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
-                deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"] || "unknown";
-                deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
-                deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
-                deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
-                this.deviceMetadataPriorityList.push(deviceMetadata);
+    // Fetch all devices and sort: connected first, then oldest timestamp
+    async getAllDeviceMetaData() {
+        const devices = [];
+        for await (const [key, value] of db.iterator()) {
+            devices.push(value);
+        }
+        // Apply sorting logic
+        return devices.sort((a, b) => {
+            if (a["connection-status"] !== b["connection-status"]) {
+                return a["connection-status"] === "connected" ? -1 : 1;
             }
-            this.sortDevices();
-            return;
-        }
-        catch (error) {
-            throw error;
-        }
+            let at = new Date(a["last-complete-control-construct-update-time-attempt"]).getTime() || 0;
+            let bt = new Date(b["last-complete-control-construct-update-time-attempt"]).getTime() || 0;
+            return at - bt;
+        });
     }
 
-    // Sort devices: connected first, oldest timestamp first
-    sortDevices() {
-        try {
-            this.deviceMetadataPriorityList.sort((a, b) => {
-                if (a["connection-status"] !== b["connection-status"]) {
-                    return a["connection-status"] === "connected" ? -1 : 1;
-                }
-                let atimestamp = new Date(a["last-complete-control-construct-update-time-attempt"]).getTime() || 0;
-                let btimestamp = new Date(b["last-complete-control-construct-update-time-attempt"]).getTime() || 0;
-                return atimestamp - btimestamp;
-            });
-        } catch (error) {
-            throw error;
-        }
+    async sortDevices() {
+        // Sorting is applied on fetch, so nothing required here
     }
 
-    // Get next device to process
-    getNextDeviceMetaData() {
-        try {
-            if (this.deviceMetadataPriorityList.length > 0) {
-                let nextDevice = this.deviceMetadataPriorityList.find(d => {
-                    return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
-                })
-                return nextDevice;
-            }
-        } catch (error) {
-            throw error;
-        }
+    async getNextDeviceMetaData() {
+        const devices = await this.getAllDeviceMetaData();
+        return devices.find(d =>
+            d["connection-status"] === "connected" &&
+            d["locked-status"] === false &&
+            d["cc-synced"] === false
+        );
     }
 
-    // Get next device to process for quality-measurement process
-    getNextDeviceMetaDataForQm() {
-        try {
-            if (this.deviceMetadataPriorityList.length > 0) {
-                return this.deviceMetadataPriorityList.find(d => {
-                    return d["connection-status"] == "connected" && d["locked-status"] == false && d["exclude-from-qm"] == false
-                })
-            }
-        } catch (error) {
-            throw error;
-        }
+    async getNextDeviceMetaDataForQm() {
+        const devices = await this.getAllDeviceMetaData();
+        return devices.find(d =>
+            d["connection-status"] === "connected" &&
+            d["locked-status"] === false &&
+            d["exclude-from-qm"] === false
+        );
     }
 
-    // returns all device metadata stored in list
-    getAllDeviceMetaData() {
+    async removeMetaDataOfDevice(mountName) {
         try {
-            return [...this.deviceMetadataPriorityList];
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    // remove metadata for given node-id
-    removeMetaDataOfDevice(mountName) {
-        try {
-            this.deviceMetadataPriorityList = this.deviceMetadataPriorityList.filter(d => d["mount-name"] !== mountName);
+            await db.del(mountName);
             return true;
         } catch (error) {
-            console.log(error);
+            console.error(error);
             return false;
         }
     }
 
-    // reset cc-synced attribute of all device's metadata to false
-    // this is expected to be called in start of all cycle
-    resetCCSyncedOfAllDevices() {
+    async resetCCSyncedOfAllDevices() {
+        const devices = await this.getAllDeviceMetaData();
+        for (let d of devices) {
+            d["cc-synced"] = false;
+            await db.put(d["mount-name"], d);
+        }
+    }
+
+    async getCcSyncedOfDevice(mountName) {
         try {
-            this.deviceMetadataPriorityList = this.deviceMetadataPriorityList.map(d => ({
-                ...d,
-                "cc-synced": false
-            }));
+            const device = await db.get(mountName);
+            return device["cc-synced"];
+        } catch (error) {
+            throw `device-metadata for given node: ${mountName} not found`;
+        }
+    }
+
+    async setCcSyncedOfDevice(mountName, value) {
+        try {
+            const device = await db.get(mountName);
+            device["cc-synced"] = value;
+            await db.put(mountName, device);
         } catch (error) {
             throw error;
         }
     }
 
-    // get cc-synced attribute of given mount-name
-    getCcSyncedOfDevice(mountName) {
+    async getLockedStatusOfDevice(mountName) {
         try {
-            let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["cc-synced"];
-            else { throw `device-metadata for given node: ${mountName} not found` };
+            const device = await db.get(mountName);
+            return device["locked-status"];
+        } catch (error) {
+            throw `device-metadata for given node: ${mountName} not found`;
+        }
+    }
+
+    async setLockedStatusOfDevice(mountName, value) {
+        try {
+            const device = await db.get(mountName);
+            device["locked-status"] = value;
+            await db.put(mountName, device);
         } catch (error) {
             throw error;
         }
     }
 
-    // set cc-synced attribute of given mount-name
-    setCcSyncedOfDevice(mountName, value) {
+    async getExcludeFromQmOfDevice(mountName) {
         try {
-            let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["cc-synced"] = value;
-            return;
+            const device = await db.get(mountName);
+            return device["exclude-from-qm"];
         } catch (error) {
-            throw error;
+            throw `device-metadata for given node: ${mountName} not found`;
         }
     }
 
-    // get locked-status attribute of given mount-name
-    getLockedStatusOfDevice(mountName) {
+    async setExcludeFromQmOfDevice(mountName, value) {
         try {
-            let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["locked-status"];
-            else { throw `device-metadata for given node: ${mountName} not found` };
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    // set locked-status attribute of given mount-name
-    setLockedStatusOfDevice(mountName, value) {
-        try {
-            let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["locked-status"] = value;
-            return;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    // get exclude-from-qm attribute of given mount-name
-    getExcludeFromQmOfDevice(mountName) {
-        try {
-            let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["exclude-from-qm"];
-            else { throw `device-metadata for given node: ${mountName} not found` };
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    // set exclude-from-qm attribute of given mount-name
-    setExcludeFromQmOfDevice(mountName, value) {
-        try {
-            let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["exclude-from-qm"] = value;
-            return;
+            const device = await db.get(mountName);
+            device["exclude-from-qm"] = value;
+            await db.put(mountName, device);
         } catch (error) {
             throw error;
         }

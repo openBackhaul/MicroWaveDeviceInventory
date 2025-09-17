@@ -2,13 +2,13 @@
 /**
  * This class includes functions that shall be accessed to process the DeviceMetadataPriorityList
  * This class handles following five parameters
- * 
+ *
  * @param {String} "mount-name" - node-id
  * @param {String} "last-complete-control-construct-update-time-attempt" - this contains timestamp of last attempt to CC retrival / doesnot matter if it is success/failure
  * @param {String} "connection-status" - connection-status of a device to controller
  * @param {Boolean} "locked-status" - true if it is processed in sliding window
  * @param {Boolean} "exclude-from-qm" - true if this does not have successful CC retrieved in history to compare
- * @property {Boolean} "cc-synced" - this attribute is set to true if CC has been updated in this cycle. 
+ * @property {Boolean} "cc-synced" - this attribute is set to true if CC has been updated in this cycle.
  *                                      false if new cycle started and all devices in meta-data list shall be synced with cc
  */
 class DeviceMetaDataPriorityList {
@@ -34,7 +34,7 @@ class DeviceMetaDataPriorityList {
                 if (deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"]) {
                     deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"];
                 } else {
-                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"] : new Date("01-01-1997").toJSON();
+                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date("01-01-1997").toJSON();
                 }
 
                 if (deviceMetadataToBeUpdated["connection-status"]) {
@@ -43,33 +43,40 @@ class DeviceMetaDataPriorityList {
                     (this.deviceMetadataPriorityList[index]["connection-status"]) ? (deviceMetadata["connection-status"] = this.deviceMetadataPriorityList[index]["connection-status"]) : "unknown";
                 }
 
-                if (deviceMetadataToBeUpdated["locked-status"]) deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"];
-                if (deviceMetadataToBeUpdated["exclude-from-qm"]) deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"];
-                if (deviceMetadataToBeUpdated["cc-synced"]) deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"]
-                this.deviceMetadataPriorityList[index] = { ...this.deviceMetadataPriorityList[index], ...deviceMetadata };
-                this.deviceMetadataPriorityList.splice(index,1);
-                if(deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"]=="connected"){                    
-                this.deviceMetadataPriorityList.push(deviceMetadata);
+                if (deviceMetadataToBeUpdated.hasOwnProperty("locked-status")) {
+                    deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"]
+                }
+                if (deviceMetadataToBeUpdated.hasOwnProperty("exclude-from-qm")) {
+                    deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"]
+                }
+                if (deviceMetadataToBeUpdated.hasOwnProperty("cc-synced")) {
+                    deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"]
+                }
+                deviceMetadata = {
+                    ...this.deviceMetadataPriorityList[index],
+                    ...deviceMetadata
+                };
+                this.deviceMetadataPriorityList.splice(index, 1);
+                if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
+                    this.deviceMetadataPriorityList.push(deviceMetadata);
                 }
                 //check conditions for three attributes
             } else {
                 // insert new
-                if(deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"]=="connected"){                    
-                deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
-                deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"];
-                deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
-                deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
-                deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
-                this.deviceMetadataPriorityList.push(deviceMetadata);
-                }else
-                {
+                if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
+                    deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
+                    deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"];
+                    deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
+                    deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
+                    deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
+                    this.deviceMetadataPriorityList.push(deviceMetadata);
+                } else {
                     //do nothing
                 }
             }
             //this.sortDevices();
             return;
-        }
-        catch (error) {
+        } catch (error) {
             throw error;
         }
     }
@@ -155,7 +162,9 @@ class DeviceMetaDataPriorityList {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
             if (device) return device["cc-synced"];
-            else { throw `device-metadata for given node: ${mountName} not found` };
+            else {
+                throw `device-metadata for given node: ${mountName} not found`
+            };
         } catch (error) {
             throw error;
         }
@@ -177,7 +186,9 @@ class DeviceMetaDataPriorityList {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
             if (device) return device["locked-status"];
-            else { throw `device-metadata for given node: ${mountName} not found` };
+            else {
+                throw `device-metadata for given node: ${mountName} not found`
+            };
         } catch (error) {
             throw error;
         }
@@ -199,7 +210,9 @@ class DeviceMetaDataPriorityList {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
             if (device) return device["exclude-from-qm"];
-            else { throw `device-metadata for given node: ${mountName} not found` };
+            else {
+                throw `device-metadata for given node: ${mountName} not found`
+            };
         } catch (error) {
             throw error;
         }
@@ -218,4 +231,3 @@ class DeviceMetaDataPriorityList {
 }
 
 module.exports = new DeviceMetaDataPriorityList();
-

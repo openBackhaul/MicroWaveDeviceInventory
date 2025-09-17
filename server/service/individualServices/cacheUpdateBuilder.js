@@ -183,7 +183,7 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
                     objJSON[keyToUse].push(newJSON[objectKey]);
                   }
                 } else if (typeof objJSON[keyToUse] == "object") {
-                  objJSON[keyToUse] = [...newJSON[objectKey]];
+                  objJSON[keyToUse] = {...newJSON[objectKey]};
                 } else if (pathKeys.length == 2) {
                   objJSON[arrayName] = newJSON[objectKey];
                 } else {

@@ -60,6 +60,8 @@ async function performQualityMeasurement() {
   console.log('*******************************************************************************************************');
   
   let device = deviceMetaDataPriorityList.getNextDeviceMetaDataForQm(); 
+  console.log("**************DEBUG device name in cache quality measurement process*************");
+  console.log(device);
   if (device != undefined) {
     try {
       if (!device) {
@@ -67,7 +69,9 @@ async function performQualityMeasurement() {
         return;
       }
       let cached = await getCachedControlConstruct(device["mount-name"]);
-      let live = await getLiveControlConstruct(device["mount-name"]);
+      console.log("cache retrieved successfully for the mount-name "+device["mount-name"]);
+	    let live = await getLiveControlConstruct(device["mount-name"]);
+     console.log("live retrieved successfully for the mount-name "+device["mount-name"]);
 
       const differences = diff(cached, live);
       const score = calculateScore(differences);
@@ -98,6 +102,7 @@ async function performQualityMeasurement() {
       cacheQualityListFromElasticSearch.push(result);
       let stringifiedResult = JSON.stringify(cacheQualityListFromElasticSearch);
       await writeCacheQualityListToElasticsearch(stringifiedResult);
+console.log("successfully written to elastic search "+device["mount-name"]);
     } catch (error) {
       console.log(error);
     }

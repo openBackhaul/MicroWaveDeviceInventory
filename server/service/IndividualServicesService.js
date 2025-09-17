@@ -10334,7 +10334,8 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
       let cacheQualityStatistics = await ReadRecords("cache-quality-statistics");
       if (cacheQualityStatistics != undefined) {
         let qualityMeasurementSampleNumber = await getQualityMeasurementSampleNumber();
-        if (cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber) {
+        //if (cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber) {
+        if (cacheQualityStatistics["cache-quality-statistics"].length < 1) {
           throw new createHttpError(530, 'Data invalid. Response data not available, incomplete or corrupted');
         }
         if (body) {
@@ -10360,17 +10361,20 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
 function aggregateData(data, summarizeByDevice = false) {
   if (!summarizeByDevice) {
     // Case 1: No input → aggregate everything
+    let deviceCount = 1;
     return data.reduce((device, item) => {
       device["device-type"] = "all";
       device["attribute-mismatches"] += item["attribute-mismatches"] || 0;
       device["attribute-class-mismatches"] += item["attribute-class-mismatches"] || 0;
       device["weighted-score"] += item["weighted-score"] || 0;
+      device["device-count"] = deviceCount++;
       return device;
     }, {
       "device-type": "all",
       "attribute-mismatches": 0,
       "attribute-class-mismatches": 0,
-      "weighted-score": 0
+      "weighted-score": 0,
+      "device-count":0
     });
   }
   else {
@@ -10380,17 +10384,20 @@ function aggregateData(data, summarizeByDevice = false) {
     data.forEach(item => {
       console.log(item["mount-name"]);
       const deviceType = item["device-type"];
+      
       if (!result[deviceType]) {
         result[deviceType] = {
           "device-type": deviceType,
           "attribute-mismatches": 0,
           "attribute-class-mismatches": 0,
-          "weighted-score": 0
+          "weighted-score": 0,
+          "device-count":0
         };
       }
       result[deviceType]["attribute-mismatches"] += item["attribute-mismatches"] || 0;
       result[deviceType]["attribute-class-mismatches"] += item["attribute-class-mismatches"] || 0;
       result[deviceType]["weighted-score"] += item["weighted-score"] || 0;
+      result[deviceType]["device-count"] = result[deviceType]["device-count"] + 1;
     });
 
     for (const [key, value] of Object.entries(result)) {
@@ -11099,11 +11106,10 @@ exports.regardDeviceAlarm = function (body) {
       let result = await ReadRecords(mountname);
       if (result == undefined) {
         //throw new createHttpError.NotFound("unable to find device")
-	//throw new createHttpError(500, "unable to find device");
-	resolve();
+	      //throw new createHttpError(500, "unable to find device");
+    	resolve();
       }
       modifyReturnJson(result);
-
       let updatedAttributes = {
         "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + problemSeverity.toUpperCase(),
         "alarm-type-qualifier": alarmTypeQualifier,
@@ -11129,6 +11135,10 @@ exports.regardDeviceAlarm = function (body) {
   });
 }
 
+function ValidateResourcePath(input) {
+   const regex = /^\/core-model-1-4:network-control-domain=live\/control-construct=[A-Za-z0-9]+$/;
+  return regex.test(input);
+}
 
 /**
  * Receives notifications about changes of values of attributes inside the devices
@@ -11144,11 +11154,18 @@ exports.regardDeviceAttributeValueChange = async function (body) {
       let counter = currentJSON['counter'];
       let attributeName = currentJSON['attribute-name'];
       let jsonObj = "";
+      
+      if(ValidateResourcePath(resource)){
+        return;
+      }
       // url = decodeURIComponent(resource);
 
       // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
-      console.log("*********DEBUG for attribute value change *********");
-	    console.log(notify[0]);
+      console.log("*********Device attribute value change *********");
+	    console.log("object-path : " + resource);
+	    console.log("counter : " + counter);
+	    console.log("attributeName : " + attributeName);
+      console.log("***************************************************");
 	    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
       // Parse the URL
       const parsedUrl = new URL(tempUrl);
@@ -11164,17 +11181,26 @@ exports.regardDeviceAttributeValueChange = async function (body) {
       let traceIndicator = requestHeader.traceIndicator;
       let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
       //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+      console.log("*********Device attribute value change after retreiving info from the SDN controller*********");
+	    console.log("object-path : " + resource);
+	    console.log("counter : " + counter);
+	    console.log("attributeName : " + attributeName);
+      console.log("***************************************************");
       if (resRequestor == null) {
         throw new createHttpError.NotFound;
       } else if (resRequestor.status != 200) {
         if (resRequestor.statusText == undefined) {
+        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
         throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-	} else {
+	    } else {
+        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
         throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-	}
+	    }
       } else if (!hasAttribute(resRequestor.data, attributeName)) {
+        console.log(finalUrl + " request failed because the resource specified in the request does not exist within the connected device");
         throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
       } else {
+        console.log(finalUrl + " is successful for device attribute notification change.");
         let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];
         let parts = releaseNumber.split(".");
@@ -11214,6 +11240,9 @@ exports.regardDeviceObjectCreation = function (body) {
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
+      if(ValidateResourcePath(resource)){
+        return;
+      }
       const match = resource.match(/control-construct=(\w+)/);
       const nodeId = match ? match[1] : null;
       // find the index of the last "/"
@@ -11288,7 +11317,9 @@ exports.regardDeviceObjectDeletion = function (body) {
       let currentJSON = body[objectKey];
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
-
+      if(ValidateResourcePath(resource)){
+        return;
+      }
       /*
       let jsonObj = "";
       let correctPlaceHolder = resource.replace("live", "cache");
@@ -12914,3 +12945,4 @@ function decodeURIWithCheck(encodedUri) {
     return decodeURIComponent(encodedUri);
   }
 }
+

@@ -5,12 +5,43 @@ const TcpClientInterface = require('onf-core-model-ap/applicationPattern/onfMode
 const { Worker } = require("worker_threads");
 const path = require("path");
 
+let worker;
+let workerisLive = false;
+
 exports.handleKafkaNotificationReceiptAndProcessingSwitch = async function (value) {
     try {
         if (value == "on") {
-            await Worker.postMessage({ action: "resume" });
+            try {                
+            console.log("*************************************************************");
+            console.log("Kafka is switched on");
+            console.log("*************************************************************");
+            console.log("******** Worker thread information is " +worker);
+            if(!workerisLive){
+                console.log("worker is not live, so starting Kafka");
+                exports.connectToKafka();
+            }else{
+                console.log("worker is live, so could not start Kafka");
+            }
+            //await worker.postMessage({ action: "start" });
+            } catch (error) {
+                console.log("*****************************");
+                console.log("Problem in executing Worker.postmessage");                
+                console.log(error);
+                console.log("*****************************");
+            }
         } else {
-            await Worker.postMessage({ action: "pause" });
+            try {
+            console.log("*************************************************************");
+            console.log("Kafka is switched off");
+            console.log("*************************************************************");
+            await worker.postMessage({ action: "stop" });    
+            workerisLive = false;            
+            } catch (error) {
+                console.log("*****************************");
+                console.log("Problem in executing Worker.postmessage");               
+                console.log(error);
+                console.log("*****************************");
+            }
         }
     } catch (error) {
         console.log(error);
@@ -26,14 +57,24 @@ exports.connectToKafka = async function () {
     let kafkaClientList = await exports.getKafkaClientList();
     let kafkaTopic = await exports.getKafkaTopicName(kafkaClientList);
     
-    const worker = new Worker(path.resolve(__dirname, "KafkaWorker.js"), {
+    worker = new Worker(path.resolve(__dirname, "KafkaWorker.js"), {
       workerData: { groupId, clientId, brokerList, topics: kafkaTopic}
     });
-
-    worker.on("message", (msg) => console.log("Worker:", msg));
-    worker.on("error", (err) => console.error("Worker error:", err));
+    
+    console.log("Worker object : " + worker)
+    workerisLive = true;
+    worker.on("message", (msg) => {        
+        console.log("Worker:", msg);
+        console.log("Cruise:", msg);
+    });
+    worker.on("error", (err) => {
+        console.error("Worker error:", err);
+        console.error("Worker error: Cruise ", err);
+    });
     worker.on("exit", (code) => {
       console.log(`Kafka worker exited with code ${code}`);
+      console.error(`Cruise Kafka worker exited with code ${code}`);
+      workerisLive = false;
       if(code!==0){
         console.log("Restarting worker...");
         setTimeout(()=>{
@@ -44,6 +85,7 @@ exports.connectToKafka = async function () {
 
     return worker; // if you want to manage it later (pause/resume)
   } catch (error) {
+    console.log(error);
     console.error("Error in starting Kafka worker:", error);
   }
 };

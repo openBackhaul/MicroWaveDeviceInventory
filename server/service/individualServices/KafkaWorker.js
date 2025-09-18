@@ -3,6 +3,8 @@ const kafka = require("onf-core-model-ap/applicationPattern/services/KafkaConsum
 const individualServices = require("../IndividualServicesService");
 const notificationManagement = require('../individualServices/NotificationManagement');
 const prepareElasticsearch = require('../individualServices/ElasticsearchPreparation');
+const utility = require('./utility');
+let kafkaConnection = require('./KafkaHandler');
 
 function getNotificationType(notification) {
   let notificationType = Object.keys(notification)[0];
@@ -12,6 +14,8 @@ function getNotificationType(notification) {
   if (notificationType.includes("object-deletion")) return "OBJECT_DELETION";
   return "undefined";
 }
+
+let consumer = undefined;
 
 function handleNotifications(receivedMessage, topic) {
   try {
@@ -39,34 +43,63 @@ function handleNotifications(receivedMessage, topic) {
 }
 
 // workerData contains connection info passed from main thread
-(async () => {
-  try {
-    const { groupId, clientId, brokerList, topics } = workerData;
-    global.applicationDataPath = './application-data/';
-    global.databasePath = './database/config.json';
-    global.common = await individualServices.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
-    global.notify = await individualServices.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
-    global.proxy = await notificationManagement.getAppInformation();
-    await prepareElasticsearch(false);
-    console.log("****************Global variables in worker thread**************");
-    console.log(common);
-    console.log("****************End**************");
-    await kafka.connect(groupId, clientId, brokerList);
-    kafka.subscribeMessages(topics, handleNotifications);
-
-    parentPort.postMessage("Kafka worker started");
+(async () => {  
+  try {    
+    
+      const { groupId, clientId, brokerList, topics } = workerData;
+      global.applicationDataPath = './application-data/';
+      global.databasePath = './database/config.json';
+      global.common = await individualServices.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+      global.notify = await individualServices.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
+      global.proxy = await notificationManagement.getAppInformation();
+      await prepareElasticsearch(false);
+      let kafkaNotificationReceiptAndProcessingSwitch = await utility.getStringValueForStringProfileNameAsync(
+    "kafkaNotificationReceiptAndProcessingSwitch");
+        if(kafkaNotificationReceiptAndProcessingSwitch == "on"){
+      consumer = await kafka.connect(groupId, clientId, brokerList);
+      kafka.subscribeMessages(topics, handleNotifications);
+      console.log("*************************************************************");
+      console.log("kafkaNotificationReceiptAndProcessingSwitch is "+kafkaNotificationReceiptAndProcessingSwitch);
+      console.log("kafka started");
+      console.log("*************************************************************");
+    }else{
+      console.log("*************************************************************");
+      console.log("kafkaNotificationReceiptAndProcessingSwitch is "+kafkaNotificationReceiptAndProcessingSwitch);
+      console.log("*************************************************************");
+    }
   } catch (err) {
+    console.log(err)
     parentPort.postMessage({ error: err.message });
   }
 })();
 
 parentPort.on("message", async (msg) => {
-  if (msg.action === "pause") {
-    await kafka.pauseKafkaConnection();
-    parentPort.postMessage("Kafka paused");
+  if (msg.action === "stop") {
+    try {
+    await kafka.disconnectKafka(consumer);
+    consumer = undefined;
+    console.log("*****************************");
+    parentPort.postMessage("Kafka stopped");   
+    console.log("*****************************");       
+    } catch (error) {
+      console.log("*****************************");
+      console.log("Problem in executing in parentPort");
+      console.log(error);
+      console.log("*****************************");      
+    }
   }
-  if (msg.action === "resume") {
-    await kafka.resumeKafkaConnection();
-    parentPort.postMessage("Kafka resumed");
+  if (msg.action === "start") {
+    try {
+    if(consumer == undefined){
+    await kafkaConnection.connectToKafka();
+    }
+    parentPort.postMessage("Kafka resumed");      
+    } catch (error) {
+      console.log("*****************************");
+      console.log("Problem in executing in parentPort");
+      console.log(error);
+      console.log("*****************************");
+    }
   }
 });
+

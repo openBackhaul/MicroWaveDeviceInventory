@@ -1247,7 +1247,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
       } else {
-        throw new createHttpError(460, `Requested device ${correctMountname} is currently not in connected state at the controller`);
+        throw new createHttpError(460, `Requested device ${correctMountname} is not available in the cache`);
       }
       resolve(returnObject);
     } catch (error) {

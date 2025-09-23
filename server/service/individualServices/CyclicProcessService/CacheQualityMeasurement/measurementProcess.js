@@ -16,6 +16,7 @@ const {
 const deviceMetaDataPriorityList = require('../DeviceMetaDataProcess/DeviceMetaDataPriorityList');
 const utility = require('../../utility');
 const deviceMetadataCacheUpdate = require('../DeviceMetaDataProcess/DeviceMetaDataCacheUpdate');
+const deviceMetaDataUtility = require('../DeviceMetaDataProcess/deviceMetaDataUtility')
 let iteration = 1;
 
 
@@ -71,11 +72,17 @@ async function performQualityMeasurement() {
       let cached = await getCachedControlConstruct(device["mount-name"]);
       console.log("cache retrieved successfully for the mount-name "+device["mount-name"]);
 	    let live = await getLiveControlConstruct(device["mount-name"]);
-     console.log("live retrieved successfully for the mount-name "+device["mount-name"]);
+      console.log("live retrieved successfully for the mount-name "+device["mount-name"]);
 
       const differences = diff(cached, live);
       const score = calculateScore(differences);
       let deviceType = deviceMetadataCacheUpdate.getDeviceTypeAndVendorForDevice(device["mount-name"]);
+      if(deviceType.deviceType == "unknown"){
+        let ltpList = cached["core-model-1-4:control-construct"][0]["logical-termination-point"];
+        let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
+        deviceType.deviceType = await deviceMetaDataUtility.getMatchingDeviceType(airInterfaceLtpList);
+        deviceType.vendor = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType.deviceType);
+      }
       const result = {
         'mount-name': device["mount-name"],
         'device-type': deviceType.deviceType,

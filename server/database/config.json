@@ -399,7 +399,7 @@
               "maximum": 60
             },
             "integer-profile-configuration": {
-              "integer-value": 1
+              "integer-value": 20
             }
           }
         },

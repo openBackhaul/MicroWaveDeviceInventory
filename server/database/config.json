@@ -394,7 +394,7 @@
             "integer-profile-capability": {
               "integer-name": "qualityMeasurementUpdatePeriod",
               "purpose": "Time period until selection of the next candidate device to undergo the quality measurement process.",
-              "unit": "minutes",
+              "unit": "seconds",
               "minimum": 1,
               "maximum": 60
             },

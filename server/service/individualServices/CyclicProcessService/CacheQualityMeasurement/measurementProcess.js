@@ -46,7 +46,7 @@ function calculateScore(differences) {
 async function performQualityMeasurementAsPerCycle() {
   let profileInstance = await utility.getIntegerProfileForIntegerName("qualityMeasurementUpdatePeriod");
   let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
-  let valueInSeconds = integerValue * 60;
+  let valueInSeconds = integerValue;
   setInterval(performQualityMeasurement, valueInSeconds * 1000);
 }
 

@@ -47,8 +47,12 @@ function makePrefilter(ignoreSet = new Set()) {
 // Flatten function
 function flattenDiff(diffs) {
   const result = [];
-
-  for (const d of diffs) {
+  console.log(diffs);
+  if(diffs==undefined){
+    return result;
+  }
+  try {
+    for (const d of diffs) {
     switch (d.kind) {
       case 'E':
         if (d.lhs && d.rhs && typeof d.lhs === 'object' && typeof d.rhs === 'object' && !Array.isArray(d.lhs)) {
@@ -107,6 +111,10 @@ function flattenDiff(diffs) {
         break;
     }
   }
+  } catch (error) {
+    console.log("Error inside flattenDiff");
+    console.log(error);
+  }  
 
   return result;
 }
@@ -167,19 +175,41 @@ async function performQualityMeasurement() {
 
       // Fields to ignore everywhere in the JSON //'mac-interface-status', 'ethernet-container-status',
       const ignoreKeys = new Set([
-        'mac-interface-status', 
-        'ethernet-container-status', 
-        'ethernet-container-historical-performances',
-        'air-interface-status',
-        'air-interface-current-performance',
-        'air-interface-historical-performances', 
-        'pure-ethernet-structure-historical-performances',
-        'hybrid-mw-structure-historical-performances',
-        'hybrid-mw-structure-current-performance',
-        'current-performance-data-list',
-        'historical-performance-data-list'],
+      'firmware-component-status',
+      'firmware-component-capability',
+      'air-interface-status',
+      'air-interface-capability',
+      'air-interface-historical-performances',
+      'air-interface-current-performance',
+      'ethernet-container-status',
+      'ethernet-container-capability',
+      'ethernet-container-historical-performances',
+      'ethernet-container-current-performance',
+      'hybrid-mw-structure-status',
+      'hybrid-mw-structure-capability',
+      'hybrid-mw-structure-historical-performances',
+      'hybrid-mw-structure-current-performance',
+      'mac-interface-status',
+      'mac-interface-capability',
+      'pure-ethernet-structure-status',
+      'pure-ethernet-structure-capability',
+      'pure-ethernet-structure-historical-performances',
+      'pure-ethernet-structure-current-performance',
+      'vlan-interface-capability',
+      'wire-interface-status',
+      'wire-interface-capability',
+      'wire-interface-historical-performances',
+      'wire-interface-current-performance',
+      'ip-interface-capability',
+      'ip-interface-status',
+      'tdm-container-capability',
+      'tdm-container-status',
+      'alarm-capability',
+      'current-alarms',
+      'alarm-event-records',
+      'backup-and-restore-capability',
+      'backup-and-restore-status'],
       );
-
       const prefilter = makePrefilter(ignoreKeys);
       const differences = diff(cached, live, prefilter);
       const enhanced = flattenDiff(differences);

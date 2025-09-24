@@ -166,12 +166,18 @@ async function performQualityMeasurement() {
       console.log("live retrieved successfully for the mount-name "+device["mount-name"]);
 
       // Fields to ignore everywhere in the JSON //'mac-interface-status', 'ethernet-container-status',
-      const ignoreKeys = new Set(['mac-interface-status', 
+      const ignoreKeys = new Set([
+        'mac-interface-status', 
         'ethernet-container-status', 
-        'historical-performance-data-list', 
         'ethernet-container-historical-performances',
+        'air-interface-status',
         'air-interface-current-performance',
-      'air-interface-historical-performances'],
+        'air-interface-historical-performances', 
+        'pure-ethernet-structure-historical-performances',
+        'hybrid-mw-structure-historical-performances',
+        'hybrid-mw-structure-current-performance',
+        'current-performance-data-list',
+        'historical-performance-data-list'],
       );
 
       const prefilter = makePrefilter(ignoreKeys);

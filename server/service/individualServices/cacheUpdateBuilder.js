@@ -147,7 +147,7 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
               //delete objJSON[arrayName][index];
             } else {
               let objectKey = Object.keys(newJSON)[0];
-              objJSON[arrayName][index] = newJSON[objectKey];
+              objJSON[arrayName][index] = newJSON[objectKey][0];
             }
           }
         } else {

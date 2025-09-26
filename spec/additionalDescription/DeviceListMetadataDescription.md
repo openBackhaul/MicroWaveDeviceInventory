@@ -100,7 +100,7 @@ Ordering updates:
   - move in the same fashion as for the successful retrieval
   - moving the device in the list ensures that the same device is not selected over and over again in case of failure
 
-![deviceMetadataListOrdering](./pictures/deviceMetadataListOrdering.png)
+![deviceListOrdering](./pictures/deviceListOrdering.png)
 
 ### Concept vs. actual implementation
 
@@ -115,5 +115,6 @@ Also note, that there is no service to provide the actual complete deviceMetadat
 ## Updating the metadata attributes
 
 The following table gives an overview about how the metadata attributes shall be updated.  
+
 
 ![metadataUpdateRules](./pictures/metadataUpdateRules.png)

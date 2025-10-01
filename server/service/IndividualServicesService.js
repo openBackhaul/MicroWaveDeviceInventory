@@ -43,6 +43,7 @@ const { getDeviceListInMemory } = require('./individualServices/CyclicProcessSer
 const deviceMetadataPriorityList = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataPriorityList');
 
 const logger = require('./LoggingService.js').getLogger();
+const { logAlarmNotificationUpdate } = require('../utils/alarmLogTracker.js');
 // ---------------------------------------------------------
 
 let lastSentMessages = [];
@@ -11084,6 +11085,54 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
   });
 }
 
+// Map of per-mountname locks
+const locks = new Map();
+const queueCounts = new Map(); // track queue depth per mountname
+
+/**
+ * Ensures only one update per mountname runs at a time.
+ * id String mountname
+ * alarmBody V1_regarddevicealarm_body
+ * fn Function async function that performs the update
+ * returns {Promise<any>} result of fn
+ */
+async function withLock(id, alarmBody, fn) {
+  if (!locks.has(id)) {
+    locks.set(id, Promise.resolve());
+    queueCounts.set(id, 0);
+  }
+  const prev = locks.get(id);
+  queueCounts.set(id, (queueCounts.get(id) || 0) + 1);
+  const queueSize = queueCounts.get(id);
+
+  logAlarmNotificationUpdate(`***************************************START - Processing alarm for Mountname=${id}***************************************`);
+  logAlarmNotificationUpdate(`Mountname=${id} queued update. Queue size now: ${queueSize}`);
+  logAlarmNotificationUpdate(`Alarm Mountname=${id} to be updated: ${alarmBody}`);
+  logger.info(`Mountname=${id} queued update. Queue size now: ${queueSize}`);
+
+  let release;
+  const p = new Promise((res) => (release = res));
+  locks.set(id, prev.then(() => p));
+
+  try {
+    const start = Date.now();
+    const result = await fn();
+    const duration = (Date.now() - start)/1000;
+
+    logAlarmNotificationUpdate(
+      `Mountname=${id} processed update. Duration=${duration}s. Queue size after process: ${queueSize - 1}`
+    );
+    logAlarmNotificationUpdate(`Mountname=${id} updated for: ${alarmBody}`);
+    logger.info(`Mountname=${id} processed update. Duration=${duration}s. Queue size after process: ${queueSize - 1}`);
+    logAlarmNotificationUpdate(`***************************************END - Processing alarm for Mountname=${id} completed***************************************`);
+
+    return result;
+  } finally {
+    release();
+    queueCounts.set(id, queueCounts.get(id) - 1);
+  }
+}
+
 
 /**
  * Receives notifications about alarms at devices
@@ -11102,32 +11151,35 @@ exports.regardDeviceAlarm = function (body) {
       let alarmTypeQualifier = currentJSON['alarm-type-qualifier'];
       let problemSeverity = currentJSON['problem-severity'];
       let mountname = decodeMountName(resource, false);
+      // 🔹 Wrap the critical section with a per-mountname lock
+      await withLock(mountname, JSON.stringify(body), async () => {
+        let result = await ReadRecords(mountname);
+        if (result == undefined) {
+          //throw new createHttpError.NotFound("unable to find device")
+          //throw new createHttpError(500, "unable to find device");
+        resolve();
+        }
+        modifyReturnJson(result);
 
-      let result = await ReadRecords(mountname);
-      if (result == undefined) {
-        //throw new createHttpError.NotFound("unable to find device")
-	      //throw new createHttpError(500, "unable to find device");
-    	resolve();
-      }
-      modifyReturnJson(result);
-      let updatedAttributes = {
-        "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + problemSeverity.toUpperCase(),
-        "alarm-type-qualifier": alarmTypeQualifier,
-        "alarm-type-id": alarmTypeId,
-        "timestamp": timeStamp,
-        "resource": resource
-      };
-      // Update json object
+        let updatedAttributes = {
+          "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + problemSeverity.toUpperCase(),
+          "alarm-type-qualifier": alarmTypeQualifier,
+          "alarm-type-id": alarmTypeId,
+          "timestamp": timeStamp,
+          "resource": resource
+        };
+        // Update json object
+        logAlarmNotificationUpdate(`---------------Alarm attribute update for Mountname=${mountname} in alarmHandler.updateAlarmByTypeAndResource()------------------------`);
+        alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
+        // Write updated Json to ES
+        modifyUUID(result, mountname);
+        let elapsedTime = await recordRequest(result, mountname);
 
-      alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
-      // Write updated Json to ES
-      modifyUUID(result, mountname);
-      let elapsedTime = await recordRequest(result, mountname);
-
-      //update meta-data for update of alarm data into CC -- partial update
-      //metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
-      deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
-      resolve();
+        //update meta-data for update of alarm data into CC -- partial update
+        //metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
+        deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+      });
+    resolve();
     } catch (error) {
       logger.error(error);
       reject(error);
@@ -12378,22 +12430,29 @@ async function recordRequest(body, cc) {
 
     let result = await client.index(indexParams);
     let backendTime = process.hrtime(startTime);
+    logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
 
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")
+      logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
       return { "took": -1 };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
       logger.debug(`ELK - Result is: ${result.body.result}`);
+      logAlarmNotificationUpdate(`ELK - Result is: ${result.body.result} for ${cc}`);
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     } else {
       logger.warn(`ELK - result is: ${result.body.result}`);
+      logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);
       return { "took": -1 };
     }
   } catch (error) {
+    logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
     logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
+    logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
     logger.trace(error);
+    logAlarmNotificationUpdate(`Error for ${cc}: ${error}`);
   }
 }
 

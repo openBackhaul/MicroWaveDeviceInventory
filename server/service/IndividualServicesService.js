@@ -10627,9 +10627,10 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
 exports.provideListOfCachedDevices = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-
+      const excludeMountNames = ["DeviceMetaDataList", "DeviceList", "MetaDataList", "cache-quality-statistics"].map(s => s.toLowerCase());
+      
       let result = await utility.ReadIdsFromEs();
-      result = result.filter(d => d != "DeviceMetaDataList").map(d => ({ "mount-name": d }));
+      result = result.filter(d => !excludeMountNames.includes(String(d).toLowerCase())).map(d => ({ "mount-name": d }));
       if (result != undefined) {
         const outputJson = {
           "mount-name-list": result

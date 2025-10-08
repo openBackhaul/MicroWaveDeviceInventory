@@ -1,7 +1,7 @@
 const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
-exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, hasFilter) {
+exports.cacheUpdateBuilder = async function (url, originalJSON, toInsert, hasFilter) {
   const urlParts = url.split("?fields=");
   const myFields = urlParts[1];
   // let hasFilter = filters ? filters : (myFields != "" && myFields != undefined);
@@ -54,7 +54,7 @@ exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, hasFilter) {
           lastKey = lastKey + "." + key;
           //throw new createHttpError.NotFound(`Field "${key}"="${value}" not found in cache`);
 
-          logger.warn(`No elements found with UUID: ${uuidToFind}`);
+         // logger.warn(`No elements found with UUID: ${uuidToFind}`);
           break;
         }
       } else {
@@ -147,7 +147,13 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
               //delete objJSON[arrayName][index];
             } else {
               let objectKey = Object.keys(newJSON)[0];
-              objJSON[arrayName][index] = newJSON[objectKey][0];
+              let objectToBeInserted =  newJSON[objectKey];
+              if(objectToBeInserted instanceof Array){
+                console.log("object is an array");
+                objectToBeInserted = objectToBeInserted[0];
+                objJSON[arrayName][index] = objectToBeInserted;
+              }
+              objJSON[arrayName][index] = objectToBeInserted;
             }
           }
         } else {
@@ -236,4 +242,8 @@ function mergeJson(target, source) {
       }
     }
   }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

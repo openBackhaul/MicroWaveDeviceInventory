@@ -43,6 +43,8 @@ const { getDeviceListInMemory } = require('./individualServices/CyclicProcessSer
 const deviceMetadataPriorityList = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataPriorityList');
 
 const logger = require('./LoggingService.js').getLogger();
+const { Mutex } = require("async-mutex");
+const lock = new Mutex();
 // ---------------------------------------------------------
 
 let lastSentMessages = [];
@@ -8478,11 +8480,13 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
-              // Update json object
-              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              const release = await lock.acquire();
+              const result = await ReadRecords(correctCc);
+              await cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
               let elapsedTime = await recordRequest(result, correctCc);
+              console.log("record request for ", correctCc, "--------------------------------------------------************************************")
+              release();
             }
             catch (error) {
               console.error(error);
@@ -10374,7 +10378,7 @@ function aggregateData(data, summarizeByDevice = false) {
       "attribute-mismatches": 0,
       "attribute-class-mismatches": 0,
       "weighted-score": 0,
-      "device-count":0
+      "device-count": 0
     });
   }
   else {
@@ -10384,14 +10388,14 @@ function aggregateData(data, summarizeByDevice = false) {
     data.forEach(item => {
       console.log(item["mount-name"]);
       const deviceType = item["device-type"];
-      
+
       if (!result[deviceType]) {
         result[deviceType] = {
           "device-type": deviceType,
           "attribute-mismatches": 0,
           "attribute-class-mismatches": 0,
           "weighted-score": 0,
-          "device-count":0
+          "device-count": 0
         };
       }
       result[deviceType]["attribute-mismatches"] += item["attribute-mismatches"] || 0;
@@ -11106,8 +11110,8 @@ exports.regardDeviceAlarm = function (body) {
       let result = await ReadRecords(mountname);
       if (result == undefined) {
         //throw new createHttpError.NotFound("unable to find device")
-	      //throw new createHttpError(500, "unable to find device");
-    	resolve();
+        //throw new createHttpError(500, "unable to find device");
+        resolve();
       }
       modifyReturnJson(result);
       let updatedAttributes = {
@@ -11136,7 +11140,7 @@ exports.regardDeviceAlarm = function (body) {
 }
 
 function ValidateResourcePath(input) {
-   const regex = /^\/core-model-1-4:network-control-domain=live\/control-construct=[A-Za-z0-9]+$/;
+  const regex = /^\/core-model-1-4:network-control-domain=live\/control-construct=[A-Za-z0-9]+$/;
   return regex.test(input);
 }
 
@@ -11147,82 +11151,82 @@ function ValidateResourcePath(input) {
  * no response value expected for this operation
  **/
 exports.regardDeviceAttributeValueChange = async function (body) {
-    try {
-      let objectKey = Object.keys(body)[0];
-      let currentJSON = body[objectKey];
-      let resource = currentJSON['object-path'];
-      let counter = currentJSON['counter'];
-      let attributeName = currentJSON['attribute-name'];
-      let jsonObj = "";
-      
-      if(ValidateResourcePath(resource)){
-        return;
-      }
-      // url = decodeURIComponent(resource);
+  try {
+    let objectKey = Object.keys(body)[0];
+    let currentJSON = body[objectKey];
+    let resource = currentJSON['object-path'];
+    let counter = currentJSON['counter'];
+    let attributeName = currentJSON['attribute-name'];
+    let jsonObj = "";
 
-      // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
-      console.log("*********Device attribute value change *********");
-	    console.log("object-path : " + resource);
-	    console.log("counter : " + counter);
-	    console.log("attributeName : " + attributeName);
-      console.log("***************************************************");
-	    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
-      // Parse the URL
-      const parsedUrl = new URL(tempUrl);
-
-      // Construct the base URL
-      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
-      const finalUrl = baseUrl + resource;
-      let originator = "MicroWaveDeviceInventory";
-      let requestHeader = new RequestHeader(undefined, originator)
-      let user = requestHeader.user;
-      let xCorrelator = requestHeader.xCorrelator;
-      let customerJourney = requestHeader.customerJourney;
-      let traceIndicator = requestHeader.traceIndicator;
-      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
-      //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
-      console.log("*********Device attribute value change after retreiving info from the SDN controller*********");
-	    console.log("object-path : " + resource);
-	    console.log("counter : " + counter);
-	    console.log("attributeName : " + attributeName);
-      console.log("***************************************************");
-      if (resRequestor == null) {
-        throw new createHttpError.NotFound;
-      } else if (resRequestor.status != 200) {
-        if (resRequestor.statusText == undefined) {
-        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
-        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-	    } else {
-        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
-        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-	    }
-      } else if (!hasAttribute(resRequestor.data, attributeName)) {
-        console.log(finalUrl + " request failed because the resource specified in the request does not exist within the connected device");
-        throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
-      } else {
-        console.log(finalUrl + " is successful for device attribute notification change.");
-        let appInformation = proxy;
-        const releaseNumber = appInformation["release-number"];
-        let parts = releaseNumber.split(".");
-        const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
-        const newJson = {};
-        newJson[applicationName] = {
-          "counter": counter,
-          "timestamp": currentJSON.timestamp,
-          "attribute-name": currentJSON["attribute-name"],
-          "new-value": currentJSON["new-value"]
-        };
-        notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
-
-        //update meta-data for update of device attribute change data into CC -- partial update
-        let mountname = decodeMountName(resource, false);
-        let timeStamp = currentJSON['timestamp'];
-        deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
-      }
-    } catch (error) {
-      logger.error(error);
-      return(error);
+    if (ValidateResourcePath(resource)) {
+      return;
     }
+    // url = decodeURIComponent(resource);
+
+    // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
+    console.log("*********Device attribute value change *********");
+    console.log("object-path : " + resource);
+    console.log("counter : " + counter);
+    console.log("attributeName : " + attributeName);
+    console.log("***************************************************");
+    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
+    // Parse the URL
+    const parsedUrl = new URL(tempUrl);
+
+    // Construct the base URL
+    const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+    const finalUrl = baseUrl + resource;
+    let originator = "MicroWaveDeviceInventory";
+    let requestHeader = new RequestHeader(undefined, originator)
+    let user = requestHeader.user;
+    let xCorrelator = requestHeader.xCorrelator;
+    let customerJourney = requestHeader.customerJourney;
+    let traceIndicator = requestHeader.traceIndicator;
+    let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
+    //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+    console.log("*********Device attribute value change after retreiving info from the SDN controller*********");
+    console.log("object-path : " + resource);
+    console.log("counter : " + counter);
+    console.log("attributeName : " + attributeName);
+    console.log("***************************************************");
+    if (resRequestor == null) {
+      throw new createHttpError.NotFound;
+    } else if (resRequestor.status != 200) {
+      if (resRequestor.statusText == undefined) {
+        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
+        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+      } else {
+        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
+        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+      }
+    } else if (!hasAttribute(resRequestor.data, attributeName)) {
+      console.log(finalUrl + " request failed because the resource specified in the request does not exist within the connected device");
+      throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
+    } else {
+      console.log(finalUrl + " is successful for device attribute notification change.");
+      let appInformation = proxy;
+      const releaseNumber = appInformation["release-number"];
+      let parts = releaseNumber.split(".");
+      const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
+      const newJson = {};
+      newJson[applicationName] = {
+        "counter": counter,
+        "timestamp": currentJSON.timestamp,
+        "attribute-name": currentJSON["attribute-name"],
+        "new-value": currentJSON["new-value"]
+      };
+      notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
+
+      //update meta-data for update of device attribute change data into CC -- partial update
+      let mountname = decodeMountName(resource, false);
+      let timeStamp = currentJSON['timestamp'];
+      deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+    }
+  } catch (error) {
+    logger.error(error);
+    return (error);
+  }
 }
 
 
@@ -11240,7 +11244,7 @@ exports.regardDeviceObjectCreation = function (body) {
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
       let jsonObj = "";
-      if(ValidateResourcePath(resource)){
+      if (ValidateResourcePath(resource)) {
         return;
       }
       const match = resource.match(/control-construct=(\w+)/);
@@ -11272,10 +11276,10 @@ exports.regardDeviceObjectCreation = function (body) {
         if (resRequestor.status == 404) {
           throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
         } else if (resRequestor.response.statusText == undefined) {
-		throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-	} else {
-		throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-	}
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+        } else {
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+        }
       } else {
         let appInformation = proxy;
         const releaseNumber = appInformation["release-number"];
@@ -11317,7 +11321,7 @@ exports.regardDeviceObjectDeletion = function (body) {
       let currentJSON = body[objectKey];
       let resource = currentJSON['object-path'];
       let counter = currentJSON['counter'];
-      if(ValidateResourcePath(resource)){
+      if (ValidateResourcePath(resource)) {
         return;
       }
       /*

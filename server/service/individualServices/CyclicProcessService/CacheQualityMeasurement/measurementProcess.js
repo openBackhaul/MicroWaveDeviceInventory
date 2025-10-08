@@ -168,6 +168,7 @@ async function performQualityMeasurement() {
         console.log('No eligible device for quality measurement');
         return;
       }
+      await deviceMetaDataPriorityList.setExcludeFromQmOfDevice(device["mount-name"], true);
       let cached = await getCachedControlConstruct(device["mount-name"]);
       console.log("cache retrieved successfully for the mount-name "+device["mount-name"]);
 	    let live = await getLiveControlConstruct(device["mount-name"]);
@@ -227,6 +228,7 @@ async function performQualityMeasurement() {
         let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
         deviceType.deviceType = await deviceMetaDataUtility.getMatchingDeviceType(airInterfaceLtpList);
         deviceType.vendor = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType.deviceType);
+        await deviceMetadataCacheUpdate.setDeviceTypeAndVendorForDevice(device["mount-name"], deviceType.deviceType, deviceType.vendor);
       }
       const result = {
         'mount-name': device["mount-name"],
@@ -254,6 +256,7 @@ async function performQualityMeasurement() {
       cacheQualityListFromElasticSearch.push(result);
       let stringifiedResult = JSON.stringify(cacheQualityListFromElasticSearch);
       await writeCacheQualityListToElasticsearch(stringifiedResult);
+      await deviceMetaDataPriorityList.setExcludeFromQmOfDevice(device["mount-name"], false);
       console.log("successfully written to elastic search "+device["mount-name"]);
     } catch (error) {
       console.log(error);

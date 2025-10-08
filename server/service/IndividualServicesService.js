@@ -11111,26 +11111,51 @@ async function withLock(id, alarmBody, fn) {
   logAlarmNotificationUpdate(`Alarm Mountname=${id} to be updated: ${alarmBody}`);
   logger.info(`Mountname=${id} queued update. Queue size now: ${queueSize}`);
 
+  // Create a "release" promise to chain executions
   let release;
   const p = new Promise((res) => (release = res));
   locks.set(id, prev.then(() => p));
 
   try {
     const start = Date.now();
-    const result = await fn();
+
+    // Timeout wrapper to avoid stuck locks
+    let timeoutMs = 10000; // 10 seconds
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`Timeout after ${timeoutMs}ms for ${id}`)), timeoutMs)
+    );
+
+    // Run your handler with timeout protection
+    const result = await Promise.race([fn(), timeout]);
+    
     const duration = (Date.now() - start)/1000;
 
     logAlarmNotificationUpdate(
       `Mountname=${id} processed update. Duration=${duration}s. Queue size after process: ${queueSize - 1}`
     );
-    logAlarmNotificationUpdate(`Mountname=${id} updated for: ${alarmBody}`);
+    
     logger.info(`Mountname=${id} processed update. Duration=${duration}s. Queue size after process: ${queueSize - 1}`);
-    logAlarmNotificationUpdate(`***************************************END - Processing alarm for Mountname=${id} completed***************************************`);
+    
 
     return result;
+  } catch (err) {
+    logger.error(`Error while processing Mountname=${id}: ${err.message}`);
+    logAlarmNotificationUpdate(`Error while processing Mountname=${id}: ${err.message}`);
+    throw err;
   } finally {
     release();
-    queueCounts.set(id, queueCounts.get(id) - 1);
+    const newCount = (queueCounts.get(id) || 1) - 1;
+
+    // Clean up memory when done
+    if (newCount <= 0) {
+      queueCounts.delete(id);
+      locks.delete(id);
+      logAlarmNotificationUpdate(`Cleaned up lock and queue for Mountname=${id}`);
+    } else {
+      queueCounts.set(id, newCount);
+    }
+
+    logAlarmNotificationUpdate(`***************************************END - Processing alarm for Mountname=${id} completed***************************************`);
   }
 }
 
@@ -11152,7 +11177,7 @@ exports.regardDeviceAlarm = function (body) {
       let alarmTypeQualifier = currentJSON['alarm-type-qualifier'];
       let problemSeverity = currentJSON['problem-severity'];
       let mountname = decodeMountName(resource, false);
-      // 🔹 Wrap the critical section with a per-mountname lock
+      // Wrap the critical section with a per-mountname lock
       await withLock(mountname, JSON.stringify(body), async () => {
         let result = await ReadRecords(mountname);
         if (result == undefined) {

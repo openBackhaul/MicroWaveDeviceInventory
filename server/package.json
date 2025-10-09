@@ -27,6 +27,7 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
+    "async-mutex": "^0.5.0",
     "connect": "^3.7.0",
     "console-stamp": "3.1.2",
     "deep-diff": "^1.0.2",

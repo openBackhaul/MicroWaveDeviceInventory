@@ -150,6 +150,22 @@ class DeviceMetaDataList {
         }
         return response;
     }
+
+    // update deviceType, Vendor for given mount-name
+    setDeviceTypeAndVendorForDevice(nodeId, deviceType, vendorName) {
+        try {
+            if (this.deviceMetaDataList.length > 0) {
+                let device = this.deviceMetaDataList.find(d => d["mount-name"] == nodeId);
+                if (device) {
+                    device["device-type"] = deviceType;
+                    device["vendor"] = vendorName;
+                    return true;
+                }
+            }
+        } catch (error) {
+            return false;
+        }
+    }
 }
 
 // creates object for the above class

@@ -1,3 +1,4 @@
+const { logAlarmNotificationUpdate } = require('../../utils/alarmLogTracker.js');
 
 const logger = require('../LoggingService.js').getLogger();
 
@@ -33,6 +34,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
 	  console.log("************Whats the empty object**********************");
 	   }
     logger.info("Get List of current alarms, size is: " + alarms);
+    logAlarmNotificationUpdate(`Get List of current alarms, size is: ${alarms.length}`);
     logger.debug(alarms);
     let found = false;
 	
@@ -43,9 +45,11 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
         if (alarms[i][ALARM_TYPE_ID] === alarmTypeId && resourceToCompare === resourceToUpdate) {
             if (!alarmStatus.toUpperCase().includes("CLEAR")) {
                 logger.info("Alarm id: " + alarmTypeId + " - on resource: " + resourceToUpdate + " - UPDATE");
+                logAlarmNotificationUpdate(`Alarm id: ${alarmTypeId} - on resource: ${resourceToUpdate} - UPDATE`);
                 for (let attr in updatedAttributes) {
                     if (attr == "resource") {
                         logger.debug("Skip Element: " + attr);
+                        logAlarmNotificationUpdate(`Skip Element: ${attr}`);
                         continue;
                     }
                     alarms[i][attr] = updatedAttributes[attr];
@@ -54,6 +58,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
                 break; // once is found, no needs to iterate..
             } else {
                 logger.info("Alarm id: " + alarmTypeId + " - on resource: " + resourceToUpdate + " - CLEARED");
+                logAlarmNotificationUpdate(`Alarm id: ${alarmTypeId} - on resource: ${resourceToUpdate} - CLEARED`);
                 alarms.splice(i, 1);
                 // No More used
                 // alarms.forEach((item, index) => {
@@ -70,14 +75,18 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
 
     if (!found) {
         logger.debug("Alarm not found in the list");
+        logAlarmNotificationUpdate(`Alarm not found in the list`);
         // No More used
         // let maxIdentifier = Math.max(...alarms.map(alarm => parseInt(alarm[CURRENT_ALARM_ID])));
         // logger.debug("Alarm Max Identifier: " + maxIdentifier);
         logger.info("Alarm id: " + alarmTypeId + " - on resource: " + resourceToUpdate + " - to be added");
+        logAlarmNotificationUpdate(`Alarm id: ${alarmTypeId} - on resource: ${resourceToUpdate} - to be added`);
         if (alarmStatus.toUpperCase().includes("CLEAR")) {
             logger.warn("This is a CLEAR alarm type. Will not add to the list");
+            logAlarmNotificationUpdate(`This is a CLEAR alarm type. Will not add to the list`);
         } else {
             logger.info("Add to the list - Alarm id: " + alarmTypeId);
+            logAlarmNotificationUpdate(`Add to the list - Alarm id: ${alarmTypeId}`);
             let resourceBuild = rebuildResource(updatedAttributes.resource);
 
             let newAlarm = {
@@ -94,10 +103,12 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
             json[objectKey][ALARMS_PAC][CURRENT_ALARMS][N_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
             json[objectKey][ALARMS_PAC][CURRENT_ALARMS]["time-of-latest-change"] = newAlarm["timestamp"];
             logger.debug("New Alarm added in the list");
+            logAlarmNotificationUpdate(`New Alarm added in the list`);
         }
     } else {
         logger.debug("Alarm found in the list");
-    } 
+        logAlarmNotificationUpdate(`Alarm found in the list`);
+    }
    } catch(error) {
    	console.log(error);
    }

@@ -3500,7 +3500,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        correctMountname = mountname;
+        correctMountname = 'CO17695';//mountname;
       }
       let returnObject = {};
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
@@ -8482,11 +8482,20 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               const release = await lock.acquire();
-              const result = await ReadRecords(correctCc);
-              await cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
-              // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
-              console.log("record request for ", correctCc, "--------------------------------------------------************************************")
+              await enqueueAlarm(correctCc, JSON.stringify(jsonObj), async () => {
+                logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
+                const result = await ReadRecordsMountName(correctCc);
+                logAlarmNotificationUpdate(`[READ-END] ${correctCc}`);
+
+                await cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+
+                // Write updated Json to ES
+                logAlarmNotificationUpdate(`[WRITE-START] ${correctCc}`);
+                let elapsedTime = await recordRequest(result, correctCc);
+                logAlarmNotificationUpdate(`[WRITE-END] ${correctCc}`);
+
+                console.log("record request for ", correctCc, "--------------------------------------------------************************************")
+              });
               release();
             }
             catch (error) {
@@ -11090,78 +11099,224 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
   });
 }
 
-// Map of per-mountname locks
-const locks = new Map();
-const queueCounts = new Map(); // track queue depth per mountname
+// --- Hybrid per-mount alarm queue with adaptive batching + timeout + retry ---
+const mountQueues = new Map();
+const flushTimers = new Map();
+const processingLocks = new Map();
+const mountStats = new Map(); // to track alarm arrival rates
 
-/**
- * Ensures only one update per mountname runs at a time.
- * id String mountname
- * alarmBody V1_regarddevicealarm_body
- * fn Function async function that performs the update
- * returns {Promise<any>} result of fn
- */
-async function withLock(id, alarmBody, fn) {
-  if (!locks.has(id)) {
-    locks.set(id, Promise.resolve());
-    queueCounts.set(id, 0);
-  }
-  const prev = locks.get(id);
-  queueCounts.set(id, (queueCounts.get(id) || 0) + 1);
-  const queueSize = queueCounts.get(id);
+// --- Configurable parameters ---
+const BASE_BATCH_SIZE = 10;       // default batch size
+const MAX_BATCH_SIZE = 100;       // upper limit
+const BASE_WINDOW_MS = 300;       // base flush delay
+const MIN_WINDOW_MS = 100;        // lowest flush delay under heavy load
+const LOCK_TIMEOUT_MS = 10_000;   // max time per batch
+const MAX_RETRIES = 2;            // retry count
+const STATS_WINDOW_MS = 5000;     // how long to track arrivals (5s window)
 
-  logAlarmNotificationUpdate(`***************************************START - Processing alarm for Mountname=${id}***************************************`);
-  logAlarmNotificationUpdate(`Mountname=${id} queued update. Queue size now: ${queueSize}`);
-  logAlarmNotificationUpdate(`Alarm Mountname=${id} to be updated: ${alarmBody}`);
-  logger.info(`Mountname=${id} queued update. Queue size now: ${queueSize}`);
-
-  // Create a "release" promise to chain executions
-  let release;
-  const p = new Promise((res) => (release = res));
-  locks.set(id, prev.then(() => p));
-
-  try {
-    const start = Date.now();
-
-    // Timeout wrapper to avoid stuck locks
-    let timeoutMs = 10000; // 10 seconds
-    const timeout = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`Timeout after ${timeoutMs}ms for ${id}`)), timeoutMs)
-    );
-
-    // Run your handler with timeout protection
-    const result = await Promise.race([fn(), timeout]);
-    
-    const duration = (Date.now() - start)/1000;
-
-    logAlarmNotificationUpdate(
-      `Mountname=${id} processed update. Duration=${duration}s. Queue size after process: ${queueSize - 1}`
-    );
-    
-    logger.info(`Mountname=${id} processed update. Duration=${duration}s. Queue size after process: ${queueSize - 1}`);
-    
-
-    return result;
-  } catch (err) {
-    logger.error(`Error while processing Mountname=${id}: ${err.message}`);
-    logAlarmNotificationUpdate(`Error while processing Mountname=${id}: ${err.message}`);
-    throw err;
-  } finally {
-    release();
-    const newCount = (queueCounts.get(id) || 1) - 1;
-
-    // Clean up memory when done
-    if (newCount <= 0) {
-      queueCounts.delete(id);
-      locks.delete(id);
-      logAlarmNotificationUpdate(`Cleaned up lock and queue for Mountname=${id}`);
-    } else {
-      queueCounts.set(id, newCount);
-    }
-
-    logAlarmNotificationUpdate(`***************************************END - Processing alarm for Mountname=${id} completed***************************************`);
+// --- Record incoming alarm rate per mountname ---
+function recordArrival(mountname) {
+  const now = Date.now();
+  if (!mountStats.has(mountname)) {
+    mountStats.set(mountname, { timestamps: [now], lastRate: 0 });
+  } else {
+    const stat = mountStats.get(mountname);
+    stat.timestamps.push(now);
+    const cutoff = now - STATS_WINDOW_MS;
+    stat.timestamps = stat.timestamps.filter((t) => t >= cutoff);
   }
 }
+
+// --- Calculate adaptive batch/window based on rate ---
+function getDynamicConfig(mountname) {
+  const stat = mountStats.get(mountname);
+  let rate = 0;
+
+  if (stat && stat.timestamps.length > 1) {
+    const duration = (stat.timestamps[stat.timestamps.length - 1] - stat.timestamps[0]) / 1000;
+    rate = stat.timestamps.length / Math.max(duration, 1);
+  }
+
+  // Smooth the rate for stability
+  const smoothed = stat ? 0.7 * stat.lastRate + 0.3 * rate : rate;
+  if (stat) stat.lastRate = smoothed;
+
+  // Compute adaptive values
+  const dynamicBatchSize = Math.min(BASE_BATCH_SIZE + Math.floor(smoothed * 5), MAX_BATCH_SIZE);
+  const dynamicWindowMs = Math.max(BASE_WINDOW_MS - Math.floor(smoothed * 30), MIN_WINDOW_MS);
+
+  return { dynamicBatchSize, dynamicWindowMs, rate: smoothed.toFixed(2) };
+}
+
+// --- Enqueue an alarm for a mountname ---
+async function enqueueAlarm(mountname, alarmBody, alarmFn) {
+  recordArrival(mountname);
+  if (!mountQueues.has(mountname)) {
+    mountQueues.set(mountname, []);
+  }
+
+  const queue = mountQueues.get(mountname);
+  const { dynamicBatchSize, dynamicWindowMs, rate } = getDynamicConfig(mountname);
+
+  logAlarmNotificationUpdate(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
+  logger.debug(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
+
+  return new Promise((resolve, reject) => {
+    queue.push({ alarmFn, resolve, reject, attempt: 1, alarmBody });
+
+    if (!processingLocks.has(mountname)) {
+      scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs);
+    }
+  });
+}
+
+// --- Schedule flush based on adaptive batch/window ---
+function scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs) {
+  const queue = mountQueues.get(mountname);
+  if (!queue || queue.length === 0) return;
+
+  if (queue.length >= dynamicBatchSize) {
+    processNextBatch(mountname, dynamicBatchSize);
+  } else if (!flushTimers.has(mountname)) {
+    const timer = setTimeout(() => {
+      flushTimers.delete(mountname);
+      processNextBatch(mountname, dynamicBatchSize);
+    }, dynamicWindowMs);
+
+    flushTimers.set(mountname, timer);
+  }
+}
+
+// --- Process a batch sequentially per mount ---
+async function processNextBatch(mountname, dynamicBatchSize) {
+  const queue = mountQueues.get(mountname);
+  if (!queue || queue.length === 0) {
+    cleanupMount(mountname);
+    return;
+  }
+
+  const batch = queue.splice(0, dynamicBatchSize);
+  if (flushTimers.has(mountname)) {
+    clearTimeout(flushTimers.get(mountname));
+    flushTimers.delete(mountname);
+  }
+
+  processingLocks.set(mountname, true);
+  logAlarmNotificationUpdate(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
+  logger.info(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
+
+  const start = Date.now();
+  let timeoutHandle;
+
+  try {
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutHandle = setTimeout(() => {
+        reject(new Error(`[LOCK-TIMEOUT] ${mountname} exceeded ${LOCK_TIMEOUT_MS}ms`));
+      }, LOCK_TIMEOUT_MS);
+    });
+
+    // Sequentially process alarms in this batch
+    for (const item of batch) {
+      try {
+        logAlarmNotificationUpdate(`[LOCK] Alarm Mountname=${mountname} to be updated: ${item.alarmBody}`);
+        await Promise.race([item.alarmFn(), timeoutPromise]);
+        item.resolve();
+      } catch (err) {
+        logAlarmNotificationUpdate(`[LOCK-ERROR] ${mountname}: ${err.message}`);
+        logger.error(`[LOCK-ERROR] ${mountname}: ${err.message}`);
+
+        if (item.attempt < MAX_RETRIES) {
+          item.attempt += 1;
+          queue.unshift(item); // requeue for retry
+          logAlarmNotificationUpdate(`[LOCK] Retrying ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`);
+          logger.warn(`[LOCK] Retrying ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`);
+        } else {
+          item.reject(err);
+        }
+      }
+    }
+
+    logAlarmNotificationUpdate(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
+    logger.info(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
+    recordBatchDuration(mountname, Date.now() - start);
+
+  } catch (err) {
+    logAlarmNotificationUpdate(`[LOCK] Fatal error while processing ${mountname}: ${err.message}`);
+    logger.error(`[LOCK] Fatal error while processing ${mountname}: ${err.message}`);
+  } finally {
+    clearTimeout(timeoutHandle);
+    processingLocks.delete(mountname);
+
+    if (queue.length > 0) {
+      const { dynamicBatchSize, dynamicWindowMs } = getDynamicConfig(mountname);
+      scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs);
+    } else {
+      cleanupMount(mountname);
+    }
+  }
+}
+
+// --- Cleanup after mount finished ---
+function cleanupMount(mountname) {
+  mountQueues.delete(mountname);
+  processingLocks.delete(mountname);
+  flushTimers.delete(mountname);
+  mountStats.delete(mountname);
+
+  logAlarmNotificationUpdate(`[LOCK] Cleared queue and lock for ${mountname}`);
+  logger.info(`[LOCK] Cleared queue and lock for ${mountname}`);
+}
+
+// --- Periodic monitoring summary (with average batch duration) ---
+const MONITOR_INTERVAL_MS = 5000; // 5 seconds
+
+// Store performance metrics per mount
+const performanceStats = new Map(); // mountname → { durations: [] }
+
+// Helper: record batch processing duration
+function recordBatchDuration(mountname, durationMs) {
+  if (!performanceStats.has(mountname)) {
+    performanceStats.set(mountname, { durations: [] });
+  }
+  const stat = performanceStats.get(mountname);
+
+  stat.durations.push(durationMs);
+  // Keep only the last 10 samples to smooth output
+  if (stat.durations.length > 10) stat.durations.shift();
+}
+
+
+// --- Periodic summary loop ---
+setInterval(() => {
+  const summaryLines = [];
+
+  for (const [mountname, queue] of mountQueues.entries()) {
+    const { dynamicBatchSize, dynamicWindowMs, rate } = getDynamicConfig(mountname);
+    const queueSize = queue.length || 0;
+    const isProcessing = processingLocks.has(mountname);
+    const flushTimerActive = flushTimers.has(mountname);
+
+    const perf = performanceStats.get(mountname);
+    const avgDuration = perf && perf.durations.length > 0
+      ? ((perf.durations.reduce((a, b) => a + b, 0) / perf.durations.length).toFixed(0))/1000
+      : "—";
+
+    summaryLines.push(
+      `Mount=${mountname} | rate=${rate}/s | queue=${queueSize} | batch=${dynamicBatchSize} | ` +
+      `window=${dynamicWindowMs/1000}s | avgBatch=${avgDuration}s | processing=${isProcessing} | flushTimer=${flushTimerActive}`
+    );
+  }
+
+  if (summaryLines.length > 0) {
+    const header = "\n========== [QUEUE MONITOR] Adaptive Batching Status ==========";
+    const footer = "=============================================================\n";
+    const logOutput = `${header}\n${summaryLines.join("\n")}\n${footer}`;
+
+    //console.log(logOutput);
+    logAlarmNotificationUpdate(logOutput);
+    logger.info(logOutput);
+  }
+}, MONITOR_INTERVAL_MS);
 
 
 /**
@@ -11172,8 +11327,8 @@ async function withLock(id, alarmBody, fn) {
  **/
 exports.regardDeviceAlarm = function (body) {
   return new Promise(async function (resolve, reject) {
-    try {
-      let objectKey = Object.keys(body)[0];
+    try{
+     let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
       let resource = currentJSON['resource'];
       let timeStamp = currentJSON['timestamp'];
@@ -11182,12 +11337,18 @@ exports.regardDeviceAlarm = function (body) {
       let problemSeverity = currentJSON['problem-severity'];
       let mountname = decodeMountName(resource, false);
       // Wrap the critical section with a per-mountname lock
-      await withLock(mountname, JSON.stringify(body), async () => {
-        let result = await ReadRecords(mountname);
+      await enqueueAlarm(mountname, JSON.stringify(body), async () => {
+
+        logAlarmNotificationUpdate(`[READ-START] ${mountname}`);
+        let result = await ReadRecordsMountName(mountname);
+        logAlarmNotificationUpdate(`[READ-END] ${mountname}`);
+
         if (result == undefined) {
+          logAlarmNotificationUpdate(`No record found for ${mountname}`);
+          logger.warn(`No record found for ${mountname}`);
           //throw new createHttpError.NotFound("unable to find device")
           //throw new createHttpError(500, "unable to find device");
-        resolve();
+          resolve();
         }
         modifyReturnJson(result);
 
@@ -11198,23 +11359,53 @@ exports.regardDeviceAlarm = function (body) {
           "timestamp": timeStamp,
           "resource": resource
         };
+
         // Update json object
-        logAlarmNotificationUpdate(`---------------Alarm attribute update for Mountname=${mountname} in alarmHandler.updateAlarmByTypeAndResource()------------------------`);
-        alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
+        logAlarmNotificationUpdate(`Alarm attribute update for Mountname=${mountname} in alarmHandler.updateAlarmByTypeAndResource()`);
+
+        // Get the current alarms list
+        await alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
+        
         // Write updated Json to ES
         modifyUUID(result, mountname);
+
+       
+        logAlarmNotificationUpdate(`[WRITE-START] ${mountname}`);
         let elapsedTime = await recordRequest(result, mountname);
+        logAlarmNotificationUpdate(`[WRITE-END] ${mountname}`);
+       
 
         //update meta-data for update of alarm data into CC -- partial update
-        //metaDataUtility.updateMDTableForPartialCCUpdate(mountname, timeStamp);
         deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+
+        logAlarmNotificationUpdate(`Completed Metadata update for Mountname=${mountname}`);
       });
-    resolve();
+      resolve();
     } catch (error) {
       logger.error(error);
       reject(error);
     }
   });
+}
+
+async function ReadRecordsMountName(cc) {
+  try {
+    const indexAlias = common[1].indexAlias;
+    const client = await common[1].EsClient;
+
+    const start = Date.now();
+    logAlarmNotificationUpdate(`Mountname=${cc} - Reading ES record`);
+
+    const result = await client.get({ index: indexAlias, id: cc });
+
+    const duration = (Date.now() - start) / 1000;
+    logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES read in ${duration}s`);
+
+    return result.body._source;
+  } catch (error) {
+    logAlarmNotificationUpdate(`Error reading ES for Mountname=${cc} - ${error.message}`);
+    logger.error(`Error reading ES for Mountname=${cc}: ${error.message}`);
+  }
 }
 
 function ValidateResourcePath(input) {
@@ -12451,21 +12642,31 @@ async function recordRequest(body, cc) {
     let indexParams = {
       index: indexAlias,
       id: cc,
-      body: body
+      body: body,
+      //refresh: 'wait_for'
     };
 
     if (pipelineExists) {
       indexParams.pipeline = 'mwdi';
     }
 
+    const start = Date.now();
+    logAlarmNotificationUpdate(`Mountname=${cc} - Writing to ES`);
+
     let result = await client.index(indexParams);
     let backendTime = process.hrtime(startTime);
-    logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
+
+    const duration = (Date.now() - start) / 1000;
+    logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
+    //logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
 
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")
       logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
       return { "took": -1 };
+      //  logger.debug(`ELK - Result is: created/updated`);
+      // logAlarmNotificationUpdate(`ELK - Result is: created/updated for ${cc}`);
+      // return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
@@ -12478,7 +12679,8 @@ async function recordRequest(body, cc) {
       return { "took": -1 };
     }
   } catch (error) {
-    logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
+    //logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
+    logAlarmNotificationUpdate(`[${new Date().toISOString()}]  [WRITE-ERROR] Mountname=${cc} - ${error.message}`);
     logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
     logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
     logger.trace(error);
@@ -12528,14 +12730,15 @@ async function ReadRecords(cc) {
     };
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      body: {
-        query: query
-      }
-    });
-    const resultArray = createResultArray(result);
-    return (resultArray[0])
+    const result = await client.get({ index: indexAlias, id: cc });
+    // const result = await client.search({
+    //   index: indexAlias,
+    //   body: {
+    //     query: query
+    //   }
+    // });
+    const resultArray = result.body._source;//createResultArray(result);
+    return (resultArray)//(resultArray[0])
   } catch (error) {
     logger.error(error);
   }

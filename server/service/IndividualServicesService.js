@@ -3500,7 +3500,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
         logger.error(mountname);
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
-        correctMountname = 'CO17695';//mountname;
+        correctMountname = mountname;
       }
       let returnObject = {};
       const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
@@ -11312,7 +11312,6 @@ setInterval(() => {
     const footer = "=============================================================\n";
     const logOutput = `${header}\n${summaryLines.join("\n")}\n${footer}`;
 
-    //console.log(logOutput);
     logAlarmNotificationUpdate(logOutput);
     logger.info(logOutput);
   }
@@ -12643,7 +12642,6 @@ async function recordRequest(body, cc) {
       index: indexAlias,
       id: cc,
       body: body,
-      //refresh: 'wait_for'
     };
 
     if (pipelineExists) {
@@ -12658,15 +12656,12 @@ async function recordRequest(body, cc) {
 
     const duration = (Date.now() - start) / 1000;
     logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
-    //logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
+    
 
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")
       logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
       return { "took": -1 };
-      //  logger.debug(`ELK - Result is: created/updated`);
-      // logAlarmNotificationUpdate(`ELK - Result is: created/updated for ${cc}`);
-      // return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
@@ -12679,7 +12674,7 @@ async function recordRequest(body, cc) {
       return { "took": -1 };
     }
   } catch (error) {
-    //logAlarmNotificationUpdate(`---------------Alarm ELK update for Mountname=${cc} in recordRequest()------------------------`);
+  
     logAlarmNotificationUpdate(`[${new Date().toISOString()}]  [WRITE-ERROR] Mountname=${cc} - ${error.message}`);
     logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
     logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
@@ -12730,15 +12725,14 @@ async function ReadRecords(cc) {
     };
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
-    const result = await client.get({ index: indexAlias, id: cc });
-    // const result = await client.search({
-    //   index: indexAlias,
-    //   body: {
-    //     query: query
-    //   }
-    // });
-    const resultArray = result.body._source;//createResultArray(result);
-    return (resultArray)//(resultArray[0])
+    const result = await client.search({
+      index: indexAlias,
+      body: {
+        query: query
+      }
+    });
+    const resultArray = createResultArray(result);
+    return (resultArray[0])
   } catch (error) {
     logger.error(error);
   }

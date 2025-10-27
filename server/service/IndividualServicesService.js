@@ -8481,7 +8481,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              const release = await lock.acquire();
+              //const release = await lock.acquire();
               await enqueueAlarm(correctCc, JSON.stringify(jsonObj), async () => {
                 logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
                 const result = await ReadRecordsMountName(correctCc);
@@ -8496,7 +8496,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
 
                 console.log("record request for ", correctCc, "--------------------------------------------------************************************")
               });
-              release();
+              //release();
             }
             catch (error) {
               console.error(error);

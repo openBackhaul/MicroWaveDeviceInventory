@@ -56,9 +56,12 @@ class DeviceMetaDataPriorityList {
                     ...this.deviceMetadataPriorityList[index],
                     ...deviceMetadata
                 };
-                this.deviceMetadataPriorityList.splice(index, 1);
+                /* Avoiding splice(remove) and adding the element to the end of the PriorityList 
+                 * as mentioned in the issue 1494 to make the Sliding window stable */
+                //this.deviceMetadataPriorityList.splice(index, 1);
                 if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
-                    this.deviceMetadataPriorityList.push(deviceMetadata);
+                    //this.deviceMetadataPriorityList.push(deviceMetadata);
+                    this.deviceMetadataPriorityList[index] = deviceMetadata;
                 }
                 //check conditions for three attributes
             } else {
@@ -74,7 +77,11 @@ class DeviceMetaDataPriorityList {
                     //do nothing
                 }
             }
-            //this.sortDevices();
+            /* Avoiding splice(remove) and adding the element to the end of the PriorityList 
+            *  and retrieval of the device info from PriorityList based on the attribute 
+            * 'last-complete-control-construct-update-time-attempt' to make the Sliding window stable 
+            * as mentioned in the issue 1494*/
+            this.sortDevices();
             return;
         } catch (error) {
             throw error;

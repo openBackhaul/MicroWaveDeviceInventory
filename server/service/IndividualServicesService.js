@@ -11158,8 +11158,8 @@ async function enqueueAlarm(mountname, alarmBody, alarmFn) {
   const queue = mountQueues.get(mountname);
   const { dynamicBatchSize, dynamicWindowMs, rate } = getDynamicConfig(mountname);
 
-  logAlarmNotificationUpdate(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
-  logger.debug(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
+  //logAlarmNotificationUpdate(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
+  //logger.debug(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
 
   return new Promise((resolve, reject) => {
     queue.push({ alarmFn, resolve, reject, attempt: 1, alarmBody });
@@ -11176,11 +11176,11 @@ function scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs) {
   if (!queue || queue.length === 0) return;
 
   if (queue.length >= dynamicBatchSize) {
-    processNextBatch(mountname, dynamicBatchSize);
+    processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs);
   } else if (!flushTimers.has(mountname)) {
     const timer = setTimeout(() => {
       flushTimers.delete(mountname);
-      processNextBatch(mountname, dynamicBatchSize);
+      processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs);
     }, dynamicWindowMs);
 
     flushTimers.set(mountname, timer);
@@ -11188,7 +11188,7 @@ function scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs) {
 }
 
 // --- Process a batch sequentially per mount ---
-async function processNextBatch(mountname, dynamicBatchSize) {
+async function processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs) {
   const queue = mountQueues.get(mountname);
   if (!queue || queue.length === 0) {
     cleanupMount(mountname);
@@ -11200,10 +11200,10 @@ async function processNextBatch(mountname, dynamicBatchSize) {
     clearTimeout(flushTimers.get(mountname));
     flushTimers.delete(mountname);
   }
-
+  logAlarmNotificationUpdate(`[TUNE] ${mountname}, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
   processingLocks.set(mountname, true);
   logAlarmNotificationUpdate(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
-  logger.info(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
+  //logger.info(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
 
   const start = Date.now();
   let timeoutHandle;
@@ -11223,13 +11223,13 @@ async function processNextBatch(mountname, dynamicBatchSize) {
         item.resolve();
       } catch (err) {
         logAlarmNotificationUpdate(`[LOCK-ERROR] ${mountname}: ${err.message}`);
-        logger.error(`[LOCK-ERROR] ${mountname}: ${err.message}`);
+        //logger.error(`[LOCK-ERROR] ${mountname}: ${err.message}`);
 
         if (item.attempt < MAX_RETRIES) {
           item.attempt += 1;
           queue.unshift(item); // requeue for retry
           logAlarmNotificationUpdate(`[LOCK] Retrying ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`);
-          logger.warn(`[LOCK] Retrying ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`);
+          //logger.warn(`[LOCK] Retrying ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`);
         } else {
           item.reject(err);
         }
@@ -11237,12 +11237,12 @@ async function processNextBatch(mountname, dynamicBatchSize) {
     }
 
     logAlarmNotificationUpdate(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
-    logger.info(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
+    //logger.info(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
     recordBatchDuration(mountname, Date.now() - start);
 
   } catch (err) {
     logAlarmNotificationUpdate(`[LOCK] Fatal error while processing ${mountname}: ${err.message}`);
-    logger.error(`[LOCK] Fatal error while processing ${mountname}: ${err.message}`);
+    //logger.error(`[LOCK] Fatal error while processing ${mountname}: ${err.message}`);
   } finally {
     clearTimeout(timeoutHandle);
     processingLocks.delete(mountname);
@@ -11264,7 +11264,7 @@ function cleanupMount(mountname) {
   mountStats.delete(mountname);
 
   logAlarmNotificationUpdate(`[LOCK] Cleared queue and lock for ${mountname}`);
-  logger.info(`[LOCK] Cleared queue and lock for ${mountname}`);
+  //logger.info(`[LOCK] Cleared queue and lock for ${mountname}`);
 }
 
 // --- Periodic monitoring summary (with average batch duration) ---
@@ -11313,7 +11313,7 @@ setInterval(() => {
     const logOutput = `${header}\n${summaryLines.join("\n")}\n${footer}`;
 
     logAlarmNotificationUpdate(logOutput);
-    logger.info(logOutput);
+    //logger.info(logOutput);
   }
 }, MONITOR_INTERVAL_MS);
 
@@ -11343,11 +11343,15 @@ exports.regardDeviceAlarm = function (body) {
         logAlarmNotificationUpdate(`[READ-END] ${mountname}`);
 
         if (result == undefined) {
+          // No record → skip processing, no retry
           logAlarmNotificationUpdate(`No record found for ${mountname}`);
           logger.warn(`No record found for ${mountname}`);
           //throw new createHttpError.NotFound("unable to find device")
           //throw new createHttpError(500, "unable to find device");
-          resolve();
+          //resolve();
+          
+          // Return cleanly so queue marks as success
+          return;
         }
         modifyReturnJson(result);
 
@@ -11370,9 +11374,12 @@ exports.regardDeviceAlarm = function (body) {
 
        
         logAlarmNotificationUpdate(`[WRITE-START] ${mountname}`);
-        let elapsedTime = await recordRequest(result, mountname);
+        let resultEsWrite = await recordRequest(result, mountname);
         logAlarmNotificationUpdate(`[WRITE-END] ${mountname}`);
-       
+
+        if (!resultEsWrite.ok && !resultEsWrite.retry) {
+            return;   // do not retry
+        }
 
         //update meta-data for update of alarm data into CC -- partial update
         deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
@@ -11400,10 +11407,15 @@ async function ReadRecordsMountName(cc) {
     const duration = (Date.now() - start) / 1000;
     logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES read in ${duration}s`);
 
-    return result.body._source;
+    const src = result?.body?._source;
+    if (!src) {
+      return undefined;
+    }
+    return src;
   } catch (error) {
-    logAlarmNotificationUpdate(`Error reading ES for Mountname=${cc} - ${error.message}`);
-    logger.error(`Error reading ES for Mountname=${cc}: ${error.message}`);
+    logAlarmNotificationUpdate(`[READ-ERROR] Error reading ES for Mountname=${cc} - ${error.message}`);
+    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
+    return undefined;
   }
 }
 
@@ -12627,9 +12639,11 @@ async function recordRequest(body, cc) {
     if (error.statusCode === 404) {
       // Pipeline does not exist
       logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
     } else {
       // Other errors
       logger.error(error, "An error occurred while checking the pipeline:");
+      logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
       throw error; // Re-throw the error if it's not a 404
     }
   }
@@ -12661,7 +12675,7 @@ async function recordRequest(body, cc) {
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")
       logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
-      return { "took": -1 };
+      return { "took": -1, ok: false, retry: true };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
@@ -12671,15 +12685,15 @@ async function recordRequest(body, cc) {
     } else {
       logger.warn(`ELK - result is: ${result.body.result}`);
       logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);
-      return { "took": -1 };
+      return { "took": -1, ok: false, retry: true };
     }
   } catch (error) {
-  
-    logAlarmNotificationUpdate(`[${new Date().toISOString()}]  [WRITE-ERROR] Mountname=${cc} - ${error.message}`);
+    logAlarmNotificationUpdate(`[WRITE-ERROR] Mountname=${cc} - ${error.message}`);
     logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
     logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
     logger.trace(error);
     logAlarmNotificationUpdate(`Error for ${cc}: ${error}`);
+    return { ok: false, retry: true, error: error.message };
   }
 }
 

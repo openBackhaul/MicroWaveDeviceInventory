@@ -12681,7 +12681,7 @@ async function recordRequest(body, cc) {
     if (result.body.result == 'created' || result.body.result == 'updated') {
       logger.debug(`ELK - Result is: ${result.body.result}`);
       logAlarmNotificationUpdate(`ELK - Result is: ${result.body.result} for ${cc}`);
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
+      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000, ok: true, retry: false };
     } else {
       logger.warn(`ELK - result is: ${result.body.result}`);
       logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);

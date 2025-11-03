@@ -11159,8 +11159,7 @@ async function enqueueAlarm(mountname, alarmBody, alarmFn) {
   const { dynamicBatchSize, dynamicWindowMs, rate } = getDynamicConfig(mountname);
 
   //logAlarmNotificationUpdate(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
-  //logger.debug(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
-
+  
   return new Promise((resolve, reject) => {
     queue.push({ alarmFn, resolve, reject, attempt: 1, alarmBody });
 
@@ -11203,7 +11202,6 @@ async function processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs) {
   logAlarmNotificationUpdate(`[TUNE] ${mountname}, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
   processingLocks.set(mountname, true);
   logAlarmNotificationUpdate(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
-  //logger.info(`[LOCK]*************************************** Start processing batch (${batch.length}) for ${mountname} ***************************************`);
 
   const start = Date.now();
   let timeoutHandle;
@@ -11237,7 +11235,7 @@ async function processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs) {
     }
 
     logAlarmNotificationUpdate(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
-    //logger.info(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
+    
     recordBatchDuration(mountname, Date.now() - start);
 
   } catch (err) {
@@ -11264,7 +11262,6 @@ function cleanupMount(mountname) {
   mountStats.delete(mountname);
 
   logAlarmNotificationUpdate(`[LOCK] Cleared queue and lock for ${mountname}`);
-  //logger.info(`[LOCK] Cleared queue and lock for ${mountname}`);
 }
 
 // --- Periodic monitoring summary (with average batch duration) ---
@@ -11313,7 +11310,6 @@ setInterval(() => {
     const logOutput = `${header}\n${summaryLines.join("\n")}\n${footer}`;
 
     logAlarmNotificationUpdate(logOutput);
-    //logger.info(logOutput);
   }
 }, MONITOR_INTERVAL_MS);
 

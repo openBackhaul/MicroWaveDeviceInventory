@@ -47,26 +47,30 @@ appCommons.setupExpressApp(app);
 });
 */
 global.databasePath = './database/config.json';
+
 (async () => {
-    global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
-    global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
-    global.proxy = await notificationManagement.getAppInformation();
- })()
+    try {
+        // Step 1: Prepare Elasticsearch (first)
+        await prepareElasticsearch(false);
+        logger.info("Elasticsearch prepared successfully.");
 
+        // Step 2: Initialize global variables (after ES is ready)
+        global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+        global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
+        global.proxy = await notificationManagement.getAppInformation();
 
+        // Step 3: Start HTTP server (after all init)
+        http.createServer(app).listen(serverPort, function () {
+            logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+            logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+        });
 
-
-prepareElasticsearch(false).catch(err => {
-    logger.error(`Error preparing Elasticsearch : ${err}`);
-}).finally(() => {
-    // Initialize the Swagger middleware
-    http.createServer(app).listen(serverPort, function () {
-        logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-        logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
-    });
-    appCommons.performApplicationRegistration();
-    
-}
-);
+        // Step 4: Register application
+        appCommons.performApplicationRegistration();
+    } catch (err) {
+        logger.error(`Startup failed: ${err.stack || err}`);
+        process.exit(1);
+    }
+})();
 
 global.applicationDataPath = './application-data/';

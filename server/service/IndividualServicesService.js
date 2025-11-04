@@ -10778,7 +10778,7 @@ exports.provideListOfLinkPorts = function (user, originator, xCorrelator, traceI
             }
           }
         }
-        resolve(responseLinkList);
+        resolve({ "link-port-list": responseLinkList });
       } else {
         throw new createHttpError(500, "Error in Elasticsearch communication or no linkList available");
       }

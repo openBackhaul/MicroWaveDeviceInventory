@@ -37,6 +37,7 @@
     "onf-core-model-ap": "2.1.2-f",
     "onf-core-model-ap-bs": "2.1.2-f",
     "openbackhaul-oas3-tools": "2.3.1-alpha.3",
+    "p-limit": "^7.2.0",
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
     "pino-roll": "^2.2.0",

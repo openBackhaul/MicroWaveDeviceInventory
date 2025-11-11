@@ -8,6 +8,7 @@ const deviceMetaDataPriorityList = require('./DeviceMetaDataPriorityList');
 const deviceMetadataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 const logger = require('./../../../LoggingService.js').getLogger();
 const { logSlidingWindowActivity } = require('./../../../../utils/alarmLogTracker.js');
+const pLimit = require("p-limit").default;
 
 let slidingWindowSize = 0;
 let responseTimeOut = 0;
@@ -31,12 +32,97 @@ class SlidingWindow {
         this.stopped = false;
         
         logSlidingWindowActivity(`SlidingWindow: is stopped ? ${this.stopped}`);
-        logSlidingWindowActivity(`SlidingWindow: Active device count ${this.active} devices...`);
+        //logSlidingWindowActivity(`SlidingWindow: Active device count ${this.active} devices...`);
         logSlidingWindowActivity(`SlidingWindow: Response timeout set to ${responseTimeOut} ms.`);
         logSlidingWindowActivity(`SlidingWindow: Maximum retries ${maximumNumberOfRetries} for each device.`);
 
+         /**
+         * Declare + initialize queue limiter
+         * Ensures at most `slidingWindowSize` parallel executions
+         */
+        this.limit = pLimit(slidingWindowSize);
+
         // starts the sliding window
-        this.startDeviceSyncProcess();
+        //this.startDeviceSyncProcess();
+        this.startQueue();
+    }
+
+    async startQueue() {
+        while (!this.stopped) {
+            const device = await this.getNextDevice();
+            if (!device) {
+                logSlidingWindowActivity(`SlidingWindow: No more devices to process at the moment.`);
+                endTime = Date.now();
+                logSlidingWindowDuration();
+                await sleep(2000);   // nothing to do → recheck later
+                continue;
+            }
+
+            // lock device
+            await deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
+
+            // submit job to concurrency queue
+            this.limit(() => this.processDevice(device))
+                .catch((err) => {
+                            console.error("Error processing device:", device["mount-name"], err)
+                            logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
+                            logger.error(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
+                        }
+                );
+        }
+    }
+
+    async processDevice(device) {
+        let nodeId = device["mount-name"];
+        let result = false;
+
+        try {
+            /* deviceControlConstructUtility
+                .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries).then(async (response) => {
+                        let currentTime = new Date().toJSON();
+
+                        device["last-complete-control-construct-update-time-attempt"] = currentTime;
+                        device["locked-status"] = false;
+                        device["cc-synced"] = true;
+
+                        await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(nodeId, currentTime);
+
+                        if (response) {
+                            device['exclude-from-qm'] = false;
+                            await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, currentTime);
+                        }
+
+                        await deviceMetaDataPriorityList.createOrUpdateDevice(device);
+                        
+                    })
+                    .catch((err) => {
+                        console.error(`Error processing ${device}`, err)
+                        logger.error(`Error processing ${device}: ${err.message}`);
+                        logSlidingWindowActivity(`Error processing ${device}: ${err.message}`);
+                    }); */
+            result = await deviceControlConstructUtility
+                .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries)
+            let ts = new Date().toJSON();
+
+            device["last-complete-control-construct-update-time-attempt"] = ts;
+            device["locked-status"] = false;
+            device["cc-synced"] = true;
+            //device["exclude-from-qm"] = false;
+
+            
+            await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(nodeId, ts);
+
+            if (result === true) {
+                device['exclude-from-qm'] = false;
+                await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, ts);
+            }
+            await deviceMetaDataPriorityList.createOrUpdateDevice(device);
+
+        } catch (err) {
+            console.error("processDevice failed:", nodeId, err);
+            logger.error(`processDevice failed for ${nodeId}: ${err.message}`);
+            logSlidingWindowActivity(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
+        }
     }
 
     /**
@@ -69,27 +155,27 @@ class SlidingWindow {
                 this.active++;
 
                 // locking the device for syncing live CC to ES
-                try {
+                //try {
                     await deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
                     //logSlidingWindowActivity(`SlidingWindow: Locked device ${device['mount-name']} for processing. Active slots: ${this.active}/${this.slidingWindowSize}`);
 
-                } catch (e) {
+                /* } catch (e) {
                     // If locking fails, free the slot and continue
                     console.error('Failed to lock device', device['mount-name'], e);
                     logger.error(`Failed to lock device ${device['mount-name']}: ${e.message}`);
                     logSlidingWindowActivity(`Failed to lock device ${device['mount-name']}: ${e.message}`);
                     this.active--;
                     continue;
-                }
+                } */
 
                 // Process device asynchronously but ensure active-- happens
-                this.processDevice(device).catch((err) => {
+                /* this.processDeviceTest(device).catch((err) => {
                     console.error(`SlidingWindow: unhandled error for ${device['mount-name']}`, err);
                     logger.error(`SlidingWindow: unhandled error for ${device['mount-name']}: ${err.message}`);
                     logSlidingWindowActivity(`SlidingWindow: unhandled error for ${device['mount-name']}: ${err.message}`);
-                });
+                }); */
                 // start syncing live CC to ES
-                /* deviceControlConstructUtility.syncControllerCcToEs(device["mount-name"], responseTimeOut, maximumNumberOfRetries)
+                deviceControlConstructUtility.syncControllerCcToEs(device["mount-name"], responseTimeOut, maximumNumberOfRetries)
                     .then(async (response) => {
                         let currentTime = new Date().toJSON();
                         if (response) {
@@ -116,7 +202,7 @@ class SlidingWindow {
                         if (!this.stopped) {
                             this.startDeviceSyncProcess();
                         }
-                    }); */
+                    });
             }
 
             logSlidingWindowActivity(`SlidingWindow:startDeviceSyncProcess() ended: Active slots: ${this.active}/${this.slidingWindowSize}`);
@@ -138,7 +224,7 @@ class SlidingWindow {
   /**
    * Ensures active counter is decremented and device unlocked.
    */
-  async processDevice(device) {
+  async processDeviceTest(device) {
     try {
       await this.syncDevice(device);
     } catch (err) {

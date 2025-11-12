@@ -52,14 +52,14 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
                 console.log(`********************************CC retrieved for ${nodeId} *************************** `);
                 return controlConstructFromController;
 
-            } else {
-                if (maxRetries > 0) {
+            }else {
+                 if (maxRetries > 0) {
                     await sleep(2000);
                     console.log(`******************************** CC retrieval for ${nodeId} - ${maxRetries - 1}`);
                     return await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries - 1);
                 } else {
                     console.log(`******************************** CC retrieval failed for ${nodeId} `);
-                }
+                } 
             }
         }
     } catch (error) {

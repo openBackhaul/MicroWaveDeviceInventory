@@ -33,7 +33,7 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
 	  }
 	  console.log("************Whats the empty object**********************");
 	   }
-    logger.info("Get List of current alarms, size is: " + alarms);
+    logger.info("Get List of current alarms, size is: " + alarms.length);
     logAlarmNotificationUpdate(`Get List of current alarms, size is: ${alarms.length}`);
     logger.debug(alarms);
     let found = false;
@@ -64,6 +64,8 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
                 // alarms.forEach((item, index) => {
                 //     item[CURRENT_ALARM_ID] = (index + 1).toString();
                 // });
+                logger.info("List of current alarms after deleting cleared alarm, size is: " + alarms.length);
+                logAlarmNotificationUpdate(`List of current alarms after deleting cleared alarm, size is: ${alarms.length}`);
                 let numberOfCurrentAlarms = alarms.length;
                 json[objectKey][ALARMS_PAC][CURRENT_ALARMS][N_OF_CURRENT_ALARMS] = numberOfCurrentAlarms;
                 //json["core-model-1-4:control-construct"][0][ALARMS_PAC][CURRENT_ALARMS]["time-of-latest-change"] = newAlarm["timestamp"];
@@ -104,6 +106,8 @@ exports.updateAlarmByTypeAndResource = function (json, alarmTypeId, resource, al
             json[objectKey][ALARMS_PAC][CURRENT_ALARMS]["time-of-latest-change"] = newAlarm["timestamp"];
             logger.debug("New Alarm added in the list");
             logAlarmNotificationUpdate(`New Alarm added in the list`);
+            logger.info("List of current alarms after adding new alarm, size is: " + alarms.length);
+            logAlarmNotificationUpdate(`List of current alarms after adding new alarm, size is: ${alarms.length}`);
         }
     } else {
         logger.debug("Alarm found in the list");

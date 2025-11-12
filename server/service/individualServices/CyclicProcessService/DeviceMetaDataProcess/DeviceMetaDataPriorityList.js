@@ -56,9 +56,11 @@ class DeviceMetaDataPriorityList {
                     ...this.deviceMetadataPriorityList[index],
                     ...deviceMetadata
                 };
+                
                 this.deviceMetadataPriorityList.splice(index, 1);
                 if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
                     this.deviceMetadataPriorityList.push(deviceMetadata);
+                    //this.deviceMetadataPriorityList[index] = deviceMetadata;
                 }
                 //check conditions for three attributes
             } else {
@@ -74,6 +76,7 @@ class DeviceMetaDataPriorityList {
                     //do nothing
                 }
             }
+            
             //this.sortDevices();
             return;
         } catch (error) {

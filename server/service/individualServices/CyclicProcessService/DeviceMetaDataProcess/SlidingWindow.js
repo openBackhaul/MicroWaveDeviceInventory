@@ -8,7 +8,7 @@ const deviceMetaDataPriorityList = require('./DeviceMetaDataPriorityList');
 const deviceMetadataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 const logger = require('./../../../LoggingService.js').getLogger();
 const { logSlidingWindowActivity } = require('./../../../../utils/alarmLogTracker.js');
-const pLimit = require("p-limit").default;
+//const pLimit = require("p-limit").default;
 
 let slidingWindowSize = 0;
 let responseTimeOut = 0;
@@ -40,12 +40,15 @@ class SlidingWindow {
          * Declare + initialize queue limiter
          * Ensures at most `slidingWindowSize` parallel executions
          */
-        this.limit = pLimit(slidingWindowSize);
+        //this.limit = pLimit(slidingWindowSize);
+        this.enqueue = createConcurrencyQueue(slidingWindowSize);
 
         // starts the sliding window
         //this.startDeviceSyncProcess();
         this.startQueue();
     }
+
+
 
     async startQueue() {
         while (!this.stopped) {
@@ -62,7 +65,7 @@ class SlidingWindow {
             await deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
 
             // submit job to concurrency queue
-            this.limit(() => this.processDevice(device))
+            this.enqueue(() => this.processDevice(device))
                 .catch((err) => {
                             console.error("Error processing device:", device["mount-name"], err)
                             logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
@@ -100,6 +103,7 @@ class SlidingWindow {
                         logger.error(`Error processing ${device}: ${err.message}`);
                         logSlidingWindowActivity(`Error processing ${device}: ${err.message}`);
                     }); */
+           // logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
             result = await deviceControlConstructUtility
                 .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries)
             let ts = new Date().toJSON();
@@ -418,3 +422,38 @@ function logSlidingWindowDuration() {
         );
     }
 }
+
+/**
+ * Minimal concurrency limiter
+ */
+function createConcurrencyQueue(limit) {
+    let activeCount = 0;
+    const queue = [];
+
+    const next = () => {
+        if (queue.length > 0 && activeCount < limit) {
+            const { fn, resolve, reject } = queue.shift();
+            run(fn, resolve, reject);
+        }
+    };
+
+    const run = (fn, resolve, reject) => {
+        activeCount++;
+        fn()
+            .then(resolve)
+            .catch(reject)
+            .finally(() => {
+                activeCount--;
+                next();
+            });
+    };
+
+    return function enqueue(fn) {
+        return new Promise((resolve, reject) => {
+            queue.push({ fn, resolve, reject });
+            next();
+        });
+    };
+}
+
+

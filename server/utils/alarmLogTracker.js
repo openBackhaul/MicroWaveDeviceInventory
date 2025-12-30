@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const LOG_FILE = path.join(__dirname, "../alarm-notifications.log");
+const SLIDING_WINDOW_LOG_FILE = path.join(__dirname, "../sliding-window.log");
 
 const MAX_SIZE_BYTES = 200 * 1024 * 1024; // 200 MB
 const MAX_DAYS = 10; // reset file if older than 10 days
@@ -26,6 +27,25 @@ function resetLogIfNeeded() {
   }
 }
 
+// Check and reset log file if too big or too old
+function resetSlidingWindowLogIfNeeded() {
+  if (!fs.existsSync(SLIDING_WINDOW_LOG_FILE)) return;
+
+  const stats = fs.statSync(SLIDING_WINDOW_LOG_FILE);
+  const now = new Date();
+
+  const tooLarge = stats.size > MAX_SIZE_BYTES;
+
+  const lastModified = new Date(stats.mtime);
+  const ageDays = (now - lastModified) / (1000 * 60 * 60 * 24);
+  const tooOld = ageDays > MAX_DAYS;
+
+  if (tooLarge || tooOld) {
+    // Truncate file (clear content)
+    fs.writeFileSync(SLIDING_WINDOW_LOG_FILE, "");
+  }
+}
+
 function logAlarmNotificationUpdate(message) {
   try {
     resetLogIfNeeded();
@@ -36,4 +56,14 @@ function logAlarmNotificationUpdate(message) {
   }
 }
 
-module.exports = { logAlarmNotificationUpdate };
+function logSlidingWindowActivity(message) {
+  try {
+    resetSlidingWindowLogIfNeeded();
+    const timestampSlidingWindowLog = new Date().toISOString();
+    fs.appendFileSync(SLIDING_WINDOW_LOG_FILE, `[${timestampSlidingWindowLog}] ${message}\n`);
+  } catch (err) {
+    console.error("Failed to write sliding window activity log:", err.message);
+  }
+}
+
+module.exports = { logAlarmNotificationUpdate, logSlidingWindowActivity };

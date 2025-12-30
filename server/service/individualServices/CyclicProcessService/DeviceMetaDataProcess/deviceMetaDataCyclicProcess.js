@@ -4,7 +4,8 @@ const utility = require('../../utility');
 const deviceMetaDatacaching = require('./DeviceMetaDataCacheUpdate');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
-const slidingWindowProcess = require('./SlidingWindow');
+//const slidingWindowProcess = require('./SlidingWindow');
+const slidingWindowHandler = require('./SlidingWindowHandler');
 const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
 let periodicConnectionStatusSynchTimerId = 0;
@@ -47,7 +48,7 @@ async function deviceMetaDataListUpdateProcess() {
         no data will be missed out. latest added devices are pushed to end of deviceMetaDataPriorityList. 
         Older devices will still be present in top, so when next sliding-window cycle starts, it will continute
       */
-    await slidingWindowProcess.stopSlidingWindowProcessForCCUpdate();
+    await slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();
 
     let odlDeviceMetaDataList = [];
     let deviceMetaDataListFromElasticSearch = [];
@@ -307,7 +308,7 @@ await sleep(10);
     }
     deviceMetaDatacaching.startDeviceMetaDatacaching(deviceMetaDataList);
     // starts sliding window process
-    slidingWindowProcess.startSlidingWindowProcessForCCUpdate();
+    slidingWindowHandler.startSlidingWindowProcessForCCUpdate();
 
     console.log('*******************************************************************************************************');
     console.log('*                             DeviceMetaData Update Cyclic PROCESS PROCEDURE COMPLETED                                        *');

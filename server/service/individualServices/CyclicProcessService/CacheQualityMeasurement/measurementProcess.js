@@ -13,7 +13,8 @@ const {
   readCacheQualityListFromElasticsearch
 } = require('./elasticService');
 
-const deviceMetaDataPriorityList = require('../DeviceMetaDataProcess/DeviceMetaDataPriorityList');
+//const deviceMetaDataPriorityList = require('../DeviceMetaDataProcess/DeviceMetaDataPriorityList');
+const slidingWindowHandler = require('../DeviceMetaDataProcess/SlidingWindowHandler');
 const utility = require('../../utility');
 const deviceMetadataCacheUpdate = require('../DeviceMetaDataProcess/DeviceMetaDataCacheUpdate');
 const deviceMetaDataUtility = require('../DeviceMetaDataProcess/deviceMetaDataUtility')
@@ -159,7 +160,7 @@ async function performQualityMeasurement() {
   console.log('*                                                                                                     *');
   console.log('*******************************************************************************************************');
   
-  let device = deviceMetaDataPriorityList.getNextDeviceMetaDataForQm(); 
+  let device = await slidingWindowHandler.getNextDeviceMetaDataForQm(); 
   console.log("**************DEBUG device name in cache quality measurement process*************");
   console.log(device);
   if (device != undefined) {
@@ -168,7 +169,7 @@ async function performQualityMeasurement() {
         console.log('No eligible device for quality measurement');
         return;
       }
-      await deviceMetaDataPriorityList.setExcludeFromQmOfDevice(device["mount-name"], true);
+      await slidingWindowHandler.setExcludeFromQmOfDevice(device["mount-name"], true);
       let cached = await getCachedControlConstruct(device["mount-name"]);
       console.log("cache retrieved successfully for the mount-name "+device["mount-name"]);
 	    let live = await getLiveControlConstruct(device["mount-name"]);
@@ -256,7 +257,7 @@ async function performQualityMeasurement() {
       cacheQualityListFromElasticSearch.push(result);
       let stringifiedResult = JSON.stringify(cacheQualityListFromElasticSearch);
       await writeCacheQualityListToElasticsearch(stringifiedResult);
-      await deviceMetaDataPriorityList.setExcludeFromQmOfDevice(device["mount-name"], false);
+      await slidingWindowHandler.setExcludeFromQmOfDevice(device["mount-name"], false);
       console.log("successfully written to elastic search "+device["mount-name"]);
     } catch (error) {
       console.log(error);

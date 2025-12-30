@@ -40,7 +40,8 @@ const bequeathHandler = require('./individualServices/BequeathYourDataAndDieHand
 const alarmHandler = require('./individualServices/alarmUpdater')
 const { updateDeviceListFromNotification } = require('./individualServices/CyclicProcessService/cyclicProcess');
 const { getDeviceListInMemory } = require('./individualServices/CyclicProcessService/cyclicProcess');
-const deviceMetadataPriorityList = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataPriorityList');
+//const deviceMetadataPriorityList = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataPriorityList');
+const slidingWindowHandler = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/SlidingWindowHandler');
 
 const logger = require('./LoggingService.js').getLogger();
 const { Mutex } = require("async-mutex");
@@ -6064,7 +6065,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                   "mount-name": correctCc,
                   "last-complete-control-construct-update-time-attempt": currentTime
                 };
-                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await slidingWindowHandler.createOrUpdateDevice(device);
                 await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                 await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(device["mount-name"], currentTime);
               }
@@ -6073,7 +6074,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                   "mount-name": correctCc,
                   "last-complete-control-construct-update-time-attempt": currentTime
                 };
-                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await slidingWindowHandler.createOrUpdateDevice(device);
                 await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                 console.error(error);
               }
@@ -6097,7 +6098,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                   "mount-name": correctCc,
                   "last-complete-control-construct-update-time-attempt": currentTime
                 };
-                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await slidingWindowHandler.createOrUpdateDevice(device);
                 await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                 await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(device["mount-name"], currentTime);
               } catch (error) {
@@ -6105,7 +6106,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                   "mount-name": correctCc,
                   "last-complete-control-construct-update-time-attempt": currentTime
                 };
-                await deviceMetadataPriorityList.createOrUpdateDevice(device);
+                await slidingWindowHandler.createOrUpdateDevice(device);
                 await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(device["mount-name"], currentTime);
                 console.error(error);
               }
@@ -8485,6 +8486,17 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               await enqueueAlarm(correctCc, JSON.stringify(jsonObj), async () => {
                 logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
                 const result = await ReadRecordsMountName(correctCc);
+                if (result == undefined) {
+                  // No record → skip processing, no retry
+                  logAlarmNotificationUpdate(`No record found for ${mountname}`);
+                  logger.warn(`No record found for ${mountname}`);
+                  //throw new createHttpError.NotFound("unable to find device")
+                  //throw new createHttpError(500, "unable to find device");
+                  //resolve();
+
+                  // Return cleanly so queue marks as success
+                  return;
+                }
                 logAlarmNotificationUpdate(`[READ-END] ${correctCc}`);
 
                 await cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
@@ -8492,6 +8504,9 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
                 // Write updated Json to ES
                 logAlarmNotificationUpdate(`[WRITE-START] ${correctCc}`);
                 let elapsedTime = await recordRequest(result, correctCc);
+                if (!elapsedTime.ok && !elapsedTime.retry) {
+                    return;   // do not retry
+                }
                 logAlarmNotificationUpdate(`[WRITE-END] ${correctCc}`);
 
                 console.log("record request for ", correctCc, "--------------------------------------------------************************************")
@@ -11323,7 +11338,7 @@ setInterval(() => {
 exports.regardDeviceAlarm = function (body) {
   return new Promise(async function (resolve, reject) {
     try{
-     let objectKey = Object.keys(body)[0];
+      let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
       let resource = currentJSON['resource'];
       let timeStamp = currentJSON['timestamp'];

@@ -2,6 +2,17 @@
 
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
 let deviceMetadataListSyncProcessId = 0;
+
+// NEW: detect worker vs main
+let isMainThread = true;
+let parentPort = null;
+try {
+  const wt = require('worker_threads');
+  isMainThread = wt.isMainThread;
+  parentPort = wt.parentPort;
+} catch (e) {
+  // worker_threads not available (older Node) – treat as main thread
+}
 /**
  * This class includes functions that shall be accessed to process the deviceMetaDataList in cache
  * This class handles following five parameters
@@ -78,9 +89,23 @@ class DeviceMetaDataList {
         }
     }
 
-    // updates "last-complete-control-construct-update-time-attempt" for given node-id
+  /**
+   * updates "last-complete-control-construct-update-time-attempt" for given node-id
+   * NOTE: in worker thread this will delegate to main thread via message
+   */
     setLastCompleteControlConstructUpdateTimeAttempt(nodeId, newTime) {
         try {
+            if (!isMainThread && parentPort) {
+                parentPort.postMessage({
+                    type: 'cache-update',
+                    subType: 'last-complete-attempt',
+                    nodeId,
+                    newTime
+                });
+                return true;
+            }
+
+      // normal main-thread behavior
             let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
             if (data) data["last-complete-control-construct-update-time-attempt"] = newTime;
             return true;
@@ -90,9 +115,23 @@ class DeviceMetaDataList {
         }
     }
 
-    // updates "last-successful-complete-control-construct-update-time" for given nodeId
+  /**
+   * updates "last-successful-complete-control-construct-update-time" for given nodeId
+   * NOTE: in worker thread this will delegate to main thread via message
+   */
     setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, newTime) {
         try {
+            if (!isMainThread && parentPort) {
+                parentPort.postMessage({
+                    type: 'cache-update',
+                    subType: 'last-successful-complete',
+                    nodeId,
+                    newTime
+                });
+                return true;
+            }
+
+      // normal main-thread behavior
             let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
             if (data) data["last-successful-complete-control-construct-update-time"] = newTime;
             return true;

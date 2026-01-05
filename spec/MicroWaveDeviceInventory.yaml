@@ -2895,6 +2895,7 @@ paths:
                     items:
                       required:
                         - device-type
+                        - device-count
                         - attribute-mismatches
                         - attribute-class-mismatches
                         - weighted-score
@@ -2902,6 +2903,9 @@ paths:
                         device-type:
                           type: string
                           description: 'The deviceType for which the aggregated values are provided'
+                        device-count:
+                          type: integer
+                          description: 'The number of grouped devices for the device-type (number of samples specified in the integer profile in case of device-type==all)'
                         attribute-mismatches:
                           type: integer
                           description: 'The averaged number of attribute mismatches'
@@ -2916,6 +2920,7 @@ paths:
                   value:
                     cache-quality-statistics:
                       - device-type: 'all'
+                        device-count: 1400
                         attribute-mismatches: 18
                         attribute-class-mismatches: 2
                         weighted-score: 31
@@ -2923,10 +2928,12 @@ paths:
                   value:
                     cache-quality-statistics:
                       - device-type: 'AGS20'
+                        device-count: 125
                         attribute-mismatches: 18
                         attribute-class-mismatches: 2
                         weighted-score: 31
                       - device-type: 'MLTN'
+                        device-count: 72
                         attribute-mismatches: 5
                         attribute-class-mismatches: 3
                         weighted-score: 19

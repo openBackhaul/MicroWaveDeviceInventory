@@ -88,7 +88,7 @@ By providing the mappings in the *deviceTypeMapping* and *vendorFromDeviceMappin
 
 ## Sorting the deviceMetadataList
 
-In order to effiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
+In order to efficiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
 The ordering is based on the the *last-complete-control-construct-update-time-attempt* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is from *1999*.
 Devices with connection-state not being *connected* are found at the end of the list (if they are being kept due to the *historicalControlConstructPolicy*).
 

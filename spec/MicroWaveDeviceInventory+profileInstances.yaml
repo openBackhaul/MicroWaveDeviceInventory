@@ -186,7 +186,7 @@ profile-instances:
       minimum: 0
       maximum: 10
     configuration:
-      integer-value: 1
+      integer-value: 0
 
   - profile-name: 'IntegerProfile'
     uuid: 'mwdi-2-0-1-integer-p-003'

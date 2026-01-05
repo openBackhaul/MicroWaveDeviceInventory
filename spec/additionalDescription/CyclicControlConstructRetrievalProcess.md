@@ -40,7 +40,7 @@ The profileInstances relevant to the update process are *slidingWindowSize*, *re
 - Due to timeouts, connection errors or other issues it may not be possible to retrieve the CC for a given device. In order to not lose to much data, there can be retries for the CC retrieval.
 - **When a device from the slidingWindow is queried and the retrieval fails, the retrieval should be retried as many times as configured in maximumNumberOfRetries.**
 - **The allowed retries shall also be applied to the qualityMeasurement process**
-- (initial) configuration: 1
+- (initial) configuration: 0
 
 **`deviceListSyncPeriod`**  
 - **The deviceListSyncPeriod determines in which intervals the MWDI deviceMetadataList is synced with the list of (connected) devices from the Controller**
@@ -131,7 +131,7 @@ The slidingWindow approach is still used, but the selection mechanism of the nex
 Also the slidingWindow approach works in tandem with the qualityMeasurement process in keeping the cache up-to-date.
 
 **Device selection strategy**  
-When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front of the deviceMetadataList.
+When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front to the back of the deviceMetadataList.  
 Both processes only consider devices in connected state which are not locked.
 - **_slidingWindow_**: take the first (connected, unlocked) device from the deviceMetadataList
   - this is either a device for which currently no ControlConstruct is stored in the cache
@@ -148,6 +148,12 @@ Both processes only consider devices in connected state which are not locked.
 The following schema shows how both processes are working collaboratively on updating the cache (the pink and blue devices are those currently processed and, therefore are locked):  
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
 
+### Stability update with MWDI 2.0.1
+
+For improved stability the following changes have been introduced from 2.0.0 to 2.0.1:
+- sliding window retries are deactivated; for this purpose `maximumNumberOfRetries` is set to 0
+- devices are no longer moved to the end of the sliding window
+- retrieval priority is determined from *last-complete-control-construct-update-time-attempt*
 
 ### DeviceMetadataList metadata
 The metadata table introduced in 1.2.x is replaced by the deviceMetadataList metadata attributes. I.e. the deviceMetadataList no longer consists only of the devices, but also stores the additional metadata attributes.  

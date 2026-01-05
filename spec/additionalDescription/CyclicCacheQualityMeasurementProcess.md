@@ -54,7 +54,6 @@ The module performs a structured tree-based comparison:
 - Attribute-level differences: mismatches in leaf-node values.
 - Attribute-class mismatches: data classes present in the live structure but absent in the cache or vice versa (missing classes) .
 
-
 ### Scoring model
 Each type of difference is assigned a configurable weight:
 
@@ -64,6 +63,12 @@ Each type of difference is assigned a configurable weight:
 | Attribute-class mismatch | 5      | Presence or absence of significant data objects (i.e. object creation/deletion)  |
 
 A total weighted score is computed per device and used to quantify the extent of divergence.  
+
+### Ignored attributes
+
+Since most of the non configurable attributes do not contribute to cache quality measurement, certain attributes are to be ignored during comparison.  
+These attributes are listed in #1486.  
+Note: this change has already been implemented with 2.0.1_impl, without a profile instance being available in the spec. This profile instance will be added with a future release.  
 
 ### Output
 

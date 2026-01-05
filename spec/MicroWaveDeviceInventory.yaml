@@ -1,4 +1,4 @@
-﻿openapi: 3.0.0
+openapi: 3.0.0
 info:
   title: MicrowaveDeviceInventory
   version: 2.0.1
@@ -1372,6 +1372,10 @@ paths:
       callbacks:
         NotifiedDeviceAttributeValueChangeCausesUpdateOfCache:
           ReadClass: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][{$REQUEST_BODY#notification-proxy-1-0:attribute-value-changed-notification/object-path but live replaced by cache}]
+            description: >
+              'IF the {$request.body#notification-proxy-1-0:attribute-value-changed-notification/object-path} ends at control-construct instead of a specific attribute
+              and {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == attribute-name-not-yet-defined
+              THEN this notification is not to be processed and a 204 shall be returned by /v1/regard-device-attribute-value-change immediately.'
             get:
               responses:
                 '200':

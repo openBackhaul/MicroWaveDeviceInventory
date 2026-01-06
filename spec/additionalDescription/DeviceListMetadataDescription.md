@@ -66,7 +66,9 @@ The deviceMetadataList stores the device-type and vendor of all contained mount-
   - if there is no ControlConstruct for the specific device in the cache, when this is happening, the update is tried again during the next cycle and the values remain "unknown"
   - otherwise the device-type shall be dreived from the ControlConstruct data
 
-**Where to find the information in the CC?**  
+### Where to find the information in the CC?
+
+**Up to 2.0.1**  
 The information is to be retrieved from the air-interface-capability/type-of-equipment attribute.  
 The used fields filter will not only return data that is needed, but all found ltps; the unneeded information can be ignored. 
 Also a CC may contain multiple air-interfaces/type-of-equipment entries (see [issue1156](https://github.com/openBackhaul/MicroWaveDeviceInventory/issues/1156) for examples).
@@ -83,6 +85,16 @@ For mapping the vendor:
 - if the device-type is still "unknown", the vendor also remains "unknown" 
 
 By providing the mappings in the *deviceTypeMapping* and *vendorFromDeviceMapping* profileInstances, the mappings can easily be modified, e.g. when new device types are added to the network.
+
+**Update with 2.1.0**  
+The input source for the deviceType is changed from airInterfaceCapability information to the *deviceModelName* from equipmentAugment.  
+The value of this attribute is more accurate and closely tied to the device type name from the vendor.  
+
+Therefore, for the deviceType values from *deviceModelName* no regex shall be applied to shorten and unify the deviceTypes (e.g. *OptiXRTN380AX* will remain like that and not be changed to *RTX380AX*).  
+It is not expected that the *deviceModelName* will come with an unknown deviceType. Therefore, the complete regex mapping will no longer be applied.  
+
+To derive the vendor from the deviceType regex still needs to be applied, but due to the more complex names, the regex mappings need to be modified accordingly.
+
 
 ---
 

@@ -520,79 +520,6 @@
             }
           }
         },
-
-
-
-        {
-          "uuid": "mwdi-2-0-1-mapping-p-000",
-          "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",
-          "regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac": {
-            "regex-pattern-mapping-capability": {
-              "mapping-name": "deviceTypeMapping",
-              "purpose": "Used to map device type information found in device ControlConstruct data into standardized device types via regex"
-            },
-            "regex-pattern-mapping-configuration": {
-              "mapping-list": [
-                {
-                  "regex-string": "/.*AGS[-_\\s]?20(?![-]?L).*/i",
-                  "map-to-string": "AGS20"
-                },
-                {
-                  "regex-string": "/.*AGS[-_\\s]?20L.*/i",
-                  "map-to-string": "AGS20L"
-                },
-                {
-                  "regex-string": "/.*ALC(plus|p)?2e.*/i",
-                  "map-to-string": "ALCPlus2e"
-                },
-                {
-                  "regex-string": "/.*ALFO.80.*/i",
-                  "map-to-string": "ALFO80"
-                },
-                {
-                  "regex-string": "/.*RTN[-_\\s]?950.*/i",
-                  "map-to-string": "RTN950"
-                },
-                {
-                  "regex-string": "/.*RTN[-_\\s]?905.*/i",
-                  "map-to-string": "RTN905"
-                },
-                {
-                  "regex-string": "/.*RTN[-_\\s]?380(?!H|AX).*/i",
-                  "map-to-string": "RTN380"
-                },
-                {
-                  "regex-string": "/.*RTN[-_\\s]?380AX.*/i",
-                  "map-to-string": "RTN380AX"
-                },
-                {
-                  "regex-string": "/.*RTN[-_\\s]?380H.*/i",
-                  "map-to-string": "RTN380H"
-                },
-                {
-                  "regex-string": "/.*(mini[-]?link|ml)[-]?6352.*/i",
-                  "map-to-string": "ML6352"
-                },
-                {
-                  "regex-string": "/^UKL\\s501\\s57.*/i",
-                  "map-to-string": "ML6352"
-                },
-                {
-                  "regex-string": "/.*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*/i",
-                  "map-to-string": "ML6600"
-                },
-                {
-                  "regex-string": "/.*(mltn|traffic[-_\\s]?node).*/i",
-                  "map-to-string": "MLTN"
-                },
-                {
-                  "regex-string": "/^(?!.*AGS[-_\\s]?20(?![-]?L).*)(?!.*AGS[-_\\s]?20L.*)(?!.*ALC(plus|p)?2e.*)(?!.*ALFO[-_\\s]?80.*)(?!.*RTN[-_\\s]?950.*)(?!.*RTN[-_\\s]?905.*)(?!.*RTN[-_\\s]?380(?!H|AX).*)(?!.*RTN[-_\\s]?380AX.*)(?!.*RTN[-_\\s]?380H.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?6352.*)(?!.*(mini[-_\\s]?link|ml)[-_\\s]?66\\d{2}.*)(?!.*(mltn|traffic[-_\\s]?node).*).*/i",
-                  "map-to-string": "unknown"
-                }
-              ]
-            }
-          }
-        },
         {
           "uuid": "mwdi-2-0-1-mapping-p-001",
           "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",
@@ -604,19 +531,19 @@
             "regex-pattern-mapping-configuration": {
               "mapping-list": [
                 {
-                  "regex-string": "AGS20|AGS20L|ALFO80|ALCPlus2e",
+                  "regex-string": "/.*(AGS|ALC|ALFO).*/i",
                   "map-to-string": "Siae"
                 },
                 {
-                  "regex-string": "RTN.*",
+                  "regex-string": "/.*RTN.*/i",
                   "map-to-string": "Huawei"
                 },
                 {
-                  "regex-string": "ML.*",
+                  "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
                   "map-to-string": "Ericsson"
                 },
                 {
-                  "regex-string": "^(?!AGS20$|AGS20L$|ALFO80$|ALCPlus2e$|RTN.*|ML.*).+$",
+                  "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "map-to-string": "unknown"
                 }
               ]

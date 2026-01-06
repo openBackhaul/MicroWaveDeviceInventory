@@ -1,0 +1,97 @@
+[
+	{
+		"mode": "debug",
+		"serverList": [
+			{
+				"serverName": "dummy",
+				"dummyUri": "ping.openBackhaul.com"
+			},
+			{
+				"serverName": "mwdi",
+				"server": "http://IP_ADRESS:PORT",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "YOUR_BASIC_AUTH_CODE",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "eatl",
+				"server": "http://IP_ADRESS:PORT",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "YOUR_BASIC_AUTH_CODE",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Thorsten Heinze",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "mwdi in mwdi+simulator.eatlLogging",
+				"server": "http://localhost:3002",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Redouane Chyiy",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			},
+			{
+				"serverName": "eatl in eatl+simulator.eatlLogging",
+				"server": "http://localhost:3001",
+				"pathToControlConstruct": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}",
+				"authorizationCode": "",
+				"operationKey": "Operation key not yet provided.",
+				"userName": "Redouane Chyiy",
+				"originator": "InterfaceValidator_TR532v2.0",
+				"xCorrelator": "00000000-0000-0000-0000-000000000532",
+				"traceIndicator": "1",
+				"customerJourney": ""
+			}
+		],
+		"collectionInputList": [
+			{
+				"collectionName": "eatl.subsequentRecords",
+				"serverToBeApplied": "mwdi",
+				"eatlServerToBeApplied": "eatl",
+				"validMountName": "513250007",
+				"invalidMountName":"dummyMountName",
+				"linkId": "101550001",
+				"linkPort":"1",
+				"applicationName" :"MicroWaveDeviceInventory",
+				"releaseNumber":"1.2.1",
+				"uuid":"dummyUuid",
+				"uuid1":"dummyUuid1",
+				"localId":"dummyLocalId",
+				"waitForEatl":3000,
+				"xCorrelatorPrefix":"Eatldummy",
+				"kindOfReference": "dynamic"
+			},
+			{
+				"collectionName": "eatl.subsequentRecords_simulatorTest",
+				"serverToBeApplied": "mwdi in mwdi+simulator.eatlLogging",
+				"eatlServerToBeApplied": "eatl in eatl+simulator.eatlLogging",
+				"validMountName": "513250007",
+				"invalidMountName":"dummyMountName",
+				"linkId": "101550001",
+				"linkPort":"1",
+				"applicationName" :"MicroWaveDeviceInventory",
+				"releaseNumber":"1.2.1",
+				"uuid":"dummyUuid",
+				"uuid1":"dummyUuid1",
+				"localId":"dummyLocalId",
+				"kindOfReference": "static",
+				"xCorrelatorPrefix":"Eatldummy",
+				"waitForEatl":10,
+				"suffixUrlEncodingIsRequired": true
+			}
+			
+		]
+	}
+]

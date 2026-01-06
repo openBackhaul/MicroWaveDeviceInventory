@@ -1,0 +1,115 @@
+@startuml mwdi+diagram.eatlLogging
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.eatlLogging
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+' Preparation
+participant "MWDI://v1/provide-list-of-connected-devices\n(mount name list)" as MWDIDeviceList
+
+' Valid request
+participant "MWDI://control-construct=mountName?fields=<respective filter(s) to get the relevant IDs>\n(extract ids from CC)" as MWDIFieldsFilter
+participant "MWDI://<each individual service>\n(valid request)" as MWDIValid
+
+' Invalid request
+participant "MWDI://<each applicable individual service>\n(invalid request)" as MWDIInvalid
+
+' EATL follow-up
+participant "EATL://v1/list-records-of-flow" as EATL
+
+group Preparation
+  Data --\\o Postman : {servers,x-correlator}
+  activate Postman
+  Postman --\\o  Collection : {servers,x-correlator}
+
+  note over MWDIDeviceList #LightCoral
+    This service is deprecated and will be
+    removed in one of the future releases.
+  end note
+
+  Postman ->  MWDIDeviceList : {servers,x-correlator}
+  Postman <-- MWDIDeviceList : 200
+note right Postman #Orange
+  check mount Name :
+    - If valid mount name exists, run the Valid Request folder; otherwise, skip it.
+    - If invalid mount name exists, skip the Invalid Request folder; otherwise, run it.
+end note
+end
+
+note right Postman
+  For each service, two test cases are executed:
+  - Send a valid request and check eatl logs
+  - Send an invalid request and check eatl logs
+end note
+
+' ------------------------
+' Valid request 
+group MWDI://<each individual service>\n(valid request)
+  note right Postman
+    X-Correlator format:
+    <prefix>_valid_<operationId>_<randomString>
+  end note
+  Collection --\\o Postman : {servers,x-correlator}
+  Postman -> MWDIFieldsFilter : {servers,validMountName} 
+  note right Postman
+  <u>GetIds</u>
+  get uuid,localId...
+  end note
+  Postman <-- MWDIFieldsFilter : 200
+  Postman -> MWDIValid : //validRequest//
+  
+  Postman <-- MWDIValid : 2XX
+  
+  note right Postman #Grey
+    check for 2XX response
+  end note
+
+  Postman -> EATL : X-Correlator
+ 
+  Postman <-- EATL : 200
+
+  note right Postman #Orange
+  check if expected record exists:
+    - application-name, application-release and operation-name match
+    - response-code =2XX ?
+  end note
+
+  
+end
+
+' ------------------------
+' Invalid request test case
+group MWDI://<each applicable individual service>\n(invalid request)
+  Collection --\\o Postman : {servers,x-correlator}
+   note right Postman
+    X-Correlator format:
+    <prefix>_invalid_<operationId>_<randomString>
+  end note
+  Postman -> MWDIInvalid : //invalidRequest//
+  
+  Postman <-- MWDIInvalid : 4XX / 5XX
+
+  note right Postman #Grey
+    check for 4XX or 5XX response
+  end note
+
+  Postman -> EATL : X-Correlator 
+  
+  Postman <-- EATL : 200
+
+  note right Postman #Orange
+  check if expected record exists:
+    - application-name, application-release and operation-name match
+    - response-code = 4XX or 5XX ?
+  end note
+
+ 
+end
+
+deactivate Postman
+@enduml

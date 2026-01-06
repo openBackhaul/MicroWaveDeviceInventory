@@ -444,6 +444,7 @@
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "historicalControlConstructPolicy",
+              "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
               "enumeration": [
                 "keep-on-disconnect",
                 "delete-on-disconnect"
@@ -460,6 +461,7 @@
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "kafkaNotificationReceiptAndProcessingSwitch",
+              "purpose": "This profileInstance allows toggeling the receipt/fetching of notifications from Kafka and processing them on/off. Default is on.",
               "enumeration": [
                 "on",
                 "off"
@@ -470,6 +472,57 @@
             }
           }
         },
+        {
+          "uuid": "mwdi-2-0-1-string-p-006",
+          "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
+          "string-profile-1-0:string-profile-pac": {
+            "string-profile-capability": {
+              "string-name": "qualityMeasurementExclusions",
+              "purpose": "This profileInstance lists attributes and classes to be excluded from the quality measurement comparison",
+              "enumeration": [
+                "firmware-component-status",
+                "firmware-component-capability",
+                "air-interface-status",
+                "air-interface-capability",
+                "air-interface-historical-performances",
+                "air-interface-current-performance",
+                "ethernet-container-status",
+                "ethernet-container-capability",
+                "ethernet-container-historical-performances",
+                "ethernet-container-current-performance",
+                "hybrid-mw-structure-status",
+                "hybrid-mw-structure-capability",
+                "hybrid-mw-structure-historical-performances",
+                "hybrid-mw-structure-current-performance",
+                "mac-interface-status",
+                "mac-interface-capability",
+                "pure-ethernet-structure-status",
+                "pure-ethernet-structure-capability",
+                "pure-ethernet-structure-historical-performances",
+                "pure-ethernet-structure-current-performance",
+                "vlan-interface-capability",
+                "wire-interface-status",
+                "wire-interface-capability",
+                "wire-interface-historical-performances",
+                "wire-interface-current-performance",
+                "ip-interface-capability",
+                "ip-interface-status",
+                "tdm-container-capability",
+                "tdm-container-status",
+                "alarm-capability",
+                "alarm-event-records",
+                "backup-and-restore-capability",
+                "backup-and-restore-status"
+              ]
+            },
+            "string-profile-configuration": {
+              "string-value": "on"
+            }
+          }
+        },
+
+
+
         {
           "uuid": "mwdi-2-0-1-mapping-p-000",
           "profile-name": "regex-pattern-mapping-profile-1-0:PROFILE_NAME_TYPE_REGEX_PATTERN_MAPPING_PROFILE",

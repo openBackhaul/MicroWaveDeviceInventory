@@ -12,42 +12,45 @@ All individual services
 
 
 ### Criteria
-- *Valid mountName*: when the mountName is valid (i.e. found in the list of connected devices), the expected response is a 2XX status
+**Valid mountName**
+- when the mountName is valid (i.e. found in the list of connected devices), the expected response is a 2XX status  
 - Steps :
- - Use a filter to retrieve valid IDs from CC
- - Send the request to MWDI using those valid IDs
- - Check that a corresponding log entry exists in EATL
- - Verify that the following fields are correctly logged 
-  - application-name
-  - application-release
-  - operation-name
-  - response-code = 2XX
-- *Invalid mountName*: when the mountName is invalid (i.e. not found in the list of connected devices), the expected response is a 4XX or 5XX status
+  - Use a filter to retrieve valid IDs from CC
+  - Send the request to MWDI using those valid IDs
+  - Check that a corresponding log entry exists in EATL
+  - Verify that the following fields are correctly logged 
+    - application-name
+    - application-release
+    - operation-name
+    - response-code = 2XX
+
+**Invalid mountName**:
+- when the mountName is invalid (i.e. not found in the list of connected devices), the expected response is a 4XX or 5XX status  
 - Steps:
- - Send a request to MWDI with invalid IDs
- - Check for the corresponding EATL log 
- - Verify that the following fields are correctly logged
-  - application-name
-  - application-release
-  - operation-name
-  - response-code = 4XX or 5XX
+  - Send a request to MWDI with invalid IDs
+  - Check for the corresponding EATL log 
+  - Verify that the following fields are correctly logged
+      - application-name
+      - application-release
+      - operation-name
+      - response-code = 4XX or 5XX
 
 
 ### Comments  
 - If a validMountName is not found in the list of connected devices, skip the valid request folder in the collection
 - If an invalidMountName is found in the list of connected devices, skip the invalid request folder in the collection
 - xCorrelator:
- - The xCorrelator is a unique identifier for each tested request.
- - It is composed as follows: xCorrelatorPrefix + "_" + [valid | invalid] + "_" + operationId + "_" + <random string>
- - Where:
-  - xCorrelatorPrefix: input parameter from the dataFile
-  - valid or invalid: based on the test case
-  - operationId: the operationId of the resource path (from the OAS specification)
-  - <random string>: varies depending on whether tests run against a mock EATL or the actual EATL
-  - The resulting xCorrelator is encoded to match the expected format/pattern
+  - The xCorrelator is a unique identifier for each tested request.
+  - It is composed as follows: xCorrelatorPrefix + "_" + [valid | invalid] + "_" + operationId + "_" + <random string>
+  - Where:
+    - xCorrelatorPrefix: input parameter from the dataFile
+    - valid or invalid: based on the test case
+    - operationId: the operationId of the resource path (from the OAS specification)
+    - <random string>: varies depending on whether tests run against a mock EATL or the actual EATL
+    - The resulting xCorrelator is encoded to match the expected format/pattern
 
 ### Scope
 - This test case collection only verifies that request information exists and is correctly logged in EATL.
 - Requests with missing header parameters or invalid request body with known issues (tracked in GitHub)
 
-![Overview](./mwdi+diagram.eatLogging.png)  
+![Overview](./mwdi+diagram.eatlLogging.png)  

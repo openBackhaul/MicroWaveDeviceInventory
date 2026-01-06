@@ -316,8 +316,6 @@ profile-instances:
     configuration:
       string-value: 'on'
 
-
-
   - profile-name: 'RegexPatternMappingProfile'
     uuid: 'mwdi-2-0-1-mapping-p-000'
     capability:

@@ -21,6 +21,12 @@ Other possibly relevant scenarios not yet covered:
 
 ![Overview](./mwdi+diagram.tacInteraction.png)  
 
+### Outlook
+
+**Checking mountName validity**  
+The eatlLogging collection uses the currently still available service MWDI://v1/provide-list-of-connected-devices. This service has been marked as deprecated.  
+So in future testcase collections this service needs to be replaced. Either by retrieving that list directly from the Controller/ControllerDomainManager or by using the new MWDI service listing the devices currently found in MWDI cache.  
+
 ---
 
 ### Background - EATL

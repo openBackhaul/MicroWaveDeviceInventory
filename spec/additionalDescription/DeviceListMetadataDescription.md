@@ -41,13 +41,13 @@ The table shall contain the following columns:
   - It indicates the device vendor, and partially also the device type.
 - **device-type**:
   - this attribute contains the device type extracted from the device ControlConstruct data
-  - if no mapping can be found, the value will be set to the default value "unknown"
   - it will be set initially after the device has been added to the deviceMetadataList
-  - in case the device is revisited due to the periodic deviceMetadataList sync and the value is still "unknown", it again is tried to update it from CC data
+  - in case the input value from CC data is empty, it shall be set to "unknown"
+  - it will be updated due to the periodic deviceMetadataList, if the value is "unknown"
 - **vendor**:
-  - this attribute contains the vendor and is set along with the device-type
+  - this attribute contains the vendor and is set along with the deviceType
   - if no mapping can be found, the value will be set to the default value "unknown"
-  - everytime an update of an unknown device-type is tried, the vendor update will also be tried
+  - everytime the deviceType changes the vendor will also be updated
 - **locked-status**:
   - this attribute is only to be used internally
   - if a device is either added to the slidingWindow or processed by the qualityMeasurement process, it is locked

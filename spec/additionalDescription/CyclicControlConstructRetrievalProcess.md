@@ -91,7 +91,7 @@ The steps for the update are as follows:
   - deviceMetadataList metadata attributes are set accordingly to reflect the device is no longer connected
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
-  - for all new devices or connected devices where the device-type in metadata attributes is still unknown, it is tried to determine the deviceType (again)
+  - for all new devices or connected devices where the device-type in metadata attributes is "unknown", it is tried to determine the deviceType (again)
 
 ![PeriodicDeviceListSync](./pictures/CyclicCCRetrievalPics_01_deviceListSync.png)
 

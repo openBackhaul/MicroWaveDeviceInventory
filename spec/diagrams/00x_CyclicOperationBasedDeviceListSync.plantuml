@@ -17,7 +17,7 @@ participant "ODL://{controllerInternalPathToMountPoint}?fields=\nnode(node-id;ne
 participant "ElasticSearch\n(deviceMetadataList)" as deviceList
 participant "ElasticSearch://control-construct={mountName}" as ccInCache
 participant "MWDI://core-model-1-4:network-control-domain=live/\ncontrol-construct={mountName}" as ControlConstruct
-participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n?fields=logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac\n(air-interface-capability(type-of-equipment))))" as mwdiDevType
+participant "MWDI://core-model-1-4:network-control-domain=cache/control-construct={mountName}\n?fields=equipment-augment-1-0:control-construct-pac(device-model-name)" as mwdiDevType
 
 ro -> mwdi
 activate mwdi
@@ -104,12 +104,11 @@ note over mwdi
   WITH connected-state == "connected"
        AND deviceType == "unknown"
   REPEAT:
-    Query cached CC with fields filter from <i>string-p-003</i>-profile
-    and apply the regex mapping according to <i>deviceTypeMapping</i>
-    (see DeviceListMetadataDescription document) on the obtained data.
+    Query cached CC with fields filter from <i>string-p-003</i>-profile.
     (For newly generated devices, the CC may not yet be found in the Cache.)
+    If no value is found, set to "unknown".
     Once the deviceType has been determined, determine the vendor from the
-    mapped deviceType according to <i>vendorFromDeviceMapping</i>.
+    deviceType according to <i>vendorFromDeviceMapping</i>.
     Write both the mapped deviceType and vendor to the deviceMetadataList.
 end note
 mwdi -> mwdiDevType: {mount-name}

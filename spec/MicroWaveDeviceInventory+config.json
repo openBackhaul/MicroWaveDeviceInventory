@@ -434,7 +434,7 @@
               "string-name": "PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter"
             },
             "string-profile-configuration": {
-              "string-value": "logical-termination-point(layer-protocol(air-interface-2-0:air-interface-pac(air-interface-capability(type-of-equipment))))"
+              "string-value": "equipment-augment-1-0:control-construct-pac(device-model-name)"
             }
           }
         },

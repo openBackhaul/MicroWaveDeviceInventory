@@ -34,7 +34,7 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 **v2.1.0**  
 This release adds the following changes:
 - a configurable list of attributes/subclasses to be excluded from the quality measurement process
-- different approach for deriving the deviceType (use equipment-augment/device-model-name instead of air-interface-capability information and regex)
+- different approach for deriving the deviceType (use equipment-augment/device-model-name instead of air-interface-capability information and regex), vendor mapping adjusted accordingly
 
 For more details, see issue collection [MWDI v2.1.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/24).  
 

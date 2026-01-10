@@ -61,6 +61,7 @@
 				"serverToBeApplied": "mwdi",
 				"eatlServerToBeApplied": "eatl",
 				"validMountName": "513250007",
+				"mountNameInvalidNoRPath": "513250008",
 				"invalidMountName":"dummyMountName",
 				"invalidLinkId":"dummyLinkId",
 				"linkId": "101550001",

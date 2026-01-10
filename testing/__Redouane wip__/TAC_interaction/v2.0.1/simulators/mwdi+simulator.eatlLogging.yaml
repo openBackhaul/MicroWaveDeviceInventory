@@ -3809,10 +3809,6 @@ paths:
               $ref: '#/components/headers/life-cycle-state'
 
 
-
-
-
-
   /core-model-1-4:network-control-domain=cache/link=101550001:
     get:
       operationId: getCachedLink
@@ -5888,6 +5884,1868 @@ paths:
                 'Life cycle state of the consumed service
                 find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-0-1-op-s-is-274/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
        
+# ----------------------------------------------------------------------------------------------------------------------------------------------- #
+# Case 5) valid Request with invalid No Resource Path for Cache domain                                                                                              #
+# ----------------------------------------------------------------------------------------------------------------------------------------------- #
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008:
+    get:
+      operationId: getCachedControlConstruct
+      summary: 'Provides ControlConstruct from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription" 
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/alarm-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mountName'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getCachedAlarmCapability
+      summary: 'Provides AlarmCapability from cache'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/alarm-configuration:
+    get:
+      operationId: getCachedAlarmConfiguration
+      summary: Provides AlarmConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/current-alarms:
+    get:
+      operationId: getCachedCurrentAlarms
+      summary: Provides CurrentAlarms from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/alarm-event-records:
+    get:
+      operationId: getCachedAlarmEventRecords
+      summary: Provides AlarmEventRecords from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid:
+    get:
+      operationId: getCachedEquipment
+      summary: Provides Equipment from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/contained-holder=dummyLocalId:
+    get:
+      operationId: getCachedContainedHolder
+      summary: Provides ContainedHolder from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/expected-equipment=dummyLocalId:
+    get:
+      operationId: getCachedExpectedEquipment
+      summary: Provides ExpectedEquipment from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/actual-equipment:
+    get:
+      operationId: getCachedActualEquipment
+      summary: Provides ActualEquipment from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection:
+    get:
+      operationId: getCachedFirmwareCollection
+      summary: Provides FirmwareCollection from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId:
+    get:
+      operationId: getCachedFirmwareComponentList
+      summary: Provides FirmwareComponentList from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability:
+    get:
+      operationId: getCachedFirmwareComponentCapability
+      summary: Provides FirmwareComponentCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status:
+    get:
+      operationId: getCachedFirmwareComponentStatus
+      summary: Provides FirmwareComponentStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection:
+    get:
+      operationId: getCachedProfileCollection
+      summary: Provides ProfileCollection from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid:
+    get:
+      operationId: getCachedProfile
+      summary: Provides Profile from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability:
+    get:
+      operationId: getCachedCoChannelProfileCapability
+      summary: Provides CoChannelProfileCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration:
+    get:
+      operationId: getCachedCoChannelProfileConfiguration
+      summary: Provides CoChannelProfileConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability:
+    get:
+      operationId: getCachedPolicingProfileCapability
+      summary: Provides PolicingProfileCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration:
+    get:
+      operationId: getCachedPolicingProfileConfiguration
+      summary: Provides PolicingProfileConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability:
+    get:
+      operationId: getCachedQosProfileCapability
+      summary: Provides QosProfileCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration:
+    get:
+      operationId: getCachedQosProfileConfiguration
+      summary: Provides QosProfileConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability:
+    get:
+      operationId: getCachedSchedulerProfileCapability
+      summary: Provides SchedulerProfileCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration:
+    get:
+      operationId: getCachedSchedulerProfileConfiguration
+      summary: Provides SchedulerProfileConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability:
+    get:
+      operationId: getCachedWredProfileCapability
+      summary: Provides WredProfileCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration:
+    get:
+      operationId: getCachedWredProfileConfiguration
+      summary: Provides WredProfileConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability:
+    get:
+      operationId: getCachedWredTemplateProfileCapability
+      summary: Provides WredTemplateProfileCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration:
+    get:
+      operationId: getCachedWredTemplateProfileConfiguration
+      summary: Provides WredTemplateProfileConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid:
+    get:
+      operationId: getCachedLogicalTerminationPoint
+      summary: Provides LogicalTerminationPoint from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac:
+    get:
+      operationId: getCachedLtpAugment
+      summary: Provides LtpAugment from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/forwarding-domain=dummyUuid:
+    get:
+      operationId: getCachedForwardingDomain
+      summary: Provides ForwardingDomain from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1:
+    get:
+      operationId: getCachedForwardingConstruct
+      summary: Provides ForwardingConstruct from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId:
+    get:
+      operationId: getCachedForwardingConstructPort
+      summary: Provides ForwardingConstructPort from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability:
+    get:
+      operationId: getCachedAirInterfaceCapability
+      summary: Provides AirInterfaceCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration:
+    get:
+      operationId: getCachedAirInterfaceConfiguration
+      summary: Provides AirInterfaceConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status:
+    get:
+      operationId: getCachedAirInterfaceStatus
+      summary: Provides AirInterfaceStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
+    get:
+      operationId: getCachedAirInterfaceHistoricalPerformances
+      summary: Provides AirInterfaceHistoricalPerformances from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
+    get:
+      operationId: getCachedEthernetContainerCapability
+      summary: Provides EthernetContainerCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
+    get:
+      operationId: getCachedEthernetContainerConfiguration
+      summary: Provides EthernetContainerConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
+    get:
+      operationId: getCachedEthernetContainerStatus
+      summary: Provides EthernetContainerStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
+    get:
+      operationId: getCachedEthernetContainerHistoricalPerformances
+      summary: Provides EthernetContainerHistoricalPerformances from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability:
+    get:
+      operationId: getCachedHybridMwStructureCapability
+      summary: Provides HybridMwStructureCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration:
+    get:
+      operationId: getCachedHybridMwStructureConfiguration
+      summary: Provides HybridMwStructureConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status:
+    get:
+      operationId: getCachedHybridMwStructureStatus
+      summary: Provides HybridMwStructureStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
+    get:
+      operationId: getCachedHybridMwStructureHistoricalPerformances
+      summary: Provides HybridMwStructureHistoricalPerformances from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
+    get:
+      operationId: getCachedMacInterfaceCapability
+      summary: Provides MacInterfaceCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
+    get:
+      operationId: getCachedMacInterfaceConfiguration
+      summary: Provides MacInterfaceConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/mac-interface-1-0:mac-interface-pac/mac-interface-status:
+    get:
+      operationId: getCachedMacInterfaceStatus
+      summary: Provides MacInterfaceStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability:
+    get:
+      operationId: getCachedPureEthernetStructureCapability
+      summary: Provides PureEthernetStructureCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration:
+    get:
+      operationId: getCachedPureEthernetStructureConfiguration
+      summary: Provides PureEthernetStructureConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status:
+    get:
+      operationId: getCachedPureEthernetStructureStatus
+      summary: Provides PureEthernetStructureStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
+    get:
+      operationId: getCachedPureEthernetStructureHistoricalPerformances
+      summary: Provides PureEthernetStructureHistoricalPerformances from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
+    get:
+      operationId: getCachedVlanInterfaceCapability
+      summary: Provides VlanInterfaceCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
+    get:
+      operationId: getCachedVlanInterfaceConfiguration
+      summary: Provides VlanInterfaceConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-capability:
+    get:
+      operationId: getCachedWireInterfaceCapability
+      summary: Provides WireInterfaceCapability from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-configuration:
+    get:
+      operationId: getCachedWireInterfaceConfiguration
+      summary: Provides WireInterfaceConfiguration from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-status:
+    get:
+      operationId: getCachedWireInterfaceStatus
+      summary: Provides WireInterfaceStatus from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
+    get:
+      operationId: getCachedWireInterfaceHistoricalPerformances
+      summary: Provides WireInterfaceHistoricalPerformances from cache
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "470":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------- #
+# Case 6) valid Request with invalid No Resource Path for live domain                                                                                              #
+# ----------------------------------------------------------------------------------------------------------------------------------------------- #
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008:
+    get:
+      operationId: getLiveControlConstruct
+      summary: 'Provides ControlConstruct from live'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/alarm-capability:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+      - $ref: '#/components/parameters/mountName'
+      - $ref: '#/components/parameters/fields'
+    get:
+      operationId: getLiveAlarmCapability
+      summary: 'Provides AlarmCapability from live'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/alarm-configuration:
+    get:
+      operationId: getLiveAlarmConfiguration
+      summary: Provides AlarmConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/current-alarms:
+    get:
+      operationId: getLiveCurrentAlarms
+      summary: Provides CurrentAlarms from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/alarm-event-records:
+    get:
+      operationId: getLiveAlarmEventRecords
+      summary: Provides AlarmEventRecords from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid:
+    get:
+      operationId: getLiveEquipment
+      summary: Provides Equipment from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/contained-holder=dummyLocalId:
+    get:
+      operationId: getLiveContainedHolder
+      summary: Provides ContainedHolder from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/expected-equipment=dummyLocalId:
+    get:
+      operationId: getLiveExpectedEquipment
+      summary: Provides ExpectedEquipment from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/actual-equipment:
+    get:
+      operationId: getLiveActualEquipment
+      summary: Provides ActualEquipment from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection:
+    get:
+      operationId: getLiveFirmwareCollection
+      summary: Provides FirmwareCollection from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId:
+    get:
+      operationId: getLiveFirmwareComponentList
+      summary: Provides FirmwareComponentList from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability:
+    get:
+      operationId: getLiveFirmwareComponentCapability
+      summary: Provides FirmwareComponentCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status:
+    get:
+      operationId: getLiveFirmwareComponentStatus
+      summary: Provides FirmwareComponentStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection:
+    get:
+      operationId: getLiveProfileCollection
+      summary: Provides ProfileCollection from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid:
+    get:
+      operationId: getLiveProfile
+      summary: Provides Profile from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability:
+    get:
+      operationId: getLiveCoChannelProfileCapability
+      summary: Provides CoChannelProfileCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-configuration:
+    get:
+      operationId: getLiveCoChannelProfileConfiguration
+      summary: Provides CoChannelProfileConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability:
+    get:
+      operationId: getLivePolicingProfileCapability
+      summary: Provides PolicingProfileCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration:
+    get:
+      operationId: getLivePolicingProfileConfiguration
+      summary: Provides PolicingProfileConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability:
+    get:
+      operationId: getLiveQosProfileCapability
+      summary: Provides QosProfileCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration:
+    get:
+      operationId: getLiveQosProfileConfiguration
+      summary: Provides QosProfileConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability:
+    get:
+      operationId: getLiveSchedulerProfileCapability
+      summary: Provides SchedulerProfileCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration:
+    get:
+      operationId: getLiveSchedulerProfileConfiguration
+      summary: Provides SchedulerProfileConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability:
+    get:
+      operationId: getLiveWredProfileCapability
+      summary: Provides WredProfileCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration:
+    get:
+      operationId: getLiveWredProfileConfiguration
+      summary: Provides WredProfileConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability:
+    get:
+      operationId: getLiveWredTemplateProfileCapability
+      summary: Provides WredTemplateProfileCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration:
+    get:
+      operationId: getLiveWredTemplateProfileConfiguration
+      summary: Provides WredTemplateProfileConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid:
+    get:
+      operationId: getLiveLogicalTerminationPoint
+      summary: Provides LogicalTerminationPoint from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac:
+    get:
+      operationId: getLiveLtpAugment
+      summary: Provides LtpAugment from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/forwarding-domain=dummyUuid:
+    get:
+      operationId: getLiveForwardingDomain
+      summary: Provides ForwardingDomain from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1:
+    get:
+      operationId: getLiveForwardingConstruct
+      summary: Provides ForwardingConstruct from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId:
+    get:
+      operationId: getLiveForwardingConstructPort
+      summary: Provides ForwardingConstructPort from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability:
+    get:
+      operationId: getLiveAirInterfaceCapability
+      summary: Provides AirInterfaceCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration:
+    get:
+      operationId: getLiveAirInterfaceConfiguration
+      summary: Provides AirInterfaceConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status:
+    get:
+      operationId: getLiveAirInterfaceStatus
+      summary: Provides AirInterfaceStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances:
+    get:
+      operationId: getLiveAirInterfaceHistoricalPerformances
+      summary: Provides AirInterfaceHistoricalPerformances from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability:
+    get:
+      operationId: getLiveEthernetContainerCapability
+      summary: Provides EthernetContainerCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration:
+    get:
+      operationId: getLiveEthernetContainerConfiguration
+      summary: Provides EthernetContainerConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status:
+    get:
+      operationId: getLiveEthernetContainerStatus
+      summary: Provides EthernetContainerStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances:
+    get:
+      operationId: getLiveEthernetContainerHistoricalPerformances
+      summary: Provides EthernetContainerHistoricalPerformances from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-capability:
+    get:
+      operationId: getLiveHybridMwStructureCapability
+      summary: Provides HybridMwStructureCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-configuration:
+    get:
+      operationId: getLiveHybridMwStructureConfiguration
+      summary: Provides HybridMwStructureConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-status:
+    get:
+      operationId: getLiveHybridMwStructureStatus
+      summary: Provides HybridMwStructureStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/hybrid-mw-structure-2-0:hybrid-mw-structure-pac/hybrid-mw-structure-historical-performances:
+    get:
+      operationId: getLiveHybridMwStructureHistoricalPerformances
+      summary: Provides HybridMwStructureHistoricalPerformances from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/mac-interface-1-0:mac-interface-pac/mac-interface-capability:
+    get:
+      operationId: getLiveMacInterfaceCapability
+      summary: Provides MacInterfaceCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/mac-interface-1-0:mac-interface-pac/mac-interface-configuration:
+    get:
+      operationId: getLiveMacInterfaceConfiguration
+      summary: Provides MacInterfaceConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/mac-interface-1-0:mac-interface-pac/mac-interface-status:
+    get:
+      operationId: getLiveMacInterfaceStatus
+      summary: Provides MacInterfaceStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability:
+    get:
+      operationId: getLivePureEthernetStructureCapability
+      summary: Provides PureEthernetStructureCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration:
+    get:
+      operationId: getLivePureEthernetStructureConfiguration
+      summary: Provides PureEthernetStructureConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status:
+    get:
+      operationId: getLivePureEthernetStructureStatus
+      summary: Provides PureEthernetStructureStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances:
+    get:
+      operationId: getLivePureEthernetStructureHistoricalPerformances
+      summary: Provides PureEthernetStructureHistoricalPerformances from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/vlan-interface-1-0:vlan-interface-pac/vlan-interface-capability:
+    get:
+      operationId: getLiveVlanInterfaceCapability
+      summary: Provides VlanInterfaceCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/vlan-interface-1-0:vlan-interface-pac/vlan-interface-configuration:
+    get:
+      operationId: getLiveVlanInterfaceConfiguration
+      summary: Provides VlanInterfaceConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-capability:
+    get:
+      operationId: getLiveWireInterfaceCapability
+      summary: Provides WireInterfaceCapability from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-configuration:
+    get:
+      operationId: getLiveWireInterfaceConfiguration
+      summary: Provides WireInterfaceConfiguration from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-status:
+    get:
+      operationId: getLiveWireInterfaceStatus
+      summary: Provides WireInterfaceStatus from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+  /core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances:
+    get:
+      operationId: getLiveWireInterfaceHistoricalPerformances
+      summary: Provides WireInterfaceHistoricalPerformances from live
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        "502":
+          description: 'Response in case the resource specified in the request does not exist within the connected device'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorDescription"
+ 
+
+
 
 ########################################################################################################################
 #   Common Components

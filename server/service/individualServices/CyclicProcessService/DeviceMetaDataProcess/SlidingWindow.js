@@ -88,13 +88,17 @@ class SlidingWindow {
             device["locked-status"] = false;
             device["cc-synced"] = true;
 
-
-            await deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(nodeId, ts);
+            //send attempt time + (optional) success time in ONE call
+            await deviceMetadataCacheUpdate.updateCcSyncTimes(
+                nodeId,
+                ts,
+                result === true ? ts : null
+            );
 
             if (result === true) {
                 device['exclude-from-qm'] = false;
-                await deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, ts);
             }
+
             await deviceMetaDataPriorityList.createOrUpdateDevice(device);
 
         } catch (err) {

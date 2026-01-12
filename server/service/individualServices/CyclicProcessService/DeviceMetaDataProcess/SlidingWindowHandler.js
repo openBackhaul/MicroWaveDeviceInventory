@@ -10,11 +10,25 @@ let worker = null;
 let nextRequestId = 1;
 const pendingRequests = new Map();
 
+// Restart control
+let restartAttempts = 0;
+let restartTimer = null;
+let restarting = false;
+
+// Desired state: should SlidingWindow run?
+let shouldRunSlidingWindow = false;
+
 /**
  * Creates the worker if not already created.
  */
-function ensureWorker() {
-  if (worker) return worker;
+function ensureWorker(forceRecreate = false) {
+  if (worker && !forceRecreate) return worker;
+
+  // If force recreate, terminate old worker safely
+  if (worker && forceRecreate) {
+    try { worker.terminate(); } catch (e) { /* ignore */ }
+    worker = null;
+  }
 
   const workerPath = path.join(
     __dirname,
@@ -44,13 +58,20 @@ function ensureWorker() {
     // handle cache updates coming from sliding window worker
     if (msg.type === 'cache-update') {
         try {
-            const { subType, nodeId, newTime } = msg;
-            if (subType === 'last-complete-attempt') {
-                deviceMetadataCacheUpdate.setLastCompleteControlConstructUpdateTimeAttempt(nodeId, newTime);
-                //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-complete-control-construct-update-time-attempt: ${newTime}.`);
-            } else if (subType === 'last-successful-complete') {
-                deviceMetadataCacheUpdate.setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, newTime);
-                //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-successful-complete-control-construct-update-time: ${newTime}.`);
+            // One message contains both attempt and sucess times
+            if (msg.attemptTime !== undefined || msg.successTime !== undefined) {
+              const { nodeId, attemptTime, successTime } = msg;
+
+              //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-complete-control-construct-update-time-attempt: ${attemptTime}.`);
+              //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-successful-complete-control-construct-update-time: ${successTime}.`);
+              
+              // Use the new combined method (main thread applies updates)
+              deviceMetadataCacheUpdate.updateCcSyncTimes(
+                nodeId,
+                attemptTime,
+                successTime
+              );
+              
             }
         } catch (err) {
             logger.error('[SlidingWindowHandler] Error applying cache-update:', err);
@@ -80,12 +101,31 @@ function ensureWorker() {
   worker.on('error', (err) => {
     logger.error('[SlidingWindowHandler] Worker Error Event:', err);
     logSlidingWindowActivity(`[SlidingWindowHandler] Worker Error Event: ${err}`);
+
+    // clear pending requests to avoid hangs
+    failAllPendingRequests(`error:${err && err.message ? err.message : err}`);
+
+    // ensure we recreate if it dies or becomes unhealthy
+    worker = null;
+    scheduleRestart('error-event');
   });
 
   worker.on('exit', (code) => {
     logger.warn('[SlidingWindowHandler] Worker exited with code:', code);
     logSlidingWindowActivity(`[SlidingWindowHandler] Worker exited with code: ${code}`);
+
+    // clear pending requests to avoid hangs
+    failAllPendingRequests(`exit:${code}`);
+
     worker = null;
+
+    // Exit code 0 usually means normal termination (like terminate())
+    if (code !== 0) {
+      scheduleRestart(`exit:${code}`);
+    } else {
+      // normal exit: reset backoff
+      restartAttempts = 0;
+    }
   });
 
   return worker;
@@ -99,6 +139,7 @@ function ensureWorker() {
  * Start SlidingWindow inside worker
  */
 function startSlidingWindowProcessForCCUpdate() {
+  shouldRunSlidingWindow = true;
   const workerThread = ensureWorker();
   logger.info('[SlidingWindowHandler] Sending start-sliding-window to worker...');
   logSlidingWindowActivity('[SlidingWindowHandler] Sending start-sliding-window to worker...');
@@ -109,6 +150,7 @@ function startSlidingWindowProcessForCCUpdate() {
  * Stop SlidingWindow inside worker
  */
 function stopSlidingWindowProcessForCCUpdate() {
+  shouldRunSlidingWindow = false;
   const workerThread = ensureWorker();
   logger.info('[SlidingWindowHandler] Sending stop-sliding-window to worker...');
   logSlidingWindowActivity('[SlidingWindowHandler] Sending stop-sliding-window to worker...');
@@ -194,6 +236,55 @@ function getAllDeviceMetaData() {
       }
     }, 5000);
   });
+}
+
+/**
+ * Reject/resolve any pending requests when worker dies,
+ * otherwise Promises may hang + memory will leak.
+ */
+function failAllPendingRequests(reason) {
+  for (const [requestId, pending] of pendingRequests.entries()) {
+    try {
+      // You can either resolve(null) or reject(). Resolve(null) is safer for callers.
+      pending.resolve(null);
+    } catch (e) { /* ignore */ }
+    pendingRequests.delete(requestId);
+  }
+  logger.warn(`[SlidingWindowHandler] Cleared pending requests due to worker termination: ${reason}`);
+  logSlidingWindowActivity(`[SlidingWindowHandler] Cleared pending requests due to worker termination: ${reason}`);
+}
+
+/**
+ * Schedule worker restart with exponential backoff.
+ * If SlidingWindow is supposed to run, it will auto-start after restart.
+ */
+function scheduleRestart(reason) {
+  if (restarting) return;
+  restarting = true;
+
+  // 1s, 2s, 4s, 8s, ... max 30s
+  const delay = Math.min(30000, 1000 * (2 ** restartAttempts));
+  restartAttempts++;
+
+  logger.warn(`[SlidingWindowHandler] Scheduling worker restart in ${delay} ms (reason=${reason}, attempt=${restartAttempts})`);
+  logSlidingWindowActivity(`[SlidingWindowHandler] Scheduling worker restart in ${delay} ms (reason=${reason}, attempt=${restartAttempts})`);
+
+  if (restartTimer) clearTimeout(restartTimer);
+
+  restartTimer = setTimeout(() => {
+    restartTimer = null;
+    restarting = false;
+
+    // Create fresh worker
+    ensureWorker(true);
+
+    // Auto-start SlidingWindow if main thread wants it running
+    if (shouldRunSlidingWindow && worker) {
+      logger.info('[SlidingWindowHandler] Auto-starting SlidingWindow after worker restart.');
+      logSlidingWindowActivity('[SlidingWindowHandler] Auto-starting SlidingWindow after worker restart.');
+      worker.postMessage({ type: 'start-sliding-window' });
+    }
+  }, delay);
 }
 
 /**

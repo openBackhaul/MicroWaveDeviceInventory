@@ -89,23 +89,9 @@ class DeviceMetaDataList {
         }
     }
 
-  /**
-   * updates "last-complete-control-construct-update-time-attempt" for given node-id
-   * NOTE: in worker thread this will delegate to main thread via message
-   */
+    // updates "last-complete-control-construct-update-time-attempt" for given node-id
     setLastCompleteControlConstructUpdateTimeAttempt(nodeId, newTime) {
         try {
-            if (!isMainThread && parentPort) {
-                parentPort.postMessage({
-                    type: 'cache-update',
-                    subType: 'last-complete-attempt',
-                    nodeId,
-                    newTime
-                });
-                return true;
-            }
-
-      // normal main-thread behavior
             let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
             if (data) data["last-complete-control-construct-update-time-attempt"] = newTime;
             return true;
@@ -115,23 +101,9 @@ class DeviceMetaDataList {
         }
     }
 
-  /**
-   * updates "last-successful-complete-control-construct-update-time" for given nodeId
-   * NOTE: in worker thread this will delegate to main thread via message
-   */
+    // updates "last-successful-complete-control-construct-update-time" for given nodeId
     setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, newTime) {
         try {
-            if (!isMainThread && parentPort) {
-                parentPort.postMessage({
-                    type: 'cache-update',
-                    subType: 'last-successful-complete',
-                    nodeId,
-                    newTime
-                });
-                return true;
-            }
-
-      // normal main-thread behavior
             let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
             if (data) data["last-successful-complete-control-construct-update-time"] = newTime;
             return true;
@@ -146,6 +118,40 @@ class DeviceMetaDataList {
         try {
             let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
             if (data) data["last-control-construct-notification-update-time"] = newTime;
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    /**
+     * Update attempt time + (optional) success time in ONE call.
+     * - In worker thread of SlidingWindow: send ONE cache-update message.
+     * - In main thread: apply changes to in-memory array.
+     */
+    updateCcSyncTimes(nodeId, attemptTime, successTime) {
+        try {
+            if (!isMainThread && parentPort) {
+                parentPort.postMessage({
+                    type: 'cache-update',
+                    nodeId,
+                    attemptTime,
+                    successTime: successTime || null
+                });
+                return true;
+            }
+
+            // Main-thread behavior: update in-memory list
+            const data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
+            if (data) {
+                if (attemptTime) {
+                    data["last-complete-control-construct-update-time-attempt"] = attemptTime;
+                }
+                if (successTime) {
+                    data["last-successful-complete-control-construct-update-time"] = successTime;
+                }
+            }
             return true;
         } catch (error) {
             console.log(error);

@@ -2,6 +2,17 @@
 
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
 let deviceMetadataListSyncProcessId = 0;
+
+// NEW: detect worker vs main
+let isMainThread = true;
+let parentPort = null;
+try {
+  const wt = require('worker_threads');
+  isMainThread = wt.isMainThread;
+  parentPort = wt.parentPort;
+} catch (e) {
+  // worker_threads not available (older Node) – treat as main thread
+}
 /**
  * This class includes functions that shall be accessed to process the deviceMetaDataList in cache
  * This class handles following five parameters
@@ -107,6 +118,40 @@ class DeviceMetaDataList {
         try {
             let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
             if (data) data["last-control-construct-notification-update-time"] = newTime;
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    /**
+     * Update attempt time + (optional) success time in ONE call.
+     * - In worker thread of SlidingWindow: send ONE cache-update message.
+     * - In main thread: apply changes to in-memory array.
+     */
+    updateCcSyncTimes(nodeId, attemptTime, successTime) {
+        try {
+            if (!isMainThread && parentPort) {
+                parentPort.postMessage({
+                    type: 'cache-update',
+                    nodeId,
+                    attemptTime,
+                    successTime: successTime || null
+                });
+                return true;
+            }
+
+            // Main-thread behavior: update in-memory list
+            const data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
+            if (data) {
+                if (attemptTime) {
+                    data["last-complete-control-construct-update-time-attempt"] = attemptTime;
+                }
+                if (successTime) {
+                    data["last-successful-complete-control-construct-update-time"] = successTime;
+                }
+            }
             return true;
         } catch (error) {
             console.log(error);

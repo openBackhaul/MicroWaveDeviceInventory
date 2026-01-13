@@ -5,8 +5,9 @@ const RestClient = require('../../rest/client/dispacher');
 const utility = require('../../utility');
 const deviceControlConstructUtility = require('./deviceControlConstructUtility');
 const individualServicesService = require('../../../IndividualServicesService');
-const deviceMetadataPriorityList = require('./DeviceMetaDataPriorityList');
+//const deviceMetadataPriorityList = require('./DeviceMetaDataPriorityList');
 const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
+const slidingWindowHandler = require('./SlidingWindowHandler');
 
 /**
  * This function gets netconf data of devices connected to given controller 
@@ -274,7 +275,7 @@ exports.updateDeviceMetadataPriorityList = async function (deviceMetaData) {
       if (key in deviceMetaData) acc[key] = deviceMetaData[key];
       return acc;
     }, {});
-    await deviceMetadataPriorityList.createOrUpdateDevice(deviceData);
+    await slidingWindowHandler.createOrUpdateDevice(deviceData);
     return true;
   } catch (error) {
     return false;
@@ -290,7 +291,7 @@ exports.updateDeviceMetadataPriorityList = async function (deviceMetaData) {
 exports.removeDeviceDataFromCache = async function (mountName) {
   let isDeleted = false;
   try {
-    isDeleted = await deviceMetadataPriorityList.removeMetaDataOfDevice(mountName);
+    isDeleted = await slidingWindowHandler.removeMetaDataOfDevice(mountName);
     if (isDeleted) await deviceMetaDataCacheUpdate.removeDevicemetadata(mountName);
     if (isDeleted) {
       console.log(`************************* attempting to CC of ${mountName} from ES **************************`);

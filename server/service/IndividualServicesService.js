@@ -4940,7 +4940,16 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }
+          else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5028,7 +5037,16 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5116,7 +5134,16 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5203,7 +5230,16 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5270,7 +5306,16 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5357,7 +5402,16 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5443,7 +5497,16 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
           } else if (res.statusText == 401 || res.statusText == 403) {
             // resolve(result.status, result.statusText);
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5529,7 +5592,16 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
           } else if (res.statusText == 401 || res.statusText == 403) {
             // resolve(result.status, result.statusText);
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5614,7 +5686,16 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5700,7 +5781,16 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5786,7 +5876,16 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5873,7 +5972,16 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -5960,7 +6068,15 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }  else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6049,7 +6165,16 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           } else if (result.statusText == 401 || result.statusText == 403) {
             // resolve(result.status, result.statusText);
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } 
+           else if (result.statusText == "Service Unavailable" || result.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (result.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6173,7 +6298,16 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
           } else if (res.statusText == 401 || res.statusText == 403) {
             // resolve(result.status, result.statusText);
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }
+           else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6259,7 +6393,15 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6346,7 +6488,16 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }
+          else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6433,7 +6584,16 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }
+          else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6519,7 +6679,15 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6586,7 +6754,15 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6673,7 +6849,15 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6760,7 +6944,15 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6845,7 +7037,15 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6931,7 +7131,15 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7017,7 +7225,15 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7103,7 +7319,15 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7189,7 +7413,15 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7277,7 +7509,15 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7363,7 +7603,15 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7449,7 +7697,15 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7536,7 +7792,15 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7622,7 +7886,15 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7689,7 +7961,15 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7776,7 +8056,15 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7860,7 +8148,15 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -7944,7 +8240,15 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8031,7 +8335,15 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8118,7 +8430,15 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8205,7 +8525,15 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8291,7 +8619,15 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8377,7 +8713,15 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8463,7 +8807,15 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8573,7 +8925,15 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8660,7 +9020,15 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8747,7 +9115,15 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8833,7 +9209,15 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8900,7 +9284,15 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -8987,7 +9379,15 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9073,7 +9473,15 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9159,7 +9567,15 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9245,7 +9661,15 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9330,7 +9754,15 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9417,7 +9849,15 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9505,7 +9945,15 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9592,7 +10040,15 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9680,7 +10136,15 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9767,7 +10231,15 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9835,7 +10307,15 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -9923,7 +10403,15 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+           else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -10009,7 +10497,15 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -10095,7 +10591,15 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } else {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
+              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (res.status === 409) {
+            throw new createHttpError(
+              502,
+              "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
+            );
+          }
+          else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -10656,7 +11160,7 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
   return new Promise(async function (resolve, reject) {
     try {
       const excludeMountNames = ["DeviceMetaDataList", "DeviceList", "MetaDataList", "cache-quality-statistics"].map(s => s.toLowerCase());
-      
+
       let result = await utility.ReadIdsFromEs();
       result = result.filter(d => !excludeMountNames.includes(String(d).toLowerCase())).map(d => ({ "mount-name": d }));
       if (result != undefined) {
@@ -11174,7 +11678,7 @@ async function enqueueAlarm(mountname, alarmBody, alarmFn) {
   const { dynamicBatchSize, dynamicWindowMs, rate } = getDynamicConfig(mountname);
 
   //logAlarmNotificationUpdate(`[TUNE] ${mountname}: rate=${rate}/s, batch=${dynamicBatchSize}, window=${dynamicWindowMs}ms`);
-  
+
   return new Promise((resolve, reject) => {
     queue.push({ alarmFn, resolve, reject, attempt: 1, alarmBody });
 
@@ -11249,8 +11753,8 @@ async function processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs) {
       }
     }
 
-    logAlarmNotificationUpdate(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start)/1000}s). Remaining queue=${queue.length} ***************************************`);
-    
+    logAlarmNotificationUpdate(`[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(Date.now() - start) / 1000}s). Remaining queue=${queue.length} ***************************************`);
+
     recordBatchDuration(mountname, Date.now() - start);
 
   } catch (err) {
@@ -11310,12 +11814,12 @@ setInterval(() => {
 
     const perf = performanceStats.get(mountname);
     const avgDuration = perf && perf.durations.length > 0
-      ? ((perf.durations.reduce((a, b) => a + b, 0) / perf.durations.length).toFixed(0))/1000
+      ? ((perf.durations.reduce((a, b) => a + b, 0) / perf.durations.length).toFixed(0)) / 1000
       : "—";
 
     summaryLines.push(
       `Mount=${mountname} | rate=${rate}/s | queue=${queueSize} | batch=${dynamicBatchSize} | ` +
-      `window=${dynamicWindowMs/1000}s | avgBatch=${avgDuration}s | processing=${isProcessing} | flushTimer=${flushTimerActive}`
+      `window=${dynamicWindowMs / 1000}s | avgBatch=${avgDuration}s | processing=${isProcessing} | flushTimer=${flushTimerActive}`
     );
   }
 
@@ -11337,7 +11841,8 @@ setInterval(() => {
  **/
 exports.regardDeviceAlarm = function (body) {
   return new Promise(async function (resolve, reject) {
-    try{
+    try {
+
       let objectKey = Object.keys(body)[0];
       let currentJSON = body[objectKey];
       let resource = currentJSON['resource'];
@@ -11360,7 +11865,7 @@ exports.regardDeviceAlarm = function (body) {
           //throw new createHttpError.NotFound("unable to find device")
           //throw new createHttpError(500, "unable to find device");
           //resolve();
-          
+
           // Return cleanly so queue marks as success
           return;
         }
@@ -11379,17 +11884,17 @@ exports.regardDeviceAlarm = function (body) {
 
         // Get the current alarms list
         await alarmHandler.updateAlarmByTypeAndResource(result, alarmTypeId, resource, problemSeverity, updatedAttributes);
-        
+
         // Write updated Json to ES
         modifyUUID(result, mountname);
 
-       
+
         logAlarmNotificationUpdate(`[WRITE-START] ${mountname}`);
         let resultEsWrite = await recordRequest(result, mountname);
         logAlarmNotificationUpdate(`[WRITE-END] ${mountname}`);
 
         if (!resultEsWrite.ok && !resultEsWrite.retry) {
-            return;   // do not retry
+          return;   // do not retry
         }
 
         //update meta-data for update of alarm data into CC -- partial update
@@ -12681,7 +13186,7 @@ async function recordRequest(body, cc) {
 
     const duration = (Date.now() - start) / 1000;
     logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
-    
+
 
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")

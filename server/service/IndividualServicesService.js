@@ -11779,6 +11779,7 @@ function cleanupMount(mountname) {
   processingLocks.delete(mountname);
   flushTimers.delete(mountname);
   mountStats.delete(mountname);
+  performanceStats.delete(mountname);
 
   logAlarmNotificationUpdate(`[LOCK] Cleared queue and lock for ${mountname}`);
 }

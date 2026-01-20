@@ -6,14 +6,33 @@ const slidingWindow = require('./SlidingWindow');
 const deviceMetaDataPriorityList = require('./DeviceMetaDataPriorityList');
 const logger = require('./../../../LoggingService.js').getLogger();
 const { logSlidingWindowActivity } = require('./../../../../utils/alarmLogTracker.js');
+const individualServices = require("../../../IndividualServicesService");
+const notificationManagement = require('../../NotificationManagement');
+const prepareElasticsearch = require('../../ElasticsearchPreparation');
 
 let slidingWindowStarted = false;
 
+// workerData contains global info passed from main thread
+(async () => {  
+  try {    
+      //Initialize globals for worker thread
+      global.applicationDataPath = './application-data/';
+      global.databasePath = './database/config.json';
+      global.common = await individualServices.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+      global.notify = await individualServices.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
+      global.proxy = await notificationManagement.getAppInformation();
+      await prepareElasticsearch(false);
+  } catch (err) {
+      console.log(err)
+      parentPort.postMessage({ error: err.message });
+  }
+})();
 
 // Handle messages from main thread
 parentPort.on('message', (msg) => {
   if (!msg) return;
 
+  
   // 0. Start SlidingWindow when requested by main thread
   if (msg === 'start-sliding-window' || msg.type === 'start-sliding-window') {
     if (slidingWindowStarted) {

@@ -134,14 +134,21 @@ parentPort.on('message', (msg) => {
 
   // 5. removeMetaDataOfDevice
   if (msg.type === 'remove-device-metadata') {
+    let result = false;
     try {
-      deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
-      logSlidingWindowActivity(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName}`);
-      logger.info(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName}`);
+      result =deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
+      logSlidingWindowActivity(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);
+      logger.info(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);
     } catch (err) {
       logger.error('[SlidingWindowWorker] Error in removeMetaDataOfDevice:', err);
       logSlidingWindowActivity('[SlidingWindowWorker] Error in removeMetaDataOfDevice:'+err);
     }
+
+    parentPort.postMessage({
+      type: 'remove-device-metadata-response',
+      requestId: msg.requestId,
+      result
+    });
     return;
   }
 

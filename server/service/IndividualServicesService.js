@@ -8176,13 +8176,29 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
-              // Update json object
-              let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              // Log what we actually pass
+              logger.info("[MWDI] cacheUpdateBuilder inputs:", {
+                correctCc,
+                correctUrl,
+                filters,
+                resultType: typeof result,
+                hasControlConstruct: !!(result && result["control-construct"]),
+                hasLtp: !!(result && result["control-construct"] && result["control-construct"]["logical-termination-point"]),
+              });
+
+              // Skip update if cache record is missing or incomplete
+              if (!result || !result["control-construct"]) {
+                logger.warn(`[MWDI] Skip ES cache update: no cache record / missing control-construct for ${correctCc}`);
+              } else {
+                // Update json object
+                let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+              }
+              
               // Write updated Json to ES
               let elapsedTime = await recordRequest(result, correctCc);
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(retJson)
             resolve(retJson);
@@ -8190,7 +8206,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
         }
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });
@@ -11157,7 +11173,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
  * returns inline_response_200_10
  **/
 exports.provideListOfCachedDevices = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(async function (resolve, reject) {
+  /* return new Promise(async function (resolve, reject) {
     try {
       const excludeMountNames = ["DeviceMetaDataList", "DeviceList", "MetaDataList", "cache-quality-statistics"].map(s => s.toLowerCase());
 
@@ -11168,6 +11184,32 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
           "mount-name-list": result
         };
         resolve(outputJson);
+      } else {
+        throw new createHttpError.NotFound("Device list not found");
+      }
+    } catch (error) {
+      reject(error);
+    }
+  }); */
+  return new Promise(async function (resolve, reject) {
+    try {
+      const excludeMountNames = new Set(
+        ["DeviceMetaDataList", "DeviceList", "MetaDataList", "cache-quality-statistics"]
+          .map(s => s.toLowerCase())
+      );
+
+      const ids = await utility.ReadIdsFromEs();
+
+      const mountList = [];
+      for (const id of ids) {
+        const lower = String(id).toLowerCase();
+        if (!excludeMountNames.has(lower)) {
+          mountList.push({ "mount-name": id });
+        }
+      }
+
+      if (mountList.length > 0) {
+        resolve({ "mount-name-list": mountList });
       } else {
         throw new createHttpError.NotFound("Device list not found");
       }

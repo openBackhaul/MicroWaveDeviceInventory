@@ -162,7 +162,7 @@ async function performQualityMeasurement() {
   
   let device = await slidingWindowHandler.getNextDeviceMetaDataForQm(); 
   console.log("**************DEBUG device name in cache quality measurement process*************");
-  console.log(device);
+  //console.log(device);
   if (device != undefined) {
     try {
       if (!device) {

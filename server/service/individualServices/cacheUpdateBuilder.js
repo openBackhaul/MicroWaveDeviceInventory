@@ -2,6 +2,10 @@ const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
 exports.cacheUpdateBuilder = async function (url, originalJSON, toInsert, hasFilter) {
+  if (!originalJSON || typeof originalJSON !== "object") {
+    logger.warn(`cacheUpdateBuilder: originalJSON missing/invalid. url=${url}`);
+    return originalJSON; // or {} depending on your expected behavior
+  }
   const urlParts = url.split("?fields=");
   const myFields = urlParts[1];
   // let hasFilter = filters ? filters : (myFields != "" && myFields != undefined);
@@ -91,6 +95,11 @@ function assignValueToJson(json, path, newJSON, hasFilters) {
   const pathKeys = path.split('.');
 
   let objJSON = json;
+
+  if (objJSON === undefined || objJSON === null) {
+    logger.warn(`assignValueToJson: path not present. path=${path}`);
+    return;
+  }
   // Unused code
   // let Filters = false;
   // if (filters != "" && filters != undefined) {

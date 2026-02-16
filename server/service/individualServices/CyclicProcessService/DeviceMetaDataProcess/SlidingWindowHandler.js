@@ -96,6 +96,16 @@ function ensureWorker(forceRecreate = false) {
         pendingRequests.delete(requestId);
       }
     }
+
+    if (msg.type === 'remove-device-metadata-response') {
+      const { requestId, result } = msg;
+      const pending = pendingRequests.get(requestId);
+      if (pending) {
+        pending.resolve(!!result);
+        pendingRequests.delete(requestId);
+      }
+      return;
+    }
   });
 
   worker.on('error', (err) => {
@@ -208,9 +218,23 @@ function setExcludeFromQmOfDevice(mountName, value) {
  */
 function removeMetaDataOfDevice(mountName) {
   const workerThread = ensureWorker();
-  workerThread.postMessage({
-    type: 'remove-device-metadata',
-    mountName
+  const requestId = nextRequestId++;
+
+  return new Promise((resolve) => {
+    pendingRequests.set(requestId, { resolve });
+
+    workerThread.postMessage({
+      type: 'remove-device-metadata',
+      requestId,
+      mountName
+    });
+
+    setTimeout(() => {
+      if (pendingRequests.has(requestId)) {
+        pendingRequests.delete(requestId);
+        resolve(false);
+      }
+    }, 5000);
   });
 }
 

@@ -148,6 +148,16 @@ profile-instances:
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=4/changes'
 
+  - profile-name: 'GenericResponseProfile'
+    uuid: 'mwdi-2-1-0-response-p-012'
+    capability:
+      operation-name: '/v1/inform-about-release-history-in-generic-representation'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=5/release-number'
+      description: 'Represents the 6th entry in the list of releases'
+      datatype: string
+    configuration:
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=5/changes'
+
   - profile-name: 'FileProfile'
     uuid: 'mwdi-2-1-0-file-p-000'
     capability:

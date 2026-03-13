@@ -155,6 +155,14 @@ For improved stability the following changes have been introduced from 2.0.0 to 
 - devices are no longer moved to the end of the sliding window
 - retrieval priority is determined from *last-complete-control-construct-update-time-attempt*
 
+### Adding update time information to CC update with MWDI 2.1.0
+
+ControlConstructs retrieved from devices do not contain any information about when they have been updated.  
+Before MWDI 2.1.0, the timestamp for last complete ControlConstruct updates was only written to the deviceMetadataList (*last-successful-complete-control-construct-update-time*).
+For e.g. usage in DPMDP such information, however, is required to be present in the ControlConstruct itself.  
+Therefore, when the live service for updating the complete ControlConstruct is executed,
+MWDI shall write the timestamp of this update also into the ControlConstruct itself into attribute *lastCompleteControlConstructUpdateTime*.
+
 ### DeviceMetadataList metadata
 The metadata table introduced in 1.2.x is replaced by the deviceMetadataList metadata attributes. I.e. the deviceMetadataList no longer consists only of the devices, but also stores the additional metadata attributes.  
 
@@ -198,4 +206,5 @@ Polling notifications from Kafka can be switched on/off via profileInstance *kaf
 Certain parts of the ControlConstruct can be updated upon “user” demand. I.e. if another application calls a *live* path for e.g. the air interface capabilities, they are retrieved from the device and then the air interface capabilities inside the cached ControlConstruct are updated with the newly retrieved information. The other parts of the ControlConstruct are not updated by this.
 
 **User-initiated updates the complete ControlConstruct**  
+
 Also the complete ControlConstruct can be updated upon “user” demand. If the related *live* path is called, the device gets locked for both the slidingWindow and qualityMeasurement process. If the device is already being processed by either of the two and the *live* path gets called in addition, it will be executed parallely in addition. The metadata attributes will be updated by both retrievals upon their completion.  

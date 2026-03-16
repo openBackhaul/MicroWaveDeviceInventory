@@ -31,6 +31,12 @@ OdlControlConstructClass --> LiveControlConstructClass: {class-with-all-or-a-sub
 LiveControlConstructClass --> requestor: {class-with-all-or-a-subset-of-components}
 
 note over LiveControlConstructClass
+  IF an entire CC has been read from the device
+  the lastCompleteControlConstructUpdateTime
+  attribute has to be added to the ControlConstruct
+end note
+
+note over LiveControlConstructClass
 IF livePath has a corresponding path at ElasticSearch
 (e.g. not the case for *-current-performance
 end note

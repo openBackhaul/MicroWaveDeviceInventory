@@ -41,13 +41,13 @@ The table shall contain the following columns:
   - It indicates the device vendor, and partially also the device type.
 - **device-type**:
   - this attribute contains the device type extracted from the device ControlConstruct data
-  - if no mapping can be found, the value will be set to the default value "unknown"
   - it will be set initially after the device has been added to the deviceMetadataList
-  - in case the device is revisited due to the periodic deviceMetadataList sync and the value is still "unknown", it again is tried to update it from CC data
+  - in case the input value from CC data is empty, it shall be set to "unknown"
+  - it will be updated due to the periodic deviceMetadataList, if the value is "unknown"
 - **vendor**:
-  - this attribute contains the vendor and is set along with the device-type
+  - this attribute contains the vendor and is set along with the deviceType
   - if no mapping can be found, the value will be set to the default value "unknown"
-  - everytime an update of an unknown device-type is tried, the vendor update will also be tried
+  - everytime the deviceType changes the vendor will also be updated
 - **locked-status**:
   - this attribute is only to be used internally
   - if a device is either added to the slidingWindow or processed by the qualityMeasurement process, it is locked
@@ -66,7 +66,9 @@ The deviceMetadataList stores the device-type and vendor of all contained mount-
   - if there is no ControlConstruct for the specific device in the cache, when this is happening, the update is tried again during the next cycle and the values remain "unknown"
   - otherwise the device-type shall be dreived from the ControlConstruct data
 
-**Where to find the information in the CC?**  
+### Where to find the information in the CC?
+
+**Up to 2.0.1**  
 The information is to be retrieved from the air-interface-capability/type-of-equipment attribute.  
 The used fields filter will not only return data that is needed, but all found ltps; the unneeded information can be ignored. 
 Also a CC may contain multiple air-interfaces/type-of-equipment entries (see [issue1156](https://github.com/openBackhaul/MicroWaveDeviceInventory/issues/1156) for examples).
@@ -84,11 +86,21 @@ For mapping the vendor:
 
 By providing the mappings in the *deviceTypeMapping* and *vendorFromDeviceMapping* profileInstances, the mappings can easily be modified, e.g. when new device types are added to the network.
 
+**Update with 2.1.0**  
+The input source for the deviceType is changed from airInterfaceCapability information to the *deviceModelName* from equipmentAugment.  
+The value of this attribute is more accurate and closely tied to the device type name from the vendor.  
+
+Therefore, for the deviceType values from *deviceModelName* no regex shall be applied to shorten and unify the deviceTypes (e.g. *OptiXRTN380AX* will remain like that and not be changed to *RTX380AX*).  
+It is not expected that the *deviceModelName* will come with an unknown deviceType. Therefore, the complete regex mapping will no longer be applied.  
+
+To derive the vendor from the deviceType regex still needs to be applied, but due to the more complex names, the regex mappings need to be modified accordingly.
+
+
 ---
 
 ## Sorting the deviceMetadataList
 
-In order to effiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
+In order to efficiently select the next device for ControlConstruct update by either the slidingWindow or qualityMeasurement process, the deviceMetadataList is sorted by priority.  
 The ordering is based on the the *last-complete-control-construct-update-time-attempt* timestamp values, with from-oldest-to-newest order, starting with those devices where the timestamp is from *1999*.
 Devices with connection-state not being *connected* are found at the end of the list (if they are being kept due to the *historicalControlConstructPolicy*).
 
@@ -100,7 +112,7 @@ Ordering updates:
   - move in the same fashion as for the successful retrieval
   - moving the device in the list ensures that the same device is not selected over and over again in case of failure
 
-![deviceMetadataListOrdering](./pictures/deviceMetadataListOrdering.png)
+![deviceListOrdering](./pictures/deviceListOrdering.png)
 
 ### Concept vs. actual implementation
 
@@ -115,5 +127,6 @@ Also note, that there is no service to provide the actual complete deviceMetadat
 ## Updating the metadata attributes
 
 The following table gives an overview about how the metadata attributes shall be updated.  
+
 
 ![metadataUpdateRules](./pictures/metadataUpdateRules.png)

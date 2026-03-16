@@ -19,5 +19,13 @@ The respective services per category are:
 | <br>requestBody category | <br>Services | <br>Tests, expected results |
 |---|---|---|
 | <br>(1) mandatory |/v1/provide-list-of-device-interfaces <br>/v1/provide-list-of-actual-device-equipment <br>/v1/provide-list-of-parallel-links <br>/v1/provide-device-status-metadata <br> | <br>Invalid requestBody, no requestBody <br>400 |
-| <br>(2) optional | <br> /v1/provide-list-of-links <br> /v1/provide-data-of-all-links | <br>Invalid requestBody, <br>400 |
-| <br>(3) none | <br> /v1/provide-list-of-connected-devices <br> /v1/provide-list-of-link-ports <br> /v1/provide-data-of-all-link-ports | <br>Dummy requestBody <br>200 |
+| <br>(2) optional | <br> /v1/provide-list-of-links <br> /v1/provide-data-of-all-links <br> /v1/provide-cache-quality-statistics| <br>Invalid requestBody, <br>400 |
+| <br>(3) none | /v1/provide-list-of-link-ports <br> /v1/provide-data-of-all-link-ports <br> /v1/provide-list-of-cached-devices <br> | <br>Dummy requestBody <br>200 |
+
+
+### Deprecated services
+
+For the deprecated /v1/provide-list-of-connected-devices, a separate testcase collection is available.  
+There is no requestBody specified (i.e. category 3).  
+
+![OverviewDeprecated](./_deprecated-services%20tests/mwdi+diagram.invalidOrMissingRequestBody.dataprovider.deprecated.png)

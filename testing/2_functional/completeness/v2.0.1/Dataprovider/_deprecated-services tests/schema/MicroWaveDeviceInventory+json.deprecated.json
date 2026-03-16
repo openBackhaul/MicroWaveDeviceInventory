@@ -1,0 +1,16 @@
+{
+  "/v1/provide-list-of-connected-devices": {
+    "type": "object",
+    "required": [
+      "mount-name-list"
+    ],
+    "properties": {
+      "mount-name-list": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

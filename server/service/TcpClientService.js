@@ -15,8 +15,8 @@ const { isTcpClientElasticsearch, elasticsearchService } = require('onf-core-mod
 exports.getTcpClientRemoteAddress = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-client-interface-1-0:remote-address": value
       };
@@ -40,8 +40,8 @@ exports.getTcpClientRemoteAddress = function (url) {
 exports.getTcpClientRemotePort = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-client-interface-1-0:remote-port": value
       };
@@ -65,8 +65,8 @@ exports.getTcpClientRemotePort = function (url) {
 exports.getTcpClientRemoteProtocol = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
+      let value = await fileOperation.readFromDatabaseAsync(url);
+      let response = {};
       response['application/json'] = {
         "tcp-client-interface-1-0:remote-protocol" : value
       };

@@ -31,6 +31,36 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 ### Latest Update  
 
+**v2.1.0**  
+This release adds the following changes:
+- a configurable list of attributes/subclasses to be excluded from the quality measurement process
+- different approach for deriving the deviceType (use equipment-augment/device-model-name instead of air-interface-capability information and regex), vendor mapping adjusted accordingly
+- adds the timestamp of the last complete ControlConstruct update to the respective ControlConstruct
+
+For more details, see issue collection [MWDI v2.1.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/24).  
+
+
+**v2.0.1**  
+Fixes findings and completes missing changes from v2.0.0.  
+See issue collection [MWDI v2.0.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/21).  
+
+#### Notification Handling
+MWDI v2.0.1 also adds the following changes to notification handling diverging from v2.0.0:
+- (1) Controller notifications shall not be pulled from Kafka, but again pushed to MWDI by NotificationProxy
+- (2) Device and alarm notifications are to be pulled from Kafka from two separate topics
+- (3) Pulling of notifications from Kafka and processing them can be turned on/off via a profileInstance
+
+*Details*:  
+- for (1) the following changes were applied:
+  - deprecation of service */v1/regard-controller-attribute-value-change* has been reverted
+  - a 2nd NotificationProxy http client was added
+    - the 1st will handle only subscribing for/unsubscribing from Controller notifications and contains the actual NP address information
+    - the 2nd client will manage subscription handling for device and alarm notifications, but only becomes effective if valid address information is provided during runtime (receiving these notifications from NP directly is just a fallback)
+- for (2) the following changes were applied:
+  - a 2nd KafkaMessageBroker http client has been added
+  - the 1st http client is for pulling from topic *device_change_notifications*
+  - the 2nd http client is for pulling from topic *alarm_change_notifications*
+
 **v2.0.0**  
 **Summary of changes:**  
 - Optimized sliding window  

@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @file This module provides funtionality to trigger and dispatch rest request from this application to other applications  
+ * @file This module provides funtionality to trigger and dispatch rest request from this application to other applications
  * This class consolidates the technology specific extensions.
  **/
 
@@ -9,6 +9,7 @@
 
 const RequestHeader = require('./requestHeader');
 const RestRequestBuilder = require('./requestBuilder');
+const logger = require('../../../LoggingService.js').getLogger();
 
 /**
  * This funtion formulates the request body based on the operation name and application 
@@ -18,27 +19,27 @@ exports.dispatchEvent = function (url, method, httpRequestBody, Authorization) {
     return new Promise(async function (resolve, reject) {
         let result = false;
         try {
-           
             let httpRequestHeader = new RequestHeader(
                 Authorization
-                     
-                );
+            );
+
             let response = await RestRequestBuilder.BuildAndTriggerRestRequest(
                 //decodeURIComponent(url),
                 url,
-                httpRequestHeader, 
+                httpRequestHeader,
                 httpRequestBody
                 );
-            let responseCode = response.status;
-            if (responseCode.toString().startsWith("2")) {
-                result = true;
-                //resolve(response);
-            } /* else {
-                resolve(false)
-            } */
+            // let responseCode = response.status;
+            // if (responseCode.toString().startsWith("2")) {
+            //     result = true;
+            //     //resolve(response);
+            // } /* else {
+            //     resolve(false)
+            // } */
             resolve(response);
         } catch (error) {
-            reject(error);
+            //reject(error);
+            resolve(false);
         }
     });
 }

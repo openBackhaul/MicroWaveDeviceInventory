@@ -1,0 +1,21 @@
+@startuml mwdi+diagram.tacInteraction
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.tacInteraction
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+participant "TAC applications" as Tac
+
+group eatlLogging
+  note right Postman
+    see mwdi+diagram.eatlLogging
+  end note
+end
+
+deactivate Postman
+
+@enduml

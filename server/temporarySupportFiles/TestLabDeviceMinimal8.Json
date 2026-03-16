@@ -30,7 +30,7 @@
                     {
                         "node-id": "CO13306",
                         "netconf-node-topology:connection-status": "connected"
-                    },                    
+                    },
                     {
                         "node-id": "AAAAAAA",
                         "netconf-node-topology:connection-status": "connected"

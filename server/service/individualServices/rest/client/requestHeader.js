@@ -19,7 +19,6 @@ class RequestHeader {
      * @param {String} operationKey operation key to access the service in the client application.
      */
      constructor(Authorization) {
-        
         if (Authorization != undefined && Authorization.length > 0) {
             this.Authorization = Authorization;
         }

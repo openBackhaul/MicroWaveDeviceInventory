@@ -40,7 +40,7 @@ The profileInstances relevant to the update process are *slidingWindowSize*, *re
 - Due to timeouts, connection errors or other issues it may not be possible to retrieve the CC for a given device. In order to not lose to much data, there can be retries for the CC retrieval.
 - **When a device from the slidingWindow is queried and the retrieval fails, the retrieval should be retried as many times as configured in maximumNumberOfRetries.**
 - **The allowed retries shall also be applied to the qualityMeasurement process**
-- (initial) configuration: 1
+- (initial) configuration: 0
 
 **`deviceListSyncPeriod`**  
 - **The deviceListSyncPeriod determines in which intervals the MWDI deviceMetadataList is synced with the list of (connected) devices from the Controller**
@@ -91,7 +91,7 @@ The steps for the update are as follows:
   - deviceMetadataList metadata attributes are set accordingly to reflect the device is no longer connected
 -	Repeat after the time specified in profileInstance `deviceListSyncPeriod`
 - also note:
-  - for all new devices or connected devices where the device-type in metadata attributes is still unknown, it is tried to determine the deviceType (again)
+  - for all new devices or connected devices where the device-type in metadata attributes is "unknown", it is tried to determine the deviceType (again)
 
 ![PeriodicDeviceListSync](./pictures/CyclicCCRetrievalPics_01_deviceListSync.png)
 
@@ -131,7 +131,7 @@ The slidingWindow approach is still used, but the selection mechanism of the nex
 Also the slidingWindow approach works in tandem with the qualityMeasurement process in keeping the cache up-to-date.
 
 **Device selection strategy**  
-When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front of the deviceMetadataList.
+When either a ControlConstruct retrieval in the slidingWindow finishes and a new slot opens or when the qualityMeasurement process needs to find the next update candidate, the next candidate device is taken from the front to the back of the deviceMetadataList.  
 Both processes only consider devices in connected state which are not locked.
 - **_slidingWindow_**: take the first (connected, unlocked) device from the deviceMetadataList
   - this is either a device for which currently no ControlConstruct is stored in the cache
@@ -148,6 +148,20 @@ Both processes only consider devices in connected state which are not locked.
 The following schema shows how both processes are working collaboratively on updating the cache (the pink and blue devices are those currently processed and, therefore are locked):  
 ![IntegratedCollaboration](./pictures/integratedSlidingWindowQualityMeas.png)
 
+### Stability update with MWDI 2.0.1
+
+For improved stability the following changes have been introduced from 2.0.0 to 2.0.1:
+- sliding window retries are deactivated; for this purpose `maximumNumberOfRetries` is set to 0
+- devices are no longer moved to the end of the sliding window
+- retrieval priority is determined from *last-complete-control-construct-update-time-attempt*
+
+### Adding update time information to CC update with MWDI 2.1.0
+
+ControlConstructs retrieved from devices do not contain any information about when they have been updated.  
+Before MWDI 2.1.0, the timestamp for last complete ControlConstruct updates was only written to the deviceMetadataList (*last-successful-complete-control-construct-update-time*).
+For e.g. usage in DPMDP such information, however, is required to be present in the ControlConstruct itself.  
+Therefore, when the live service for updating the complete ControlConstruct is executed,
+MWDI shall write the timestamp of this update also into the ControlConstruct itself into attribute *lastCompleteControlConstructUpdateTime*.
 
 ### DeviceMetadataList metadata
 The metadata table introduced in 1.2.x is replaced by the deviceMetadataList metadata attributes. I.e. the deviceMetadataList no longer consists only of the devices, but also stores the additional metadata attributes.  
@@ -186,8 +200,11 @@ Depending on the respective notification the cached ControlConstruct is modified
 
 Also note that in the past MWDI had a subscription to NotificationProxy, which did push the notifications to MWDI. For this, NP called the *regard*-services each time a new notification was pushed, thereby creating a new http session every time. With MWDI 2.0.0 this approach has been changed. MWDI pulls the messages from Kafka and processes the notifications then directly. For this, MWDI executes the functionality from *regard*-services internally (i.e. without opening a new http-session), which is why the *regard*-services along with their related forwardings are kept in the specification, but marked as deprecated.
 
+Polling notifications from Kafka can be switched on/off via profileInstance *kafkaNotificationReceiptAndProcessingSwitch*. If it is turned *off*, no notifications shall be fetched and processed until it is changed back to *on* (default).
+
 **User-initiated updates of ControlConstruct parts**  
 Certain parts of the ControlConstruct can be updated upon “user” demand. I.e. if another application calls a *live* path for e.g. the air interface capabilities, they are retrieved from the device and then the air interface capabilities inside the cached ControlConstruct are updated with the newly retrieved information. The other parts of the ControlConstruct are not updated by this.
 
 **User-initiated updates the complete ControlConstruct**  
+
 Also the complete ControlConstruct can be updated upon “user” demand. If the related *live* path is called, the device gets locked for both the slidingWindow and qualityMeasurement process. If the device is already being processed by either of the two and the *live* path gets called in addition, it will be executed parallely in addition. The metadata attributes will be updated by both retrievals upon their completion.  

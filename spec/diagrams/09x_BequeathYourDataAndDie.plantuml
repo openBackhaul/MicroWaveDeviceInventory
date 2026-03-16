@@ -2,11 +2,13 @@
 skinparam responseMessageBelowArrow true
 
 title
-PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
-PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
-PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
-PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtKafka
-PromptForBequeathingDataCausesUnsubscribingFromDeviceAndControllerNotificationsAtNP
+  PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceAttributeValueChanges
+  PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectCreations
+  PromptForBequeathingDataCausesTransferringExistingSubscriptionsForDeviceObjectDeletions
+  PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka
+  PromptForBequeathingDataCausesUnsubscribingFromDeviceAlarmNotificationsAtKafka
+  PromptForBequeathingDataCausesUnsubscribingFromControllerNotificationsAtNP
+  PromptForBequeathingDataCausesUnsubscribingFromDeviceAndAlarmNotificationsAtNP
 end title
 
 participant "NR://v1/embed-yourself" as NewRelease
@@ -14,7 +16,8 @@ participant "OR://v1/bequeath-your-data-and-die" as OldRelease
 participant "NR://v1/notify-attribute-value-changes" as notifyAttributeChange
 participant "NR://v1/notify-object-creations" as notifyObjectCreation
 participant "NR://v1/notify-object-deletions" as notifyObjectDeletion
-participant "KafkaMessageBroker \nproperNotifications topic" as endSubsriptionAtKafka
+participant "KafkaMessageBroker \n<i>deviceChangeNotifications</i> topic" as endSubsriptionAtKafkaDev
+participant "KafkaMessageBroker \n<i>deviceAlarmNotifications</i> topic" as endSubsriptionAtKafkaAlarm
 participant "NP://v1/end-subscription" as endSubsriptionAtNp
 
 NewRelease -> OldRelease
@@ -31,16 +34,27 @@ OldRelease -> notifyObjectDeletion: {address info of subscriber at OldRelease}
 note over OldRelease
 Terminate existing subscriptions 
 of discontinued release at Kafka,
-with topic-name=proper_notifications
+with topic-names:
+ - device_change_notifications
+ - device_alarm_notifications
 end note
-OldRelease -> endSubsriptionAtKafka: {own application info, topic-name}
+OldRelease -> endSubsriptionAtKafkaDev: {own application info, topic-name=<i>device_change_notifications</i>}
+OldRelease -> endSubsriptionAtKafkaAlarm: {own application info, topic-name=<i>device_alarm_notifications</i>}
+
 
 note over OldRelease
-Terminate existing subscriptions 
+Terminate existing subscription
+of Controller notifications 
 of discontinued release at NP
 end note
 OldRelease -> endSubsriptionAtNp: {own application info}
 
+note over OldRelease
+Terminate existing subscription
+of device and alarm notifications 
+of discontinued release at NP
+end note
+OldRelease -> endSubsriptionAtNp: {own application info}
 
 deactivate OldRelease
 

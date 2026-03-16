@@ -1,0 +1,104 @@
+@startuml mwdi+diagram.invalidResourcePath.cache-enrichment
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.invalidResourcePath.cache-enrichment
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/core-model-1-4:network-control-domain=cache/\nlink={uuid}" as link
+participant "/core-model-1-4:network-control-domain=cache/\nlink={uuid}/link-port={localId}" as linkport
+
+
+group Preparation
+  Data --\\o Postman : {servers, validLinkId, invalidLinkId, invalidLinkPortId}
+  activate Postman
+  Postman --\\o Collection : {servers,  validLinkId, invalidLinkId, invalidLinkPortId}
+end
+
+' -- Link -------------------------------------------------------------------------------
+== <color:purple> Case (1): invalid linkId </color>==
+
+group GET /core-model-1-4:network-control-domain=cache/link={uuid}  \n<color:darkblue>(uuid = invalidLinkId)</color>
+  Collection --\\o Postman : {servers, invalidLinkId}
+  Postman -> link
+  Postman <-- link : 461
+  note right Postman #Orange
+    check for 461
+  end note
+end
+
+group DELETE /core-model-1-4:network-control-domain=cache/link={uuid}  \n<color:darkblue>(uuid = invalidLinkId)</color>
+  Collection --\\o Postman : {servers, invalidLinkId}
+  Postman -> link
+  Postman <-- link : 461
+  note right Postman #Orange
+    check for 461
+  end note
+end
+
+' -- Linkport ---------------------------------------------------------------------------
+== <color:purple> Case (2): invalid parent linkId </color>==
+group GET /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId} \n<color:darkblue>(uuid = invalidLinkId, link-port = invalidLinkPortId (does not matter))</color>
+  Collection --\\o Postman : {servers, invalidLinkId, invalidLinkPortId}
+  Postman -> linkport
+  Postman <-- linkport : 461
+  note right Postman #Orange
+    check for 461
+  end note
+end
+
+group PUT /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId} \n<color:darkblue>(uuid = invalidLinkId, link-port = invalidLinkPortId (does not matter))</color>
+  Collection --\\o Postman : {servers, invalidLinkId, invalidLinkPortId}
+  Postman -> linkport
+  Postman <-- linkport : 461
+  note right Postman #Orange
+    check for 461
+  end note
+end
+
+group DELETE /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId} \n<color:darkblue>(uuid = invalidLinkId, link-port = invalidLinkPortId (does not matter))</color>
+  Collection --\\o Postman : {servers, invalidLinkId, invalidLinkPortId}
+  Postman -> linkport
+  Postman <-- linkport : 461
+  note right Postman #Orange
+    check for 461
+  end note
+end
+
+== <color:purple> Case (3): valid parent linkId, invalid linkPortId </color>==
+
+note over Postman #LightGray
+  Write genericLink record for valid linkId
+  to cache as preparation
+end note
+
+group GET /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId} \n<color:darkblue>(uuid = validLinkId, link-port = invalidLinkPortId)</color>
+  Collection --\\o Postman : {servers, invalidLinkId, invalidLinkPortId}
+  Postman -> linkport
+  Postman <-- linkport : 471
+  note right Postman #Orange
+    check for 471
+  end note
+end
+
+group DELETE /core-model-1-4:network-control-domain=cache/link={uuid}/link-port={localId} \n<color:darkblue>(uuid = validLinkId, link-port = invalidLinkPortId)</color>
+  Collection --\\o Postman : {servers, invalidLinkId, invalidLinkPortId}
+  Postman -> linkport
+  Postman <-- linkport : 471
+  note right Postman #Orange
+    check for 471
+  end note
+end
+
+note over Postman #LightGray
+  Delete previously written genericLink record
+  from cache
+end note
+
+deactivate Postman
+
+@enduml

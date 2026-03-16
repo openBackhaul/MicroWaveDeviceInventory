@@ -1,7 +1,10 @@
 @startuml 01y_MwdiSubscribesAtNp
 skinparam responseMessageBelowArrow true
 
-title PromptForEmbeddingCausesSubscribingForNotificationsAtNP
+title 
+  PromptForEmbeddingCausesSubscribingForControllerNotificationsAtNP
+  PromptForEmbeddingCausesSubscribingForDeviceAndAlarmNotificationsAtNP
+end title
 
 participant "RO" as ro
 participant "MWDI://v1/embed-yourself" as mwdi
@@ -15,16 +18,21 @@ participant "NP://v1/notify-device-object-deletions" as npobjdelete
 ro -> mwdi
 activate mwdi
 
-note over mwdi #LightCoral
-  Subscription at NotificationProxy is only kept as fallback.
-end note
-
 note over mwdi
-subscribe for info about 
-new and disconnected devices
+subscribe for controller notifications, i.e.
+info about new and disconnected devices
 end note
 mwdi -> npnew: {ownIp, ownPort, ownReceiveOperation} (apiKeyAuth)
 npnew -> receivers: {notifications} (apiKeyAuth)
+
+note over mwdi #LightCoral
+  Subscription for device and alarm notifications at NotificationProxy
+  is only kept as fallback.
+
+  <i>(It is handled via a second NP http client for which initially no</i>
+  <i>real NP address information is provided; i.e. becomes only active once</i>
+  <i>real NP adress information has been provided.)</i>
+end note
 
 note over mwdi
 subscribe for device alarms

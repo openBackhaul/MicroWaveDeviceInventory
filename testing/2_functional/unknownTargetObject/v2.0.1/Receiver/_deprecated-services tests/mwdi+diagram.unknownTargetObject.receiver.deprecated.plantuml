@@ -1,0 +1,79 @@
+@startuml mwdi+diagram.unknownTargetObject.receiver.deprecated
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.unknownTargetObject.receiver.deprecated
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+participant "/v1/regard-device-alarm" as RDA
+participant "/v1/regard-device-attribute-value-change" as RDAVC
+participant "/v1/regard-device-object-deletion" as RDOD
+participant "/v1/regard-device-object-creation" as RDOC
+
+group Preparation
+  Data --\\o Postman : {servers, collection-input-list}
+  activate Postman
+  Postman --\\o Collection : {servers, collection-input-list}
+end
+
+group /v1/regard-device-alarm
+  Collection --\\o Postman : {servers, collection-input-list}
+  Postman -> RDA : {requestBody with unknown mountName in resource}
+  Postman <-- RDA : 500
+  note right Postman #Orange
+    check for 500
+  end note
+end
+
+group /v1/regard-device-attribute-value-change
+  Collection --\\o Postman : {servers, collection-input-list}
+  Postman -> RDAVC : {requestBody with unknown mountName in object-path}
+  Postman <-- RDAVC : 500
+  note right Postman #Orange
+    check for 500
+  end note
+end
+
+group /v1/regard-device-object-deletion
+  Collection --\\o Postman : {servers, (object-creation) target}
+  Postman -> RDOD : {requestBody with unknown mountName in object-path}
+  Postman <-- RDOD : 500
+  note right Postman #Orange
+    check for 500
+  end note
+end
+
+group /v1/regard-device-object-deletion
+  Collection --\\o Postman : {servers, (object-creation) target}
+  Postman -> RDOD : {requestBody with known mountName, but unknown class in object-path}
+  Postman <-- RDOD : 533
+  note right Postman #Orange
+    check for 533
+  end note
+end
+
+group /v1/regard-device-object-creation
+  Collection --\\o Postman : {servers, target}
+  Postman -> RDOC : {requestBody with unknown mountName in object-path}
+  Postman <-- RDOC : 404
+  note right Postman #Orange
+    check for 404
+  end note
+end
+
+group /v1/regard-device-object-creation
+  Collection --\\o Postman : {servers, target}
+  Postman -> RDOC : {requestBody with known mountName, but unknown class in object-path}
+  Postman <-- RDOC : 404
+  note right Postman #Orange
+    check for 404
+  end note
+end
+
+deactivate Postman
+
+@enduml

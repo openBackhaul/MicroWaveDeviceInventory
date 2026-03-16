@@ -6,18 +6,11 @@ title
   NotifiedDisconnectedDeviceCausesMetadataUpdate
 end title
 
-participant "<i>PromptForEmbeddingCausesCyclicNotificationProcessingToApply</i>\n<i>ControllerAttributeValueChange</i>" as init
-participant "internal functionality, similar to \n<i>MWDI://v1/regard-controller-attribute-value-change</i>" as regardDisconnectedDevice
+participant "NP://v1/notify-controller-attribute-value-changes" as subscription
+participant "MWDI://v1/regard-controller-attribute-value-change" as regardDisconnectedDevice
 participant "ElasticSearch\n(deviceMetadataList)" as es
 
-
-note over regardDisconnectedDevice #ffcc99
-  Functionality similar to the <i>regard</i>-service
-  shall be executed completely from internal code,
-  i.e. without opening a new http session
-end note
-
-init -> regardDisconnectedDevice: {controller-attribute-value-change-notification} (apiKeyAuth)
+subscription -> regardDisconnectedDevice: notification {mount-name} (apiKeyAuth)
 activate regardDisconnectedDevice
 
 note over regardDisconnectedDevice
@@ -25,13 +18,7 @@ IF attribute-name == 'connection-status'
 AND IF new-value != 'connected'
 end note
 
-note over regardDisconnectedDevice
-  <u>DeleteControlConstructFromCache</u>
-  IF <i>historicalControlConstructPolicy</i> == "delete-on-disconnect"
-  THEN delete the ControlConstruct from the cache
-end note
 regardDisconnectedDevice -> es: delete {mount-name = value behind control-construct= in resource}
-
 
 note over regardDisconnectedDevice
   <u>UpdateMetadata</u>

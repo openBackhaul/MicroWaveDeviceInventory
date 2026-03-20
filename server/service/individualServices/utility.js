@@ -258,7 +258,7 @@ exports.ReadIdsFromEs = async function () {
       body: {
         query: { match_all: {} },
         // optional: make it slightly lighter by not scoring
-        track_total_hits: false
+        //track_total_hits: false
       }
     });
 

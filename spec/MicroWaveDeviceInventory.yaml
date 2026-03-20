@@ -2982,13 +2982,10 @@ paths:
                   mount-name-list:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        mount-name:
-                          type: string
-                          description: >
-                            'MountName of the device for which MWDI has a cached ControlConstruct
-                            from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
+                      type: string
+                      description: >
+                        'MountName of the device for which MWDI has a cached ControlConstruct
+                        from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
               example:
                 mount-name-list:
                   - '305251234'

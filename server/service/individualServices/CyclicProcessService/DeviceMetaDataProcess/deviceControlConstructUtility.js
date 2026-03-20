@@ -21,6 +21,7 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
         let modifiedCc = {};
         if (Object.keys(ccObjectFromLive).length != 0) {
             modifiedCc = await exports.modifyCCWithModifiedKeys(ccObjectFromLive, nodeId);
+            modifiedCc['last-complete-control-construct-update-time'] = new Date().toJSON();
             isSyncSuccess = await exports.updateControlConstructToEs(nodeId, modifiedCc, maxRetries);
         }
     } catch (error) {

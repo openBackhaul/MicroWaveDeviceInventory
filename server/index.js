@@ -17,6 +17,7 @@ const logger = require('./service/LoggingService.js').getLogger();
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // appCommons.openApiValidatorOptions.validateSecurity = false;
+appCommons.openApiValidatorOptions.validateResponses = false;
 if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
     logger.warn("Working in debug mode");
     logger.warn("Checking validation")

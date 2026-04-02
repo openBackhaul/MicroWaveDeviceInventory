@@ -91,7 +91,8 @@ async function createIndexTemplate() {
                         'timestamp': { type: 'date' },
                         'stringified-body': { type: 'text' },
                         'stringified-response': { type: 'text' },
-                        "core-model-1-4:control-construct": { type: 'flattened' }
+                        "core-model-1-4:control-construct": { type: 'flattened' },
+                        "last-complete-control-construct-update-time": { type: 'date' }
                     }
                 }
             }

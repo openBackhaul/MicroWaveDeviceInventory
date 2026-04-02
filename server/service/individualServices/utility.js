@@ -107,13 +107,34 @@ exports.ReadRecords = async function (cc) {
   }
 }
 
+let lastCompleteCcUpdateTimeMappingEnsured = false;
+
+async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
+  if (lastCompleteCcUpdateTimeMappingEnsured) {
+    return;
+  }
+
+  await client.indices.putMapping({
+    index: indexAlias,
+    body: {
+      properties: {
+        "last-complete-control-construct-update-time": {
+          type: "date"
+        }
+      }
+    }
+  });
+
+  lastCompleteCcUpdateTimeMappingEnsured = true;
+}
+
 /**
 * Records a request
 *
 * body controlconstruct 
 * no response value expected for this operation
 **/
-exports.recordRequest = async function (body, cc) {
+exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
   let pipelineExists = false;
   let client = await common[1].EsClient;
   try {
@@ -134,6 +155,10 @@ exports.recordRequest = async function (body, cc) {
   try {
     let indexAlias = common[1].indexAlias
     let startTime = process.hrtime();
+
+    /* if (isAddPropertyToMapping) {
+      await ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias);
+    } */
 
     let indexParams = {
       index: indexAlias,

@@ -4,7 +4,7 @@ info:
   version: 2.1.2
 
   
-  # This is the simulator file for relevant EATL services
+  # This is the simulator file for relevant RO services
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part

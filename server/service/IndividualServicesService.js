@@ -11671,24 +11671,31 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 const mountQueues = new Map();      // mount -> Map(alarmKey -> item)  (Map keeps insertion order)
 const flushTimers = new Map();      // mount -> timer
 const processingLocks = new Set();  // mounts currently being processed
-const mountStats = new Map();       // mount -> { timestamps:[], lastRate }
+//const mountStats = new Map();       // mount -> { timestamps:[], lastRate }
 const perfStats = new Map();        // mount -> { ok, fail, skipNoRecord, lastStart, lastEnd, lastDurationMs }
+let activeMountProcessors = 0;
+const pendingMounts = new Set();    // mounts waiting for a slot
 
 // ---- Config ----
-const BASE_BATCH_SIZE = 10;
-const MAX_BATCH_SIZE  = 100;
+//const BASE_BATCH_SIZE = 10;
+//const MAX_BATCH_SIZE  = 100;
 
-const BASE_WINDOW_MS = 300;
-const MIN_WINDOW_MS  = 100;
+//const BASE_WINDOW_MS = 200;
+//const MIN_WINDOW_MS  = 100;
 
-const LOCK_TIMEOUT_MS = 400_000;
-const MAX_RETRIES = 2;
+//const STATS_WINDOW_MS = 5000;
 
-const STATS_WINDOW_MS = 5000;
+// ---- Fixed stable config ----
+const BATCH_SIZE = 10;              // fixed alarms per mount batch
+const BATCH_WINDOW_MS = 200;        // fixed flush delay
+
+const MAX_ACTIVE_MOUNTS = 100;      // global concurrency cap
+const LOCK_TIMEOUT_MS = 400000;      // timeout per batch
+const MAX_RETRIES = 1;              // keep low for stability
 
 // hard limits (stability)
-const MAX_GLOBAL_KEYS = 100_000;     // total coalesced keys across all mounts
-const MAX_KEYS_PER_MOUNT = 2_000;    // cap per mount
+const MAX_GLOBAL_KEYS = 100000;     // total coalesced keys across all mounts
+const MAX_KEYS_PER_MOUNT = 20;    // cap per mount
 const DROP_OLDEST_ON_OVERFLOW = true; // if false, reject new when full
 
 // ---- ES circuit breaker (optional but recommended) ----
@@ -11710,7 +11717,7 @@ function esBreakerOpen() {
 }
 
 // ---- Arrival rate tracking ----
-function recordArrival(mountname) {
+/* function recordArrival(mountname) {
   const now = Date.now();
   if (!mountStats.has(mountname)) {
     mountStats.set(mountname, { timestamps: [now], lastRate: 0 });
@@ -11721,9 +11728,9 @@ function recordArrival(mountname) {
     // keep only last 5 seconds
     stat.timestamps = stat.timestamps.filter(t => t >= cutoff);
   }
-}
+} */
 
-function getDynamicConfig(mountname) {
+/* function getDynamicConfig(mountname) {
   const stat = mountStats.get(mountname);
   let rate = 0;
 
@@ -11740,7 +11747,7 @@ function getDynamicConfig(mountname) {
 
   return { dynamicBatchSize, dynamicWindowMs, rate: Number(smoothed.toFixed(2)) };
 }
-
+ */
 // ---- Helpers ----
 function safeErrMsg(err) {
   if (!err) return "unknown error";
@@ -11754,375 +11761,25 @@ function globalKeyCount() {
   return total;
 }
 
-// Called by your regardDeviceAlarm
-function enqueueAlarm(mountname, alarmKey, alarmData, alarmFn = null) {
-  recordArrival(mountname);
-
-  // optional breaker: if ES is in trouble, do not allow unlimited buildup
-  if (esBreakerOpen()) {
-    // coalescing still buffers; if breaker open, we keep only latest per key but also protect total memory
-    // You can decide: keep coalescing (safe) or drop quickly
-    if (!mountQueues.has(mountname)) {
-      mountQueues.set(mountname, new Map());
-    }
-
-    const q = mountQueues.get(mountname);
-
-    // If this key already exists, update it (coalesce latest)
-    if (q.has(alarmKey)) {
-      q.delete(alarmKey);
-      q.set(alarmKey, {
-        alarmKey,
-        alarmData,
-        alarmFn,
-        enqueuedAt: Date.now(),
-        attempt: 1,
-        lastErr: "ES breaker open"
-      });
-
-      return Promise.resolve({
-        enqueued: true,
-        coalesced: true,
-        breaker: true
-      });
-    }
-
-    // If key does not exist → DROP it to avoid queue growth
-    logAlarmNotificationUpdate(
-      `[BREAKER] Dropping new alarm for ${mountname}. ES breaker open.`
-    );
-
-    return Promise.resolve({
-      enqueued: false,
-      reason: "es_breaker_open"
-    });
-  }
-
-  if (!mountQueues.has(mountname)) {
-    mountQueues.set(mountname, new Map());
-    if (!perfStats.has(mountname)) perfStats.set(mountname, { ok:0, fail:0, skipNoRecord:0, lastStart:0, lastEnd:0, lastDurationMs:0 });
-  }
-
-  const q = mountQueues.get(mountname);
-
-  // enforce per-mount cap
-  if (!q.has(alarmKey) && q.size >= MAX_KEYS_PER_MOUNT) {
-    if (DROP_OLDEST_ON_OVERFLOW) {
-      // drop oldest key
-      const oldestKey = q.keys().next().value;
-      q.delete(oldestKey);
-    } else {
-      // reject new
-      return Promise.resolve({ enqueued: false, reason: "mount_queue_full" });
-    }
-  }
-
-  // enforce global cap
-  if (!q.has(alarmKey) && globalKeyCount() >= MAX_GLOBAL_KEYS) {
-    if (DROP_OLDEST_ON_OVERFLOW) {
-      // drop oldest from this mount (cheap) — stable enough
-      const oldestKey = q.keys().next().value;
-      if (oldestKey) q.delete(oldestKey);
-    } else {
-      return Promise.resolve({ enqueued: false, reason: "global_queue_full" });
-    }
-  }
-
-  // coalesce: if key already exists, replace with latest and move to end
-  if (q.has(alarmKey)) {
-    q.delete(alarmKey); // delete+set moves key to end (latest)
-  }
-  q.set(alarmKey, {
-    alarmKey,
-    alarmData,     // small object ONLY (no huge JSON strings)
-    alarmFn,       // function to call for processing (optional)
-    enqueuedAt: Date.now(),
-    attempt: 1,
-    lastErr: null
-  });
-
-  // if not processing, schedule flush
-  if (!processingLocks.has(mountname)) {
-    const { dynamicBatchSize, dynamicWindowMs } = getDynamicConfig(mountname);
-    scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs);
-  }
-
-  return Promise.resolve({ enqueued: true, coalesced: true });
-}
-
-function scheduleFlush(mountname, batchSize, windowMs) {
-  const q = mountQueues.get(mountname);
-  if (!q || q.size === 0) return;
-
-  if (q.size >= batchSize) {
-    processNextBatch(mountname, batchSize, windowMs);
-  } else if (!flushTimers.has(mountname)) {
-    const t = setTimeout(() => {
-      flushTimers.delete(mountname);
-      const { dynamicBatchSize, dynamicWindowMs } = getDynamicConfig(mountname);
-      processNextBatch(mountname, dynamicBatchSize, dynamicWindowMs);
-    }, windowMs);
-
-    flushTimers.set(mountname, t);
-  }
-}
-
-// ---- IMPORTANT: read-once / apply-many / write-once ----
-async function processNextBatch(mountname, batchSize, windowMs) {
-  const q = mountQueues.get(mountname);
-  if (!q || q.size === 0) {
-    cleanupMount(mountname);
+function tryStartMountProcessing(mountname) {
+  if (processingLocks.has(mountname)) return;
+  if (activeMountProcessors >= MAX_ACTIVE_MOUNTS) {
+    pendingMounts.add(mountname);
     return;
   }
 
-  // prevent parallel processing of same mount
-  if (processingLocks.has(mountname)) return;
-  processingLocks.add(mountname);
+  pendingMounts.delete(mountname);
+  processNextBatch(mountname);
+}
 
-  // clear flush timer if any
-  if (flushTimers.has(mountname)) {
-    clearTimeout(flushTimers.get(mountname));
-    flushTimers.delete(mountname);
-  }
+function scheduleNextPendingMount() {
+  if (activeMountProcessors >= MAX_ACTIVE_MOUNTS) return;
+  if (pendingMounts.size === 0) return;
 
-  if (!perfStats.has(mountname)) {
-    perfStats.set(mountname, {
-      ok: 0,
-      fail: 0,
-      skipNoRecord: 0,
-      lastStart: 0,
-      lastEnd: 0,
-      lastDurationMs: 0
-    });
-  }
-
-  const stat = perfStats.get(mountname);
-  stat.lastStart = Date.now();
-
-  // take first N items from map in insertion order
-  const batchItems = [];
-  const it = q.entries();
-  while (batchItems.length < batchSize) {
-    const next = it.next();
-    if (next.done) break;
-    const [key, item] = next.value;
-    batchItems.push(item);
-  }
-
-  // remove selected keys from queue before processing
-  for (const item of batchItems) {
-    q.delete(item.alarmKey);
-  }
-
-  logAlarmNotificationUpdate(
-    `[LOCK]*************************************** Start processing batch (${batchItems.length}) for ${mountname} ***************************************`
-  );
-
-  const batchStart = Date.now();
-
-  try {
-    // split by type
-    const alarmItems = [];
-    const profileItems = [];
-
-    for (const item of batchItems) {
-      if (item.alarmData?.type === "PROFILE") {
-        profileItems.push(item);
-      } else {
-        alarmItems.push(item);
-      }
-    }
-
-    /*
-    -------------------------------------------------
-    1) PROCESS ALARM ITEMS (READ ONCE / WRITE ONCE)
-    -------------------------------------------------
-    */
-   if (alarmItems.length > 0) {
-    // ---- READ ONCE ----
-    logAlarmNotificationUpdate(`[READ-START] ${mountname}`);
-    const result = await withTimeout(
-      ReadRecordsMountName(mountname),
-      LOCK_TIMEOUT_MS,
-      `[READ-TIMEOUT] ${mountname}`
-    );
-    logAlarmNotificationUpdate(`[READ-END] ${mountname}`);
-
-    // no record in ES => skip cleanly, NO RETRY
-    if (!result) {
-      stat.skipNoRecord += alarmItems.length;
-      logAlarmNotificationUpdate(`No record found for ${mountname}, skipping batch`);
-      //return;
-    }else {
-
-      modifyReturnJson(result);
-
-      // ---- APPLY MANY ----
-      let latestTimeStamp = null;
-
-      for (const item of alarmItems) {
-        const a = item.alarmData;
-
-        if (!latestTimeStamp || (a.timeStamp && a.timeStamp > latestTimeStamp)) {
-          latestTimeStamp = a.timeStamp;
-        }
-
-        try {
-          logAlarmNotificationUpdate(
-            `[LOCK] Alarm Mountname=${mountname} to be updated: ${item.alarmKey}`
-          );
-
-          await alarmHandler.updateAlarmByTypeAndResource(
-            result,
-            a.alarmTypeId,
-            a.resource,
-            a.problemSeverity,
-            a.updatedAttributes
-          );
-
-          stat.ok += 1;
-        } catch (err) {
-          item.lastErr = safeErrMsg(err);
-          if (item.attempt < MAX_RETRIES) {
-            item.attempt += 1;
-            q.set(item.alarmKey, item); // requeue
-            logAlarmNotificationUpdate(
-              `[LOCK] Retrying alarm ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`
-            );
-          } else {
-            stat.fail += 1;
-            logAlarmNotificationUpdate(
-              `[LOCK-ERROR] Alarm update failed for ${mountname}: ${safeErrMsg(err)}`
-            );
-          }
-      }
-    }
-
-      // ---- WRITE ONCE ----
-      modifyUUID(result, mountname);
-
-      logAlarmNotificationUpdate(`[WRITE-START] ${mountname}`);
-      const writeRes = await withTimeout(
-        recordRequest(result, mountname),
-        LOCK_TIMEOUT_MS,
-        `[WRITE-TIMEOUT] ${mountname}`
-      );
-      logAlarmNotificationUpdate(`[WRITE-END] ${mountname}`);
-
-      // ES write returned controlled failure
-      if (writeRes && writeRes.ok === false) {
-        logAlarmNotificationUpdate(
-          `[WRITE-ERROR] ${mountname}: ${writeRes.reason || "unknown"}`
-        );
-
-        if (writeRes.retry) {
-          recordEsFailure();
-
-          for (const item of alarmItems) {
-            if (item.attempt < MAX_RETRIES) {
-              item.attempt += 1;
-              // put back as latest
-              q.set(item.alarmKey, item);
-            } else {
-              stat.fail += 1;
-            }
-          }
-        } else {
-          // non-retryable write failure
-          stat.fail += alarmItems.length;
-        }
-      }else if(latestTimeStamp) {  // ---- METADATA UPDATE ONCE PER SUCCESSFUL BATCH ----
-        deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(
-          mountname,
-          latestTimeStamp
-        );
-        logAlarmNotificationUpdate(
-          `Completed Metadata update for Mountname=${mountname}`
-        );
-      }
-    }
-   }
-    /*
-    -------------------------------------------------
-    2) PROCESS PROFILE ITEMS (ONE BY ONE)
-    -------------------------------------------------
-    */
-   if (profileItems.length > 0) {
-    for (const item of profileItems) {
-      try {
-        logAlarmNotificationUpdate(
-          `[LOCK] Profile queue item for Mountname=${mountname} to be updated: ${item.alarmKey}`
-        );
-
-        await withTimeout(
-          item.alarmFn(),
-          LOCK_TIMEOUT_MS + 400000,
-          `[PROFILE-TIMEOUT] ${mountname}`
-        );
-
-        stat.ok += 1;
-      } catch (err) {
-        item.lastErr = safeErrMsg(err);
-
-        if (item.attempt < MAX_RETRIES) {
-          item.attempt += 1;
-          q.set(item.alarmKey, item); // requeue
-          logAlarmNotificationUpdate(
-            `[LOCK] Retrying profile ${mountname} (Retry ${item.attempt} of ${MAX_RETRIES})`
-          );
-        } else {
-          stat.fail += 1;
-          logAlarmNotificationUpdate(
-            `[LOCK-ERROR] Profile update failed for ${mountname}: ${safeErrMsg(err)}`
-          );
-        }
-      }
-    }
-   }
-  } catch (err) {
-    const msg = safeErrMsg(err);
-
-    logAlarmNotificationUpdate(
-      `[LOCK] Fatal error while processing ${mountname}: ${msg}`
-    );
-
-    const retryable =
-      /timeout|timed out|ECONNRESET|ENOTFOUND|EAI_AGAIN|No Living connections/i.test(msg);
-
-    if (retryable) {
-      recordEsFailure();
-
-      for (const item of batchItems) {
-        if (item.attempt < MAX_RETRIES) {
-          item.attempt += 1;
-          q.set(item.alarmKey, item);
-        } else {
-          stat.fail += 1;
-        }
-      }
-    } else {
-      // non-retryable
-      stat.fail += batchItems.length;
-    }
-  } finally {
-    stat.lastEnd = Date.now();
-    stat.lastDurationMs = stat.lastEnd - stat.lastStart;
-    processingLocks.delete(mountname);
-
-    logAlarmNotificationUpdate(
-      `[LOCK]*************************************** Finished batch for ${mountname} (Duration=${(
-        (Date.now() - batchStart) /
-        1000
-      ).toFixed(3)}s). Remaining queue=${q.size} ***************************************`
-    );
-
-    // schedule next batch if queue still has items
-    if (q.size > 0) {
-      const { dynamicBatchSize, dynamicWindowMs } = getDynamicConfig(mountname);
-      scheduleFlush(mountname, dynamicBatchSize, dynamicWindowMs);
-    } else {
-      cleanupMount(mountname);
-    }
+  const nextMount = pendingMounts.values().next().value;
+  if (nextMount) {
+    pendingMounts.delete(nextMount);
+    processNextBatch(nextMount);
   }
 }
 
@@ -12144,15 +11801,317 @@ function withTimeout(promise, ms, label) {
   });
 }
 
+// Called by your regardDeviceAlarm
+function enqueueAlarm(mountname, alarmKey, alarmData, alarmFn = null) {
+  if (!mountQueues.has(mountname)) {
+    mountQueues.set(mountname, new Map());
+  }
+
+  /* if (!perfStats.has(mountname)) {
+    perfStats.set(mountname, {
+      ok: 0,
+      fail: 0,
+      skipNoRecord: 0,
+      dropped: 0,
+      lastStart: 0,
+      lastEnd: 0,
+      lastDurationMs: 0
+    });
+  } */
+
+  const q = mountQueues.get(mountname);
+  //const stat = perfStats.get(mountname);
+
+  // per-mount cap
+  if (!q.has(alarmKey) && q.size >= MAX_KEYS_PER_MOUNT) {
+    if (DROP_OLDEST_ON_OVERFLOW) {
+      const oldestKey = q.keys().next().value;
+      if (oldestKey) {
+        q.delete(oldestKey);
+        //stat.dropped += 1;
+      }
+    } else {
+      //stat.dropped += 1;
+      return Promise.resolve({ enqueued: false, reason: "mount_queue_full" });
+    }
+  }
+
+  // global cap
+  if (!q.has(alarmKey) && globalKeyCount() >= MAX_GLOBAL_KEYS) {
+    if (DROP_OLDEST_ON_OVERFLOW) {
+      const oldestKey = q.keys().next().value;
+      if (oldestKey) {
+        q.delete(oldestKey);
+        //stat.dropped += 1;
+      }
+    } else {
+      //stat.dropped += 1;
+      return Promise.resolve({ enqueued: false, reason: "global_queue_full" });
+    }
+  }
+
+  // coalesce latest
+  if (q.has(alarmKey)) {
+    q.delete(alarmKey);
+  }
+
+  q.set(alarmKey, {
+    alarmKey,
+    alarmData,
+    alarmFn,
+    enqueuedAt: Date.now(),
+    attempt: 1,
+    lastErr: null
+  });
+
+  // fixed scheduling
+  if (!processingLocks.has(mountname)) {
+    scheduleFlush(mountname);
+  }
+
+  return Promise.resolve({ enqueued: true, coalesced: true });
+}
+
+function scheduleFlush(mountname) {
+  const q = mountQueues.get(mountname);
+  if (!q || q.size === 0) return;
+
+  if (q.size >= BATCH_SIZE) {
+    tryStartMountProcessing(mountname);
+  } else if (!flushTimers.has(mountname)) {
+    const timer = setTimeout(() => {
+      flushTimers.delete(mountname);
+      tryStartMountProcessing(mountname);
+    }, BATCH_WINDOW_MS);
+
+    flushTimers.set(mountname, timer);
+  }
+}
+
+// ---- IMPORTANT: read-once / apply-many / write-once ----
+async function processNextBatch(mountname) {
+  const q = mountQueues.get(mountname);
+  if (!q || q.size === 0) {
+    cleanupMount(mountname);
+    return;
+  }
+
+  if (processingLocks.has(mountname)) return;
+  if (activeMountProcessors >= MAX_ACTIVE_MOUNTS) {
+    pendingMounts.add(mountname);
+    return;
+  }
+
+  processingLocks.add(mountname);
+  activeMountProcessors += 1;
+
+  if (flushTimers.has(mountname)) {
+    clearTimeout(flushTimers.get(mountname));
+    flushTimers.delete(mountname);
+  }
+
+  //const stat = perfStats.get(mountname);
+  //stat.lastStart = Date.now();
+
+  const batchItems = [];
+  const it = q.entries();
+
+  while (batchItems.length < BATCH_SIZE) {
+    const next = it.next();
+    if (next.done) break;
+    const [key, item] = next.value;
+    batchItems.push(item);
+  }
+
+  for (const item of batchItems) {
+    q.delete(item.alarmKey);
+  }
+
+  const start = Date.now();
+
+  // keep logging minimal in production
+  logAlarmNotificationUpdate(
+    `[LOCK] Start batch for ${mountname}, batchSize=${batchItems.length}, remainingBefore=${q.size}`
+  );
+
+  try {
+    const alarmItems = [];
+    const profileItems = [];
+
+    for (const item of batchItems) {
+      if (item.alarmData?.type === "PROFILE") {
+        profileItems.push(item);
+      } else {
+        alarmItems.push(item);
+      }
+    }
+
+    // ----------------------------
+    // ALARM ITEMS: READ ONCE / WRITE ONCE
+    // ----------------------------
+    if (alarmItems.length > 0) {
+      const result = await withTimeout(
+        ReadRecordsMountName(mountname),
+        LOCK_TIMEOUT_MS,
+        `[READ-TIMEOUT] ${mountname}`
+      );
+
+      if (!result) {
+        //stat.skipNoRecord += alarmItems.length;
+      } else {
+        modifyReturnJson(result);
+
+        let latestTimeStamp = null;
+
+        for (const item of alarmItems) {
+          const a = item.alarmData;
+
+          if (!latestTimeStamp || (a.timeStamp && a.timeStamp > latestTimeStamp)) {
+            latestTimeStamp = a.timeStamp;
+          }
+
+          try {
+            await alarmHandler.updateAlarmByTypeAndResource(
+              result,
+              a.alarmTypeId,
+              a.resource,
+              a.problemSeverity,
+              a.updatedAttributes
+            );
+            //stat.ok += 1;
+          } catch (err) {
+            item.lastErr = safeErrMsg(err);
+
+            if (item.attempt < MAX_RETRIES) {
+              item.attempt += 1;
+              q.set(item.alarmKey, item);
+            } else {
+              //stat.fail += 1;
+            }
+          }
+        }
+
+        modifyUUID(result, mountname);
+
+        const writeRes = await withTimeout(
+          recordRequest(result, mountname),
+          LOCK_TIMEOUT_MS,
+          `[WRITE-TIMEOUT] ${mountname}`
+        );
+
+        if (writeRes && writeRes.ok === false) {
+          if (writeRes.retry) {
+            for (const item of alarmItems) {
+              if (item.attempt < MAX_RETRIES) {
+                item.attempt += 1;
+                q.set(item.alarmKey, item);
+              } else {
+                //stat.fail += 1;
+              }
+            }
+          } else {
+            //stat.fail += alarmItems.length;
+          }
+        } else {
+          if (latestTimeStamp) {
+            deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(
+              mountname,
+              latestTimeStamp
+            );
+              logAlarmNotificationUpdate(
+                  `Completed Metadata update for Mountname=${mountname}`
+              );
+          }
+        }
+      }
+    }
+
+    // ----------------------------
+    // PROFILE ITEMS: EXECUTE ONE BY ONE
+    // ----------------------------
+    for (const item of profileItems) {
+      try {
+        await withTimeout(
+          item.alarmFn(),
+          LOCK_TIMEOUT_MS,
+          `[PROFILE-TIMEOUT] ${mountname}`
+        );
+        //stat.ok += 1;
+      } catch (err) {
+        item.lastErr = safeErrMsg(err);
+
+        if (item.attempt < MAX_RETRIES) {
+          item.attempt += 1;
+          q.set(item.alarmKey, item);
+        } else {
+          //stat.fail += 1;
+        }
+      }
+    }
+
+  } catch (err) {
+    const msg = safeErrMsg(err);
+    logAlarmNotificationUpdate(`[LOCK] Fatal error for ${mountname}: ${msg}`);
+
+    for (const item of batchItems) {
+      if (item.attempt < MAX_RETRIES) {
+        item.attempt += 1;
+        q.set(item.alarmKey, item);
+      } else {
+        //stat.fail += 1;
+      }
+    }
+  } finally {
+    //stat.lastEnd = Date.now();
+    //stat.lastDurationMs = stat.lastEnd - stat.lastStart;
+
+    processingLocks.delete(mountname);
+    activeMountProcessors -= 1;
+
+    /* logAlarmNotificationUpdate(
+      `[LOCK] Finished batch for ${mountname}, duration=${(stat.lastDurationMs / 1000).toFixed(3)}s, remaining=${q.size}, activeMounts=${activeMountProcessors}`
+    ); */
+
+    if (q.size > 0) {
+      scheduleFlush(mountname);
+    } else {
+      cleanupMount(mountname);
+    }
+
+    // allow another waiting mount to start
+    scheduleNextPendingMount();
+  }
+}
+
+/* function withTimeout(promise, ms, label) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`${label} exceeded ${ms}ms`));
+    }, ms);
+
+    promise
+      .then((value) => {
+        clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((err) => {
+        clearTimeout(timer);
+        reject(err);
+      });
+  });
+} */
+
 function cleanupMount(mountname) {
   if (flushTimers.has(mountname)) {
     clearTimeout(flushTimers.get(mountname));
     flushTimers.delete(mountname);
   }
+
   mountQueues.delete(mountname);
   processingLocks.delete(mountname);
-  mountStats.delete(mountname);
-  // NOTE: keep perfStats if you want to see historical stats; or delete if you want memory minimal
+  pendingMounts.delete(mountname);
+
+  // keep perfStats if you want monitoring history
   // perfStats.delete(mountname);
 }
 
@@ -12195,15 +12154,10 @@ exports.regardDeviceAlarm = function (body) {
 
       // Normalize resource the SAME way you compare inside handler (important for coalescing!)
       // Use modifyResource logic (same as your handler) so keys match.
-      const resourceToUpdate = normalizeResource(
-        resource.replace(
-          /core-model-1-4:network-control-domain=live\/control-construct=.+?\//g,
-          "core-model-1-4:control-construct/"
-        )
-      );
-
+      
+      const normalizedResource = normalizeResource(resource);
       // alarmKey: mount + alarmTypeId + normalizedResource
-      const alarmKey = `${alarmTypeQualifier}|${resourceToUpdate}`;
+      const alarmKey = `${mountname}|${alarmTypeQualifier}|${normalizedResource}`;
 
       const updatedAttributes = {
         "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + String(problemSeverity).toUpperCase(),
@@ -12233,6 +12187,143 @@ exports.regardDeviceAlarm = function (body) {
     }
   });
 }
+
+/**
+ * Receives notifications about alarms at devices
+ *
+ * body V1_regarddevicealarm_body 
+ * no response value expected for this operation
+ **/
+/* async function regardDeviceAlarmTest(body) {
+  // return new Promise(async function (resolve, reject) {
+    try {
+      const objectKey = Object.keys(body)[0];
+      const currentJSON = body[objectKey];
+
+      const resource = currentJSON["resource"];
+      const timeStamp = currentJSON["timestamp"];
+      const alarmTypeId = currentJSON["alarm-type-id"];
+      const alarmTypeQualifier = currentJSON["alarm-type-qualifier"];
+      const problemSeverity = currentJSON["problem-severity"];
+
+      const mountname = decodeMountName(resource, false);
+
+      // Normalize resource the SAME way you compare inside handler (important for coalescing!)
+      // Use modifyResource logic (same as your handler) so keys match.
+      
+      const normalizedResource = normalizeResource(resource);
+      // alarmKey: mount + alarmTypeId + normalizedResource
+      const alarmKey = `${mountname}|${alarmTypeQualifier}|${normalizedResource}`;
+
+      const updatedAttributes = {
+        "alarm-severity": "alarms-1-0:SEVERITY_TYPE_" + String(problemSeverity).toUpperCase(),
+        "alarm-type-qualifier": alarmTypeQualifier,
+        "alarm-type-id": alarmTypeId,
+        "timestamp": timeStamp,
+        "resource": resource
+      };
+
+      const alarmData = {
+        type: "ALARM",
+        mountname,
+        timeStamp,
+        alarmTypeId,
+        problemSeverity,
+        resource,
+        updatedAttributes
+      };
+
+      // enqueue coalesced latest
+      enqueueAlarm(mountname, alarmKey, alarmData);
+
+      //resolve(); // REST should return quickly (do not wait for ES)
+    } catch (error) {
+      logger.error(error);
+      reject(error);
+    }
+ // });
+}
+
+// Simulated messages
+const messages = [
+  {
+   "notification-proxy-1-0:alarm-event-notification":{
+      "alarm-event-sequence-number":4,
+      "timestamp":"2025-09-04T09:34:53+00:00",
+      "resource":"/core-model-1-4:network-control-domain=live/control-construct=CO17690/logical-termination-point=LTP-MWPS-TTP-1-1",
+      "alarm-type-id":"alarm-types:ALARM_TYPE_ID_TYPE_IFPORT_OBJ",
+      "alarm-type-qualifier":"XPIC_LOS/12862-110-1-1",
+      "problem-severity":"critical"
+   }
+  },
+  {
+   "notification-proxy-1-0:alarm-event-notification":{
+      "alarm-event-sequence-number":5,
+      "timestamp":"2025-09-06T09:34:59+00:00",
+      "resource":"/core-model-1-4:network-control-domain=live/control-construct=CO17690/equipment=HUAWEI-EQUIPMENT-1",
+      "alarm-type-id":"alarm-types:ALARM_TYPE_ID_TYPE_NE_OBJ",
+      "alarm-type-qualifier":"NB_UNREACHABLE/13485-20/01FF04",
+      "problem-severity":"major"
+   }
+  },
+  {
+   "notification-proxy-1-0:alarm-event-notification":{
+      "alarm-event-sequence-number":8,
+      "timestamp":"2025-09-08T09:38:10+00:00",
+      "resource":"/core-model-1-4:network-control-domain=live/control-construct=CO17690/logical-termination-point=LTP-MWPS-TTP-1-1",
+      "alarm-type-id":"alarm-types:ALARM_TYPE_ID_TYPE_IFPORT_OBJ",
+      "alarm-type-qualifier":"MW_CFG_MISMATCH/13183-110-1-1/02FF",
+      "problem-severity":"critical"
+   }
+  },
+  {
+   "notification-proxy-1-0:alarm-event-notification":{
+      "alarm-event-sequence-number":9,
+      "timestamp":"2025-09-10T09:38:10+00:00",
+      "resource":"/core-model-1-4:network-control-domain=live/control-construct=CO17690/logical-termination-point=LTP-MWPS-TTP-1-1",
+      "alarm-type-id":"alarm-types:ALARM_TYPE_ID_TYPE_IFPORT_OBJ",
+      "alarm-type-qualifier":"MW_CFG_MISMATCH/13183-110-1-1/04FF",
+      "problem-severity":"critical"
+   },
+  },
+  {
+   "notification-proxy-1-0:alarm-event-notification":{
+      "alarm-event-sequence-number":1,
+      "timestamp":"2023-07-18T09:47:04.000Z",
+      "resource":"/core-model-1-4:network-control-domain=live/control-construct=513250009/logical-termination-point=LTP-MWPS-TTP-RADIO-1A/layer-protocol=LP-MWPS-TTP-RADIO-1A/air-interface-2-0:air-interface-pac",
+      "alarm-type-id":"siae-alarms-1-0:radioEquipLinkTelemetryFailAlarm",
+      "alarm-type-qualifier":"",
+      "problem-severity":"major"
+   }
+  },
+]; */
+
+/**
+ * Receives notifications about alarms at devices
+ *
+ * body V1_regarddevicealarm_body 
+ * no response value expected for this operation
+ **/
+/* exports.regardDeviceAlarm = function (body) {
+  return new Promise(async function (resolve, reject) {
+    try{
+      console.log("Starting concurrency simulation...");
+    // Fire multiple regardDeviceAlarm calls in parallel
+    Promise.all(
+      messages.map((msg) => {
+        return regardDeviceAlarmTest(msg);
+      })
+    );
+
+    console.log("Simulation finished. Check logs for version conflict retries.");
+    resolve();
+    } catch (error) {
+      logger.error(error);
+      reject(error);
+    }
+  });
+} */
+
 
 async function ReadRecordsMountName(cc) {
   try {

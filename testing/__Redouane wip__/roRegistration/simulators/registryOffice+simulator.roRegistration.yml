@@ -1,12 +1,14 @@
 openapi: 3.0.0
 info:
-  title: RegistryOffice
+  title: RegistryOffice.simulator.tacInteraction.roRegistration
   version: 2.1.2
 
-
+  
+  # This is the simulator file for relevant EATL services
 paths:
 ########################################################################################################################
 #   Service Layer - Individual Part
+# RO+simulator.tacInteraction.roRegistration in static reference mode
 ########################################################################################################################
 
   /v1/list-applications:

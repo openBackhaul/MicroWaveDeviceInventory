@@ -11689,7 +11689,7 @@ const pendingMounts = new Set();    // mounts waiting for a slot
 const BATCH_SIZE = 10;              // fixed alarms per mount batch
 const BATCH_WINDOW_MS = 200;        // fixed flush delay
 
-const MAX_ACTIVE_MOUNTS = 100;      // global concurrency cap
+const MAX_ACTIVE_MOUNTS = 40;      // global concurrency cap
 const LOCK_TIMEOUT_MS = 400000;      // timeout per batch
 const MAX_RETRIES = 1;              // keep low for stability
 

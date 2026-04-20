@@ -11686,16 +11686,16 @@ const pendingMounts = new Set();    // mounts waiting for a slot
 //const STATS_WINDOW_MS = 5000;
 
 // ---- Fixed stable config ----
-const BATCH_SIZE = 10;              // fixed alarms per mount batch
-const BATCH_WINDOW_MS = 200;        // fixed flush delay
+const BATCH_SIZE = 5;              // fixed alarms per mount batch
+const BATCH_WINDOW_MS = 300;        // fixed flush delay
 
-const MAX_ACTIVE_MOUNTS = 40;      // global concurrency cap
+const MAX_ACTIVE_MOUNTS = 20;      // global concurrency cap
 const LOCK_TIMEOUT_MS = 400000;      // timeout per batch
-const MAX_RETRIES = 1;              // keep low for stability
+const MAX_RETRIES = 0;              // keep low for stability
 
 // hard limits (stability)
-const MAX_GLOBAL_KEYS = 100000;     // total coalesced keys across all mounts
-const MAX_KEYS_PER_MOUNT = 20;    // cap per mount
+const MAX_GLOBAL_KEYS = 30000;     // total coalesced keys across all mounts
+const MAX_KEYS_PER_MOUNT = 10;    // cap per mount
 const DROP_OLDEST_ON_OVERFLOW = true; // if false, reject new when full
 
 // ---- ES circuit breaker (optional but recommended) ----

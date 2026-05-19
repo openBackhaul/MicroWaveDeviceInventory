@@ -11694,7 +11694,7 @@ const LOCK_TIMEOUT_MS = 400000;      // timeout per batch
 const MAX_RETRIES = 0;              // keep low for stability
 
 // hard limits (stability)
-const MAX_GLOBAL_KEYS = 2000;     // total coalesced keys across all mounts
+const MAX_GLOBAL_KEYS = 50;     // total coalesced keys across all mounts
 const MAX_KEYS_PER_MOUNT = 10;    // cap per mount
 const DROP_OLDEST_ON_OVERFLOW = true; // if false, reject new when full
 

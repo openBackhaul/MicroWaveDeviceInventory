@@ -17,28 +17,86 @@ function getNotificationType(notification) {
 
 let consumer = undefined;
 
-function handleNotifications(receivedMessage, topic) {
+let subscribedTopics = [];
+let kafkaPausedByQueue = false;
+
+function getPauseTopicList(topic) {
+  if (subscribedTopics && subscribedTopics.length > 0) {
+    return subscribedTopics.map(t => ({ topic: t }));
+  }
+  return [{ topic }];
+}
+
+function pauseKafkaIfNeeded(topic) {
+  if (!consumer || typeof consumer.pause !== "function") return;
+
+  const status = individualServices.getQueueBackpressureStatus
+    ? individualServices.getQueueBackpressureStatus()
+    : null;
+
+  if (!status) return;
+
+  if (!kafkaPausedByQueue && status.shouldPause) {
+    kafkaPausedByQueue = true;
+    consumer.pause(getPauseTopicList(topic));
+
+    console.log(
+      `[KAFKA-BACKPRESSURE] Paused Kafka. globalQueue=${status.globalQueueSize}, activeMounts=${status.activeMountProcessors}, pendingMounts=${status.pendingMounts}`
+    );
+  }
+}
+
+function resumeKafkaIfNeeded(topic) {
+  if (!consumer || typeof consumer.resume !== "function") return;
+
+  const status = individualServices.getQueueBackpressureStatus
+    ? individualServices.getQueueBackpressureStatus()
+    : null;
+
+  if (!status) return;
+
+  if (kafkaPausedByQueue && status.shouldResume) {
+    kafkaPausedByQueue = false;
+    consumer.resume(getPauseTopicList(topic));
+
+    console.log(
+      `[KAFKA-BACKPRESSURE] Resumed Kafka. globalQueue=${status.globalQueueSize}, activeMounts=${status.activeMountProcessors}, pendingMounts=${status.pendingMounts}`
+    );
+  }
+}
+
+async function handleNotifications(receivedMessage, topic) {
   try {
+    pauseKafkaIfNeeded(topic);
+
     let notificationType = getNotificationType(receivedMessage);
 
     switch (notificationType) {
       case "ALARM":
-        individualServices.regardDeviceAlarm(receivedMessage);
+        await individualServices.regardDeviceAlarm(receivedMessage);
         break;
+
       case "ATTRIBUTE_VALUE_CHANGED":
-        individualServices.regardDeviceAttributeValueChange(receivedMessage);
+        await individualServices.regardDeviceAttributeValueChange(receivedMessage);
         break;
+
       case "OBJECT_CREATION":
-        individualServices.regardDeviceObjectCreation(receivedMessage);
+        await individualServices.regardDeviceObjectCreation(receivedMessage);
         break;
+
       case "OBJECT_DELETION":
-        individualServices.regardDeviceObjectDeletion(receivedMessage);
+        await individualServices.regardDeviceObjectDeletion(receivedMessage);
         break;
+
       default:
-        console.log(`improper notification received: ${receivedMessage} for topic: ${topic}`);
+        console.log(`improper notification received for topic: ${topic}`);
     }
+
+    resumeKafkaIfNeeded(topic);
+
   } catch (error) {
     console.error("Error handling notification:", error);
+    resumeKafkaIfNeeded(topic);
   }
 }
 
@@ -47,6 +105,7 @@ function handleNotifications(receivedMessage, topic) {
   try {    
     
       const { groupId, clientId, brokerList, topics } = workerData;
+      subscribedTopics = topics;
       global.applicationDataPath = './application-data/';
       global.databasePath = './database/config.json';
       global.common = await individualServices.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();

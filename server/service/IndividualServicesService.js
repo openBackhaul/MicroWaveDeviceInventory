@@ -11749,6 +11749,9 @@ function esBreakerOpen() {
 }
  */
 // ---- Helpers ----
+const KAFKA_PAUSE_QUEUE_SIZE = 40;
+const KAFKA_RESUME_QUEUE_SIZE = 10;
+
 function safeErrMsg(err) {
   if (!err) return "unknown error";
   if (err.message) return err.message;
@@ -11760,6 +11763,19 @@ function globalKeyCount() {
   for (const q of mountQueues.values()) total += q.size;
   return total;
 }
+
+exports.getQueueBackpressureStatus = function () {
+  const globalQueueSize = globalKeyCount();
+
+  return {
+    globalQueueSize,
+    activeMountProcessors,
+    pendingMounts: pendingMounts.size,
+    activeMountQueues: mountQueues.size,
+    shouldPause: globalQueueSize >= KAFKA_PAUSE_QUEUE_SIZE,
+    shouldResume: globalQueueSize <= KAFKA_RESUME_QUEUE_SIZE
+  };
+};
 
 function tryStartMountProcessing(mountname) {
   if (processingLocks.has(mountname)) return;

@@ -46,7 +46,8 @@ const slidingWindowHandler = require('./individualServices/CyclicProcessService/
 const logger = require('./LoggingService.js').getLogger();
 const { Mutex } = require("async-mutex");
 const lock = new Mutex();
-const { logAlarmNotificationUpdate } = require('../utils/alarmLogTracker.js');
+//const { logAlarmNotificationUpdate } = require('../utils/alarmLogTracker.js');
+const v8 = require("v8");
 // ---------------------------------------------------------
 
 let lastSentMessages = [];
@@ -8859,11 +8860,11 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               // read from ES
               //const release = await lock.acquire();
               await enqueueAlarm(correctCc, profileKey, profileData, async () => {
-                logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
+                //logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
                 const result = await ReadRecordsMountName(correctCc);
                 if (result == undefined) {
                   // No record → skip processing, no retry
-                  logAlarmNotificationUpdate(`No record found for ${mountname}`);
+                  //logAlarmNotificationUpdate(`No record found for ${mountname}`);
                   logger.warn(`No record found for ${mountname}`);
                   //throw new createHttpError.NotFound("unable to find device")
                   //throw new createHttpError(500, "unable to find device");
@@ -8872,17 +8873,17 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
                   // Return cleanly so queue marks as success
                   return;
                 }
-                logAlarmNotificationUpdate(`[READ-END] ${correctCc}`);
+                //logAlarmNotificationUpdate(`[READ-END] ${correctCc}`);
 
                 await cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
 
                 // Write updated Json to ES
-                logAlarmNotificationUpdate(`[WRITE-START] ${correctCc}`);
+                //logAlarmNotificationUpdate(`[WRITE-START] ${correctCc}`);
                 let elapsedTime = await recordRequest(result, correctCc);
                 if (!elapsedTime.ok && !elapsedTime.retry) {
                     return;   // do not retry
                 }
-                logAlarmNotificationUpdate(`[WRITE-END] ${correctCc}`);
+                //logAlarmNotificationUpdate(`[WRITE-END] ${correctCc}`);
 
                 console.log("record request for ", correctCc, "--------------------------------------------------************************************")
               });
@@ -11609,6 +11610,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
  * no response value expected for this operation
  **/
 exports.regardControllerAttributeValueChange = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return withHeavyNotificationSlot(async () => {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];
@@ -11661,9 +11663,10 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
       //metaDataUtility.updateMDTableForDeviceStatusChange(logicalTerminationPoint, newValue, timestamp)
       resolve();
     } catch (error) {
-      logger.error(error);
-      reject(error);
+      logger.error(error.message);
+      reject(error.message);
     }
+  });
   });
 }
 
@@ -11672,9 +11675,30 @@ const mountQueues = new Map();      // mount -> Map(alarmKey -> item)  (Map keep
 const flushTimers = new Map();      // mount -> timer
 const processingLocks = new Set();  // mounts currently being processed
 //const mountStats = new Map();       // mount -> { timestamps:[], lastRate }
-const perfStats = new Map();        // mount -> { ok, fail, skipNoRecord, lastStart, lastEnd, lastDurationMs }
+//const perfStats = new Map();        // mount -> { ok, fail, skipNoRecord, lastStart, lastEnd, lastDurationMs }
 let activeMountProcessors = 0;
 const pendingMounts = new Set();    // mounts waiting for a slot
+
+const HEAVY_NOTIFICATION_CONCURRENCY = 2;
+let heavyNotificationActive = 0;
+const heavyNotificationWaiters = [];
+
+async function withHeavyNotificationSlot(fn) {
+  if (heavyNotificationActive >= HEAVY_NOTIFICATION_CONCURRENCY) {
+    await new Promise(resolve => heavyNotificationWaiters.push(resolve));
+  }
+
+  heavyNotificationActive += 1;
+
+  try {
+    return await fn();
+  } finally {
+    heavyNotificationActive -= 1;
+
+    const next = heavyNotificationWaiters.shift();
+    if (next) next();
+  }
+}
 
 // ---- Config ----
 //const BASE_BATCH_SIZE = 10;
@@ -11686,16 +11710,16 @@ const pendingMounts = new Set();    // mounts waiting for a slot
 //const STATS_WINDOW_MS = 5000;
 
 // ---- Fixed stable config ----
-const BATCH_SIZE = 5;              // fixed alarms per mount batch
-const BATCH_WINDOW_MS = 300;        // fixed flush delay
+const BATCH_SIZE = 3;              // fixed alarms per mount batch
+const BATCH_WINDOW_MS = 500;        // fixed flush delay
 
-const MAX_ACTIVE_MOUNTS = 20;      // global concurrency cap
-const LOCK_TIMEOUT_MS = 400000;      // timeout per batch
+const MAX_ACTIVE_MOUNTS = 3;      // global concurrency cap
+const LOCK_TIMEOUT_MS = 30000;      // timeout per batch
 const MAX_RETRIES = 0;              // keep low for stability
 
 // hard limits (stability)
 const MAX_GLOBAL_KEYS = 50;     // total coalesced keys across all mounts
-const MAX_KEYS_PER_MOUNT = 10;    // cap per mount
+const MAX_KEYS_PER_MOUNT = 5;    // cap per mount
 const DROP_OLDEST_ON_OVERFLOW = true; // if false, reject new when full
 
 // ---- ES circuit breaker (optional but recommended) ----
@@ -11749,9 +11773,6 @@ function esBreakerOpen() {
 }
  */
 // ---- Helpers ----
-const KAFKA_PAUSE_QUEUE_SIZE = 40;
-const KAFKA_RESUME_QUEUE_SIZE = 10;
-
 function safeErrMsg(err) {
   if (!err) return "unknown error";
   if (err.message) return err.message;
@@ -11764,16 +11785,91 @@ function globalKeyCount() {
   return total;
 }
 
+function evictOneGlobalQueuedItem() {
+  for (const [oldMountname, oldQueue] of mountQueues.entries()) {
+    // Do not disturb currently processing mount
+    if (processingLocks.has(oldMountname)) continue;
+
+    const oldestKey = oldQueue.keys().next().value;
+
+    if (oldestKey !== undefined) {
+      oldQueue.delete(oldestKey);
+
+      if (oldQueue.size === 0) {
+        cleanupMount(oldMountname);
+      }
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const KAFKA_PAUSE_QUEUE_SIZE = 40;
+const KAFKA_RESUME_QUEUE_SIZE = 10;
+
 exports.getQueueBackpressureStatus = function () {
   const globalQueueSize = globalKeyCount();
+
+  const memory = process.memoryUsage();
+
+  // JS heap currently used by actual JS objects
+  const heapUsedMb = Math.round(memory.heapUsed / 1024 / 1024);
+
+  // JS heap currently allocated by V8
+  const heapTotalMb = Math.round(memory.heapTotal / 1024 / 1024);
+
+  // Total Node.js process memory in RAM
+  // Includes JS heap + buffers + native memory + Node internals
+  const rssMb = Math.round(memory.rss / 1024 / 1024);
+
+  // Actual V8 heap limit
+  const heapLimitMb = Math.round(
+    v8.getHeapStatistics().heap_size_limit / 1024 / 1024
+  );
+
+  // Heap thresholds
+  // If heap limit is around 4GB, pause at 3GB and resume at 2.2GB
+  const HEAP_PAUSE_MB = Math.floor(heapLimitMb * 0.75);
+  const HEAP_RESUME_MB = Math.floor(heapLimitMb * 0.55);
+
+  // RSS thresholds
+  // Tune this based on container/server memory.
+  // Example: if container memory is 6GB, pause around 5GB.
+  const RSS_PAUSE_MB = 5000;
+  const RSS_RESUME_MB = 4000;
+
+  const shouldPause =
+    globalQueueSize >= KAFKA_PAUSE_QUEUE_SIZE ||
+    activeMountProcessors >= MAX_ACTIVE_MOUNTS ||
+    heapUsedMb >= HEAP_PAUSE_MB ||
+    rssMb >= RSS_PAUSE_MB;
+
+  const shouldResume =
+    globalQueueSize <= KAFKA_RESUME_QUEUE_SIZE &&
+    activeMountProcessors < MAX_ACTIVE_MOUNTS &&
+    heapUsedMb <= HEAP_RESUME_MB &&
+    rssMb <= RSS_RESUME_MB;
 
   return {
     globalQueueSize,
     activeMountProcessors,
     pendingMounts: pendingMounts.size,
     activeMountQueues: mountQueues.size,
-    shouldPause: globalQueueSize >= KAFKA_PAUSE_QUEUE_SIZE,
-    shouldResume: globalQueueSize <= KAFKA_RESUME_QUEUE_SIZE
+
+    heapUsedMb,
+    heapTotalMb,
+    heapLimitMb,
+    rssMb,
+
+    heapPauseMb: HEAP_PAUSE_MB,
+    heapResumeMb: HEAP_RESUME_MB,
+    rssPauseMb: RSS_PAUSE_MB,
+    rssResumeMb: RSS_RESUME_MB,
+
+    shouldPause,
+    shouldResume
   };
 };
 
@@ -11852,17 +11948,24 @@ function enqueueAlarm(mountname, alarmKey, alarmData, alarmFn = null) {
     }
   }
 
-  // global cap
+  // global cap - must evict from ANY mount, not only current mount
   if (!q.has(alarmKey) && globalKeyCount() >= MAX_GLOBAL_KEYS) {
     if (DROP_OLDEST_ON_OVERFLOW) {
-      const oldestKey = q.keys().next().value;
-      if (oldestKey) {
-        q.delete(oldestKey);
-        //stat.dropped += 1;
+      while (globalKeyCount() >= MAX_GLOBAL_KEYS) {
+        const evicted = evictOneGlobalQueuedItem();
+
+        if (!evicted) {
+          return Promise.resolve({
+            enqueued: false,
+            reason: "global_queue_full_all_mounts_busy"
+          });
+        }
       }
     } else {
-      //stat.dropped += 1;
-      return Promise.resolve({ enqueued: false, reason: "global_queue_full" });
+      return Promise.resolve({
+        enqueued: false,
+        reason: "global_queue_full"
+      });
     }
   }
 
@@ -11946,9 +12049,9 @@ async function processNextBatch(mountname) {
   const start = Date.now();
 
   // keep logging minimal in production
-  logAlarmNotificationUpdate(
+  /* logAlarmNotificationUpdate(
     `[LOCK] Start batch for ${mountname}, batchSize=${batchItems.length}, remainingBefore=${q.size}`
-  );
+  ); */
 
   try {
     const alarmItems = [];
@@ -12034,9 +12137,9 @@ async function processNextBatch(mountname) {
               mountname,
               latestTimeStamp
             );
-              logAlarmNotificationUpdate(
+              /* logAlarmNotificationUpdate(
                   `Completed Metadata update for Mountname=${mountname}`
-              );
+              );*/
           }
         }
       }
@@ -12067,7 +12170,7 @@ async function processNextBatch(mountname) {
 
   } catch (err) {
     const msg = safeErrMsg(err);
-    logAlarmNotificationUpdate(`[LOCK] Fatal error for ${mountname}: ${msg}`);
+    //logAlarmNotificationUpdate(`[LOCK] Fatal error for ${mountname}: ${msg}`);
 
     for (const item of batchItems) {
       if (item.attempt < MAX_RETRIES) {
@@ -12127,8 +12230,9 @@ function cleanupMount(mountname) {
   processingLocks.delete(mountname);
   pendingMounts.delete(mountname);
 
-  // keep perfStats if you want monitoring history
-  // perfStats.delete(mountname);
+  /* if (perfStats && perfStats.delete) {
+    perfStats.delete(mountname);
+  } */
 }
 
 function normalizeResource(resource) {
@@ -12347,12 +12451,12 @@ async function ReadRecordsMountName(cc) {
     const client = await common[1].EsClient;
 
     const start = Date.now();
-    logAlarmNotificationUpdate(`Mountname=${cc} - Reading ES record`);
+    //logAlarmNotificationUpdate(`Mountname=${cc} - Reading ES record`);
 
     const result = await client.get({ index: indexAlias, id: cc });
 
     const duration = (Date.now() - start) / 1000;
-    logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES read in ${duration}s`);
+    //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES read in ${duration}s`);
 
     const src = result?.body?._source;
     if (!src) {
@@ -12360,7 +12464,7 @@ async function ReadRecordsMountName(cc) {
     }
     return src;
   } catch (error) {
-    logAlarmNotificationUpdate(`[READ-ERROR] Error reading ES for Mountname=${cc} - ${error.message}`);
+    //logAlarmNotificationUpdate(`[READ-ERROR] Error reading ES for Mountname=${cc} - ${error.message}`);
     logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
     return undefined;
   }
@@ -12378,6 +12482,7 @@ function ValidateResourcePath(input) {
  * no response value expected for this operation
  **/
 exports.regardDeviceAttributeValueChange = async function (body) {
+  return withHeavyNotificationSlot(async () => {
   try {
     let objectKey = Object.keys(body)[0];
     let currentJSON = body[objectKey];
@@ -12454,6 +12559,7 @@ exports.regardDeviceAttributeValueChange = async function (body) {
     logger.error(error);
     return (error);
   }
+  });
 }
 
 
@@ -12464,6 +12570,7 @@ exports.regardDeviceAttributeValueChange = async function (body) {
  * no response value expected for this operation
  **/
 exports.regardDeviceObjectCreation = function (body) {
+  return withHeavyNotificationSlot(async () => {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];
@@ -12532,6 +12639,7 @@ exports.regardDeviceObjectCreation = function (body) {
       reject(error);
     }
   });
+  });
 }
 
 
@@ -12542,6 +12650,7 @@ exports.regardDeviceObjectCreation = function (body) {
  * no response value expected for this operation
  **/
 exports.regardDeviceObjectDeletion = function (body) {
+  return withHeavyNotificationSlot(async () => {
   return new Promise(async function (resolve, reject) {
     try {
       let objectKey = Object.keys(body)[0];
@@ -12601,6 +12710,7 @@ exports.regardDeviceObjectDeletion = function (body) {
       logger.error(error);
       reject(error);
     }
+  });
   });
 }
 
@@ -12803,8 +12913,8 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
     let uniqueSendingID = crypto.randomUUID();
 
     //send notification
-    logger.info("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
-
+    //logger.info("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
+    logger.info(`sending subscriber notification to: ${targetOperationURL}, notificationType=${notificationType}, debugId=${uniqueSendingID}`);
     axios.post(targetOperationURL, notificationMessage, {
       // axios.post("http://localhost:1237", notificationMessage, {
       headers: {
@@ -12817,7 +12927,7 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
       }
     })
       .then((response) => {
-        logger.info("subscriber-notification success, notificationType " + notificationType + ", target url: " + targetOperationURL + ", result status: " + response.status + " - debugId: '" + uniqueSendingID + "'");
+        logger.info(`subscriber-notification success, notificationType=${notificationType}, target url=${targetOperationURL}, result status=${response.status}, debugId=${uniqueSendingID}`);
 
         executionAndTraceService.recordServiceRequestFromClient(
           appInformation["application-name"],
@@ -12919,12 +13029,36 @@ async function sentDataToRequestor(body, user, originator, xCorrelator, traceInd
 
   try {
     let response = await axios(requestorUrl, {
-      headers: httpRequestHeaderRequestor
+      headers: httpRequestHeaderRequestor,
+      timeout: 60000,
+      maxContentLength: 2 * 1024 * 1024,
+      maxBodyLength: 2 * 1024 * 1024,
+      validateStatus: () => true
     });
-    return response;
+    return {
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data,
+      response: {
+        status: response.status,
+        statusText: response.statusText
+      }
+    };
   }
   catch (error) {
-    return (error);
+    logger.error(
+      `[sentDataToRequestor-REQUESTOR-ERROR] url=${requestorUrl.substring(0, 300)} status=${error.response?.status || "NA"} message=${error.message}`
+    );
+
+    return {
+      status: error.response?.status || 503,
+      statusText: error.response?.statusText || error.message,
+      data: undefined,
+      response: {
+        status: error.response?.status || 503,
+        statusText: error.response?.statusText || error.message
+      }
+    };
   }
 }
 
@@ -13586,11 +13720,11 @@ async function recordRequest(body, cc) {
     if (error.statusCode === 404) {
       // Pipeline does not exist
       logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-      logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
+      //logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
     } else {
       // Other errors
       logger.error(error, "An error occurred while checking the pipeline:");
-      logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
+      //logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
       throw error; // Re-throw the error if it's not a 404
     }
   }
@@ -13610,37 +13744,37 @@ async function recordRequest(body, cc) {
     }
 
     const start = Date.now();
-    logAlarmNotificationUpdate(`Mountname=${cc} - Writing to ES`);
+    //logAlarmNotificationUpdate(`Mountname=${cc} - Writing to ES`);
 
     let result = await client.index(indexParams);
     let backendTime = process.hrtime(startTime);
 
     const duration = (Date.now() - start) / 1000;
-    logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
+    //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
 
 
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")
-      logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
+      //logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
       //return { "took": -1, ok: false, retry: true };
       return { ok: false, retry: true, reason: "empty_response", "took": -1 };
     }
 
     if (result.body.result == 'created' || result.body.result == 'updated') {
       logger.debug(`ELK - Result is: ${result.body.result}`);
-      logAlarmNotificationUpdate(`ELK - Result is: ${result.body.result} for ${cc}`);
+      //logAlarmNotificationUpdate(`ELK - Result is: ${result.body.result} for ${cc}`);
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000, ok: true, retry: false };
     } else {
       logger.warn(`ELK - result is: ${result.body.result}`);
-      logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);
+      //logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);
       return { "took": -1, ok: false, retry: true, reason: `unexpected_result_${result.body.result}` };
     }
   } catch (error) {
-    logAlarmNotificationUpdate(`[WRITE-ERROR] Mountname=${cc} - ${error.message}`);
+    //logAlarmNotificationUpdate(`[WRITE-ERROR] Mountname=${cc} - ${error.message}`);
     logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
-    logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
+    //logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
     logger.trace(error);
-    logAlarmNotificationUpdate(`Error for ${cc}: ${error}`);
+    //logAlarmNotificationUpdate(`Error for ${cc}: ${error}`);
     return { ok: false, retry: true, error: error.message, reason:error.message };
   }
 }
@@ -14193,4 +14327,3 @@ function decodeURIWithCheck(encodedUri) {
     return decodeURIComponent(encodedUri);
   }
 }
-

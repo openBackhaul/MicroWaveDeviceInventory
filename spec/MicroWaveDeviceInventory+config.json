@@ -3091,6 +3091,150 @@
         ]
       },
       {
+        "uuid": "mwdi-2-1-0-op-s-is-300",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-301",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-302",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-303",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-304",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-305",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-2-1-0-op-s-is-400",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
         "client-ltp": [
@@ -4601,6 +4745,150 @@
         ]
       },
       {
+        "uuid": "mwdi-2-1-0-op-s-is-600",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-601",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-602",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-603",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-604",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-1-0-op-s-is-605",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-1-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
         "uuid": "mwdi-2-1-0-http-s-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
         "client-ltp": [
@@ -4709,6 +4997,12 @@
           "mwdi-2-1-0-op-s-is-271",
           "mwdi-2-1-0-op-s-is-272",
           "mwdi-2-1-0-op-s-is-274",
+          "mwdi-2-1-0-op-s-is-300",
+          "mwdi-2-1-0-op-s-is-301",
+          "mwdi-2-1-0-op-s-is-302",
+          "mwdi-2-1-0-op-s-is-303",
+          "mwdi-2-1-0-op-s-is-304",
+          "mwdi-2-1-0-op-s-is-305",
           "mwdi-2-1-0-op-s-is-400",
           "mwdi-2-1-0-op-s-is-405",
           "mwdi-2-1-0-op-s-is-406",
@@ -4771,7 +5065,13 @@
           "mwdi-2-1-0-op-s-is-571",
           "mwdi-2-1-0-op-s-is-572",
           "mwdi-2-1-0-op-s-is-573",
-          "mwdi-2-1-0-op-s-is-574"
+          "mwdi-2-1-0-op-s-is-574",
+          "mwdi-2-1-0-op-s-is-600",
+          "mwdi-2-1-0-op-s-is-601",
+          "mwdi-2-1-0-op-s-is-602",
+          "mwdi-2-1-0-op-s-is-603",
+          "mwdi-2-1-0-op-s-is-604",
+          "mwdi-2-1-0-op-s-is-605"
         ],
         "server-ltp": [
           "mwdi-2-1-0-tcp-s-000"

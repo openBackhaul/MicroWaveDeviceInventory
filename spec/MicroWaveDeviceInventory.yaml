@@ -10636,8 +10636,6 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mountName'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedEquipmentAugmentProtocolCollection
@@ -10733,7 +10731,6 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mountName'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedEquipmentAugmentLldpPac
@@ -10838,7 +10835,6 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mountName'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedLldpRemoteStatistics
@@ -10943,7 +10939,6 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mountName'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedLldpLocalSystemData
@@ -11048,7 +11043,6 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mountName'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedLldpConfiguration
@@ -11153,7 +11147,6 @@ paths:
       - $ref: '#/components/parameters/customer-journey'
       - $ref: '#/components/parameters/mountName'
       - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/localId'
       - $ref: '#/components/parameters/fields'
     get:
       operationId: getCachedLldpStatus

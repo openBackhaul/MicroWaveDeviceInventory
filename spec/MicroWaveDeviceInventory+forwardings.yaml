@@ -446,6 +446,19 @@ forwardings:
         uuid: mwdi-2-1-0-op-s-is-272
       - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-s-is-274
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-s-is-300
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-s-is-301
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-s-is-302
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-s-is-303
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-s-is-304
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-s-is-305
+
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}
         uuid: mwdi-2-1-0-op-s-is-400
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-capability
@@ -572,6 +585,18 @@ forwardings:
         uuid: mwdi-2-1-0-op-s-is-573
       - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-s-is-574
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-s-is-600
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-s-is-601
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-s-is-602
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-s-is-603
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-s-is-604
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-s-is-605
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
         uuid: mwdi-2-1-0-op-c-bs-eatl-2-1-2-000
@@ -1335,6 +1360,18 @@ forwardings:
         uuid: mwdi-2-1-0-op-c-get-es-1-0-0-272
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-c-get-es-1-0-0-274
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-300
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-301
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-302
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-303
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-304
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-305
 
       - client-name: ElasticSearch://control-construct={mountName}
         uuid: mwdi-2-1-0-op-c-put-es-1-0-0-400
@@ -1452,6 +1489,18 @@ forwardings:
         uuid: mwdi-2-1-0-op-c-put-es-1-0-0-572
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-c-put-es-1-0-0-574
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-600
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-601
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-602
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-603
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-604
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-605
 
   - forwarding-name: NotifiedDeviceObjectCreationCausesSelfCallingOfLiveResourcePath
     uuid: mwdi-2-1-0-op-fc-is-008
@@ -1597,6 +1646,20 @@ forwardings:
       - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-574
 
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-600
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-601
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-602
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-603
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-604
+      - client-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-is-mwdi-2-1-0-605
+
+
   - forwarding-name: NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache
     uuid: mwdi-2-1-0-op-fc-is-010
     forwarding-type: InvariantProcessSnippet
@@ -1725,6 +1788,18 @@ forwardings:
         uuid: mwdi-2-1-0-op-c-del-es-1-0-0-872
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-c-del-es-1-0-0-874
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-del-es-1-0-0-900
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-del-es-1-0-0-901
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-del-es-1-0-0-902
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-del-es-1-0-0-903
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-del-es-1-0-0-904
+      - client-name: /control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-del-es-1-0-0-905
 
   - forwarding-name: NotifiedNewDeviceCausesMetadataUpdate
     uuid: mwdi-2-1-0-op-fc-is-001
@@ -2965,6 +3040,95 @@ forwardings:
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-c-get-es-1-0-0-274
 
+  - forwarding-name: RequestForEquipmentAugmentProtocolCollectionCausesReadingFromCache
+    uuid: mwdi-2-1-0-op-fc-is-300
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-s-is-300
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-300
+
+  - forwarding-name: RequestForEquipmentAugmentLldpPacCausesReadingFromCache
+    uuid: mwdi-2-1-0-op-fc-is-301
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-s-is-301
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-301
+
+  - forwarding-name: RequestForEquipmentAugmentLldpRemoteStatisticsCausesReadingFromCache
+    uuid: mwdi-2-1-0-op-fc-is-302
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-s-is-302
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-302
+
+  - forwarding-name: RequestForEquipmentAugmentLldpLocalSystemDataCausesReadingFromCache
+    uuid: mwdi-2-1-0-op-fc-is-303
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-s-is-303
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-303
+
+  - forwarding-name: RequestForEquipmentAugmentLldpConfigurationCausesReadingFromCache
+    uuid: mwdi-2-1-0-op-fc-is-304
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-s-is-304
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-304
+
+  - forwarding-name: RequestForEquipmentAugmentLldpStatusCausesReadingFromCache
+    uuid: mwdi-2-1-0-op-fc-is-305
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=cache/control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-s-is-305
+    consequent-requests:
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/protocol={uuid}/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-get-es-1-0-0-305
 
   - forwarding-name: RequestForLiveControlConstructCausesReadingFromDeviceAndWritingIntoCache
     uuid: mwdi-2-1-0-op-fc-is-400
@@ -3981,6 +4145,108 @@ forwardings:
         uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-574
       - client-name: ElasticSearch://control-construct={mountName}/logical-termination-point={uuid}/layer-protocol={localId}/wire-interface-2-0:wire-interface-pac/wire-interface-historical-performances
         uuid: mwdi-2-1-0-op-c-put-es-1-0-0-574
+
+  - forwarding-name: RequestForLiveEquipmentAugmentProtocolCollectionCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-2-1-0-op-fc-is-600
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-s-is-600
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-600
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-600
+
+  - forwarding-name: RequestForLiveEquipmentAugmentLldpPacCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-2-1-0-op-fc-is-601
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-s-is-601
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-601
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-601
+
+  - forwarding-name: RequestForLiveLldpRemoteStatisticsCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-2-1-0-op-fc-is-602
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-s-is-602
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-602
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/remote-statistics
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-602
+
+  - forwarding-name: RequestForLiveLldpLocalSystemDataCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-2-1-0-op-fc-is-603
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-s-is-603
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-603
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/local-system-data
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-603
+
+  - forwarding-name: RequestForLiveLldpConfigurationDataCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-2-1-0-op-fc-is-604
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-s-is-604
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-604
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/lldp-configuration
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-604
+
+  - forwarding-name: RequestForLiveLldpStatusDataCausesReadingFromDeviceAndWritingIntoCache
+    uuid: mwdi-2-1-0-op-fc-is-605
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-s-is-605
+    consequent-requests:
+      - client-name: OpenDayLight://{controllerInternalPathToMountPoint}/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-is-odl-4-0-2-605
+      - client-name: ElasticSearch://control-construct={mountName}/equipment-augment-1-0:protocol-collection/lldp-1-0:lldp-pac/lldp-status
+        uuid: mwdi-2-1-0-op-c-put-es-1-0-0-605
 
     # CurrentPerformanceValues shall not be PUT into ElasticSearch.
     # Thus there is just the one consequent-requests for reading from OpenDayLight.

@@ -31,6 +31,13 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 ### Latest Update  
 
+**v2.2.0**  
+This release adds the following changes:
+- cache and live ressource paths for LLDP
+
+For more details, see issue collection [MWDI v2.2.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/23).  
+
+
 **v2.1.0**  
 This release adds the following changes:
 - a configurable list of attributes/subclasses to be excluded from the quality measurement process

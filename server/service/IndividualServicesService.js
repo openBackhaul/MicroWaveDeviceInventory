@@ -6185,6 +6185,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             let jsonObj = result.data;
             modifyUUID(jsonObj, correctCc);
             if (myFields === undefined) {
+              jsonObj['last-complete-control-construct-update-time'] = new Date().toJSON();
               try {
                 let elapsedTime = await recordRequest(jsonObj, correctCc);
                 let device = {
@@ -6216,6 +6217,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                 // read from ES
                 let result1 = await ReadRecords(correctCc);
                 let ccFromLive = jsonObj;
+                ccFromLive['last-complete-control-construct-update-time'] = new Date().toJSON();
                 // Update json object
                 let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
                 // Write updated Json to ES
@@ -14237,6 +14239,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           let jsonObj = result.data;
           modifyUUID(jsonObj, correctCc);
           if (myFields === undefined) {
+            jsonObj['last-complete-control-construct-update-time'] = new Date().toJSON();
             try {
               let elapsedTime = await recordRequest(jsonObj, correctCc);
             }
@@ -14254,10 +14257,12 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             try {
               // read from ES
               let result1 = await ReadRecords(correctCc);
+              let ccFromLive = jsonObj;
+              ccFromLive['last-complete-control-construct-update-time'] = new Date().toJSON();
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result1, correctCc);
+              let elapsedTime = await recordRequest(ccFromLive, correctCc);
             }
             catch (error) {
               logger.error(error);

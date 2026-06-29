@@ -2890,7 +2890,7 @@ paths:
                   - cache-quality-statistics
                 properties:
                   cache-quality-statistics:
-                    description: > 
+                    description: >
                       'There are two cases for aggregation and grouping of response data. Both only take place if there are qualityMeasurementSampleNumber samples.
                         - case 1 (default): if no requestBody is provided, the statistics are aggregated over all samples and a single output record is generated. The device-type for this record must be set to string
                           all
@@ -10679,6 +10679,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -10738,6 +10740,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -10844,6 +10848,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -10901,6 +10907,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11001,6 +11009,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11058,6 +11068,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11160,6 +11172,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11217,6 +11231,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11319,6 +11335,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11376,6 +11394,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11480,6 +11500,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11548,6 +11570,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11663,6 +11687,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11740,6 +11766,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11864,6 +11892,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -11941,6 +11971,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12065,6 +12097,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12142,6 +12176,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12263,6 +12299,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12329,6 +12367,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12439,6 +12479,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12496,6 +12538,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12597,6 +12641,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12663,6 +12709,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12773,6 +12821,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -12839,6 +12889,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12949,6 +13001,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13015,6 +13069,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13125,6 +13181,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13182,6 +13240,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13285,6 +13345,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13353,6 +13415,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13463,6 +13527,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13529,6 +13595,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13639,6 +13707,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13705,6 +13775,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13815,6 +13887,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -13881,6 +13955,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13991,6 +14067,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14057,6 +14135,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14167,6 +14247,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14233,6 +14315,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14343,6 +14427,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14409,6 +14495,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14519,6 +14607,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14585,6 +14675,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14695,6 +14787,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14761,6 +14855,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14871,6 +14967,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -14937,6 +15035,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15047,6 +15147,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15113,6 +15215,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15223,6 +15327,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15289,6 +15395,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15399,6 +15507,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15465,6 +15575,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15578,6 +15690,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15644,6 +15758,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15758,6 +15874,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -15824,6 +15942,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15936,6 +16056,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16004,6 +16126,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16119,6 +16243,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16196,6 +16322,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16321,6 +16449,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16407,6 +16537,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16539,6 +16671,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16614,6 +16748,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16734,6 +16870,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16809,6 +16947,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16929,6 +17069,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -17004,6 +17146,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17124,6 +17268,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -17199,6 +17345,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17256,6 +17404,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -17331,6 +17481,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17452,6 +17604,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -17527,6 +17681,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17647,6 +17803,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -17722,6 +17880,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17842,6 +18002,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -17917,6 +18079,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18037,6 +18201,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -18112,6 +18278,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18169,6 +18337,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -18244,6 +18414,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18365,6 +18537,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -18440,6 +18614,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18560,6 +18736,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -18635,6 +18813,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18755,6 +18935,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -18830,6 +19012,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18950,6 +19134,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -19025,6 +19211,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19082,6 +19270,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -19157,6 +19347,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19278,6 +19470,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -19353,6 +19547,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19473,6 +19669,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -19548,6 +19746,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19668,6 +19868,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -19743,6 +19945,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19864,6 +20068,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -19939,6 +20145,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20059,6 +20267,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -20134,6 +20344,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20254,6 +20466,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -20329,6 +20543,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20449,6 +20665,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -20524,6 +20742,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20581,6 +20801,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -20656,6 +20878,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20777,6 +21001,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -20852,6 +21078,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20972,6 +21200,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -21047,6 +21277,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21168,6 +21400,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -21243,6 +21477,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21363,6 +21599,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -21438,6 +21676,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21558,6 +21798,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -21633,6 +21875,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21753,6 +21997,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -21828,6 +22074,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21885,6 +22133,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -21960,6 +22210,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -22222,6 +22474,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -22373,6 +22627,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22511,6 +22767,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22708,6 +22966,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -22811,6 +23071,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22917,6 +23179,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23023,6 +23287,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23128,6 +23394,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23233,6 +23501,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23338,6 +23608,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23435,6 +23707,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23500,6 +23774,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23573,6 +23849,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -23710,6 +23988,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23752,6 +24032,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -23802,6 +24084,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -23869,6 +24153,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -23929,6 +24215,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -23990,6 +24278,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -24051,6 +24341,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -24197,6 +24489,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -24306,6 +24600,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -24443,6 +24739,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -24540,6 +24838,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -24631,6 +24931,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -24772,6 +25074,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -24890,6 +25194,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25040,6 +25346,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -25180,6 +25488,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -25433,6 +25743,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -25493,6 +25805,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25557,6 +25871,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25650,6 +25966,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25728,6 +26046,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25795,6 +26115,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25854,6 +26176,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25918,6 +26242,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26011,6 +26337,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26093,6 +26421,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26160,6 +26490,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26244,6 +26576,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26343,6 +26677,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26480,6 +26816,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26586,6 +26924,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26664,6 +27004,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26738,6 +27080,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26888,6 +27232,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26957,6 +27303,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27058,6 +27406,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27142,6 +27492,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27220,6 +27572,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27283,6 +27637,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:

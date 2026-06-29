@@ -2890,7 +2890,7 @@ paths:
                   - cache-quality-statistics
                 properties:
                   cache-quality-statistics:
-                    description: > 
+                    description: >
                       'There are two cases for aggregation and grouping of response data. Both only take place if there are qualityMeasurementSampleNumber samples.
                         - case 1 (default): if no requestBody is provided, the statistics are aggregated over all samples and a single output record is generated. The device-type for this record must be set to string
                           all

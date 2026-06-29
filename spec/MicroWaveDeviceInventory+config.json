@@ -422,6 +422,21 @@
           }
         },
         {
+          "uuid": "mwdi-2-1-0-integer-p-008",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+          "integer-profile-1-0:integer-profile-pac": {
+            "integer-profile-capability": {
+              "integer-name": "allowedNumberOfNonSlidingWindowOrQmParallelLiveRequests",
+              "purpose": "Maximum number of allowed parallel live requests, which are not triggered by slidingWindow or QualityNamangement.",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "integer-profile-configuration": {
+              "integer-value": 50
+            }
+          }
+        },
+        {
           "uuid": "mwdi-2-1-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {

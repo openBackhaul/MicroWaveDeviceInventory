@@ -2737,17 +2737,6 @@ paths:
                 mount-name-list:
                   - '305251234'
                   - '105258888'
-              type: object
-              properties:
-                mount-name-list:
-                  type: array
-                  items:
-                    type: string
-                  description: 'List of names of devices for which the status metadata shall be provided.'
-              example:
-                mount-name-list:
-                  - '305251234'
-                  - '105258888'
       responses:
         '200':
           description: 'Device status metadata provided'
@@ -2761,7 +2750,6 @@ paths:
                   device-status-metadata:
                     type: array
                     items:
-                      type: object
                       type: object
                       required:
                         - mount-name
@@ -3013,10 +3001,6 @@ paths:
                   mount-name-list:
                     type: array
                     items:
-                      type: string
-                      description: >
-                        'MountName of the device for which MWDI has a cached ControlConstruct
-                        from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
                       type: string
                       description: >
                         'MountName of the device for which MWDI has a cached ControlConstruct
@@ -24170,7 +24154,6 @@ paths:
                               type: object
                               required:
                                 - logical-termination-point
-                                - logical-termination-point
                               properties:
                                 logical-termination-point:
                                   type: array
@@ -24178,13 +24161,10 @@ paths:
                                     required:
                                       - uuid
                                       - layer-protocol
-                                      - uuid
-                                      - layer-protocol
                                     properties:
                                       uuid:
                                         type: string
                                       layer-protocol:
-                                        description: >
                                         description: >
                                           'Layer-protocols without air-interface-2-0:air-interface-pac/air-interface-capability/type-of-equipment can be ignored'
                                         required:
@@ -29601,7 +29581,6 @@ paths:
                                           type: string
                                         map-to-string:
                                           type: string
-                                    type: string
                       - description: 'mapping profile'
                         type: object
                         required:
@@ -30950,7 +30929,6 @@ paths:
 
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/mapping-name:
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/mapping-name:
     parameters:
       - in: path
         name: uuid
@@ -30993,8 +30971,6 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/purpose:
-
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/purpose:
     parameters:
       - in: path
         name: uuid
@@ -31035,8 +31011,6 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
-
-  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-configuration/mapping-list:
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-configuration/mapping-list:
     parameters:
@@ -34898,11 +34872,6 @@ components:
           pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
           description: 'Date and time of the last successful update of the entire ControlConstruct in the cache.'
           example: '2010-11-20T14:00:00+01:00'
-        last-complete-control-construct-update-time:
-          type: string
-          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
-          description: 'Date and time of the last successful update of the entire ControlConstruct in the cache.'
-          example: '2010-11-20T14:00:00+01:00'
         alarms-1-0:alarm-pac:
           $ref: '#/components/schemas/ALARM_PAC'
         equipment:
@@ -35034,17 +35003,6 @@ components:
           items:
             $ref: '#/components/schemas/PROFILE'
     PROFILE:
-      anyOf:
-        - description: 'default'
-          type: object
-          required:
-            - uuid
-            - profile-name
-          properties:
-            uuid:
-              type: string
-            profile-name:
-              type: string
       anyOf:
         - description: 'default'
           type: object
@@ -35401,17 +35359,6 @@ components:
         - description: 'synchronization'
         - description: 'synchronization'
           type: object
-          required:
-            - local-id
-            - layer-protocol-name
-          properties:
-            local-id:
-              type: string
-            layer-protocol-name:
-              type: string
-              enum:
-                - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_SYNCHRONIZATION_LAYER'
-                - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_PTP_LAYER'
           required:
             - local-id
             - layer-protocol-name

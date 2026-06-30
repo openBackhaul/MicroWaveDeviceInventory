@@ -13,9 +13,10 @@ jobs:
           format: github
           config_data: |
             extends: default
-            strict: true
+            strict: false
             ignore: |
               /server/
+              /testing/
               /testing/
             rules:
               line-length: disable

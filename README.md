@@ -31,6 +31,13 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 
 ### Latest Update  
 
+**v2.2.0**  
+This release adds the following changes:
+- cache and live ressource paths for LLDP
+- cache and live ressource paths for Layer3VpnProfile
+
+For more details, see issue collection [MWDI v2.2.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/23).  
+
 **v2.1.1**  
 This release adds the following changes:
 - throttling at live paths:
@@ -47,7 +54,6 @@ This release adds the following changes:
 - adds the timestamp of the last complete ControlConstruct update to the respective ControlConstruct
 
 For more details, see issue collection [MWDI v2.1.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/24).  
-
 
 **v2.0.1**  
 Fixes findings and completes missing changes from v2.0.0.  

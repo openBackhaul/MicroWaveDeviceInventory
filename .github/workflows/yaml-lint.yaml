@@ -17,6 +17,7 @@ jobs:
             ignore: |
               /server/
               /testing/
+              /testing/
             rules:
               line-length: disable
               document-start: disable

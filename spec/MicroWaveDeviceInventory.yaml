@@ -1027,6 +1027,9 @@ paths:
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
               AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected'
+              'This callback is to be sent
+              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
+              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected'
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1078,6 +1081,9 @@ paths:
         NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-1-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-1-1-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
+              'This callback is to be sent
+              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
+              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected'
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
               AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected'
@@ -1208,6 +1214,7 @@ paths:
                   description: >
                     'IF this callback is called from /v1/regard-device-alarm
                       THEN REQUEST_BODY = {$request.body}
+                    ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
                     ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
                       THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange.applyDeviceAlarmChange.request.body}
                     #
@@ -2730,6 +2737,17 @@ paths:
                 mount-name-list:
                   - '305251234'
                   - '105258888'
+              type: object
+              properties:
+                mount-name-list:
+                  type: array
+                  items:
+                    type: string
+                  description: 'List of names of devices for which the status metadata shall be provided.'
+              example:
+                mount-name-list:
+                  - '305251234'
+                  - '105258888'
       responses:
         '200':
           description: 'Device status metadata provided'
@@ -2743,6 +2761,7 @@ paths:
                   device-status-metadata:
                     type: array
                     items:
+                      type: object
                       type: object
                       required:
                         - mount-name
@@ -2994,6 +3013,10 @@ paths:
                   mount-name-list:
                     type: array
                     items:
+                      type: string
+                      description: >
+                        'MountName of the device for which MWDI has a cached ControlConstruct
+                        from {$RequestForListOfCachedDevicesCausesReadingFromCache}'
                       type: string
                       description: >
                         'MountName of the device for which MWDI has a cached ControlConstruct
@@ -23969,6 +23992,7 @@ paths:
                   description: >
                     'The mountName of the device that is addressed by this callback
                     repeated for each mount-name (i.e. device) in deviceMetadataList
+                    repeated for each mount-name (i.e. device) in deviceMetadataList
                     (a) which has been deleted from Controller, or
                     (b) which is no longer in connected state on the Controller and should be deleted according to historicalControlConstruct, or
                     (b) for which deviceMetadataList.connection-status!=connected and should be kept according to historicalControlConstruct, but that has expired according to mwdi-2-1-1-integer-p-005'
@@ -24146,6 +24170,7 @@ paths:
                               type: object
                               required:
                                 - logical-termination-point
+                                - logical-termination-point
                               properties:
                                 logical-termination-point:
                                   type: array
@@ -24153,10 +24178,13 @@ paths:
                                     required:
                                       - uuid
                                       - layer-protocol
+                                      - uuid
+                                      - layer-protocol
                                     properties:
                                       uuid:
                                         type: string
                                       layer-protocol:
+                                        description: >
                                         description: >
                                           'Layer-protocols without air-interface-2-0:air-interface-pac/air-interface-capability/type-of-equipment can be ignored'
                                         required:
@@ -24183,6 +24211,12 @@ paths:
                       example:
                         core-model-1-4:control-construct:
                           - logical-termination-point:
+                              - uuid: 'LTP-XYZ-TTP-3-4'
+                                layer-protocol:
+                                  - local-id: 'LP-XYZ-TTP-3-4'
+                                    air-interface-2-0:air-interface-pac:
+                                      air-interface-capability:
+                                        type-of-equipment: 'OptiXRTN950N/abc/efg'
                               - uuid: 'LTP-XYZ-TTP-3-4'
                                 layer-protocol:
                                   - local-id: 'LP-XYZ-TTP-3-4'
@@ -24340,6 +24374,10 @@ paths:
         #PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka: omitted
         #PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka: omitted
         #PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka: omitted
+        #PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka: omitted
+        #PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka: omitted
+        #PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka: omitted
+        #PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka: omitted
         PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange:
           #description: >
           #  'call for notifications, which are device-alarm notifications, retrieved
@@ -24353,6 +24391,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:alarm-event-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:alarm-event-notification
@@ -24419,6 +24458,7 @@ paths:
                       description: >
                         'notification-proxy-1-0:attribute-value-changed-notification
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:attribute-value-changed-notification
                       properties:
@@ -24480,6 +24520,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:object-creation-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:object-creation-notification
@@ -24543,6 +24584,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:object-deletion-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:object-deletion-notification
@@ -27948,6 +27990,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     action-profile-1-0:action-profile-pac:
                                       type: object
                                       required:
@@ -28002,6 +28045,7 @@ paths:
                                         - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     response-profile-1-0:response-profile-pac:
                                       type: object
@@ -28065,6 +28109,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     file-profile-1-0:file-profile-pac:
                                       type: object
                                       required:
@@ -28113,6 +28158,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     integer-profile-1-0:integer-profile-pac:
                                       type: object
                                       required:
@@ -28159,6 +28205,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     string-profile-1-0:string-profile-pac:
                                       type: object
                                       required:
@@ -28184,6 +28231,69 @@ paths:
                                             - string-value
                                           properties:
                                             string-value:
+                                              type: string
+                                - description: 'mapping profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    - mapping-profile-1-0:string-profile-pac
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                    mapping-profile-1-0:string-profile-pac:
+                                      type: object
+                                      required:
+                                        - mapping-profile-capability
+                                        - mapping-profile-configuration
+                                      properties:
+                                        mapping-profile-capability:
+                                          type: object
+                                          required:
+                                            - mapping-name
+                                          properties:
+                                            mapping-name:
+                                              type: string
+                                            purpose:
+                                              type: string
+                                        mapping-profile-configuration:
+                                          type: object
+                                          required:
+                                            - mapping-list
+                                          properties:
+                                            mapping-list:
+                                              type: array
+                                              items:
+                                                type: object
+                                                required:
+                                                  - regex-string
+                                                  - map-to-string
+                                                properties:
+                                                  regex-string:
+                                                    type: string
+                                                  map-to-string:
+                                                    type: string
+                                      example:
+                                        - uuid: 'xy-15-3-2-integer-p-000'
+                                          profile-name: 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                          integer-profile-1-0:integer-profile-pac:
+                                            integer-profile-capability:
+                                              integer-name: 'maximumNumberOfEntries'
+                                              purpose: 'Limiting the number of entries for controlling the storage consumption and access response time'
+                                              unit: 'records'
+                                              minimum: 0
+                                              maximum: 1000000
+                                            integer-profile-configuration:
+                                              integer-value: 1000000
                                               type: string
                                 - description: 'mapping profile'
                                   type: object
@@ -28502,6 +28612,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
@@ -28862,6 +28973,7 @@ paths:
                                                 type: string
                                                 enum:
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
@@ -28930,6 +29042,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
@@ -29198,6 +29311,7 @@ paths:
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           action-profile-1-0:action-profile-pac:
                             type: object
                             required:
@@ -29252,6 +29366,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           response-profile-1-0:response-profile-pac:
                             type: object
@@ -29315,6 +29430,7 @@ paths:
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           file-profile-1-0:file-profile-pac:
                             type: object
                             required:
@@ -29362,6 +29478,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           integer-profile-1-0:integer-profile-pac:
                             type: object
@@ -29433,6 +29550,57 @@ paths:
                                   - string-value
                                 properties:
                                   string-value:
+                                    type: string
+                      - description: 'mapping profile'
+                        type: object
+                        required:
+                          - uuid
+                          - profile-name
+                          - mapping-profile-1-0:string-profile-pac
+                        properties:
+                          uuid:
+                            type: string
+                          profile-name:
+                            type: string
+                            enum:
+                              - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                              - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                              - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                              - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                              - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                          mapping-profile-1-0:string-profile-pac:
+                            type: object
+                            required:
+                              - mapping-profile-capability
+                              - mapping-profile-configuration
+                            properties:
+                              mapping-profile-capability:
+                                type: object
+                                required:
+                                  - mapping-name
+                                properties:
+                                  mapping-name:
+                                    type: string
+                                  purpose:
+                                    type: string
+                              mapping-profile-configuration:
+                                type: object
+                                required:
+                                  - mapping-list
+                                properties:
+                                  mapping-list:
+                                    type: array
+                                    items:
+                                      type: object
+                                      required:
+                                        - regex-string
+                                        - map-to-string
+                                      properties:
+                                        regex-string:
+                                          type: string
+                                        map-to-string:
+                                          type: string
                                     type: string
                       - description: 'mapping profile'
                         type: object
@@ -30782,6 +30950,7 @@ paths:
 
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/mapping-name:
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/mapping-name:
     parameters:
       - in: path
         name: uuid
@@ -30824,6 +30993,8 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/purpose:
+
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-capability/purpose:
     parameters:
       - in: path
         name: uuid
@@ -30864,6 +31035,8 @@ paths:
           $ref: '#/components/responses/responseForErroredOamRequests'
         default:
           $ref: '#/components/responses/responseForErroredOamRequests'
+
+  /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-configuration/mapping-list:
 
   /core-model-1-4:control-construct/profile-collection/profile={uuid}/regex-pattern-mapping-profile-1-0:regex-pattern-mapping-profile-pac/regex-pattern-mapping-configuration/mapping-list:
     parameters:
@@ -32011,6 +32184,7 @@ paths:
                     enum:
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
+                      - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
                     example: 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
@@ -34724,6 +34898,11 @@ components:
           pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
           description: 'Date and time of the last successful update of the entire ControlConstruct in the cache.'
           example: '2010-11-20T14:00:00+01:00'
+        last-complete-control-construct-update-time:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+          description: 'Date and time of the last successful update of the entire ControlConstruct in the cache.'
+          example: '2010-11-20T14:00:00+01:00'
         alarms-1-0:alarm-pac:
           $ref: '#/components/schemas/ALARM_PAC'
         equipment:
@@ -34855,6 +35034,17 @@ components:
           items:
             $ref: '#/components/schemas/PROFILE'
     PROFILE:
+      anyOf:
+        - description: 'default'
+          type: object
+          required:
+            - uuid
+            - profile-name
+          properties:
+            uuid:
+              type: string
+            profile-name:
+              type: string
       anyOf:
         - description: 'default'
           type: object
@@ -35063,6 +35253,16 @@ components:
               type: string
             layer-protocol-name:
               type: string
+        - description: 'default'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
         - description: 'air-interface'
           type: object
           required:
@@ -35199,7 +35399,19 @@ components:
             tdm-container-2-0:tdm-container-pac:
               $ref: '#/components/schemas/TDM_CONTAINER_PAC'
         - description: 'synchronization'
+        - description: 'synchronization'
           type: object
+          required:
+            - local-id
+            - layer-protocol-name
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
+              enum:
+                - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_SYNCHRONIZATION_LAYER'
+                - 'synchronization-1-0:LAYER_PROTOCOL_NAME_TYPE_PTP_LAYER'
           required:
             - local-id
             - layer-protocol-name
@@ -35673,3 +35885,4 @@ components:
     basicAuth:
       type: http
       scheme: basic
+

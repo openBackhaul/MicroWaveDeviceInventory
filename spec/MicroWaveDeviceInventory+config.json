@@ -1,6 +1,7 @@
 {
   "core-model-1-4:control-construct": {
     "uuid": "mwdi-2-1-0",
+    "uuid": "mwdi-2-1-0",
     "profile-collection": {
       "profile": [
         {
@@ -374,6 +375,7 @@
             },
             "integer-profile-configuration": {
               "integer-value": 0
+              "integer-value": 0
             }
           }
         },
@@ -488,6 +490,7 @@
             },
             "string-profile-configuration": {
               "string-value": "equipment-augment-1-0:control-construct-pac(device-model-name)"
+              "string-value": "equipment-augment-1-0:control-construct-pac(device-model-name)"
             }
           }
         },
@@ -497,6 +500,7 @@
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "historicalControlConstructPolicy",
+              "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
               "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
               "enumeration": [
                 "keep-on-disconnect",
@@ -585,17 +589,21 @@
               "mapping-list": [
                 {
                   "regex-string": "/.*(AGS|ALC|ALFO).*/i",
+                  "regex-string": "/.*(AGS|ALC|ALFO).*/i",
                   "map-to-string": "Siae"
                 },
                 {
+                  "regex-string": "/.*RTN.*/i",
                   "regex-string": "/.*RTN.*/i",
                   "map-to-string": "Huawei"
                 },
                 {
                   "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
+                  "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
                   "map-to-string": "Ericsson"
                 },
                 {
+                  "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "map-to-string": "unknown"
                 }
@@ -1151,6 +1159,7 @@
                 "operation-name": "/v1/regard-controller-attribute-value-change"
               },
               "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "operation-key": "n.a."
               }
@@ -9705,6 +9714,7 @@
                   "password": " >>> password <<< "
                 },
                 "topic-name": "device_alarm_notifications",
+                "topic-name": "device_alarm_notifications",
                 "client-id": "mwdi-instance-01",
                 "group-id": "mwdi-consumer-group"
               },
@@ -9785,8 +9795,10 @@
                 "remote-address": {
                   "ip-address": {
                     "ipv-4-address": "1.1.1.1"
+                    "ipv-4-address": "1.1.1.1"
                   }
                 },
+                "remote-port": 3015
                 "remote-port": 3015
               }
             }
@@ -9834,6 +9846,7 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicroWaveDeviceInventory",
+                "release-number": "2.0.0"
                 "release-number": "2.0.0"
               }
             }
@@ -14237,6 +14250,7 @@
               "http-client-interface-configuration": {
                 "application-name": "NotificationProxy",
                 "release-number": "1.1.0"
+                "release-number": "1.1.0"
               }
             }
           }
@@ -14262,6 +14276,7 @@
                     "ipv-4-address": "replacing by actual operationClient could lead to receive notifications twice"
                   }
                 },
+                "remote-port": 4025
                 "remote-port": 4025
               }
             }
@@ -14494,6 +14509,7 @@
               {
                 "value-name": "ForwardingName",
                 "value": "PromptForEmbeddingCausesSubscribingForControllerNotificationsAtNP"
+                "value": "PromptForEmbeddingCausesSubscribingForControllerNotificationsAtNP"
               }
             ],
             "fc-port": [
@@ -14559,6 +14575,7 @@
               {
                 "value-name": "ForwardingName",
                 "value": "PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka"
+                "value": "PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka"
               }
             ],
             "fc-port": [
@@ -14583,6 +14600,7 @@
               },
               {
                 "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka"
                 "value": "PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka"
               }
             ],
@@ -14609,6 +14627,7 @@
               {
                 "value-name": "ForwardingName",
                 "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange"
               }
             ],
             "fc-port": [
@@ -14633,6 +14652,7 @@
               },
               {
                 "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange"
                 "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAttributeValueChange"
               }
             ],
@@ -14659,6 +14679,7 @@
               {
                 "value-name": "ForwardingName",
                 "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectCreation"
               }
             ],
             "fc-port": [
@@ -14684,6 +14705,7 @@
               {
                 "value-name": "ForwardingName",
                 "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion"
+                "value": "PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceObjectDeletion"
               }
             ],
             "fc-port": [
@@ -14700,6 +14722,7 @@
             ]
           },
 
+
           {
             "uuid": "mwdi-2-1-1-op-fc-im-007",
             "name": [
@@ -14709,6 +14732,7 @@
               },
               {
                 "value-name": "ForwardingName",
+                "value": "PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka"
                 "value": "PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka"
               }
             ],
@@ -14735,6 +14759,7 @@
               {
                 "value-name": "ForwardingName",
                 "value": "PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka"
+                "value": "PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka"
               }
             ],
             "fc-port": [
@@ -14759,6 +14784,7 @@
               },
               {
                 "value-name": "ForwardingName",
+                "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka"
                 "value": "PromptForBequeathingDataCausesUnsubscribingFromDeviceChangeNotificationsAtKafka"
               }
             ],

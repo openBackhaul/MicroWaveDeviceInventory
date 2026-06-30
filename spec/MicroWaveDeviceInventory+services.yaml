@@ -596,8 +596,11 @@ servers:
       - release-number: 2.1.0
         release-date: 13.03.2026
         changes: Adds update time information to CC, adds already implemented changes to spec.
-      - release-number: 2.2.0
+      - release-number: 2.1.1
         release-date: 30.06.2026
+        changes: Adds live path throtteling and duplicate live request prevention.
+      - release-number: 2.2.0
+        release-date: 30.07.2026
         changes: Adds new paths for LLDP and profiles.
   tcp-server:
     - description: Without TLS layer
@@ -1106,18 +1109,18 @@ clients:
 
   - http-client:
       application-name: MicroWaveDeviceInventory
-      release-number: 2.0.0
-      uuid: mwdi-2-2-0-http-c-or-2-0-0-000
+      release-number: 2.1.1
+      uuid: mwdi-2-2-0-http-c-or-2-1-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4024
-      uuid: mwdi-2-2-0-tcp-c-or-2-0-0-000
+      uuid: mwdi-2-2-0-tcp-c-or-2-1-1-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/bequeath-your-data-and-die
-            uuid: mwdi-2-2-0-op-c-bm-or-2-0-0-000
+            uuid: mwdi-2-2-0-op-c-bm-or-2-1-1-000
         individual:
       service:
         basic:

@@ -38,6 +38,14 @@ This release adds the following changes:
 
 For more details, see issue collection [MWDI v2.2.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/23).  
 
+**v2.1.1**  
+This release adds the following changes:
+- throttling at live paths:
+  - if the (configurable) number of parallel live requests is reached, live paths return 429
+  - only applicable to external calls of live paths (i.e. live calls triggered by slidingWindow or QualityMeasuremnt are ignored)
+- duplicate live request prevention: if an already running live path request is called again, 5xx shall be returned
+
+For more details, see issue collection [MWDI v2.1.1_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/26).  
 
 **v2.1.0**  
 This release adds the following changes:
@@ -46,7 +54,6 @@ This release adds the following changes:
 - adds the timestamp of the last complete ControlConstruct update to the respective ControlConstruct
 
 For more details, see issue collection [MWDI v2.1.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/24).  
-
 
 **v2.0.1**  
 Fixes findings and completes missing changes from v2.0.0.  

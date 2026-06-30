@@ -168,6 +168,15 @@ profile-instances:
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=6/changes'
 
+  - profile-name: 'GenericResponseProfile'
+    uuid: 'mwdi-2-2-0-response-p-014'
+    capability:
+      operation-name: '/v1/inform-about-release-history-in-generic-representation'
+      field-name-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=7/release-number'
+      description: 'Represents the 8th entry in the list of releases'
+      datatype: string
+    configuration:
+      value-reference: '/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=7/changes'
 
   - profile-name: 'FileProfile'
     uuid: 'mwdi-2-2-0-file-p-000'
@@ -251,6 +260,16 @@ profile-instances:
       maximum: 4320
     configuration:
       integer-value: 1440
+
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-2-1-1-integer-p-008'
+    capability:
+      integer-name: 'allowedNumberOfNonSlidingWindowOrQmParallelLiveRequests'
+      purpose: 'Maximum number of allowed parallel live requests, which are not triggered by slidingWindow or QualityNamangement.'
+      minimum: 0
+      maximum: 100
+    configuration:
+      integer-value: 50
 
   - profile-name: 'StringProfile'
     uuid: 'mwdi-2-2-0-string-p-000'
@@ -346,13 +365,20 @@ profile-instances:
       mapping-list:
         # Siae: AGS20, AGS20L, ALCPlus2e, ALFO80
         - regex-to-string: '(?i).*(AGS|ALC|ALFO).*'
+        # Siae: AGS20, AGS20L, ALCPlus2e, ALFO80
+        - regex-to-string: '(?i).*(AGS|ALC|ALFO).*'
           map-to-string: 'Siae'
+        # Huawei: RTN900 (=RTN950/RTN905), RTN380* (380, 380AX, 380H)
+        - regex-to-string: '(?i).*RTN.*'
         # Huawei: RTN900 (=RTN950/RTN905), RTN380* (380, 380AX, 380H)
         - regex-to-string: '(?i).*RTN.*'
           map-to-string: 'Huawei'
         # Ericsson: ML6352 (also UKL*), ML6600 (=ML6691, ML6693), MLTN (TrafficNode)
         - regex-to-string: '(?i)(?:.*(mini[-_\s]?link|ml).*|^UKL\s501\s57.*|.*(mltn|traffic[-_\s]?node).*)'
+        # Ericsson: ML6352 (also UKL*), ML6600 (=ML6691, ML6693), MLTN (TrafficNode)
+        - regex-to-string: '(?i)(?:.*(mini[-_\s]?link|ml).*|^UKL\s501\s57.*|.*(mltn|traffic[-_\s]?node).*)'
           map-to-string: 'Ericsson'
         # DEFAULT: unknown, if none above matches
+        - regex-to-string: '(?i)^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\s]?link|ml))(?!UKL\s501\s57)(?!.*(mltn|traffic[-_\s]?node)).*'
         - regex-to-string: '(?i)^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\s]?link|ml))(?!UKL\s501\s57)(?!.*(mltn|traffic[-_\s]?node)).*'
           map-to-string: 'unknown'

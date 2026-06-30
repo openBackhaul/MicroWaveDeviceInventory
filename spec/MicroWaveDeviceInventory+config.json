@@ -318,6 +318,25 @@
           }
         },
         {
+          "uuid": "mwdi-2-2-0-response-p-014",
+          "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+          "response-profile-1-0:response-profile-pac": {
+            "response-profile-capability": {
+              "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+              "field-name": {
+                "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=7/release-number"
+              },
+              "description": "Represents the 8th entry in the list of releases",
+              "datatype": "string"
+            },
+            "response-profile-configuration": {
+              "value": {
+                "value-reference": "/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=7/changes"
+              }
+            }
+          }
+        },
+        {
           "uuid": "mwdi-2-2-0-file-p-000",
           "profile-name": "file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE",
           "file-profile-1-0:file-profile-pac": {
@@ -441,6 +460,21 @@
           }
         },
         {
+          "uuid": "mwdi-2-2-0-integer-p-008",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+          "integer-profile-1-0:integer-profile-pac": {
+            "integer-profile-capability": {
+              "integer-name": "allowedNumberOfNonSlidingWindowOrQmParallelLiveRequests",
+              "purpose": "Maximum number of allowed parallel live requests, which are not triggered by slidingWindow or QualityNamangement.",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "integer-profile-configuration": {
+              "integer-value": 50
+            }
+          }
+        },
+        {
           "uuid": "mwdi-2-2-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
@@ -482,6 +516,7 @@
           "string-profile-1-0:string-profile-pac": {
             "string-profile-capability": {
               "string-name": "historicalControlConstructPolicy",
+              "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
               "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
               "enumeration": [
                 "keep-on-disconnect",
@@ -570,17 +605,21 @@
               "mapping-list": [
                 {
                   "regex-string": "/.*(AGS|ALC|ALFO).*/i",
+                  "regex-string": "/.*(AGS|ALC|ALFO).*/i",
                   "map-to-string": "Siae"
                 },
                 {
+                  "regex-string": "/.*RTN.*/i",
                   "regex-string": "/.*RTN.*/i",
                   "map-to-string": "Huawei"
                 },
                 {
                   "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
+                  "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
                   "map-to-string": "Ericsson"
                 },
                 {
+                  "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "map-to-string": "unknown"
                 }
@@ -1136,6 +1175,7 @@
                 "operation-name": "/v1/regard-controller-attribute-value-change"
               },
               "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "operation-key": "n.a."
               }
@@ -5248,8 +5288,14 @@
                   },
                   {
                     "local-id": "7",
-                    "release-number": "2.2.0",
+                    "release-number": "2.1.1",
                     "release-date": "30.06.2026",
+                    "changes": "Adds live path throtteling and duplicate live request prevention."
+                  },
+                  {
+                    "local-id": "8",
+                    "release-number": "2.2.0",
+                    "release-date": "30.07.2026",
                     "changes": "Adds new paths for LLDP and profiles."
                   }
                 ]
@@ -10181,12 +10227,12 @@
         ]
       },
       {
-        "uuid": "mwdi-2-2-0-op-c-bm-or-2-0-0-000",
+        "uuid": "mwdi-2-2-0-op-c-bm-or-2-1-1-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
         ],
         "server-ltp": [
-          "mwdi-2-2-0-http-c-or-2-0-0-000"
+          "mwdi-2-2-0-http-c-or-2-1-1-000"
         ],
         "layer-protocol": [
           {
@@ -10206,13 +10252,13 @@
         ]
       },
       {
-        "uuid": "mwdi-2-2-0-http-c-or-2-0-0-000",
+        "uuid": "mwdi-2-2-0-http-c-or-2-1-1-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-2-0-op-c-bm-or-2-0-0-000"
+          "mwdi-2-2-0-op-c-bm-or-2-1-1-000"
         ],
         "server-ltp": [
-          "mwdi-2-2-0-tcp-c-or-2-0-0-000"
+          "mwdi-2-2-0-tcp-c-or-2-1-1-000"
         ],
         "layer-protocol": [
           {
@@ -10221,17 +10267,17 @@
             "http-client-interface-1-0:http-client-interface-pac": {
               "http-client-interface-configuration": {
                 "application-name": "MicroWaveDeviceInventory",
-                "release-number": "2.0.0"
+                "release-number": "2.1.1"
               }
             }
           }
         ]
       },
       {
-        "uuid": "mwdi-2-2-0-tcp-c-or-2-0-0-000",
+        "uuid": "mwdi-2-2-0-tcp-c-or-2-1-1-000",
         "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
         "client-ltp": [
-          "mwdi-2-2-0-http-c-or-2-0-0-000"
+          "mwdi-2-2-0-http-c-or-2-1-1-000"
         ],
         "server-ltp": [
         ],
@@ -14867,7 +14913,7 @@
               {
                 "local-id": "2000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                "logical-termination-point": "mwdi-2-2-0-op-c-bm-or-2-0-0-000"
+                "logical-termination-point": "mwdi-2-2-0-op-c-bm-or-2-1-1-000"
               }
             ]
           },
@@ -15086,6 +15132,7 @@
               }
             ]
           },
+
 
           {
             "uuid": "mwdi-2-2-0-op-fc-im-007",

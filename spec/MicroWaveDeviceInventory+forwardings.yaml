@@ -51,7 +51,7 @@ forwardings:
         uuid: mwdi-2-2-0-op-s-bm-001
     consequent-requests:
       - client-name: OldRelease://v1/bequeath-your-data-and-die
-        uuid: mwdi-2-2-0-op-c-bm-or-2-0-0-000
+        uuid: mwdi-2-2-0-op-c-bm-or-2-1-1-000
 
 
   - forwarding-name: PromptForEmbeddingCausesCyclicLoadingOfDeviceListFromController

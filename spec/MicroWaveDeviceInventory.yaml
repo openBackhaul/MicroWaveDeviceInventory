@@ -1027,6 +1027,9 @@ paths:
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
               AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected'
+              'This callback is to be sent
+              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
+              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} == connected'
             get:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1078,6 +1081,9 @@ paths:
         NotifiedDisconnectedDeviceCausesDeviceDeletionFromCache:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-del-es-1-0-0-700/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
+              'This callback is to be sent
+              IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
+              AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected'
               'This callback is to be sent
               IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/attribute-name} == connection-status
               AND IF {$request.body#notification-proxy-1-0:attribute-value-changed-notification/new-value} != connected'
@@ -1208,6 +1214,7 @@ paths:
                   description: >
                     'IF this callback is called from /v1/regard-device-alarm
                       THEN REQUEST_BODY = {$request.body}
+                    ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
                     ELSE IF this callback is called from PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange
                       THEN REQUEST_BODY = {$PromptForEmbeddingCausesCyclicNotificationProcessingToApplyDeviceAlarmChange.applyDeviceAlarmChange.request.body}
                     #
@@ -2890,7 +2897,7 @@ paths:
                   - cache-quality-statistics
                 properties:
                   cache-quality-statistics:
-                    description: > 
+                    description: >
                       'There are two cases for aggregation and grouping of response data. Both only take place if there are qualityMeasurementSampleNumber samples.
                         - case 1 (default): if no requestBody is provided, the statistics are aggregated over all samples and a single output record is generated. The device-type for this record must be set to string
                           all
@@ -11503,10 +11510,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -11562,6 +11573,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11668,10 +11681,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -11725,6 +11742,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11772,6 +11791,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -11825,10 +11846,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -11882,6 +11907,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -11929,6 +11956,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -11984,10 +12013,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -12041,6 +12074,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12090,6 +12125,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12143,10 +12180,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -12200,6 +12241,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12247,6 +12290,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12304,10 +12349,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -12372,6 +12421,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12430,6 +12481,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12487,10 +12540,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -12564,6 +12621,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12631,6 +12690,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12688,10 +12749,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -12765,6 +12830,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -12832,6 +12899,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -12889,10 +12958,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -12966,6 +13039,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13033,6 +13108,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13087,10 +13164,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -13153,6 +13234,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13209,6 +13292,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13263,10 +13348,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -13320,6 +13409,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13367,6 +13458,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13421,10 +13514,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -13487,6 +13584,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13543,6 +13642,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13597,10 +13698,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -13663,6 +13768,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13719,6 +13826,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13773,10 +13882,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -13839,6 +13952,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -13895,6 +14010,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -13949,10 +14066,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -14006,6 +14127,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14053,6 +14176,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14109,10 +14234,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -14177,6 +14306,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14233,6 +14364,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14287,10 +14420,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -14353,6 +14490,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14409,6 +14548,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14463,10 +14604,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -14529,6 +14674,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14585,6 +14732,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14639,10 +14788,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -14705,6 +14858,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14761,6 +14916,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14815,10 +14972,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -14881,6 +15042,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -14937,6 +15100,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -14991,10 +15156,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -15057,6 +15226,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15113,6 +15284,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -15167,10 +15340,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -15233,6 +15410,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15289,6 +15468,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -15343,10 +15524,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -15409,6 +15594,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15465,6 +15652,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -15519,10 +15708,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -15585,6 +15778,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15641,6 +15836,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -15695,10 +15892,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -15761,6 +15962,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15817,6 +16020,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -15871,10 +16076,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -15937,6 +16146,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -15993,6 +16204,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -16047,10 +16260,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -16113,6 +16330,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16169,6 +16388,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -16223,10 +16444,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -16289,6 +16514,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16345,358 +16572,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/l-3vpn-profile:l-3vpn-pac/l-3vpn-profile-capability:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mountName'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getLiveL3VpnProfileCapability
-      summary: 'Provides L3VpnProfileCapability from live network'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'L3VpnProfileCapability provided from live network'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  l-3vpn-profile-capability:
-                    $ref: '#/components/schemas/L3VPN_PROFILE_CAPABILITY'
-                    description: >
-                      'from {$RequestForReadingFromDevice.response.body#l-3vpn-profile-capability}
-                      and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-s-is-470/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '502':
-          $ref: '#/components/responses/502'
-        '530':
-          $ref: '#/components/responses/530'
-        '531':
-          $ref: '#/components/responses/531'
-        '532':
-          $ref: '#/components/responses/532'
-        '533':
-          $ref: '#/components/responses/533'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForLiveL3VpnProfileCapabilityCausesReadingFromDeviceAndWritingIntoCache:
-          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-is-odl-4-0-2-470/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: controllerInternalPathToMountPoint
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    description: >
-                      'Controller internal path to the device mount points
-                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-2-2-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the Profile that is addressed by the request
-                    from {$request.parameters#uuid}'
-              responses:
-                '200':
-                  description: 'OK'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          l-3vpn-profile-capability:
-                            $ref: '#/components/schemas/L3VPN_PROFILE_CAPABILITY'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '409':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '503':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-put-es-1-0-0-470/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the Profile that is addressed by the request
-                    from {$request.parameters#uuid}'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - l-3vpn-profile:l-3vpn-pac/l-3vpn-profile-capability
-                      properties:
-                        l-3vpn-profile-capability:
-                          $ref: '#/components/schemas/L3VPN_PROFILE_CAPABILITY'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#l-3vpn-profile:l-3vpn-pac/l-3vpn-profile-capability}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'L3VpnProfileCapability written to cache'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '460':
-                  $ref: '#/components/responses/460'
-                '470':
-                  $ref: '#/components/responses/470'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-  /core-model-1-4:network-control-domain=live/control-construct={mountName}/profile-collection/profile={uuid}/l-3vpn-profile:l-3vpn-pac/l-3vpn-profile-configuration:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-      - $ref: '#/components/parameters/mountName'
-      - $ref: '#/components/parameters/uuid'
-      - $ref: '#/components/parameters/fields'
-    get:
-      operationId: getLiveL3VpnProfileConfiguration
-      summary: 'Provides L3VpnProfileConfiguration from live network'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'L3VpnProfileConfiguration provided from live network'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  l-3vpn-profile-configuration:
-                    $ref: '#/components/schemas/L3VPN_PROFILE_CONFIGURATION'
-                    description: >
-                      'from {$RequestForReadingFromDevice.response.body#l-3vpn-profile-configuration}
-                      and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
-          headers:
-            x-correlator:
-              $ref: '#/components/headers/x-correlator'
-            exec-time:
-              $ref: '#/components/headers/exec-time'
-            backend-time:
-              $ref: '#/components/headers/backend-time'
-            life-cycle-state:
-              $ref: '#/components/headers/life-cycle-state'
-              description: >
-                'Life cycle state of the consumed service
-                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-s-is-471/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '502':
-          $ref: '#/components/responses/502'
-        '530':
-          $ref: '#/components/responses/530'
-        '531':
-          $ref: '#/components/responses/531'
-        '532':
-          $ref: '#/components/responses/532'
-        '533':
-          $ref: '#/components/responses/533'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-        RequestForLiveL3VpnProfileConfigurationCausesReadingFromDeviceAndWritingIntoCache:
-          RequestForReadingFromDevice: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-odl-4-0-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-is-odl-4-0-2-471/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            get:
-              parameters:
-                - name: controllerInternalPathToMountPoint
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    description: >
-                      'Controller internal path to the device mount points
-                      from [/core-model-1-4:control-construct/profile-collection/profile=mwdi-2-2-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-configuration/string-value]'
-                    example: 'rests/data/network-topology:network-topology/topology=topology-netconf'
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the Profile that is addressed by the request
-                    from {$request.parameters#uuid}'
-              responses:
-                '200':
-                  description: 'OK'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          l-3vpn-profile-configuration:
-                            $ref: '#/components/schemas/L3VPN_PROFILE_CONFIGURATION'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '409':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '503':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-          RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-put-es-1-0-0-471/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            put:
-              parameters:
-                - name: mountName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: '222250001'
-                  description: >
-                    'The mountName of the device that is addressed by the request
-                    from {$request.parameters#mountName}'
-                - name: uuid
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                    example: 'LTP-MWPS-TTP-1-1'
-                  description: >
-                    'The UUID of the Profile that is addressed by the request
-                    from {$request.parameters#uuid}'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - l-3vpn-profile:l-3vpn-pac/l-3vpn-profile-configuration
-                      properties:
-                        l-3vpn-profile-configuration:
-                          $ref: '#/components/schemas/L3VPN_PROFILE_CONFIGURATION'
-                          description: >
-                            'from {$RequestForReadingFromDevice.response.body#l-3vpn-profile:l-3vpn-pac/l-3vpn-profile-configuration}
-                            and all UUIDs in data tree being complemented by MountName as a prefix: uuid = {$request.parameters#mountName}.concat("+", uuid)'
-              responses:
-                '204':
-                  description: 'L3VpnProfileConfiguration written to cache'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '460':
-                  $ref: '#/components/responses/460'
-                '471':
-                  $ref: '#/components/responses/471'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -16754,6 +16631,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -16820,6 +16699,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -16880,6 +16761,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -16934,10 +16817,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -17000,6 +16887,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17056,6 +16945,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -17112,10 +17003,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -17180,6 +17075,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17238,6 +17135,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -17295,10 +17194,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -17372,6 +17275,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17439,6 +17344,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -17497,10 +17404,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -17583,6 +17494,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17659,6 +17572,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -17715,10 +17630,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -17790,6 +17709,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -17855,6 +17776,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -17910,10 +17833,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -17985,6 +17912,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18050,6 +17979,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -18105,10 +18036,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -18180,6 +18115,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18245,6 +18182,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -18300,10 +18239,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -18375,6 +18318,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18432,10 +18377,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -18507,6 +18456,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18572,6 +18523,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -18628,10 +18581,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -18703,6 +18660,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18768,6 +18727,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -18823,10 +18784,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -18898,6 +18863,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -18963,6 +18930,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -19018,10 +18987,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -19093,6 +19066,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19158,6 +19133,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -19213,10 +19190,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -19288,6 +19269,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19345,10 +19328,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -19420,6 +19407,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19485,6 +19474,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -19541,10 +19532,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -19616,6 +19611,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19681,6 +19678,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -19736,10 +19735,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -19811,6 +19814,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -19876,6 +19881,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -19931,10 +19938,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -20006,6 +20017,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20071,6 +20084,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -20126,10 +20141,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -20201,6 +20220,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20258,10 +20279,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -20333,6 +20358,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20398,6 +20425,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -20454,10 +20483,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -20529,6 +20562,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20594,6 +20629,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -20649,10 +20686,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -20724,6 +20765,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20789,6 +20832,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -20844,10 +20889,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -20919,6 +20968,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -20984,6 +21035,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -21040,10 +21093,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -21115,6 +21172,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21180,6 +21239,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -21235,10 +21296,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -21310,6 +21375,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21375,6 +21442,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -21430,10 +21499,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -21505,6 +21578,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21570,6 +21645,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -21625,10 +21702,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -21700,6 +21781,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21757,10 +21840,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -21832,6 +21919,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -21897,6 +21986,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -21953,10 +22044,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -22028,6 +22123,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -22093,6 +22190,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22148,10 +22247,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -22223,6 +22326,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -22288,6 +22393,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22344,10 +22451,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -22419,6 +22530,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -22484,6 +22597,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22539,10 +22654,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -22614,6 +22733,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -22679,6 +22800,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22734,10 +22857,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -22809,6 +22936,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -22874,6 +23003,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -22929,10 +23060,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -23004,6 +23139,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -23061,10 +23198,14 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
           $ref: '#/components/responses/502'
+        '529':
+          $ref: '#/components/responses/529'
         '530':
           $ref: '#/components/responses/530'
         '531':
@@ -23136,6 +23277,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '409':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
@@ -23201,6 +23344,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -23254,6 +23399,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '502':
@@ -23315,6 +23462,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '503':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                 xyz 
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           RequestForWritingIntoCache: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-es-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-put-es-1-0-0-600/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
@@ -24240,6 +24388,8 @@ paths:
                   $ref: '#/components/responses/460'
                 '470':
                   $ref: '#/components/responses/470'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -24437,6 +24587,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -24588,6 +24740,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -24726,6 +24880,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -24835,7 +24991,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol for addressing the currently running old release of the same application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 old-release-address:
                   type: object
                   minProperties: 1
@@ -24852,20 +25008,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address of currently running old release of the same application
-                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of currently running old release of the same application
-                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 old-release-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port of currently running old release of the same application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
                 registry-office-application: 'RegistrationApplication'
                 registry-office-application-release-number: '43.2.5'
@@ -24923,13 +25079,15 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForEmbeddingCausesRequestForBequeathingData:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-bm-or-2-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-tcp-c-or-2-1-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-c-bm-or-2-1-1-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -25026,6 +25184,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25132,6 +25292,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25238,6 +25400,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25343,6 +25507,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25448,6 +25614,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25553,6 +25721,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25650,6 +25820,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25671,6 +25843,7 @@ paths:
                     example: '222250001'
                   description: >
                     'The mountName of the device that is addressed by this callback
+                    repeated for each mount-name (i.e. device) in deviceMetadataList
                     repeated for each mount-name (i.e. device) in deviceMetadataList
                     (a) which has been deleted from Controller, or
                     (b) which is no longer in connected state on the Controller and should be deleted according to historicalControlConstruct, or
@@ -25715,6 +25888,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25788,6 +25963,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -25888,6 +26065,12 @@ paths:
                                     air-interface-2-0:air-interface-pac:
                                       air-interface-capability:
                                         type-of-equipment: 'OptiXRTN950N/abc/efg'
+                              - uuid: 'LTP-XYZ-TTP-3-4'
+                                layer-protocol:
+                                  - local-id: 'LP-XYZ-TTP-3-4'
+                                    air-interface-2-0:air-interface-pac:
+                                      air-interface-capability:
+                                        type-of-equipment: 'OptiXRTN950N/abc/efg'
                   headers:
                     x-correlator:
                       schema:
@@ -25925,6 +26108,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -25967,6 +26152,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -26017,6 +26204,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -26029,6 +26218,10 @@ paths:
                   $ref: '#/components/responses/532'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+        #PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka: omitted
+        #PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka: omitted
+        #PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka: omitted
+        #PromptForEmbeddingCausesCylicPollingOfDeviceAlarmNotificationsFromKafka: omitted
         #PromptForEmbeddingCausesSubscribingForDeviceChangeNotificationsAtKafka: omitted
         #PromptForEmbeddingCausesSubscribingForDeviceAlarmNotificationsAtKafka: omitted
         #PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka: omitted
@@ -26046,6 +26239,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:alarm-event-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:alarm-event-notification
@@ -26084,6 +26278,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -26109,6 +26305,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:attribute-value-changed-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:attribute-value-changed-notification
@@ -26144,6 +26341,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -26169,6 +26368,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:object-creation-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:object-creation-notification
@@ -26205,6 +26405,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -26230,6 +26432,7 @@ paths:
                       type: object
                       description: >
                         'notification-proxy-1-0:object-deletion-notification
+                        from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                         from {$PromptForEmbeddingCausesCylicPollingOfDeviceChangeNotificationsFromKafka}'
                       required:
                         - notification-proxy-1-0:object-deletion-notification
@@ -26266,6 +26469,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '502':
@@ -26412,6 +26617,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26521,6 +26728,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26658,6 +26867,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26755,6 +26966,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -26846,6 +27059,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -26987,6 +27202,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27105,6 +27322,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -27255,6 +27474,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27395,6 +27616,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27648,6 +27871,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -27708,6 +27933,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -27772,6 +27999,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -27865,6 +28094,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -27943,6 +28174,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28010,6 +28243,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28069,6 +28304,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28133,6 +28370,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28226,6 +28465,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28308,6 +28549,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28375,6 +28618,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28459,6 +28704,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -28558,6 +28805,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -28695,6 +28944,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -28801,6 +29052,8 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 '404':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+                '429':
+                  $ref: '#/components/responses/429'
                 '500':
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
@@ -28879,6 +29132,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -28910,12 +29165,12 @@ paths:
                     type: string
                     description: >
                       'ApplicationName of the OldRelease
-                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-c-or-2-0-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-c-or-2-1-1-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name]'
                   release-number:
                     type: string
                     description: >
                       'ReleaseNumber of the OldRelease
-                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-c-or-2-0-0-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
+                      from [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-http-c-or-2-1-1-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number]'
                 example:
                   application-name: 'ApplicationNameOfTheOldRelease'
                   release-number: '45.4.7'
@@ -28953,6 +29208,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29103,6 +29360,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29172,6 +29431,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29273,6 +29534,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29357,6 +29620,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29435,6 +29700,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29498,6 +29765,8 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '404':
           $ref: '#/components/responses/responseForErroredServiceRequests'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
@@ -29569,6 +29838,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     action-profile-1-0:action-profile-pac:
                                       type: object
                                       required:
@@ -29623,6 +29893,7 @@ paths:
                                         - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     response-profile-1-0:response-profile-pac:
                                       type: object
@@ -29686,6 +29957,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     file-profile-1-0:file-profile-pac:
                                       type: object
                                       required:
@@ -29734,6 +30006,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     integer-profile-1-0:integer-profile-pac:
                                       type: object
                                       required:
@@ -29780,6 +30053,7 @@ paths:
                                         - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                                         - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                                         - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                                     string-profile-1-0:string-profile-pac:
                                       type: object
                                       required:
@@ -29805,6 +30079,69 @@ paths:
                                             - string-value
                                           properties:
                                             string-value:
+                                              type: string
+                                - description: 'mapping profile'
+                                  type: object
+                                  required:
+                                    - uuid
+                                    - profile-name
+                                    - mapping-profile-1-0:string-profile-pac
+                                  properties:
+                                    uuid:
+                                      type: string
+                                    profile-name:
+                                      type: string
+                                      enum:
+                                        - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                                        - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                                        - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                                        - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                        - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                                        - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                                    mapping-profile-1-0:string-profile-pac:
+                                      type: object
+                                      required:
+                                        - mapping-profile-capability
+                                        - mapping-profile-configuration
+                                      properties:
+                                        mapping-profile-capability:
+                                          type: object
+                                          required:
+                                            - mapping-name
+                                          properties:
+                                            mapping-name:
+                                              type: string
+                                            purpose:
+                                              type: string
+                                        mapping-profile-configuration:
+                                          type: object
+                                          required:
+                                            - mapping-list
+                                          properties:
+                                            mapping-list:
+                                              type: array
+                                              items:
+                                                type: object
+                                                required:
+                                                  - regex-string
+                                                  - map-to-string
+                                                properties:
+                                                  regex-string:
+                                                    type: string
+                                                  map-to-string:
+                                                    type: string
+                                      example:
+                                        - uuid: 'xy-15-3-2-integer-p-000'
+                                          profile-name: 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                                          integer-profile-1-0:integer-profile-pac:
+                                            integer-profile-capability:
+                                              integer-name: 'maximumNumberOfEntries'
+                                              purpose: 'Limiting the number of entries for controlling the storage consumption and access response time'
+                                              unit: 'records'
+                                              minimum: 0
+                                              maximum: 1000000
+                                            integer-profile-configuration:
+                                              integer-value: 1000000
                                               type: string
                                 - description: 'mapping profile'
                                   type: object
@@ -30123,6 +30460,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
@@ -30483,6 +30821,7 @@ paths:
                                                 type: string
                                                 enum:
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
+                                                  - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
                                                   - 'elasticsearch-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
@@ -30551,6 +30890,7 @@ paths:
                                               operational-state:
                                                 type: string
                                                 enum:
+                                                  - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                                                   - 'kafka-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
@@ -30819,6 +31159,7 @@ paths:
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           action-profile-1-0:action-profile-pac:
                             type: object
                             required:
@@ -30873,6 +31214,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           response-profile-1-0:response-profile-pac:
                             type: object
@@ -30936,6 +31278,7 @@ paths:
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           file-profile-1-0:file-profile-pac:
                             type: object
                             required:
@@ -30983,6 +31326,7 @@ paths:
                               - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
                               - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
                               - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                               - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
                           integer-profile-1-0:integer-profile-pac:
                             type: object
@@ -31055,6 +31399,56 @@ paths:
                                 properties:
                                   string-value:
                                     type: string
+                      - description: 'mapping profile'
+                        type: object
+                        required:
+                          - uuid
+                          - profile-name
+                          - mapping-profile-1-0:string-profile-pac
+                        properties:
+                          uuid:
+                            type: string
+                          profile-name:
+                            type: string
+                            enum:
+                              - 'action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE'
+                              - 'response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE'
+                              - 'file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE'
+                              - 'integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE'
+                              - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                              - 'mapping-profile-1-0:PROFILE_NAME_TYPE_MAPPING_PROFILE'
+                          mapping-profile-1-0:string-profile-pac:
+                            type: object
+                            required:
+                              - mapping-profile-capability
+                              - mapping-profile-configuration
+                            properties:
+                              mapping-profile-capability:
+                                type: object
+                                required:
+                                  - mapping-name
+                                properties:
+                                  mapping-name:
+                                    type: string
+                                  purpose:
+                                    type: string
+                              mapping-profile-configuration:
+                                type: object
+                                required:
+                                  - mapping-list
+                                properties:
+                                  mapping-list:
+                                    type: array
+                                    items:
+                                      type: object
+                                      required:
+                                        - regex-string
+                                        - map-to-string
+                                      properties:
+                                        regex-string:
+                                          type: string
+                                        map-to-string:
+                                          type: string
                       - description: 'mapping profile'
                         type: object
                         required:
@@ -33633,6 +34027,7 @@ paths:
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_AVAILABLE'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_UNAVAILABLE'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
+                      - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_EXPERIMENTAL'
                       - 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
                     example: 'operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED'
         '400':
@@ -35816,6 +36211,25 @@ components:
                 type: string
                 enum:
                   - 'Bad Gateway'
+    '529':
+      description: 'Response in case of a duplicate request, that shall not be executed again'
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                minimum: 529
+                maximum: 529
+                format: int32
+              message:
+                type: string
+                enum:
+                  - 'Duplicate request, not to be executed.'
     '530':
       description: 'Response in case the referenced resource exists (e.g. device connected and resource exists in internal datatree), but response data is either not available, lost during transmission, incomplete or corrupted'
       content:
@@ -36694,6 +37108,16 @@ components:
               type: string
             layer-protocol-name:
               type: string
+        - description: 'default'
+          type: object
+          required:
+            - local-id
+            - layer-protocol-name
+          properties:
+            local-id:
+              type: string
+            layer-protocol-name:
+              type: string
         - description: 'air-interface'
           type: object
           required:
@@ -36829,6 +37253,7 @@ components:
                 - 'tdm-container-2-0:LAYER_PROTOCOL_NAME_TYPE_TDM_CONTAINER_LAYER'
             tdm-container-2-0:tdm-container-pac:
               $ref: '#/components/schemas/TDM_CONTAINER_PAC'
+        - description: 'synchronization'
         - description: 'synchronization'
           type: object
           required:
@@ -37368,3 +37793,4 @@ components:
     basicAuth:
       type: http
       scheme: basic
+

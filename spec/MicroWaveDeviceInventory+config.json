@@ -517,7 +517,6 @@
             "string-profile-capability": {
               "string-name": "historicalControlConstructPolicy",
               "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
-              "purpose": "Per default, the ControlConstruct in the cache shall be deleted, if a device is no longer in connected state; this profile allows to configure otherwise",
               "enumeration": [
                 "keep-on-disconnect",
                 "delete-on-disconnect"
@@ -605,21 +604,17 @@
               "mapping-list": [
                 {
                   "regex-string": "/.*(AGS|ALC|ALFO).*/i",
-                  "regex-string": "/.*(AGS|ALC|ALFO).*/i",
                   "map-to-string": "Siae"
                 },
                 {
-                  "regex-string": "/.*RTN.*/i",
                   "regex-string": "/.*RTN.*/i",
                   "map-to-string": "Huawei"
                 },
                 {
                   "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
-                  "regex-string": "/(?:.*(mini[-_\\s]?link|ml).*|^UKL\\s501\\s57.*|.*(mltn|traffic[-_\\s]?node).*)/i",
                   "map-to-string": "Ericsson"
                 },
                 {
-                  "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "regex-string": "/^(?!.*(AGS|ALC|ALFO))(?!.*RTN)(?!.*(mini[-_\\s]?link|ml))(?!UKL\\s501\\s57)(?!.*(mltn|traffic[-_\\s]?node)).*/i",
                   "map-to-string": "unknown"
                 }
@@ -1175,7 +1170,6 @@
                 "operation-name": "/v1/regard-controller-attribute-value-change"
               },
               "operation-server-interface-configuration": {
-                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
                 "operation-key": "n.a."
               }

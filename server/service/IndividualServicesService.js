@@ -12979,6 +12979,14 @@ function cleanupOutboundNotificationCache() {
 
     //remove timed out elements
     lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
+
+    // Additional safety: limit array size to prevent unbounded growth
+    // Keep only the most recent 10000 messages maximum
+    const MAX_CACHE_SIZE = process.env['NOTIFICATION_CACHE_MAX_SIZE'] ? parseInt(process.env['NOTIFICATION_CACHE_MAX_SIZE']) : 10000;
+    if (lastSentMessages.length > MAX_CACHE_SIZE) {
+      logger.warn(`Notification cache size exceeded ${MAX_CACHE_SIZE}. Current size: ${lastSentMessages.length}. Trimming to max size.`);
+      lastSentMessages = lastSentMessages.slice(-MAX_CACHE_SIZE);
+    }
   } catch (error) {
     logger.error(error);
   }

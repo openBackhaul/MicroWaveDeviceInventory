@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npm install",
-    "start": "node --max-old-space-size=4096 index.js",
+    "start": "node --max-old-space-size=8192 --max-semi-space-size=1024 index.js",
     "test": "jest"
   },
   "babel": {

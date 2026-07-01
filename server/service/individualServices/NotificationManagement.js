@@ -53,11 +53,11 @@ exports.createRequestHeader = function () {
 function cleanupOutboundNotificationCache() {
     let toRemoveElements = [];
 
+    // Parse timespan as integer to avoid string comparison issues
+    let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? parseInt(process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS']) : 5000;
+
     for (const lastSentMessage of lastSentMessages) {
         let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
-
-        //timeout from env - use 5 seconds as fallback
-        let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
 
         if (differenceInTimestampMs > timespanMs) {
             toRemoveElements.push(lastSentMessage)

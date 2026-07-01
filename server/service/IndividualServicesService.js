@@ -12966,26 +12966,28 @@ function cleanupOutboundNotificationCache() {
   try {
     let toRemoveElements = [];
 
+    // Parse timespan as integer to avoid string comparison issues
+    let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? parseInt(process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS']) : 5000;
+
     for (const lastSentMessage of lastSentMessages) {
       let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
-
-      //timeout from env - use 5 seconds as fallback
-      let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
 
       if (differenceInTimestampMs > timespanMs) {
         toRemoveElements.push(lastSentMessage)
       }
     }
 
-    //remove timed out elements
+    //remove timed out elements - this is the primary cleanup mechanism
     lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
 
-    // Additional safety: limit array size to prevent unbounded growth
-    // Keep only the most recent 10000 messages maximum
-    const MAX_CACHE_SIZE = process.env['NOTIFICATION_CACHE_MAX_SIZE'] ? parseInt(process.env['NOTIFICATION_CACHE_MAX_SIZE']) : 10000;
-    if (lastSentMessages.length > MAX_CACHE_SIZE) {
-      logger.warn(`Notification cache size exceeded ${MAX_CACHE_SIZE}. Current size: ${lastSentMessages.length}. Trimming to max size.`);
-      lastSentMessages = lastSentMessages.slice(-MAX_CACHE_SIZE);
+    // Additional safety: if cache grows beyond reasonable size despite timespan cleanup,
+    // progressively remove oldest items to prevent unbounded growth
+    // This is a HARD safety limit, not a target size
+    const HARD_MAX_CACHE_SIZE = process.env['NOTIFICATION_CACHE_MAX_SIZE'] ? parseInt(process.env['NOTIFICATION_CACHE_MAX_SIZE']) : 100000;
+    if (lastSentMessages.length > HARD_MAX_CACHE_SIZE) {
+      logger.warn(`Notification cache safety limit exceeded ${HARD_MAX_CACHE_SIZE}. Current size: ${lastSentMessages.length}. Removing oldest 10%.`);
+      const itemsToRemove = Math.ceil(lastSentMessages.length * 0.1); // Remove oldest 10%
+      lastSentMessages = lastSentMessages.slice(itemsToRemove);
     }
   } catch (error) {
     logger.error(error);
@@ -13018,7 +13020,8 @@ function checkNotificationDuplicate(notificationType, targetOperationURL, notifi
     }
     return false;
   } catch (error) {
-    logger.error(error);
+    logger.error(`Error checking duplicate notification: ${error.message}`);
+    return false; // On error, don't block notification
   }
 }
 

@@ -19,12 +19,43 @@ let consumer = undefined;
 
 let subscribedTopics = [];
 let kafkaPausedByQueue = false;
+let kafkaResumeCheckTimer = undefined;
+let lastPausedTopic = undefined;
+const KAFKA_RESUME_CHECK_INTERVAL_MS = Number(process.env.KAFKA_RESUME_CHECK_INTERVAL_MS) || 1000;
 
 function getPauseTopicList(topic) {
   if (subscribedTopics && subscribedTopics.length > 0) {
     return subscribedTopics.map(t => ({ topic: t }));
   }
   return [{ topic }];
+}
+
+function clearKafkaResumeCheckTimer() {
+  if (kafkaResumeCheckTimer) {
+    clearInterval(kafkaResumeCheckTimer);
+    kafkaResumeCheckTimer = undefined;
+  }
+}
+
+function scheduleKafkaResumeCheck(topic) {
+  lastPausedTopic = topic;
+  if (kafkaResumeCheckTimer) return;
+
+  kafkaResumeCheckTimer = setInterval(() => {
+    try {
+      resumeKafkaIfNeeded(lastPausedTopic || topic);
+
+      if (!kafkaPausedByQueue) {
+        clearKafkaResumeCheckTimer();
+      }
+    } catch (error) {
+      console.error("Kafka resume check failed:", error);
+    }
+  }, KAFKA_RESUME_CHECK_INTERVAL_MS);
+
+  if (typeof kafkaResumeCheckTimer.unref === "function") {
+    kafkaResumeCheckTimer.unref();
+  }
 }
 
 function pauseKafkaIfNeeded(topic) {
@@ -39,6 +70,7 @@ function pauseKafkaIfNeeded(topic) {
   if (!kafkaPausedByQueue && status.shouldPause) {
     kafkaPausedByQueue = true;
     consumer.pause(getPauseTopicList(topic));
+    scheduleKafkaResumeCheck(topic);
 
     console.log(
       `[KAFKA-BACKPRESSURE] Paused Kafka. globalQueue=${status.globalQueueSize}, activeMounts=${status.activeMountProcessors}, pendingMounts=${status.pendingMounts}`
@@ -58,6 +90,7 @@ function resumeKafkaIfNeeded(topic) {
   if (kafkaPausedByQueue && status.shouldResume) {
     kafkaPausedByQueue = false;
     consumer.resume(getPauseTopicList(topic));
+    clearKafkaResumeCheckTimer();
 
     console.log(
       `[KAFKA-BACKPRESSURE] Resumed Kafka. globalQueue=${status.globalQueueSize}, activeMounts=${status.activeMountProcessors}, pendingMounts=${status.pendingMounts}`
@@ -65,11 +98,37 @@ function resumeKafkaIfNeeded(topic) {
   }
 }
 
+async function subscribeMessagesWithBackpressure(topics) {
+  for (const topic of topics) {
+    await consumer.subscribe({ topic });
+    console.log(`consumer now connected to topic: ${topic} and listening to latest-messages`);
+  }
+
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      const receivedMessage = message.value.toString();
+      console.log(
+        `message received from topic: ${topic} and partition: ${partition}, bytes=${receivedMessage.length}`
+      );
+
+      let parsedMessage = receivedMessage;
+      try {
+        parsedMessage = JSON.parse(receivedMessage);
+      } catch (error) {
+        // Keep the original behavior for non-JSON messages.
+      }
+
+      await handleNotifications(parsedMessage, topic);
+    }
+  });
+}
+
 async function handleNotifications(receivedMessage, topic) {
   try {
     pauseKafkaIfNeeded(topic);
 
     let notificationType = getNotificationType(receivedMessage);
+    console.log(`Kafka notification routed: topic=${topic}, type=${notificationType}`);
 
     switch (notificationType) {
       case "ALARM":
@@ -114,9 +173,16 @@ async function handleNotifications(receivedMessage, topic) {
       await prepareElasticsearch(false);
       let kafkaNotificationReceiptAndProcessingSwitch = await utility.getStringValueForStringProfileNameAsync(
     "kafkaNotificationReceiptAndProcessingSwitch");
-        if(kafkaNotificationReceiptAndProcessingSwitch == "on"){
+    if(kafkaNotificationReceiptAndProcessingSwitch == "on"){
       consumer = await kafka.connect(groupId, clientId, brokerList);
-      kafka.subscribeMessages(topics, handleNotifications);
+      if (!consumer || typeof consumer.subscribe !== "function" || typeof consumer.run !== "function") {
+        throw new Error("Kafka consumer is not available after connect");
+      }
+      subscribeMessagesWithBackpressure(topics).catch(error => {
+        console.error("Kafka subscription failed:", error);
+        parentPort.postMessage({ error: error.message });
+        process.exit(1);
+      });
       console.log("*************************************************************");
       console.log("kafkaNotificationReceiptAndProcessingSwitch is "+kafkaNotificationReceiptAndProcessingSwitch);
       console.log("kafka started");
@@ -129,12 +195,14 @@ async function handleNotifications(receivedMessage, topic) {
   } catch (err) {
     console.log(err)
     parentPort.postMessage({ error: err.message });
+    process.exit(1);
   }
 })();
 
 parentPort.on("message", async (msg) => {
   if (msg.action === "stop") {
     try {
+    clearKafkaResumeCheckTimer();
     await kafka.disconnectKafka(consumer);
     consumer = undefined;
     console.log("*****************************");

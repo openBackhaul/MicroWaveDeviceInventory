@@ -102,7 +102,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
       }
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
       // starts cacheQualityMeasurementProcess
-      cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
+      //cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);

@@ -50,12 +50,23 @@ exports.handleKafkaNotificationReceiptAndProcessingSwitch = async function (valu
 
 exports.connectToKafka = async function () {
   try {
+    if (workerisLive && worker) {
+      console.log("Kafka worker is already live. Skipping duplicate worker start.");
+      return worker;
+    }
+
     let ltpForKafkaClient = await exports.getKafkaClient();
     let groupId = await exports.getKafkaGroupId(ltpForKafkaClient);
     let clientId = await exports.getKafkaClientId(ltpForKafkaClient);
     let brokerList = [].concat(await exports.getBrokerForKafka(ltpForKafkaClient));
     let kafkaClientList = await exports.getKafkaClientList();
     let kafkaTopic = await exports.getKafkaTopicName(kafkaClientList);
+
+    if (!groupId || !clientId || brokerList.length === 0 || !kafkaTopic || kafkaTopic.length === 0) {
+      throw new Error(`Invalid Kafka configuration. groupId=${groupId}, clientId=${clientId}, brokers=${brokerList.length}, topics=${kafkaTopic ? kafkaTopic.length : 0}`);
+    }
+
+    console.log(`Kafka worker config resolved. groupId=${groupId}, clientId=${clientId}, brokers=${brokerList.join(",")}, topics=${kafkaTopic.join(",")}`);
     
     worker = new Worker(path.resolve(__dirname, "KafkaWorker.js"), {
       workerData: { groupId, clientId, brokerList, topics: kafkaTopic}
@@ -63,6 +74,9 @@ exports.connectToKafka = async function () {
     
     console.log("Worker object : " + worker)
     workerisLive = true;
+    worker.on("online", () => {
+        console.log("Kafka worker thread is online");
+    });
     worker.on("message", (msg) => {        
         console.log("Worker:", msg);
         console.log("Cruise:", msg);
@@ -70,6 +84,7 @@ exports.connectToKafka = async function () {
     worker.on("error", (err) => {
         console.error("Worker error:", err);
         console.error("Worker error: Cruise ", err);
+        workerisLive = false;
     });
     worker.on("exit", (code) => {
       console.log(`Kafka worker exited with code ${code}`);

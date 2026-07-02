@@ -51,6 +51,7 @@ const v8 = require("v8");
 // ---------------------------------------------------------
 
 let lastSentMessages = [];
+const SUBSCRIBER_NOTIFICATION_TIMEOUT_MS = Number(process.env.SUBSCRIBER_NOTIFICATION_TIMEOUT_MS) || 30000;
 
 // ------ Constants definition
 // -- Application
@@ -11640,7 +11641,10 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
 
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(urlString)
       if (attributeName == 'connection-status' && newValue == 'connected') {
-        deviceMetadataUtility.updateMetaData(logicalTerminationPoint, newValue);
+        const dataUpdated = await deviceMetadataUtility.updateMetaData(logicalTerminationPoint, newValue);
+        if (!dataUpdated) {
+          logger.warn(`Device metadata update for ${logicalTerminationPoint} failed`);
+        }
         // updateDeviceListFromNotification(1, logicalTerminationPoint);
         /*try {
           let resRequestor = await sentDataToRequestor(null, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, appNameAndUuidFromForwarding[0].key);
@@ -11651,7 +11655,10 @@ exports.regardControllerAttributeValueChange = function (url, body, user, origin
           reject(error);
         } */
       } else if (attributeName == 'connection-status' && newValue !== 'connected') {
-        deviceMetadataUtility.updateMetaData(logicalTerminationPoint, newValue);
+        const dataUpdated = await deviceMetadataUtility.updateMetaData(logicalTerminationPoint, newValue);
+        if (!dataUpdated) {
+          logger.warn(`Device metadata update for ${logicalTerminationPoint} failed`);
+        }
         //updateDeviceListFromNotification(2, logicalTerminationPoint);
         //let indexAlias = common[1].indexAlias;
         //   const { deleteRecordFromElasticsearch } = module.exports;
@@ -11682,12 +11689,31 @@ let activeMountProcessors = 0;
 const pendingMounts = new Set();    // mounts waiting for a slot
 
 const HEAVY_NOTIFICATION_CONCURRENCY = 2;
+const HEAVY_NOTIFICATION_MAX_WAITERS = Number(process.env.HEAVY_NOTIFICATION_MAX_WAITERS) || 200;
+const HEAVY_NOTIFICATION_QUEUE_TIMEOUT_MS = Number(process.env.HEAVY_NOTIFICATION_QUEUE_TIMEOUT_MS) || 30000;
+const HEAVY_NOTIFICATION_PAUSE_WAITERS = Math.max(1, Math.floor(HEAVY_NOTIFICATION_MAX_WAITERS * 0.8));
+const HEAVY_NOTIFICATION_RESUME_WAITERS = Math.max(0, Math.floor(HEAVY_NOTIFICATION_MAX_WAITERS * 0.25));
 let heavyNotificationActive = 0;
 const heavyNotificationWaiters = [];
 
 async function withHeavyNotificationSlot(fn) {
   if (heavyNotificationActive >= HEAVY_NOTIFICATION_CONCURRENCY) {
-    await new Promise(resolve => heavyNotificationWaiters.push(resolve));
+    if (heavyNotificationWaiters.length >= HEAVY_NOTIFICATION_MAX_WAITERS) {
+      throw new createHttpError(503, "Notification processing queue is full. Please retry later.");
+    }
+
+    await new Promise((resolve, reject) => {
+      const waiter = { resolve, reject, timer: undefined };
+      waiter.timer = setTimeout(() => {
+        const waiterIndex = heavyNotificationWaiters.indexOf(waiter);
+        if (waiterIndex !== -1) {
+          heavyNotificationWaiters.splice(waiterIndex, 1);
+        }
+        reject(new createHttpError(503, "Notification processing queue wait timed out."));
+      }, HEAVY_NOTIFICATION_QUEUE_TIMEOUT_MS);
+
+      heavyNotificationWaiters.push(waiter);
+    });
   }
 
   heavyNotificationActive += 1;
@@ -11698,7 +11724,10 @@ async function withHeavyNotificationSlot(fn) {
     heavyNotificationActive -= 1;
 
     const next = heavyNotificationWaiters.shift();
-    if (next) next();
+    if (next) {
+      clearTimeout(next.timer);
+      next.resolve();
+    }
   }
 }
 
@@ -11813,6 +11842,7 @@ const KAFKA_RESUME_QUEUE_SIZE = 10;
 
 exports.getQueueBackpressureStatus = function () {
   const globalQueueSize = globalKeyCount();
+  const heavyNotificationQueueSize = heavyNotificationWaiters.length;
 
   const memory = process.memoryUsage();
 
@@ -11844,12 +11874,14 @@ exports.getQueueBackpressureStatus = function () {
 
   const shouldPause =
     globalQueueSize >= KAFKA_PAUSE_QUEUE_SIZE ||
+    heavyNotificationQueueSize >= HEAVY_NOTIFICATION_PAUSE_WAITERS ||
     activeMountProcessors >= MAX_ACTIVE_MOUNTS ||
     heapUsedMb >= HEAP_PAUSE_MB ||
     rssMb >= RSS_PAUSE_MB;
 
   const shouldResume =
     globalQueueSize <= KAFKA_RESUME_QUEUE_SIZE &&
+    heavyNotificationQueueSize <= HEAVY_NOTIFICATION_RESUME_WAITERS &&
     activeMountProcessors < MAX_ACTIVE_MOUNTS &&
     heapUsedMb <= HEAP_RESUME_MB &&
     rssMb <= RSS_RESUME_MB;
@@ -11857,6 +11889,8 @@ exports.getQueueBackpressureStatus = function () {
   return {
     globalQueueSize,
     activeMountProcessors,
+    heavyNotificationActive,
+    heavyNotificationQueueSize,
     pendingMounts: pendingMounts.size,
     activeMountQueues: mountQueues.size,
 
@@ -12135,7 +12169,7 @@ async function processNextBatch(mountname) {
           }
         } else {
           if (latestTimeStamp) {
-            deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(
+            await deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(
               mountname,
               latestTimeStamp
             );
@@ -12273,6 +12307,13 @@ exports.regardDeviceAlarm = function (body) {
       const problemSeverity = currentJSON["problem-severity"];
 
       const mountname = decodeMountName(resource, false);
+
+      /* console.log("*********Device alarm notification *********");
+      console.log("timeStamp : " + timeStamp);
+      console.log("alarmTypeId : " + alarmTypeId);
+      console.log("problemSeverity : " + problemSeverity);
+      console.log("mountname : " + mountname);
+      console.log("***************************************************"); */
 
       // Normalize resource the SAME way you compare inside handler (important for coalescing!)
       // Use modifyResource logic (same as your handler) so keys match.
@@ -12550,12 +12591,12 @@ exports.regardDeviceAttributeValueChange = async function (body) {
         "attribute-name": currentJSON["attribute-name"],
         "new-value": currentJSON["new-value"]
       };
-      notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
+      await notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
 
       //update meta-data for update of device attribute change data into CC -- partial update
       let mountname = decodeMountName(resource, false);
       let timeStamp = currentJSON['timestamp'];
-      deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+      await deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
     }
   } catch (error) {
     logger.error(error);
@@ -12628,12 +12669,12 @@ exports.regardDeviceObjectCreation = function (body) {
           "object-path": resource,
         };
 
-        notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
+        await notifyAllDeviceSubscribers("/v1/notify-object-creations", newJson);
 
         //update meta-data for update of device attribute change data into CC -- partial update
         let mountname = decodeMountName(resource, false);
         let timeStamp = currentJSON['timestamp'];
-        deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+        await deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
         resolve();
       }
     } catch (error) {
@@ -12700,12 +12741,12 @@ exports.regardDeviceObjectDeletion = function (body) {
         "timestamp": currentJSON.timestamp,
         "object-path": resource
       };
-      notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
+      await notifyAllDeviceSubscribers("/v1/notify-object-deletions", newJson);
 
       //update meta-data for update of device attribute change data into CC -- partial update
       let mountname = decodeMountName(resource, false);
       let timeStamp = currentJSON['timestamp'];
-      deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+      await deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
 
       resolve();
     } catch (error) {
@@ -12864,7 +12905,7 @@ async function notifyAllDeviceSubscribers(deviceNotificationType, notificationMe
       logger.info("starting notification of " + activeSubscribers.length + " subscribers for '" + deviceNotificationType + "'");
 
       for (let subscriber of activeSubscribers) {
-        sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
+        await sendMessageToSubscriber(deviceNotificationType, subscriber.targetOperationURL, subscriber.operationKey, notificationMessage);
       }
     } else {
       logger.warn("no subscribers for " + deviceNotificationType + ", message discarded");
@@ -12917,47 +12958,48 @@ async function sendMessageToSubscriber(notificationType, targetOperationURL, ope
     //send notification
     //logger.info("sending subscriber notification to: " + targetOperationURL + " with content: " + JSON.stringify(notificationMessage) + " - debugId: '" + uniqueSendingID + "'");
     logger.info(`sending subscriber notification to: ${targetOperationURL}, notificationType=${notificationType}, debugId=${uniqueSendingID}`);
-    axios.post(targetOperationURL, notificationMessage, {
-      // axios.post("http://localhost:1237", notificationMessage, {
-      headers: {
-        'x-correlator': requestHeader.xCorrelator,
-        'trace-indicator': requestHeader.traceIndicator,
-        'user': requestHeader.user,
-        'originator': requestHeader.originator,
-        'customer-journey': requestHeader.customerJourney,
-        'operation-key': operationKey
-      }
-    })
-      .then((response) => {
-        logger.info(`subscriber-notification success, notificationType=${notificationType}, target url=${targetOperationURL}, result status=${response.status}, debugId=${uniqueSendingID}`);
-
-        executionAndTraceService.recordServiceRequestFromClient(
-          appInformation["application-name"],
-          appInformation["release-number"],
-          requestHeader.xCorrelator,
-          requestHeader.traceIndicator,
-          requestHeader.user,
-          requestHeader.originator,
-          notificationType, //for example "notifications/device-alarms"
-          response.status,
-          notificationMessage,
-          response.data);
-      })
-      .catch(e => {
-        logger.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
-
-        executionAndTraceService.recordServiceRequestFromClient(
-          appInformation["application-name"],
-          appInformation["release-number"],
-          requestHeader.xCorrelator,
-          requestHeader.traceIndicator,
-          requestHeader.user,
-          requestHeader.originator,
-          notificationType,
-          responseCodeEnum.code.INTERNAL_SERVER_ERROR,
-          notificationMessage,
-          e);
+    try {
+      const response = await axios.post(targetOperationURL, notificationMessage, {
+        // axios.post("http://localhost:1237", notificationMessage, {
+        timeout: SUBSCRIBER_NOTIFICATION_TIMEOUT_MS,
+        headers: {
+          'x-correlator': requestHeader.xCorrelator,
+          'trace-indicator': requestHeader.traceIndicator,
+          'user': requestHeader.user,
+          'originator': requestHeader.originator,
+          'customer-journey': requestHeader.customerJourney,
+          'operation-key': operationKey
+        }
       });
+
+      logger.info(`subscriber-notification success, notificationType=${notificationType}, target url=${targetOperationURL}, result status=${response.status}, debugId=${uniqueSendingID}`);
+
+      await executionAndTraceService.recordServiceRequestFromClient(
+        appInformation["application-name"],
+        appInformation["release-number"],
+        requestHeader.xCorrelator,
+        requestHeader.traceIndicator,
+        requestHeader.user,
+        requestHeader.originator,
+        notificationType, //for example "notifications/device-alarms"
+        response.status,
+        notificationMessage,
+        response.data);
+    } catch (e) {
+      logger.error(e, "error during subscriber-notification for " + notificationType + " - debugId: '" + uniqueSendingID + "'");
+
+      await executionAndTraceService.recordServiceRequestFromClient(
+        appInformation["application-name"],
+        appInformation["release-number"],
+        requestHeader.xCorrelator,
+        requestHeader.traceIndicator,
+        requestHeader.user,
+        requestHeader.originator,
+        notificationType,
+        responseCodeEnum.code.INTERNAL_SERVER_ERROR,
+        notificationMessage,
+        e);
+    }
   }
 }
 
@@ -12966,29 +13008,19 @@ function cleanupOutboundNotificationCache() {
   try {
     let toRemoveElements = [];
 
-    // Parse timespan as integer to avoid string comparison issues
-    let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? parseInt(process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS']) : 5000;
-
     for (const lastSentMessage of lastSentMessages) {
       let differenceInTimestampMs = Date.now() - lastSentMessage.timeMs;
+
+      //timeout from env - use 5 seconds as fallback
+      let timespanMs = process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] ? process.env['NOTIFICATION_DUPLICATE_TIMESPAN_MS'] : 5000;
 
       if (differenceInTimestampMs > timespanMs) {
         toRemoveElements.push(lastSentMessage)
       }
     }
 
-    //remove timed out elements - this is the primary cleanup mechanism
+    //remove timed out elements
     lastSentMessages = lastSentMessages.filter((element) => toRemoveElements.includes(element) === false);
-
-    // Additional safety: if cache grows beyond reasonable size despite timespan cleanup,
-    // progressively remove oldest items to prevent unbounded growth
-    // This is a HARD safety limit, not a target size
-    const HARD_MAX_CACHE_SIZE = process.env['NOTIFICATION_CACHE_MAX_SIZE'] ? parseInt(process.env['NOTIFICATION_CACHE_MAX_SIZE']) : 100000;
-    if (lastSentMessages.length > HARD_MAX_CACHE_SIZE) {
-      logger.warn(`Notification cache safety limit exceeded ${HARD_MAX_CACHE_SIZE}. Current size: ${lastSentMessages.length}. Removing oldest 10%.`);
-      const itemsToRemove = Math.ceil(lastSentMessages.length * 0.1); // Remove oldest 10%
-      lastSentMessages = lastSentMessages.slice(itemsToRemove);
-    }
   } catch (error) {
     logger.error(error);
   }
@@ -13020,8 +13052,7 @@ function checkNotificationDuplicate(notificationType, targetOperationURL, notifi
     }
     return false;
   } catch (error) {
-    logger.error(`Error checking duplicate notification: ${error.message}`);
-    return false; // On error, don't block notification
+    logger.error(error);
   }
 }
 

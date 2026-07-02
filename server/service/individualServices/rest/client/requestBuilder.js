@@ -24,8 +24,8 @@ exports.BuildAndTriggerRestRequest = async function (url, requestHeader, request
     }
     let response = await restClient.post(request);
 
-    logger.debug("callback : " + url + " header :" + JSON.stringify(requestHeader) +
-      "body :" + JSON.stringify(requestBody) + "response code:" + response.status)
+    /* logger.debug("callback : " + url + " header :" + JSON.stringify(requestHeader) +
+      "body :" + JSON.stringify(requestBody) + "response code:" + response.status) */
     return response;
   } catch (error) {
     logger.error("POST fail!");

@@ -475,6 +475,21 @@
           }
         },
         {
+          "uuid": "mwdi-2-2-0-integer-p-009",
+          "profile-name": "integer-profile-1-0:PROFILE_NAME_TYPE_INTEGER_PROFILE",
+          "integer-profile-1-0:integer-profile-pac": {
+            "integer-profile-capability": {
+              "integer-name": "statusReportHours",
+              "purpose": "The number of recent hours for which status report data is kept",
+              "minimum": 0,
+              "maximum": 48
+            },
+            "integer-profile-configuration": {
+              "integer-value": 24
+            }
+          }
+        },
+        {
           "uuid": "mwdi-2-2-0-string-p-000",
           "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
           "string-profile-1-0:string-profile-pac": {
@@ -1528,6 +1543,30 @@
             "operation-server-interface-1-0:operation-server-interface-pac": {
               "operation-server-interface-capability": {
                 "operation-name": "/v1/provide-list-of-cached-devices"
+              },
+              "operation-server-interface-configuration": {
+                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
+                "operation-key": "n.a."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "mwdi-2-2-0-op-s-is-021",
+        "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+        "client-ltp": [
+        ],
+        "server-ltp": [
+          "mwdi-2-2-0-http-s-000"
+        ],
+        "layer-protocol": [
+          {
+            "local-id": "0",
+            "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+            "operation-server-interface-1-0:operation-server-interface-pac": {
+              "operation-server-interface-capability": {
+                "operation-name": "/provide-status-report"
               },
               "operation-server-interface-configuration": {
                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL",
@@ -5075,6 +5114,7 @@
           "mwdi-2-2-0-op-s-is-018",
           "mwdi-2-2-0-op-s-is-019",
           "mwdi-2-2-0-op-s-is-020",
+          "mwdi-2-2-0-op-s-is-021",
           "mwdi-2-2-0-op-s-is-040",
           "mwdi-2-2-0-op-s-is-041",
           "mwdi-2-2-0-op-s-is-042",
@@ -15813,6 +15853,11 @@
                 "logical-termination-point": "mwdi-2-2-0-op-s-is-020"
               },
               {
+                "local-id": "1138",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-2-0-op-s-is-021"
+              },
+              {
                 "local-id": "1150",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-2-2-0-op-s-is-040"
@@ -19088,6 +19133,31 @@
                 "local-id": "1000",
                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                 "logical-termination-point": "mwdi-2-2-0-op-s-is-019"
+              },
+              {
+                "local-id": "2000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                "logical-termination-point": "mwdi-2-2-0-op-c-get-es-1-0-0-000"
+              }
+            ]
+          },
+          {
+            "uuid": "mwdi-2-2-0-op-fc-is-052",
+            "name": [
+              {
+                "value-name": "ForwardingKind",
+                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+              },
+              {
+                "value-name": "ForwardingName",
+                "value": "RequestForStatusReportCausesReadingFromElasticSearch"
+              }
+            ],
+            "fc-port": [
+              {
+                "local-id": "1000",
+                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                "logical-termination-point": "mwdi-2-2-0-op-s-is-021"
               },
               {
                 "local-id": "2000",

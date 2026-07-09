@@ -3086,6 +3086,105 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
+  /provide-status-report:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: provideStatusReport
+      summary: 'Provides status report data'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      responses:
+        '200':
+          description: 'Status report data provided'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status-report
+                properties:
+                  status-report:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - time
+                        - periodic-cc-update-successes
+                        - periodic-cc-update-fails
+                        - notification-cc-update-successes
+                        - notification-cc-update-fails
+                        - connection-state-cc-update-successes
+                        - connection-state-cc-update-fails
+                      properties:
+                        timeslot:
+                          type: string
+                          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}$'
+                          description: 'Date and hour of the status report data'
+                        periodic-cc-update-successes:
+                          type: integer
+                          description: 'Number of successful periodic CC updates for this timeslot'
+                        periodic-cc-update-fails:
+                          type: integer
+                          description: 'Number of failed periodic CC updates for this timeslot'
+                        notification-cc-update-successes:
+                          type: integer
+                          description: 'Number of successful notification CC updates for this timeslot'
+                        notification-cc-update-fails:
+                          type: integer
+                          description: 'Number of failed notification CC updates for this timeslot'
+                        connection-state-cc-update-successes:
+                          type: integer
+                          description: 'Number of successful connection state CC updates for this timeslot'
+                        connection-state-cc-update-fails:
+                          type: integer
+                          description: 'Number of failed connection state CC updates for this timeslot'
+              example:
+                status-report:
+                  - timeslot: '2026-12-01T10'
+                    periodic-cc-update-successes: 300
+                    periodic-cc-update-fails: 25
+                    notification-cc-update-successes: 20
+                    notification-cc-update-fails: 5
+                    connection-state-cc-update-successes: 15
+                    connection-state-cc-update-fails: 2
+                  - timeslot: '2026-12-01T11'
+                    periodic-cc-update-successes: 125
+                    periodic-cc-update-fails: 13
+                    notification-cc-update-successes: 24
+                    notification-cc-update-fails: 2
+                    connection-state-cc-update-successes: 200
+                    connection-state-cc-update-fails: 13
+          headers:
+            x-correlator:
+              $ref: '#/components/headers/x-correlator'
+            exec-time:
+              $ref: '#/components/headers/exec-time'
+            backend-time:
+              $ref: '#/components/headers/backend-time'
+            life-cycle-state:
+              $ref: '#/components/headers/life-cycle-state'
+              description: >
+                'Life cycle state of the consumed service
+                find in [/core-model-1-4:control-construct/logical-termination-point=mwdi-2-2-0-op-s-is-021/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+        '400':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '401':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '403':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '404':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        '500':
+          $ref: '#/components/responses/responseForErroredServiceRequests'
+        default:
+          $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/notify-attribute-value-changes:
     parameters:
       - $ref: '#/components/parameters/user'

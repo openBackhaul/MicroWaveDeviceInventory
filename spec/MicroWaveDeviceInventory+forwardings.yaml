@@ -2164,6 +2164,21 @@ forwardings:
       - client-name: ElasticSearch
         uuid: mwdi-2-2-0-es-c-es-1-0-0-000
 
+  - forwarding-name: RequestForStatusReportCausesReadingFromElasticSearch
+    uuid: mwdi-2-2-0-op-fc-is-052
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /provide-status-report
+        uuid: mwdi-2-2-0-op-s-is-021
+    consequent-requests:
+      - client-name: ElasticSearch
+        uuid: mwdi-2-2-0-es-c-es-1-0-0-000
+
   - forwarding-name: RequestForCachedControlConstructCausesReadingFromCache
     uuid: mwdi-2-2-0-op-fc-is-100
     forwarding-type: InvariantProcessSnippet

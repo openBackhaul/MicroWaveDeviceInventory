@@ -109,6 +109,9 @@ servers:
         - operation-name: /v1/provide-list-of-cached-devices
           uuid: mwdi-2-2-0-op-s-is-020
           operation-key: n.a.
+        - operation-name: /v1/provide-status-report
+          uuid: mwdi-2-2-0-op-s-is-021
+          operation-key: n.a.
 
         # offered subscriptions
         - operation-name: /v1/notify-attribute-value-changes

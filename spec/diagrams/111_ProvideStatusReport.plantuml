@@ -1,0 +1,19 @@
+@startuml 111_ProvideStatusReport
+skinparam responseMessageBelowArrow true
+
+title RequestForStatusReportCausesReadingFromElasticSearch
+
+participant "external" as requestor
+participant "MWDI://provide-status-report" as data
+participant "ElasticSearch" as es
+
+requestor -> data: (apiKeyAuth)
+activate data
+
+data -> es
+es -> data: {statusData}
+
+data -> requestor: {statusData}
+deactivate data
+
+@enduml

@@ -271,6 +271,16 @@ profile-instances:
     configuration:
       integer-value: 50
 
+  - profile-name: 'IntegerProfile'
+    uuid: 'mwdi-2-1-1-integer-p-009'
+    capability:
+      integer-name: 'statusReportHours'
+      purpose: 'The number or recent hours for which status report data is kept.'
+      minimum: 0
+      maximum: 48
+    configuration:
+      integer-value: 24
+
   - profile-name: 'StringProfile'
     uuid: 'mwdi-2-2-0-string-p-000'
     capability:

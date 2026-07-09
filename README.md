@@ -35,6 +35,7 @@ The MWDI offers subscribing for ONF-TR-532-like notifications (webhook based met
 This release adds the following changes:
 - cache and live ressource paths for LLDP
 - cache and live ressource paths for Layer3VpnProfile
+- status report data gathering and new provisioning service */provide-status-report*
 
 For more details, see issue collection [MWDI v2.2.0_spec](https://github.com/openBackhaul/MicroWaveDeviceInventory/milestone/23).  
 

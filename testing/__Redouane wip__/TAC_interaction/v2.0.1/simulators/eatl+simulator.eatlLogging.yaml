@@ -1,0 +1,3076 @@
+﻿openapi: 3.0.0
+info:
+  title: ExecutionAndTraceLog.simulator.tacInteraction.eatlLogging
+  version: 2.1.2
+
+
+paths:
+########################################################################################################################
+#   Service Layer - Individual Part
+# EATL+simulator.tacInteraction.eatlLogging in static reference mode
+########################################################################################################################
+
+  /v1/list-records-of-flow:
+    parameters:
+      - $ref: '#/components/parameters/user'
+      - $ref: '#/components/parameters/originator'
+      - $ref: '#/components/parameters/x-correlator'
+      - $ref: '#/components/parameters/trace-indicator'
+      - $ref: '#/components/parameters/customer-journey'
+    post:
+      operationId: listRecordsOfFlow
+      summary: 'Provides list of service request records belonging to the same flow'
+      tags:
+        - IndividualServices
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - x-correlator
+                - latest-match
+                - number-of-records
+              properties:
+                x-correlator:
+                  type: string
+                latest-match:
+                  type: integer
+                  description: 'Youngest record, which is matching the filter criteria, to be returned.'
+                number-of-records:
+                  type: integer
+                  description: 'Maximum number of records to be returned.'
+              example:
+                x-correlator: '550e8400-e29b-11d4-a716-446655440000'
+                latest-match: 0
+                number-of-records: 100
+      responses:
+        '200':
+          description: 'List of service request records of the same flow provided'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/serviceRequestRecord'
+                  description: >
+                    'from elasticsearch filtered for {$request.body#x-correlator}'
+                example:
+                  - x-correlator: 'Eatldummy-invalid-getCachedControlConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedLogicalTerminationPoint-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedLtpAugment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedForwardingDomain-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/forwarding-domain=dummyUuid'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedForwardingConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/forwarding-domain=dummyUuid/fc=dummyUuid1'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedForwardingConstructPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAlarmCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/alarms-1-0:alarm-pac/alarm-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/alarms-1-0:alarm-pac/alarm-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedCurrentAlarms-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/alarms-1-0:alarm-pac/current-alarms'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAlarmEventRecords-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/alarms-1-0:alarm-pac/alarm-event-records'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/equipment=dummyUuid'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedConnector-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/equipment=dummyUuid/connector=dummyLocalId'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedContainedHolder-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/equipment=dummyUuid/contained-holder=dummyLocalId'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedExpectedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/equipment=dummyUuid/expected-equipment=dummyLocalId'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedActualEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/equipment=dummyUuid/actual-equipment'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedProfileCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedProfile-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedCoChannelProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPolicingProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPolicingProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedQosProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedQosProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedSchedulerProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedSchedulerProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredTemplateProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredTemplateProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/firmware-1-0:firmware-collection'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareComponentList-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareComponentCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareComponentStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=dummyMountName/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveControlConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveLogicalTerminationPoint-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveLtpAugment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveForwardingDomain-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/forwarding-domain=dummyUuid'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveForwardingConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/forwarding-domain=dummyUuid/fc=dummyUuid1'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveForwardingConstructPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/alarms-1-0:alarm-pac/alarm-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/alarms-1-0:alarm-pac/alarm-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveCurrentAlarms-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/alarms-1-0:alarm-pac/current-alarms'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmEventRecords-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/alarms-1-0:alarm-pac/alarm-event-records'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/equipment=dummyUuid'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveConnector-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/equipment=dummyUuid/connector=dummyLocalId'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveContainedHolder-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/equipment=dummyUuid/contained-holder=dummyLocalId'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveExpectedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/equipment=dummyUuid/expected-equipment=dummyLocalId'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveActualEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/equipment=dummyUuid/actual-equipment'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveProfileCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveProfile-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveCoChannelProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePolicingProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePolicingProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveQosProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveQosProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveSchedulerProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveSchedulerProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredTemplateProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredTemplateProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/firmware-1-0:firmware-collection'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareComponentList-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareComponentCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareComponentStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=dummyMountName/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status'
+                    response-code: 503
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedLink-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=dummyLinkId'
+                    response-code: 460
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedLinkPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=dummyLinkId/link-port=1'
+                    response-code: 460
+                    exec-time: 1100 
+                  - x-correlator: 'Eatldummy-valid-putLinkToCache-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=101550001'
+                    response-code: 204
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-putLinkPortToCache-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=101550001/link-port=1'
+                    response-code: 204
+                    exec-time: 1100 
+                  - x-correlator: 'Eatldummy-valid-deleteCachedLink-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=101550001'
+                    response-code: 204
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-deleteCachedLinkPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=101550001/link-port=1'
+                    response-code: 204
+                    exec-time: 1100 
+                  - x-correlator: 'Eatldummy-valid-getCachedLink-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=101550001'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedLinkPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/link=101550001/link-port=1'
+                    response-code: 200
+                    exec-time: 1100                
+                  - x-correlator: 'Eatldummy-valid-getCachedControlConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007'
+                    response-code: 200
+                    exec-time: 1100 
+                  - x-correlator: 'Eatldummy-valid-getCachedLogicalTerminationPoint-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedLtpAugment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedForwardingDomain-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/forwarding-domain=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedForwardingConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/forwarding-domain=dummyUuid/fc=dummyUuid1'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedForwardingConstructPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedAlarmCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/alarms-1-0:alarm-pac/alarm-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAlarmConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/alarms-1-0:alarm-pac/alarm-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedCurrentAlarms-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/alarms-1-0:alarm-pac/current-alarms'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedAlarmEventRecords-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/alarms-1-0:alarm-pac/alarm-event-records'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedEthernetContainerCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedEthernetContainerConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedEthernetContainerStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedEthernetContainerHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedPureEthernetStructureCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedPureEthernetStructureConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedPureEthernetStructureStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedPureEthernetStructureHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/equipment=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedConnector-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/equipment=dummyUuid/connector=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedContainedHolder-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/equipment=dummyUuid/contained-holder=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedExpectedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/equipment=dummyUuid/expected-equipment=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedActualEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/equipment=dummyUuid/actual-equipment'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedAirInterfaceCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedAirInterfaceConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedAirInterfaceStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedAirInterfaceHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedProfileCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedProfile-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedCoChannelProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedPolicingProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedPolicingProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedQosProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedQosProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedSchedulerProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedSchedulerProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedWredProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedWredProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedWredTemplateProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedWredTemplateProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedFirmwareCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/firmware-1-0:firmware-collection'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedFirmwareComponentList-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+
+                  - x-correlator: 'Eatldummy-valid-getCachedFirmwareComponentCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getCachedFirmwareComponentStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250007/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveControlConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveLogicalTerminationPoint-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveLtpAugment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveForwardingDomain-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/forwarding-domain=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveForwardingConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/forwarding-domain=dummyUuid/fc=dummyUuid1'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveForwardingConstructPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAlarmCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/alarms-1-0:alarm-pac/alarm-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAlarmConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/alarms-1-0:alarm-pac/alarm-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveCurrentAlarms-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/alarms-1-0:alarm-pac/current-alarms'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAlarmEventRecords-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/alarms-1-0:alarm-pac/alarm-event-records'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveEthernetContainerCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveEthernetContainerConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveEthernetContainerStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveEthernetContainerHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLivePureEthernetStructureCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLivePureEthernetStructureConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLivePureEthernetStructureStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLivePureEthernetStructureHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/equipment=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveConnector-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/equipment=dummyUuid/connector=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveContainedHolder-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/equipment=dummyUuid/contained-holder=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveExpectedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/equipment=dummyUuid/expected-equipment=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveActualEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/equipment=dummyUuid/actual-equipment'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAirInterfaceCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAirInterfaceConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAirInterfaceStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveAirInterfaceHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveProfileCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveProfile-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveCoChannelProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLivePolicingProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLivePolicingProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveQosProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveQosProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveSchedulerProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveSchedulerProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveWredProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveWredProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveWredTemplateProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveWredTemplateProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveFirmwareCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/firmware-1-0:firmware-collection'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveFirmwareComponentList-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveFirmwareComponentCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-valid-getLiveFirmwareComponentStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250007/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status'
+                    response-code: 200
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedControlConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedLogicalTerminationPoint-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedLtpAugment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedForwardingDomain-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/forwarding-domain=dummyUuid'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedForwardingConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedForwardingConstructPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAlarmCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/alarm-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/alarm-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedCurrentAlarms-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/current-alarms'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAlarmEventRecords-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/alarms-1-0:alarm-pac/alarm-event-records'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEthernetContainerHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPureEthernetStructureHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedConnector-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/connector=dummyLocalId'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedContainedHolder-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/contained-holder=dummyLocalId'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedExpectedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/expected-equipment=dummyLocalId'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedActualEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/equipment=dummyUuid/actual-equipment'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedAirInterfaceHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedProfileCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedProfile-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedCoChannelProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPolicingProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedPolicingProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedQosProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedQosProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedSchedulerProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedSchedulerProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredTemplateProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedWredTemplateProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareComponentList-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareComponentCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getCachedFirmwareComponentStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=cache/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status'
+                    response-code: 470
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveControlConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveLogicalTerminationPoint-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveLtpAugment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/ltp-augment-1-0:ltp-augment-pac'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveForwardingDomain-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/forwarding-domain=dummyUuid'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveForwardingConstruct-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveForwardingConstructPort-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/forwarding-domain=dummyUuid/fc=dummyUuid1/fc-port=dummyLocalId'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/alarm-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/alarm-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveCurrentAlarms-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/current-alarms'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAlarmEventRecords-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/alarms-1-0:alarm-pac/alarm-event-records'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-status'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEthernetContainerHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/ethernet-container-2-0:ethernet-container-pac/ethernet-container-historical-performances'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-status'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePureEthernetStructureHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/pure-ethernet-structure-2-0:pure-ethernet-structure-pac/pure-ethernet-structure-historical-performances'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveConnector-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/connector=dummyLocalId'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveContainedHolder-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/contained-holder=dummyLocalId'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveExpectedEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/expected-equipment=dummyLocalId'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveActualEquipment-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/equipment=dummyUuid/actual-equipment'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-status'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveAirInterfaceHistoricalPerformances-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/logical-termination-point=dummyUuid/layer-protocol=dummyLocalId/air-interface-2-0:air-interface-pac/air-interface-historical-performances'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveProfileCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveProfile-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveCoChannelProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/co-channel-profile-1-0:co-channel-profile-pac/co-channel-profile-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePolicingProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLivePolicingProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/policing-profile-1-0:policing-profile-pac/policing-profile-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveQosProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveQosProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/qos-profile-1-0:qos-profile-pac/qos-profile-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveSchedulerProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveSchedulerProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/scheduler-profile-1-0:scheduler-profile-pac/scheduler-profile-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-profile-1-0:wred-profile-pac/wred-profile-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredTemplateProfileCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveWredTemplateProfileConfiguration-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/profile-collection/profile=dummyUuid/wred-template-profile-1-0:wred-template-profile-pac/wred-template-profile-configuration'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareCollection-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareComponentList-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareComponentCapability-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-capability'
+                    response-code: 502
+                    exec-time: 1100
+                  - x-correlator: 'Eatldummy-invalid-getLiveFirmwareComponentStatus-0000-446655440000'
+                    trace-indicator: '1.1'
+                    user: 'UserName'
+                    originator: 'Postman'
+                    application-name: 'MicroWaveDeviceInventory'
+                    release-number: '1.2.1'
+                    operation-name: '/core-model-1-4:network-control-domain=live/control-construct=513250008/firmware-1-0:firmware-collection/firmware-component-list=dummyLocalId/firmware-component-pac/firmware-component-status'
+                    response-code: 502
+                    exec-time: 1100                         
+          headers:
+            x-correlator:
+              schema:
+                type: string
+                example: '550e8400-e29b-11d4-a716-446655440000'
+              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+            exec-time:
+              schema:
+                type: integer
+                example: 1100
+              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+            backend-time:
+              schema:
+                type: integer
+                example: 850
+              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+            life-cycle-state:
+              schema:
+                type: string
+                enum:
+                  - 'EXPERIMENTAL'
+                  - 'OPERATIONAL'
+                  - 'DEPRECATED'
+                  - 'OBSOLETE'
+                  - 'UNKNOWN'
+                  - 'NOT_YET_DEFINED'
+                example: 'EXPERIMENTAL'
+              description: >
+                  'Life cycle state of the consumed service
+                  find in [/core-model-1-4:control-construct/logical-termination-point=eatl-2-1-2-op-s-is-006/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+
+
+########################################################################################################################
+#   Common Components
+########################################################################################################################
+components:
+  parameters:
+    user:
+      name: user
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'User Name'
+      description: 'User identifier from the system starting the service call'
+    originator:
+      name: originator
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        example: 'Resolver'
+      description: >
+        'Identification for the system consuming the API, as defined in
+         [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+    x-correlator:
+      name: x-correlator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+        example: '550e8400-e29b-11d4-a716-446655440000'
+      description: 'UUID for the service execution flow that allows to correlate requests and responses'
+    trace-indicator:
+      name: trace-indicator
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: '^([0-9]+)(\.([0-9]+))*$'
+        example: '1.3.1'
+      description: 'Sequence of request numbers along the flow'
+    customer-journey:
+      name: customer-journey
+      in: header
+      required: true
+      schema:
+        type: string
+        example: 'Unknown value'
+      description: 'Holds information supporting customer’s journey to which the execution applies'
+  responses:
+    responseForErroredServiceRequests:
+      description: 'Response in case of errored service requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+      headers:
+        x-correlator:
+          schema:
+            type: string
+            pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+            example: '550e8400-e29b-11d4-a716-446655440000'
+          description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+        exec-time:
+          schema:
+            type: integer
+            example: 1100
+          description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+    responseForErroredOamRequests:
+      description: 'Response in case of errored OaM requests'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDescription'
+  schemas:
+    errorDescription:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    genericRepresentation:
+      type: object
+      required:
+        - response-value-list
+        - consequent-action-list
+      properties:
+        response-value-list:
+          type: array
+          items:
+            type: object
+            required:
+              - field-name
+              - value
+              - datatype
+            properties:
+              field-name:
+                type: string
+                description: >
+                  'Field name
+                  from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/field-name]'
+              value:
+                type: string
+                description: >
+                  'Field value
+                  from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-response-p-*/response-profile-1-0:response-profile-pac/response-profile-configuration/value]'
+              datatype:
+                type: string
+                description: >
+                  'Field datatype
+                  from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-response-p-*/response-profile-1-0:response-profile-pac/response-profile-capability/datatype]'
+        consequent-action-list:
+          type: array
+          items:
+            type: object
+            required:
+              - label
+              - request
+              - display-in-new-browser-window
+            properties:
+              label:
+                type: string
+                description: >
+                  'Label that shall be presented on the button
+                  from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/label]'
+              request:
+                type: string
+                description: >
+                  'Request that shall be called, when button gets pressed
+                  from
+                  [{/core-model-1-4:control-construct/logical-termination-point=eatl-2-1-2-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol}]
+                  ://
+                  [{/core-model-1-4:control-construct/logical-termination-point=eatl-2-1-2-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address}
+                  or
+                  {/core-model-1-4:control-construct/logical-termination-point=eatl-2-1-2-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/domain-name}]
+                  :
+                  [{/core-model-1-4:control-construct/logical-termination-point=eatl-2-1-2-tcp-s-000/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port}]
+                  [{/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-action-p-*/action-profile-1-0:action-profile-pac/action-profile-configuration/consequent-operation-reference}]'
+              input-value-list:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - field-name
+                  properties:
+                    field-name:
+                      type: string
+                      description: >
+                        'Name of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/name]'
+                    unit:
+                      type: string
+                      description: >
+                        'Unit of an input value required for executing the Request
+                        from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/input-value-list=*/unit]'
+              display-in-new-browser-window:
+                type: boolean
+                description: >
+                  'True in case Request shall be represented in a new browser window
+                  from [/core-model-1-4:control-construct/profile-collection/profile=eatl-2-1-2-action-p-*/action-profile-1-0:action-profile-pac/action-profile-capability/display-in-new-browser-window]'
+    logicalTerminationPoint:
+      type: object
+      required:
+        - uuid
+        - ltp-direction
+        - client-ltp
+        - server-ltp
+        - layer-protocol
+      properties:
+        uuid:
+          type: string
+        ltp-direction:
+          type: string
+        client-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        server-ltp:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        layer-protocol:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            oneOf:
+              - description: 'operation server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-server-interface-1-0:operation-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-server-interface-1-0:operation-server-interface-pac:
+                    type: object
+                    required:
+                      - operation-server-interface-capability
+                      - operation-server-interface-configuration
+                    properties:
+                      operation-server-interface-capability:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-server-interface-configuration:
+                        type: object
+                        required:
+                          - life-cycle-state
+                        properties:
+                          life-cycle-state:
+                            type: string
+              - description: 'http server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-server-interface-1-0:http-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-server-interface-1-0:http-server-interface-pac:
+                    type: object
+                    required:
+                      - http-server-interface-capability
+                    properties:
+                      http-server-interface-capability:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                          - data-update-period
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+                          data-update-period:
+                            type: string
+              - description: 'tcp server'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-server-interface-1-0:tcp-server-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-server-interface-1-0:tcp-server-interface-pac:
+                    type: object
+                    required:
+                      - tcp-server-interface-configuration
+                    properties:
+                      tcp-server-interface-configuration:
+                        type: object
+                        required:
+                          - description
+                          - local-protocol
+                          - local-address
+                          - local-port
+                        properties:
+                          description:
+                            type: string
+                          local-protocol:
+                            type: string
+                          local-address:
+                            type: object
+                            properties:
+                              ipv-4-address:
+                                type: string
+                              domain-name:
+                                type: string
+                          local-port:
+                            type: integer
+              - description: 'operation client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - operation-client-interface-1-0:operation-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  operation-client-interface-1-0:operation-client-interface-pac:
+                    type: object
+                    required:
+                      - operation-client-interface-configuration
+                      - operation-client-interface-status
+                    properties:
+                      operation-client-interface-configuration:
+                        type: object
+                        required:
+                          - operation-name
+                        properties:
+                          operation-name:
+                            type: string
+                      operation-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'elasticsearch client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  elasticsearch-client-interface-1-0:elasticsearch-client-interface-pac:
+                    type: object
+                    required:
+                      - elasticsearch-client-interface-configuration
+                      - elasticsearch-client-interface-status
+                    properties:
+                      elasticsearch-client-interface-configuration:
+                        type: object
+                        required:
+                          - index-alias
+                        properties:
+                          index-alias:
+                            type: string
+                      elasticsearch-client-interface-status:
+                        type: object
+                        required:
+                          - operational-state
+                          - life-cycle-state
+                        properties:
+                          operational-state:
+                            type: string
+                          life-cycle-state:
+                            type: string
+              - description: 'http client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - http-client-interface-1-0:http-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  http-client-interface-1-0:http-client-interface-pac:
+                    type: object
+                    required:
+                      - http-client-interface-configuration
+                    properties:
+                      http-client-interface-configuration:
+                        type: object
+                        required:
+                          - application-name
+                          - release-number
+                        properties:
+                          application-name:
+                            type: string
+                          release-number:
+                            type: string
+              - description: 'tcp client'
+                type: object
+                required:
+                  - local-id
+                  - layer-protocol-name
+                  - tcp-client-interface-1-0:tcp-client-interface-pac
+                properties:
+                  local-id:
+                    type: string
+                  layer-protocol-name:
+                    type: string
+                  tcp-client-interface-1-0:tcp-client-interface-pac:
+                    type: object
+                    required:
+                      - tcp-client-interface-configuration
+                    properties:
+                      tcp-client-interface-configuration:
+                        type: object
+                        required:
+                          - remote-protocol
+                          - remote-address
+                          - remote-port
+                        properties:
+                          remote-protocol:
+                            type: string
+                          remote-address:
+                            type: object
+                            properties:
+                              ip-address:
+                                type: object
+                                properties:
+                                  ipv-4-address:
+                                    type: string
+                              domain-name:
+                                type: string
+                          remote-port:
+                            type: integer
+    forwardingDomain:
+      type: object
+      required:
+        - uuid
+        - forwarding-construct
+      properties:
+        uuid:
+          type: string
+        forwarding-construct:
+          type: array
+          items:
+            type: object
+            required:
+              - uuid
+              - name
+              - fc-port
+            properties:
+              uuid:
+                type: string
+              name:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - value-name
+                    - value
+                  properties:
+                    value-name:
+                      type: string
+                    value:
+                      type: string
+              fc-port:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - port-direction
+                    - logical-termination-point
+                  properties:
+                    local-id:
+                      type: string
+                    port-direction:
+                      type: string
+                    logical-termination-point:
+                      type: string
+    serviceRequestRecord:
+      type: object
+      required:
+        - x-correlator
+        - trace-indicator
+        - user
+        - originator
+        - application-name
+        - release-number
+        - operation-name
+        - response-code
+        - timestamp
+      properties:
+        x-correlator:
+          type: string
+          pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+          description: 'UUID for the service execution flow that allows to correlate requests and responses'
+        trace-indicator:
+          type: string
+          pattern: '^([0-9]+)(\.([0-9]+))*$'
+          description: 'Sequence of request numbers along the flow'
+        user:
+          type: string
+          description: 'User identifier from the system starting the service call'
+        originator:
+          type: string
+          minLength: 3
+          description: 'ApplicationName on the client side'
+        application-name:
+          type: string
+          minLength: 3
+          description: 'ApplicationName on the server side'
+        release-number:
+          type: string
+          pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+          description: 'ReleaseNumber on the server side'
+        operation-name:
+          type: string
+          minLength: 6
+          description: 'Name of operation consumed on the server side'
+        response-code:
+          type: integer
+        timestamp:
+          type: string
+          description: 'Date and time when response was sent'
+        stringified-body:
+          type: string
+          description: 'Body of the request'
+        stringified-response:
+          type: string
+          description: 'Body of the response'
+        url:
+          type: string
+          description: 'Complete URL that has been unsuccessfully addressed by some client'
+        exec-time:
+          type: integer
+          description: 'Total elapsed time for executing the request by the server'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: operation-key
+    basicAuth:
+      type: http
+      scheme: basic

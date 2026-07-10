@@ -1,0 +1,70 @@
+@startuml mwdi+diagram.roRegistration
+skinparam responseMessageBelowArrow true
+
+title
+mwdi+testcase.roRegistration
+end title
+
+participant "Postman" as Postman
+participant "Data" as Data
+participant "Collection" as Collection
+
+' Preparation
+participant "MWDI://core-model-1-4:control-construct" as MWDI
+
+
+' RO Registration
+participant "RO://v1/list-applications" as RO
+participant "RO://v1/list-applications-in-generic-representation" as ROGeniricRepresentation
+
+group Preparation
+  Data --\\o Postman : {servers,x-correlator}
+  activate Postman
+  Collection --\\o Postman : {servers,x-correlator}
+  Postman -> MWDI : {servers,x-correlator} 
+
+  note right Postman
+  <u>GetApplicationInstance</>
+  get applicationName,releaseNumber,port and address...
+  end note
+
+  Postman <-- MWDI : 200
+
+  note right Postman
+  Two test cases are executed:
+  - Check the registryOffice registration
+  - Check the registryOffice registration in generic representation
+  end note
+
+end
+' ------------------------
+' RO Registration
+group RegistryOffice check
+
+ 
+ 
+
+  Postman -> RO : {requestBody == HTTP}
+ 
+  Postman <-- RO : 200
+
+  note right Postman #Orange
+  check if expected applicationInstance exists:
+    - application-name, application-release , port and address match
+  end note
+
+  Postman -> ROGeniricRepresentation 
+ 
+  Postman <-- ROGeniricRepresentation : 200
+
+  note right Postman #Orange
+  check if expected applicationInstance exists:
+    - application-name, application-release  match
+  end note
+  
+end
+
+
+
+deactivate Postman
+@enduml

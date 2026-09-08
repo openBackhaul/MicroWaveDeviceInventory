@@ -12526,82 +12526,82 @@ function ValidateResourcePath(input) {
  **/
 exports.regardDeviceAttributeValueChange = async function (body) {
   return withHeavyNotificationSlot(async () => {
-  try {
-    let objectKey = Object.keys(body)[0];
-    let currentJSON = body[objectKey];
-    let resource = currentJSON['object-path'];
-    let counter = currentJSON['counter'];
-    let attributeName = currentJSON['attribute-name'];
-    let jsonObj = "";
+    try {
+      let objectKey = Object.keys(body)[0];
+      let currentJSON = body[objectKey];
+      let resource = currentJSON['object-path'];
+      let counter = currentJSON['counter'];
+      let attributeName = currentJSON['attribute-name'];
+      let jsonObj = "";
 
-    if (ValidateResourcePath(resource)) {
-      return;
-    }
-    // url = decodeURIComponent(resource);
-
-    // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
-    console.log("*********Device attribute value change *********");
-    console.log("object-path : " + resource);
-    console.log("counter : " + counter);
-    console.log("attributeName : " + attributeName);
-    console.log("***************************************************");
-    const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
-    // Parse the URL
-    const parsedUrl = new URL(tempUrl);
-
-    // Construct the base URL
-    const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
-    const finalUrl = baseUrl + resource;
-    let originator = "MicroWaveDeviceInventory";
-    let requestHeader = new RequestHeader(undefined, originator)
-    let user = requestHeader.user;
-    let xCorrelator = requestHeader.xCorrelator;
-    let customerJourney = requestHeader.customerJourney;
-    let traceIndicator = requestHeader.traceIndicator;
-    let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
-    //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
-    console.log("*********Device attribute value change after retreiving info from the SDN controller*********");
-    console.log("object-path : " + resource);
-    console.log("counter : " + counter);
-    console.log("attributeName : " + attributeName);
-    console.log("***************************************************");
-    if (resRequestor == null) {
-      throw new createHttpError.NotFound;
-    } else if (resRequestor.status != 200) {
-      if (resRequestor.statusText == undefined) {
-        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
-        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
-      } else {
-        console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
-        throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+      if (ValidateResourcePath(resource)) {
+        return;
       }
-    } else if (!hasAttribute(resRequestor.data, attributeName)) {
-      console.log(finalUrl + " request failed because the resource specified in the request does not exist within the connected device");
-      throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
-    } else {
-      console.log(finalUrl + " is successful for device attribute notification change.");
-      let appInformation = proxy;
-      const releaseNumber = appInformation["release-number"];
-      let parts = releaseNumber.split(".");
-      const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
-      const newJson = {};
-      newJson[applicationName] = {
-        "counter": counter,
-        "timestamp": currentJSON.timestamp,
-        "attribute-name": currentJSON["attribute-name"],
-        "new-value": currentJSON["new-value"]
-      };
-      await notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
+      // url = decodeURIComponent(resource);
 
-      //update meta-data for update of device attribute change data into CC -- partial update
-      let mountname = decodeMountName(resource, false);
-      let timeStamp = currentJSON['timestamp'];
-      await deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+      // const appNameAndUuidFromForwarding = await NotifiedDeviceAttributeValueChangeCausesUpdateOfCache(counter)
+      console.log("*********Device attribute value change *********");
+      console.log("object-path : " + resource);
+      console.log("counter : " + counter);
+      console.log("attributeName : " + attributeName);
+      console.log("***************************************************");
+      const tempUrl = decodeURIComponent(notify[0].finalTcpAddr);
+      // Parse the URL
+      const parsedUrl = new URL(tempUrl);
+
+      // Construct the base URL
+      const baseUrl = `${parsedUrl.protocol}//${parsedUrl.host}`;
+      const finalUrl = baseUrl + resource;
+      let originator = "MicroWaveDeviceInventory";
+      let requestHeader = new RequestHeader(undefined, originator)
+      let user = requestHeader.user;
+      let xCorrelator = requestHeader.xCorrelator;
+      let customerJourney = requestHeader.customerJourney;
+      let traceIndicator = requestHeader.traceIndicator;
+      let resRequestor = await sentDataToRequestor(body, user, originator, xCorrelator, traceIndicator, customerJourney, finalUrl, notify[0].key);
+      //const res = await RestClient.dispatchEvent(finalUrl, 'GET', '', appNameAndUuidFromForwarding[0].key)
+      console.log("*********Device attribute value change after retreiving info from the SDN controller*********");
+      console.log("object-path : " + resource);
+      console.log("counter : " + counter);
+      console.log("attributeName : " + attributeName);
+      console.log("***************************************************");
+      if (resRequestor == null) {
+        throw new createHttpError.NotFound;
+      } else if (resRequestor.status != 200) {
+        if (resRequestor.statusText == undefined) {
+          console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+        } else {
+          console.log(finalUrl + " request failed due to Bad Gateway. Upstream server not responding.");
+          throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
+        }
+      } else if (!hasAttribute(resRequestor.data, attributeName)) {
+        console.log(finalUrl + " request failed because the resource specified in the request does not exist within the connected device");
+        throw new createHttpError(470, "resource specified in the request does not exist within the connected device");
+      } else {
+        console.log(finalUrl + " is successful for device attribute notification change.");
+        let appInformation = proxy;
+        const releaseNumber = appInformation["release-number"];
+        let parts = releaseNumber.split(".");
+        const applicationName = appInformation["application-name"] + "-" + parts[0] + "-" + parts[1] + ":attribute-value-changed-notification";
+        const newJson = {};
+        newJson[applicationName] = {
+          "counter": counter,
+          "timestamp": currentJSON.timestamp,
+          "attribute-name": currentJSON["attribute-name"],
+          "new-value": currentJSON["new-value"]
+        };
+        await notifyAllDeviceSubscribers("/v1/notify-attribute-value-changes", newJson);
+
+        //update meta-data for update of device attribute change data into CC -- partial update
+        let mountname = decodeMountName(resource, false);
+        let timeStamp = currentJSON['timestamp'];
+        await deviceMetadataCacheUpdate.updateMDForPartialCCUpdate(mountname, timeStamp);
+      }
+    } catch (error) {
+      logger.error(error);
+      return (error);
     }
-  } catch (error) {
-    logger.error(error);
-    return (error);
-  }
   });
 }
 
@@ -13854,23 +13854,27 @@ async function deleteRequest(cc) {
  **/
 async function ReadRecords(cc) {
   try {
-    let size = 100;
-    let from = 0;
-    let query = {
-
-      term: {
-        _id: cc
-      }
-
-    };
+    // let query = {
+    //   term: {
+    //     _id: cc
+    //   }
+    // };
     let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      body: {
-        query: query
-      }
+    // let client = await common[1].EsClient;
+    let client = common[1].EsClient;
+
+    const result = await client.get({
+      index: indexAlias, //"my-index-000001",
+      id: cc // mountname
     });
+
+    // old query, using get instead search
+    // const result = await client.search({
+    //   index: indexAlias,
+    //   body: {
+    //     query: query
+    //   }
+    // });
     const resultArray = createResultArray(result);
     return (resultArray[0])
   } catch (error) {

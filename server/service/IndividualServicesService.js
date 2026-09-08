@@ -13847,42 +13847,107 @@ async function deleteRequest(cc) {
 }
 
 // Function to modify UUID to mountName+UUID
+// TODO @latta-techm To be check with unit tests
 function modifyUUID(obj, mountName) {
   try {
-    for (const key in obj) {
-      if (typeof obj[key] === 'object') {
-        // if the value is an object, recall the function recursively
-        modifyUUID(obj[key], mountName);
-      } else if (key === 'uuid' || key === 'local-id') {
-        obj[key] = mountName + "+" + obj[key];
-      }
-    }
-  } catch (error) {
-    logger.error(error);
-  }
-}
+    const stack = [obj];
+    const prefix = `${mountName}+`;
 
-// function to convert the response from String1+String2 to String1
-function modifyReturnJson(obj) {
-  try {
-    for (const key in obj) {
-      if (Array.isArray(obj[key])) {
-        obj[key].forEach(item => {
-          modifyReturnJson(item);
-        });
-      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        modifyReturnJson(obj[key]);
-      } else {
-        if (key === 'uuid' || key === 'local-id') {
-          const parts = obj[key].split('+');
-          obj[key] = parts[1];
+    while (stack.length > 0) {
+      const current = stack.pop();
+
+      if (current === null || typeof current !== 'object') {
+        continue;
+      }
+
+      for (const [key, value] of Object.entries(current)) {
+
+        if ((key === 'uuid' || key === 'local-id') &&
+            typeof value === 'string') {
+
+          if (!value.startsWith(prefix)) {
+            current[key] = `${prefix}${value}`;
+          }
+
+        } else if (value !== null && typeof value === 'object') {
+          stack.push(value);
         }
       }
     }
+
   } catch (error) {
-    logger.error(error);
+    logger.error(`modifyUUID failed: ${error.message}`);
   }
 }
+// function modifyUUID(obj, mountName) {
+//   try {
+//     for (const key in obj) {
+//       if (typeof obj[key] === 'object') {
+//         // if the value is an object, recall the function recursively
+//         modifyUUID(obj[key], mountName);
+//       } else if (key === 'uuid' || key === 'local-id') {
+//         obj[key] = mountName + "+" + obj[key];
+//       }
+//     }
+//   } catch (error) {
+//     logger.error(error);
+//   }
+// }
+
+// function to convert the response from String1+String2 to String1
+// TODO @latta-techm To be check with some testcases
+function modifyReturnJson(obj) {
+  try {
+    const stack = [obj];
+
+    while (stack.length > 0) {
+      const current = stack.pop();
+
+      if (current === null || typeof current !== 'object') {
+        continue;
+      }
+
+      for (const [key, value] of Object.entries(current)) {
+
+        if ((key === 'uuid' || key === 'local-id') &&
+            typeof value === 'string') {
+
+          const parts = value.split('+');
+
+          if (parts.length > 1) {
+            current[key] = parts[1];
+          }
+
+        } else if (value !== null && typeof value === 'object') {
+          stack.push(value);
+        }
+      }
+    }
+
+  } catch (error) {
+    logger.error(`modifyReturnJson failed: ${error.message}`);
+  }
+}
+// function modifyReturnJson(obj) {
+//   try {
+//     for (const key in obj) {
+//       if (Array.isArray(obj[key])) {
+//         obj[key].forEach(item => {
+//           modifyReturnJson(item);
+//         });
+//       } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+//         modifyReturnJson(obj[key]);
+//       } else {
+//         if (key === 'uuid' || key === 'local-id') {
+//           const parts = obj[key].split('+');
+//           obj[key] = parts[1];
+//         }
+//       }
+//     }
+//   } catch (error) {
+//     logger.error(error);
+//   }
+// }
 
 function modifyUrlConcatenateMountNamePlusUuid(url, mountname) {
   try {
@@ -14277,31 +14342,52 @@ async function checkMountNameInDeviceList(mountName) {
   return list.some(device => device['node-id'] === mountName);
 }
 
+// TODO @latta-techm To be check with some testcases
 function hasAttribute(json, attributeName) {
-  if (typeof json === 'object' && json !== null) {
-    // Check if the attribute is at this level
-    if (Object.hasOwnProperty.bind(json)(attributeName)) {
+  const stack = [json];
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    if (current === null || typeof current !== 'object') {
+      continue;
+    }
+
+    if (Object.hasOwn(current, attributeName)) {
       return true;
     }
-    // Otherwise loop in the object properties
-    for (let key in json) {
-      if (Object.hasOwnProperty.bind(json)(key)) {
-        if (hasAttribute(json[key], attributeName)) {
-          return true;
-        }
-      }
-    }
+
+    stack.push(...Object.values(current));
   }
-  // if json is an array, loop over the elements
-  if (Array.isArray(json)) {
-    for (let item of json) {
-      if (hasAttribute(item, attributeName)) {
-        return true;
-      }
-    }
-  }
+
   return false;
 }
+
+// function hasAttribute(json, attributeName) {
+//   if (typeof json === 'object' && json !== null) {
+//     // Check if the attribute is at this level
+//     if (Object.hasOwnProperty.bind(json)(attributeName)) {
+//       return true;
+//     }
+//     // Otherwise loop in the object properties
+//     for (let key in json) {
+//       if (Object.hasOwnProperty.bind(json)(key)) {
+//         if (hasAttribute(json[key], attributeName)) {
+//           return true;
+//         }
+//       }
+//     }
+//   }
+//   // if json is an array, loop over the elements
+//   if (Array.isArray(json)) {
+//     for (let item of json) {
+//       if (hasAttribute(item, attributeName)) {
+//         return true;
+//       }
+//     }
+//   }
+//   return false;
+// }
 
 function decodeURIWithCheck(encodedUri) {
   // Verify if URI contains "%25"

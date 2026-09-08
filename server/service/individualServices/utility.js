@@ -82,26 +82,19 @@ exports.getMappingListForRegexProfile = async function (expectedMappingName) {
  **/
 exports.ReadRecords = async function (cc) {
   try {
-    // let query = {
-    //   term: {
-    //     _id: cc
-    //   }
-    // };
     let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
+    let client = common[1].EsClient;
 
     const result = await client.get({
       index: indexAlias, //"my-index-000001",
       id: cc // mountname
     });
-    // const result = await client.search({
-    //   index: indexAlias,
-    //   body: {
-    //     query: query
-    //   }
-    // });
-    const resultArray = createResultArray(result);
-    return (resultArray[0])
+
+    const src = result?.body?._source;
+    if (!src) {
+      return undefined;
+    }
+    return src;
   } catch (error) {
     console.error(error);
     throw (error);

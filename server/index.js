@@ -17,24 +17,34 @@ const logger = require('./service/LoggingService.js').getLogger();
 
 // uncomment if you do not want to validate security e.g. operation-key, basic auth, etc
 // appCommons.openApiValidatorOptions.validateSecurity = false;
-appCommons.openApiValidatorOptions.validateResponses = false;
-if (process.env.DEBUG && process.env.DEBUG.toLowerCase() === "true") {
-    logger.warn("Working in debug mode");
-    logger.warn("Checking validation")
-    // appCommons.openApiValidatorOptions.validateSecurity = false;
-    // appCommons.openApiValidatorOptions.validateResponses = false;
-    // appCommons.openApiValidatorOptions.validateRequests = false;
-    logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
-    logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
-    logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);
+if (process.env.VALIDATE_SECURITY &&
+  process.env.VALIDATE_SECURITY.toLowerCase() === "false") {
+  logger.warn("Disabling Security validation");
+  appCommons.openApiValidatorOptions.validateSecurity = false;
 }
+
+if (process.env.VALIDATE_REQUESTS &&
+  process.env.VALIDATE_REQUESTS.toLowerCase() === "false") {
+  logger.warn("Disabling Requests validation");
+  appCommons.openApiValidatorOptions.validateRequests = false;
+}
+
+if (process.env.VALIDATE_RESPONSES &&
+  process.env.VALIDATE_RESPONSES.toLowerCase() === "false") {
+  logger.warn("Disabling Responses validation");
+  appCommons.openApiValidatorOptions.validateResponses = false;
+}
+
+logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
+logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
+logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);
 
 // swaggerRouter configuration
 var options = {
-    routing: {
-        controllers: path.join(__dirname, './controllers')
-    },
-    openApiValidator: appCommons.openApiValidatorOptions
+  routing: {
+    controllers: path.join(__dirname, './controllers')
+  },
+  openApiValidator: appCommons.openApiValidatorOptions
 };
 
 var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
@@ -50,28 +60,28 @@ appCommons.setupExpressApp(app);
 global.databasePath = './database/config.json';
 
 (async () => {
-    try {
-        // Step 1: Prepare Elasticsearch (first)
-        await prepareElasticsearch(false);
-        logger.info("Elasticsearch prepared successfully.");
+  try {
+    // Step 1: Prepare Elasticsearch (first)
+    await prepareElasticsearch(false);
+    logger.info("Elasticsearch prepared successfully.");
 
-        // Step 2: Initialize global variables (after ES is ready)
-        global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
-        global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
-        global.proxy = await notificationManagement.getAppInformation();
+    // Step 2: Initialize global variables (after ES is ready)
+    global.common = await individual.resolveApplicationNameAndHttpClientLtpUuidFromForwardingName();
+    global.notify = await individual.NotifiedDeviceAlarmCausesUpdatingTheEntryInCurrentAlarmListOfCache();
+    global.proxy = await notificationManagement.getAppInformation();
 
-        // Step 3: Start HTTP server (after all init)
-        http.createServer(app).listen(serverPort, function () {
-            logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-            logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
-        });
+    // Step 3: Start HTTP server (after all init)
+    http.createServer(app).listen(serverPort, function () {
+      logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+      logger.info('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+    });
 
-        // Step 4: Register application
-        appCommons.performApplicationRegistration();
-    } catch (err) {
-        logger.error(`Startup failed: ${err.stack || err}`);
-        process.exit(1);
-    }
+    // Step 4: Register application
+    appCommons.performApplicationRegistration();
+  } catch (err) {
+    logger.error(`Startup failed: ${err.stack || err}`);
+    process.exit(1);
+  }
 })();
 
 global.applicationDataPath = './application-data/';

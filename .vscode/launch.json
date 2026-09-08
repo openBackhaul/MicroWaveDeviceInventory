@@ -15,9 +15,13 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\server\\index.js",
+            "cwd": "${workspaceFolder}/server",
+            "program": "${workspaceFolder}/server/index.js",
             "env": {
-                "DEBUG": "true",
+                "VALIDATE_SECURITY": "false",
+                "VALIDATE_REQUESTS": "true",
+                "VALIDATE_RESPONSES": "false",
+                "SERVER_PORT": "4024"
             }
         }
     ]

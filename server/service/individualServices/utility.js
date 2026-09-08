@@ -3,6 +3,8 @@ const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
+const logger = require('../LoggingService.js').getLogger();
+
 /**
  * This function returns the string-value object for given string-name
  * 
@@ -96,7 +98,7 @@ exports.ReadRecords = async function (cc) {
     }
     return src;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw (error);
   }
 }
@@ -170,7 +172,7 @@ exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false
       return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
   return {};
 }
@@ -186,7 +188,7 @@ exports.getTime = function () {
   return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
 
-exports.arraysHaveSameElements = async function (array1, array2) {
+exports.arraysHaveSameElements = function (array1, array2) {
   try {
     if (array1.length !== array2.length) {
       return false;
@@ -196,7 +198,6 @@ exports.arraysHaveSameElements = async function (array1, array2) {
     for (const element of array1) {
       frequencyMap[element] = (frequencyMap[element] || 0) + 1;
     }
-
 
     for (const element of array2) {
       if (!(element in frequencyMap)) {
@@ -210,7 +211,7 @@ exports.arraysHaveSameElements = async function (array1, array2) {
 
     return Object.keys(frequencyMap).length === 0;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 
 }
@@ -220,14 +221,15 @@ exports.arraysHaveSameElements = async function (array1, array2) {
  */
 exports.calculateTimeInMilliSeconds = function (value, unit) {
   let timeInMilliseconds = 0;
+  const cleanUnit = unit.toLowerCase();
   try {
-    if (unit.includes("day")) {
+    if (cleanUnit.includes("day")) {
       timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
-    } else if (unit.includes("hour")) {
+    } else if (cleanUnit.includes("hour")) {
       timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
-    }else if (unit.includes("minute")) {
+    }else if (cleanUnit.includes("minute")) {
       timeInMilliseconds = parseInt(value) * 60 * 1000;
-    } else if (unit.includes("second")) {
+    } else if (cleanUnit.includes("second")) {
       timeInMilliseconds = parseInt(value) * 1000;
     } else {
       timeInMilliseconds = value;
@@ -235,7 +237,7 @@ exports.calculateTimeInMilliSeconds = function (value, unit) {
 
     return timeInMilliseconds;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return 0;
   }
 }
@@ -269,7 +271,7 @@ exports.ReadIdsFromEs = async function () {
   } */
   try {
     const indexAlias = common[1].indexAlias;
-    const client = await common[1].EsClient;
+    const client = common[1].EsClient;
 
     const ids = [];
     const batchSize = 2000;  // tune 1000–5000
@@ -315,7 +317,7 @@ exports.ReadIdsFromEs = async function () {
 
     return ids;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw error;
   }
 }
@@ -338,8 +340,10 @@ exports.getStringNameForUuidAsync = async function (uuid) {
         break;
       }
     }
+
     return stringName;
   } catch (error) {
+    logger.error(error);
     throw error;
   }
 }

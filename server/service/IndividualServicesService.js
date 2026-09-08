@@ -28,6 +28,7 @@ const createHttpError = require('http-errors');
 const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility');
 const deviceMetadataUtility = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/deviceMetaDataUtility');
 const utility = require('./individualServices/utility');
+const { readRecords, recordRequest, deleteRequest } = require('./individualServices/ElasticSearchUtility');
 const deviceMetadataCacheUpdate = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataCacheUpdate')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
@@ -131,10 +132,10 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       }
 
       logger.info("deleteCachedLink - Read from ELK: " + correctLink);
-      let result = await utility.ReadRecords(correctLink);
+      let result = await readRecords(correctLink);
       if (result != undefined) {
         let ret = await deleteRequest(correctLink);
-        let listLink = await utility.ReadRecords("linkList");
+        let listLink = await readRecords("linkList");
         if (listLink.LinkList.includes(correctLink)) {
           let indexToRemove = listLink.LinkList.indexOf(correctLink);
           listLink.LinkList.splice(indexToRemove, 1);
@@ -142,7 +143,7 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
         }
         resolve();
       } else {
-        let listLink = await utility.ReadRecords("linkList");
+        let listLink = await readRecords("linkList");
         if (listLink != undefined) {
           if (listLink.LinkList.includes(correctLink)) {
             let indexToRemove = listLink.LinkList.indexOf(correctLink);
@@ -192,7 +193,7 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
         throw new createHttpError("400", "Fields must not contain special chars");
       }
 
-      let result = await utility.ReadRecords(correctLink);
+      let result = await readRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
         if (result[objectKey][0] && Array.isArray(result[objectKey][0]["link-port"])) {
@@ -258,7 +259,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Actual Equipment - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -339,7 +340,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -420,7 +421,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -501,7 +502,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Historical Performance - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -582,7 +583,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -661,7 +662,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
@@ -740,7 +741,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
@@ -820,7 +821,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Event Records - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -900,7 +901,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Co Channel Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -985,7 +986,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Co Channel Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1065,7 +1066,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Connector - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1146,7 +1147,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Container Holder - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1225,7 +1226,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1311,7 +1312,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
@@ -1392,7 +1393,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Equipment - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1473,7 +1474,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1554,7 +1555,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1635,7 +1636,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1716,7 +1717,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1797,7 +1798,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1876,7 +1877,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -1956,7 +1957,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2036,7 +2037,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2115,7 +2116,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2195,7 +2196,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2277,7 +2278,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2357,7 +2358,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2438,7 +2439,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2519,7 +2520,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2600,7 +2601,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Historical Performances - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2681,7 +2682,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2745,7 +2746,7 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       }
 
       logger.info("getCachedLink - Read from ELK: " + correctLink);
-      let result = await utility.ReadRecords(correctLink);
+      let result = await readRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
         if (objectKey.indexOf("link") != -1) {
@@ -2798,7 +2799,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       }
 
       logger.info("getCachedLinkPort - Read from ELK: " + correctLink);
-      let result = await utility.ReadRecords(correctLink);
+      let result = await readRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
         if (objectKey.indexOf("link") != -1) {
@@ -2873,7 +2874,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -2952,7 +2953,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3034,7 +3035,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3115,7 +3116,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3196,7 +3197,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3276,7 +3277,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Policing Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3356,7 +3357,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Policing Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3436,7 +3437,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Profile - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3515,7 +3516,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Profile Collection - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3595,7 +3596,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3676,7 +3677,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3757,7 +3758,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Historical Performances - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3838,7 +3839,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3918,7 +3919,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -3998,7 +3999,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4078,7 +4079,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4158,7 +4159,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4239,7 +4240,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("VLAN Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4320,7 +4321,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("VLAN Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4401,7 +4402,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4482,7 +4483,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4563,7 +4564,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Historical Performances - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4644,7 +4645,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Status - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4724,7 +4725,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wired Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4804,7 +4805,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wired Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await utility.ReadRecords(correctMountname);
+      let result = await readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
@@ -4975,7 +4976,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5072,7 +5073,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5169,7 +5170,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5341,7 +5342,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5437,7 +5438,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5532,7 +5533,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5627,7 +5628,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5721,7 +5722,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5816,7 +5817,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -5911,7 +5912,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6007,7 +6008,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6102,7 +6103,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6221,7 +6222,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               try {
                 // read from ES
-                let result1 = await utility.ReadRecords(correctCc);
+                let result1 = await readRecords(correctCc);
                 let ccFromLive = jsonObj;
                 ccFromLive['last-complete-control-construct-update-time'] = new Date().toJSON();
                 // Update json object
@@ -6335,7 +6336,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6429,7 +6430,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6525,7 +6526,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6621,7 +6622,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6790,7 +6791,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6885,7 +6886,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -6980,7 +6981,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7073,7 +7074,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7167,7 +7168,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7261,7 +7262,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7355,7 +7356,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7449,7 +7450,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7545,7 +7546,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7639,7 +7640,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7733,7 +7734,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7828,7 +7829,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -7997,7 +7998,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8092,7 +8093,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8184,7 +8185,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Log what we actually pass
               logger.info("[MWDI] cacheUpdateBuilder inputs:", {
                 correctCc,
@@ -8292,7 +8293,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8387,7 +8388,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8482,7 +8483,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8577,7 +8578,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8671,7 +8672,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8765,7 +8766,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -8984,7 +8985,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9079,7 +9080,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9174,7 +9175,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9343,7 +9344,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9438,7 +9439,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9532,7 +9533,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9626,7 +9627,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9720,7 +9721,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9813,7 +9814,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -9908,7 +9909,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10004,7 +10005,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10099,7 +10100,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10195,7 +10196,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10366,7 +10367,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10462,7 +10463,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10556,7 +10557,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10650,7 +10651,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await utility.ReadRecords(correctCc);
+              let result = await readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
@@ -10896,7 +10897,7 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
   return new Promise(async function (resolve, reject) {
     try {
       let aggregatedResponse = [];
-      let cacheQualityStatistics = await utility.ReadRecords("cache-quality-statistics");
+      let cacheQualityStatistics = await readRecords("cache-quality-statistics");
       if (cacheQualityStatistics != undefined) {
         let qualityMeasurementSampleNumber = await getQualityMeasurementSampleNumber();
         //if (cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber) {
@@ -10987,12 +10988,12 @@ exports.provideDataOfLinkPorts = function (user, originator, xCorrelator, traceI
   return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
-      let linkListRecord = await utility.ReadRecords("linkList");
+      let linkListRecord = await readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await utility.ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) {
@@ -11036,13 +11037,13 @@ exports.provideDataOfLinks = function (body, user, originator, xCorrelator, trac
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
-      let linkListRecord = await utility.ReadRecords("linkList");
+      let linkListRecord = await readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await utility.ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
@@ -11137,7 +11138,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
       let returnObject = {};
       let parts = finalUrl.split("?fields=");
       let myFields = parts[1];
-      let result = await utility.ReadRecords(mountName);
+      let result = await readRecords(mountName);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
@@ -11291,7 +11292,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
       let toChangeObject = {};
       let parts = finalUrl.split("?fields=");
       let myFields = parts[1];
-      let result = await utility.ReadRecords(mountName);
+      let result = await readRecords(mountName);
       if (result != undefined) {
         let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
@@ -11345,12 +11346,12 @@ exports.provideListOfLinkPorts = function (user, originator, xCorrelator, traceI
   return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
-      let linkListRecord = await utility.ReadRecords("linkList");
+      let linkListRecord = await readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await utility.ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             let linkRecord = {};
@@ -11394,13 +11395,13 @@ exports.provideListOfLinks = function (body, user, originator, xCorrelator, trac
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
-      let linkListRecord = await utility.ReadRecords("linkList");
+      let linkListRecord = await readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await utility.ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
@@ -11444,7 +11445,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         throw new createHttpError.BadRequest("Link-id must not be empty");
       }
       let parallelLink = [linkId];
-      let linkToCompare = await utility.ReadRecords(linkId);
+      let linkToCompare = await readRecords(linkId);
       if (linkToCompare == undefined) {
         throw new createHttpError(461, `Not available. The topology (parent) object is currently not found in the cache.`);
       }
@@ -11452,10 +11453,10 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         index = 1;
       }
       const controlConstructList = linkToCompare[CORE_MODEL][index][END_POINT_LIST].map(endpoint => endpoint[CTR_CONST]);
-      let result = await utility.ReadRecords("linkList");
+      let result = await readRecords("linkList");
       for (var link of result.LinkList) {
         if (link != linkId) {
-          let resLink = await utility.ReadRecords(link);
+          let resLink = await readRecords(link);
           try {
             if (!resLink[CORE_MODEL][0][END_POINT_LIST]) {
               index1 = 1;
@@ -11517,8 +11518,8 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
         throw new createHttpError("400", "Fields must not contain special chars");
       }
 
-      let value = await utility.ReadRecords(correctLink);
-      let result = await utility.ReadRecords("linkList");
+      let value = await readRecords(correctLink);
+      let result = await readRecords("linkList");
       if (value != undefined) {
         let objectKey = Object.keys(body)[0];
         let valueObjKey = Object.keys(value)[0];
@@ -11582,7 +11583,7 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       let elapsedTime = await recordRequest(body, correctLink);
 
       logger.info("putLinkToCache - Read from ELK: " + correctLink);
-      let result = await utility.ReadRecords("linkList");
+      let result = await readRecords("linkList");
       if (result == undefined) {
         logger.warn("link list in Elasticsearch not found");
         const myObject = { LinkList: [] };
@@ -12493,30 +12494,7 @@ const messages = [
 } */
 
 
-async function ReadRecordsMountName(cc) {
-  try {
-    const indexAlias = common[1].indexAlias;
-    const client = await common[1].EsClient;
 
-    const start = Date.now();
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Reading ES record`);
-
-    const result = await client.get({ index: indexAlias, id: cc });
-
-    const duration = (Date.now() - start) / 1000;
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES read in ${duration}s`);
-
-    const src = result?.body?._source;
-    if (!src) {
-      return undefined;
-    }
-    return src;
-  } catch (error) {
-    //logAlarmNotificationUpdate(`[READ-ERROR] Error reading ES for Mountname=${cc} - ${error.message}`);
-    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
-    return undefined;
-  }
-}
 
 function ValidateResourcePath(input) {
   const regex = /^\/core-model-1-4:network-control-domain=live\/control-construct=[A-Za-z0-9]+$/;
@@ -12726,7 +12704,7 @@ exports.regardDeviceObjectDeletion = function (body) {
       const match = resource.match(/control-construct=(\w+)/);
       const controlConstruct = match ? match[1] : null;
       // read from ES
-      let result = await utility.ReadRecords(controlConstruct);
+      let result = await readRecords(controlConstruct);
       if (result == undefined) {
         throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       }
@@ -12801,7 +12779,7 @@ exports.writeDeviceListToElasticsearch = function (deviceList) {
 exports.readDeviceListFromElasticsearch = function () {  // TODO @latta be check
   return new Promise(async function (resolve, reject) {
     try {
-      let result = await utility.ReadRecords("DeviceList");
+      let result = await readRecords("DeviceList");
       if (result == undefined) {
         reject("Device list in Elasticsearch not found");
       } else {
@@ -13752,106 +13730,6 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
   }
 }
 
-/**
- * Records a request
- *
- * body controlconstruct 
- * no response value expected for this operation
- **/
-async function recordRequest(body, cc) {
-  let pipelineExists = false;
-  let client = await common[1].EsClient;
-  try {
-    // Check if the pipeline exists
-    await client.ingest.getPipeline({ id: 'mwdi' });
-    pipelineExists = true;
-  } catch (error) {
-    if (error.statusCode === 404) {
-      // Pipeline does not exist
-      logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-      //logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
-    } else {
-      // Other errors
-      logger.error(error, "An error occurred while checking the pipeline:");
-      //logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
-      throw error; // Re-throw the error if it's not a 404
-    }
-  }
-
-  try {
-    let indexAlias = common[1].indexAlias
-    let startTime = process.hrtime();
-
-    let indexParams = {
-      index: indexAlias,
-      id: cc,
-      body: body,
-    };
-
-    if (pipelineExists) {
-      indexParams.pipeline = 'mwdi';
-    }
-
-    const start = Date.now();
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Writing to ES`);
-
-    let result = await client.index(indexParams);
-    let backendTime = process.hrtime(startTime);
-
-    const duration = (Date.now() - start) / 1000;
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
-
-
-    if (result == undefined || result.body == undefined) {
-      logger.warn("result is undefined, ELK not updated")
-      //logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
-      //return { "took": -1, ok: false, retry: true };
-      return { ok: false, retry: true, reason: "empty_response", "took": -1 };
-    }
-
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      logger.debug(`ELK - Result is: ${result.body.result}`);
-      //logAlarmNotificationUpdate(`ELK - Result is: ${result.body.result} for ${cc}`);
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000, ok: true, retry: false };
-    } else {
-      logger.warn(`ELK - result is: ${result.body.result}`);
-      //logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);
-      return { "took": -1, ok: false, retry: true, reason: `unexpected_result_${result.body.result}` };
-    }
-  } catch (error) {
-    //logAlarmNotificationUpdate(`[WRITE-ERROR] Mountname=${cc} - ${error.message}`);
-    logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
-    //logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
-    logger.trace(error);
-    //logAlarmNotificationUpdate(`Error for ${cc}: ${error}`);
-    return { ok: false, retry: true, error: error.message, reason:error.message };
-  }
-}
-
-/**
- * delete a request
- *
- * body controlconstruct 
- * no response value expected for this operation
- **/
-async function deleteRequest(cc) {
-  try {
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    let startTime = process.hrtime();
-    let result = await client.delete({
-      id: cc,
-      index: indexAlias
-    });
-    let backendTime = process.hrtime(startTime);
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
-    }
-  } catch (error) {
-    logger.error(error);
-  }
-}
-
 // Function to modify UUID to mountName+UUID
 // TODO @latta-techm To be check with unit tests
 function modifyUUID(obj, mountName) {
@@ -14334,7 +14212,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
-              let result1 = await utility.ReadRecords(correctCc);
+              let result1 = await readRecords(correctCc);
               let ccFromLive = jsonObj;
               ccFromLive['last-complete-control-construct-update-time'] = new Date().toJSON();
               // Update json object

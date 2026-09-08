@@ -82,23 +82,24 @@ exports.getMappingListForRegexProfile = async function (expectedMappingName) {
  **/
 exports.ReadRecords = async function (cc) {
   try {
-    let size = 100;
-    let from = 0;
-    let query = {
-
-      term: {
-        _id: cc
-      }
-
-    };
+    // let query = {
+    //   term: {
+    //     _id: cc
+    //   }
+    // };
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      body: {
-        query: query
-      }
+
+    const result = await client.get({
+      index: indexAlias, //"my-index-000001",
+      id: cc // mountname
     });
+    // const result = await client.search({
+    //   index: indexAlias,
+    //   body: {
+    //     query: query
+    //   }
+    // });
     const resultArray = createResultArray(result);
     return (resultArray[0])
   } catch (error) {
@@ -227,11 +228,18 @@ exports.arraysHaveSameElements = async function (array1, array2) {
 exports.calculateTimeInMilliSeconds = function (value, unit) {
   let timeInMilliseconds = 0;
   try {
-    if (unit.includes("day")) timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
-    else if (unit.includes("hour")) timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
-    else if (unit.includes("minute")) timeInMilliseconds = parseInt(value) * 60 * 1000;
-    else if (unit.includes("second")) timeInMilliseconds = parseInt(value) * 1000;
-    else timeInMilliseconds = value;
+    if (unit.includes("day")) {
+      timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
+    } else if (unit.includes("hour")) {
+      timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
+    }else if (unit.includes("minute")) {
+      timeInMilliseconds = parseInt(value) * 60 * 1000;
+    } else if (unit.includes("second")) {
+      timeInMilliseconds = parseInt(value) * 1000;
+    } else {
+      timeInMilliseconds = value;
+    }
+
     return timeInMilliseconds;
   } catch (error) {
     console.log(error);
@@ -291,9 +299,13 @@ exports.ReadIdsFromEs = async function () {
 
     while (true) {
       const hits = resp.body?.hits?.hits || [];
-      if (hits.length === 0) break;
+      if (hits.length === 0) {
+        break;
+      }
 
-      for (const h of hits) ids.push(h._id);
+      for (const h of hits) {
+        ids.push(h._id);
+      }
 
       resp = await client.scroll({
         scroll_id: scrollId,
@@ -337,7 +349,4 @@ exports.getStringNameForUuidAsync = async function (uuid) {
   } catch (error) {
     throw error;
   }
-
 }
-
-

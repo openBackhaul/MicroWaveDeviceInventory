@@ -132,7 +132,7 @@ async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
 **/
 exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
   let pipelineExists = false;
-  let client = await common[1].EsClient;
+  let client = common[1].EsClient;
   try {
     // Check if the pipeline exists
     await client.ingest.getPipeline({ id: 'mwdi' });

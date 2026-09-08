@@ -1214,8 +1214,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
-        logger.error("getCachedControlConstruct - Wrong decoding mountname, is an object:");
-        logger.error(mountname);
+        logger.error(mountName, "getCachedControlConstruct - Wrong decoding mountname, is an object");
         throw new createHttpError(mountname[0].code, mountname[0].message);
       } else {
         correctMountname = mountname;
@@ -13860,8 +13859,7 @@ async function ReadRecords(cc) {
     //   }
     // };
     let indexAlias = common[1].indexAlias
-    // let client = await common[1].EsClient;
-    let client = common[1].EsClient;
+    let client = await common[1].EsClient;
 
     const result = await client.get({
       index: indexAlias, //"my-index-000001",

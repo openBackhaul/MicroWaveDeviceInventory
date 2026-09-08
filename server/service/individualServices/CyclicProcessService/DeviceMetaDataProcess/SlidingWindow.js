@@ -195,7 +195,7 @@ async function initializeDependentIntegerValues() {
         let profileInstance = await utility.getIntegerProfileForIntegerName("responseTimeout");
         let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
         let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
-        responseTimeOut = await utility.calculateTimeInMilliSeconds(integerValue, unit);
+        responseTimeOut = utility.calculateTimeInMilliSeconds(integerValue, unit);
         maximumNumberOfRetries = await integerProfile.getIntegerValueForTheIntegerProfileNameAsync("maximumNumberOfRetries");
     } catch (error) {
         console.log(error);

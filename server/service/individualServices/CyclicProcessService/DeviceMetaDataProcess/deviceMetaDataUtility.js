@@ -93,7 +93,7 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
       let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
       let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-      let metadataTableRetentionPeriod = await utility.calculateTimeInMilliSeconds(integerValue, unit);
+      let metadataTableRetentionPeriod = utility.calculateTimeInMilliSeconds(integerValue, unit);
 
       if (diffTime > metadataTableRetentionPeriod) {
         isDeviceCrossedRetentionPeriod = true;

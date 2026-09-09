@@ -6150,19 +6150,18 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
-        logger.error("getLiveControlConstruct - Wrong decoding mountname, is an object:");
-        logger.error(mountname);
+        logger.error(mountname, "getLiveControlConstruct - Wrong decoding mountname , is an object:");
         throw new createHttpError(mountname[0].code, mountname[0].message);
-        return;
+        return; //TODO @latta-techm, this is not necessary
       } else {
         correctCc = mountname;
       }
       let Url = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
+      // const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url)); //TODO @latta-techm is it necessary?
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
-        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization)
+        const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization);
         if (result == false) {
           //resolve(NotFound());
           throw new createHttpError(532, "Bad Gateway. Upstream server not responding.");
@@ -6173,16 +6172,14 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
           } else if (result.statusText == 401 || result.statusText == 403) {
             // resolve(result.status, result.statusText);
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          } 
-           else if (result.statusText == "Service Unavailable" || result.status == 503) {
-              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+          } else if (result.statusText == "Service Unavailable" || result.status == 503) {
+            throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
           } else if (result.status === 409) {
             throw new createHttpError(
               502,
               "Bad Gateway. The server is acting as a gateway or proxy and received an invalid response from the upstream device or application."
             );
-          }
-          else {
+          } else {
             throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
           }
         } else {
@@ -6404,7 +6401,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
           } else if (res.statusText == "Service Unavailable" || res.status == 503) {
-              throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
+            throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
           } else if (res.status === 409) {
             throw new createHttpError(
               502,
@@ -14182,7 +14179,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
         correctCc = mountname;
       }
       let Url = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
+      // const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url)); // Not needed
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"

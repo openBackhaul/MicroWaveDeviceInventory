@@ -28,7 +28,7 @@ const createHttpError = require('http-errors');
 const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility');
 const deviceMetadataUtility = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/deviceMetaDataUtility');
 const utility = require('./individualServices/utility');
-const { readRecords, recordRequest, deleteRequest } = require('./individualServices/ElasticSearchUtility');
+const { readRecords, readIdsFromEs, recordRequest, deleteRequest } = require('./individualServices/ElasticSearchUtility');
 const deviceMetadataCacheUpdate = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataCacheUpdate')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
@@ -8870,9 +8870,18 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               //const release = await lock.acquire();
               await enqueueAlarm(correctCc, profileKey, profileData, async () => {
                 //logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
-                const result = await utility.ReadRecordsMountName(correctCc);
+                let result = undefined;
+                try {
+                  result = await readRecords(correctCc);  // TODO @latta-techm to be verifyed
+                } catch (error) {
+                  // No record --> skip processing, no retry
+                  logger.warn(`No record found for ${mountname}`);
+                  // Return cleanly so queue marks as success
+                  return;
+                }
+                // const result = await utility.ReadRecordsMountName(correctCc);
                 if (result == undefined) {
-                  // No record → skip processing, no retry
+                  // No record --> skip processing, no retry
                   //logAlarmNotificationUpdate(`No record found for ${mountname}`);
                   logger.warn(`No record found for ${mountname}`);
                   //throw new createHttpError.NotFound("unable to find device")
@@ -8884,7 +8893,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
                 }
                 //logAlarmNotificationUpdate(`[READ-END] ${correctCc}`);
 
-                await cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
+                cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters); // TODO @latta-techm no need to await response
 
                 // Write updated Json to ES
                 //logAlarmNotificationUpdate(`[WRITE-START] ${correctCc}`);
@@ -8894,12 +8903,12 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
                 }
                 //logAlarmNotificationUpdate(`[WRITE-END] ${correctCc}`);
 
-                console.log("record request for ", correctCc, "--------------------------------------------------************************************")
+                logger.debug(`record request for ${correctCc}`);
               });
               //release();
             }
             catch (error) {
-              console.error(error);
+              logger.error(error);
             }
             modifyReturnJson(retJson)
             resolve(retJson);
@@ -11215,7 +11224,7 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
           .map(s => s.toLowerCase())
       );
 
-      const ids = await utility.ReadIdsFromEs();
+      const ids = await readIdsFromEs();
 
       const mountList = [];
       for (const id of ids) {
@@ -11231,6 +11240,7 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
         throw new createHttpError.NotFound("Device list not found");
       }
     } catch (error) {
+      logger.error(error);
       reject(error);
     }
   });

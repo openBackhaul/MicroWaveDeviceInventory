@@ -1,7 +1,7 @@
 const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
-exports.cacheUpdateBuilder = async function (url, originalJSON, toInsert, hasFilter) {
+exports.cacheUpdateBuilder = function (url, originalJSON, toInsert, hasFilter) {
   if (!originalJSON || typeof originalJSON !== "object") {
     logger.warn(`cacheUpdateBuilder: originalJSON missing/invalid. url=${url}`);
     return originalJSON; // or {} depending on your expected behavior

@@ -24,8 +24,7 @@ export async function readRecords(cc) {
     return src;
   } catch (error) {
     logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
-    // logger.error(error);
-    throw (error); // or return undefined??
+    throw (error);
   }
 }
 
@@ -162,7 +161,7 @@ export async function deleteRequest(cc) {
  *
  * response value expected for this operation
  **/
-export async function ReadIdsFromEs() {
+export async function readIdsFromEs() {
   /* try {
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
@@ -253,10 +252,10 @@ const _recordRequest = async function (body, cc, isAddPropertyToMapping = false)
   } catch (error) {
     if (error.statusCode === 404) {
       // Pipeline does not exist
-      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
     } else {
       // Other errors
-      console.error("An error occurred while checking the pipeline:", error);
+      logger.error("An error occurred while checking the pipeline:", error);
       throw error; // Re-throw the error if it's not a 404
     }
   }

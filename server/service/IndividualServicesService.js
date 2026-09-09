@@ -12118,11 +12118,16 @@ async function processNextBatch(mountname) {
     // ALARM ITEMS: READ ONCE / WRITE ONCE
     // ----------------------------
     if (alarmItems.length > 0) {
-      const result = await withTimeout(
-        ReadRecordsMountName(mountname),  // TODO @latta to be updated with utility function
-        LOCK_TIMEOUT_MS,
-        `[READ-TIMEOUT] ${mountname}`
-      );
+      let result = undefined;
+      try {
+        result = await withTimeout(
+          ReadRecordsMountName(mountname),  // TODO @latta to be updated with utility function
+          LOCK_TIMEOUT_MS,
+          `[READ-TIMEOUT] ${mountname}`
+        );
+      } catch (error) {
+        result = undefined;
+      }
 
       if (!result) {
         //stat.skipNoRecord += alarmItems.length;

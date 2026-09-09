@@ -6210,7 +6210,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                 console.error(error);
               }
               modifyReturnJson(jsonObj);
-              let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+              let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
               resolve(res);
             } else {
               let filters = true;
@@ -6244,7 +6244,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               }
               modifyReturnJson(jsonObj)
               let splittedUrl = url.split('?');
-              let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+              let res = cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
               resolve(res);
             }
           }
@@ -6252,7 +6252,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       }
     }
     catch (error) {
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
 
@@ -11146,7 +11146,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
       let myFields = parts[1];
       let result = await readRecords(mountName);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
+        let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -11176,7 +11176,6 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
         }
       } else {
         throw new createHttpError(460, `Requested device is currently not in connected state at the controller`);
-
       }
       resolve(returnObject);
     } catch (error) {
@@ -11301,7 +11300,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
       let myFields = parts[1];
       let result = await readRecords(mountName);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
+        let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -14215,7 +14214,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             }
 
             modifyReturnJson(jsonObj);
-            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+            let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
             resolve(res);
           } else {
             let filters = true;
@@ -14237,7 +14236,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             }
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
-            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+            let res = cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
 
             //update meta-data for update of connection-status
             metaDataUtility.updateMDTableForCompleteCCUpdate(correctCc, Date.now());

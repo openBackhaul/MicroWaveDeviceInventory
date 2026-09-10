@@ -11254,9 +11254,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
       // } else {
       //   throw new createHttpError.NotFound("Device list not found");
       // }
-      let mountname = "DeviceList"
-      let returnObject = {};
-      let result = await ReadRecords(mountname);
+      const result = await ReadRecords("DeviceList");
       if (result != undefined) {
         const outputJson = {
           "mount-name-list": result.deviceList.map(item => item[NODE_ID])

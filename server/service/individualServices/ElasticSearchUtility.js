@@ -7,7 +7,7 @@ const logger = require('../LoggingService.js').getLogger();
  *
  * response value expected for this operation
  **/
-export async function readRecords(cc) {
+exports.readRecords = async function readRecords(cc) {
   try {
     const indexAlias = common[1].indexAlias
     const client = common[1].EsClient;
@@ -23,8 +23,28 @@ export async function readRecords(cc) {
     }
     return src;
   } catch (error) {
+    logger.error(error.meta.body.found);
+    if (error.meta.body.found == false) {
+      logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
+      return undefined;
+    }
     logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
-    throw (error);
+    // throw (error);
+  }
+}
+
+exports.findRecords = async function findRecords(cc) {
+  try {
+    let query = { 'term': { '_id': cc } };
+    const indexAlias = common[1].indexAlias
+    const client = common[1].EsClient;
+    const result = await client.search({
+      'index': indexAlias, 'body': { 'query': query }
+    });
+    const resultArray = createResultArray(result);
+    return (resultArray[0])
+  } catch (error) {
+    logger.error(error);
   }
 }
 
@@ -59,7 +79,7 @@ export async function readRecords(cc) {
  * body controlconstruct 
  * no response value expected for this operation
  **/
-export async function recordRequest(body, cc) {
+exports.recordRequest = async function recordRequest(body, cc) {
   let pipelineExists = false;
   const client = common[1].EsClient;
   try {
@@ -135,7 +155,7 @@ export async function recordRequest(body, cc) {
  * body controlconstruct 
  * no response value expected for this operation
  **/
-export async function deleteRequest(cc) {
+exports.deleteRequest = async function deleteRequest(cc) {
   try {
     const indexAlias = common[1].indexAlias
     const client = common[1].EsClient;
@@ -153,15 +173,12 @@ export async function deleteRequest(cc) {
   }
 }
 
-
-// To be optimized
-
 /**
  * Read only _id list from ES
  *
  * response value expected for this operation
  **/
-export async function readIdsFromEs() {
+exports.readIdsFromEs = async function readIdsFromEs() {
   /* try {
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
@@ -235,6 +252,7 @@ export async function readIdsFromEs() {
   }
 }
 
+// To be optimized
 
 /**
 * Records a request
@@ -287,7 +305,7 @@ const _recordRequest = async function (body, cc, isAddPropertyToMapping = false)
   }
   return {};
 };
-export { _recordRequest as recordRequest };
+// export { _recordRequest as recordRequest };
 
 let lastCompleteCcUpdateTimeMappingEnsured = false;
 

@@ -84,7 +84,7 @@ exports.findRecords = async function findRecords(cc) {
  * body controlconstruct 
  * no response value expected for this operation
  **/
-exports.recordRequest = async function recordRequest(body, cc) {
+exports.recordRequest = async function recordRequest(body, cc, isAddPropertyToMapping = false) {
   let pipelineExists = false;
   const client = common[1].EsClient;
   try {
@@ -107,7 +107,10 @@ exports.recordRequest = async function recordRequest(body, cc) {
   try {
     const indexAlias = common[1].indexAlias
     const startTime = process.hrtime();
-
+    
+    /* if (isAddPropertyToMapping) {
+      await ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias);
+    } */
     const indexParams = {
       'index': indexAlias,
       'id': cc,
@@ -257,60 +260,7 @@ exports.readIdsFromEs = async function readIdsFromEs() {
   }
 }
 
-// To be optimized
 
-/**
-* Records a request
-*
-* body controlconstruct 
-* no response value expected for this operation
-**/
-const _recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
-  let pipelineExists = false;
-  let client = common[1].EsClient;
-  try {
-    // Check if the pipeline exists
-    await client.ingest.getPipeline({ id: 'mwdi' });
-    pipelineExists = true;
-  } catch (error) {
-    if (error.statusCode === 404) {
-      // Pipeline does not exist
-      logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-    } else {
-      // Other errors
-      logger.error("An error occurred while checking the pipeline:", error);
-      throw error; // Re-throw the error if it's not a 404
-    }
-  }
-
-  try {
-    let indexAlias = common[1].indexAlias;
-    let startTime = process.hrtime();
-
-    /* if (isAddPropertyToMapping) {
-      await ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias);
-    } */
-    let indexParams = {
-      index: indexAlias,
-      id: cc,
-      body: body
-    };
-
-    if (pipelineExists) {
-      indexParams.pipeline = 'mwdi';
-    }
-
-    let result = await client.index(indexParams);
-    let backendTime = process.hrtime(startTime);
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
-    }
-  } catch (error) {
-    logger.error(error);
-  }
-  return {};
-};
-// export { _recordRequest as recordRequest };
 
 let lastCompleteCcUpdateTimeMappingEnsured = false;
 

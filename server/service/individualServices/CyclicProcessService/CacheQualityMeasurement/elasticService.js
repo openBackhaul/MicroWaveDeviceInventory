@@ -1,13 +1,13 @@
 
 'use strict';
 
-const utility = require('../../utility');
+const elkUtils = require('../../ElasticSearchUtility');
 
 exports.writeCacheQualityListToElasticsearch = function (qualityList) {
   return new Promise(async function (resolve, reject) {
     try {
       let qualityListToWrite = '{"cache-quality-statistics":' + qualityList + '}';
-      let result = await utility.recordRequest(qualityListToWrite, "cache-quality-statistics");
+      let result = await elkUtils.recordRequest(qualityListToWrite, "cache-quality-statistics");
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -23,7 +23,7 @@ exports.readCacheQualityListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
       let esCacheQualityList = [];
-      let result = await utility.ReadRecords("cache-quality-statistics");
+      let result = await elkUtils.readRecords("cache-quality-statistics");
       if (result != undefined) {
         esCacheQualityList = result["cache-quality-statistics"];
       }

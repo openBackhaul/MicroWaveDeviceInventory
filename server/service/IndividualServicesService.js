@@ -12120,7 +12120,7 @@ async function processNextBatch(mountname) {
       let result = undefined;
       try {
         result = await withTimeout(
-          ReadRecordsMountName(mountname),  // TODO @latta to be updated with utility function
+          elkUtils.readRecords(mountname),  // TODO @latta to be updated with utility function
           LOCK_TIMEOUT_MS,
           `[READ-TIMEOUT] ${mountname}`
         );

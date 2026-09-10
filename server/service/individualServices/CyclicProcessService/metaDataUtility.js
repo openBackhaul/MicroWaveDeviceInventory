@@ -4,12 +4,15 @@
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const RestClient = require('../rest/client/dispacher');
 const utility = require('../utility');
+const elkUtils = require('../ElasticSearchUtility');
+
+const logger = require('../../LoggingService').getLogger();
 
 exports.writeMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
-      let deviceListToWrite = '{"DeviceMetaDataList":' + deviceList + '}';
-      let result = await utility.recordRequest(deviceListToWrite, "DeviceMetaDataList");
+      const deviceListToWrite = '{"DeviceMetaDataList":' + deviceList + '}';
+      const result = await elkUtils.recordRequest(deviceListToWrite, "DeviceMetaDataList");
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -25,7 +28,7 @@ exports.readMetaDataListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
       let esMetaDataList = [];
-      let result = await utility.ReadRecords("DeviceMetaDataList");
+      const result = await elkUtils.readRecords("DeviceMetaDataList");
       if (result != undefined) {
         esMetaDataList = result["DeviceMetaDataList"];
       }
@@ -68,15 +71,18 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
     let metadataTableRetentionPeriod;
-    if (unit == "days") metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
-    else if (unit == "hours") metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    if (unit == "days") {
+      metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
+    } else if (unit == "hours") {
+      metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    }
 
     if (diffTime > metadataTableRetentionPeriod) {
       isDeviceCrossedRetentionPeriod = true;
     }
 
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
   return isDeviceCrossedRetentionPeriod;
 
@@ -179,22 +185,22 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
         await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
-      if (!found) {
-        console.log("*******************meta data for requested resource is not present in meta-data table*********************");
-      }
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (!found) {
+      console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
+  } catch (error) {
+    console.log(error);
+    return error;
   }
+}
 
-  /**
- * This function 
- *   - updates the existing metadata of a device for complete control-construct update
- * 
- * @param {*} mountName node-id of the device for which the meta-data shall be updated
- * @param {*} timestamp time received in notification
- */
+/**
+* This function 
+*   - updates the existing metadata of a device for complete control-construct update
+* 
+* @param {*} mountName node-id of the device for which the meta-data shall be updated
+* @param {*} timestamp time received in notification
+*/
 exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp = '') {
   try {
     let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
@@ -211,11 +217,11 @@ exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp 
         await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
-      if (!found) {
-        console.log("*******************meta data for requested resource is not present in meta-data table*********************");
-      }
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (!found) {
+      console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
+  } catch (error) {
+    console.log(error);
+    return error;
   }
+}

@@ -3,6 +3,7 @@
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const RestClient = require('../../rest/client/dispacher');
 const utility = require('../../utility');
+const elkUtils = require('../../ElasticSearchUtility');
 const deviceControlConstructUtility = require('./deviceControlConstructUtility');
 const individualServicesService = require('../../../IndividualServicesService');
 //const deviceMetadataPriorityList = require('./DeviceMetaDataPriorityList');
@@ -45,7 +46,7 @@ exports.readDeviceMetaDataListFromElasticSearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
       let esMetaDataList = [];
-      let result = await utility.ReadRecords("DeviceMetaDataList");
+      let result = await elkUtils.readRecords("DeviceMetaDataList");
       if (result != undefined) {
         esMetaDataList = result["DeviceMetaDataList"];
       }
@@ -65,7 +66,7 @@ exports.writeDeviceMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
       let deviceListToWrite = '{"DeviceMetaDataList":' + deviceList + '}';
-      let result = await utility.recordRequest(deviceListToWrite, "DeviceMetaDataList");
+      let result = await elkUtils.recordRequest(deviceListToWrite, "DeviceMetaDataList");
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -224,9 +225,13 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
         }
       }
       dataUpdated = await deviceMetaDataCacheUpdate.createOrUpdateDeviceMetaData(deviceData);
-      if (dataUpdated) dataUpdated = await exports.updateDeviceMetadataPriorityList(deviceData);
-      if (dataUpdated) console.log(`Device metadata update for ${mountName} success`);
-      else {
+
+      if (dataUpdated) {
+        dataUpdated = await exports.updateDeviceMetadataPriorityList(deviceData);
+      }
+      if (dataUpdated) {
+        console.log(`Device metadata update for ${mountName} success`);
+      } else {
         console.log(`Device metadata update for ${mountName} failed`);
         return false;
       }
@@ -248,8 +253,9 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
         }
       } else {
         dataUpdated = await exports.removeDeviceDataFromCache(mountName);
-        if (dataUpdated) console.log(`Device metadata removal for ${mountName} success`)
-        else {
+        if (dataUpdated) {
+          console.log(`Device metadata removal for ${mountName} success`)
+        } else {
           console.log(`Device metadata removal for ${mountName} failed`);
           return false;
         }
@@ -292,6 +298,7 @@ exports.removeDeviceDataFromCache = async function (mountName) {
   let isDeleted = false;
   try {
     isDeleted = await slidingWindowHandler.removeMetaDataOfDevice(mountName);
+    // TODO @latta-techm tobe improve
     if (isDeleted) await deviceMetaDataCacheUpdate.removeDevicemetadata(mountName);
     if (isDeleted) {
       console.log(`************************* attempting to CC of ${mountName} from ES **************************`);

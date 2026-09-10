@@ -5,6 +5,7 @@ const operationClient = require("onf-core-model-ap/applicationPattern/onfModel/m
 const operationServer = require("onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface");
 const RestClient = require('../../rest/client/dispacher');
 const utility = require('../../utility');
+const elkUtils = require('../../ElasticSearchUtility');
 
 /**
  * This function fetches control-construct of a device from live controller and updates the ES cache
@@ -78,7 +79,7 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
  */
 exports.updateControlConstructToEs = async function (nodeId, ccObject, maxRetries) {
     try {
-        let result = await utility.recordRequest(ccObject, nodeId, true);
+        let result = await elkUtils.recordRequest(ccObject, nodeId, true);
         if (result.took) {
             console.log(`********************************CC updated to ES for ${nodeId} *************************** `);
             return true;
@@ -155,7 +156,9 @@ exports.getControlConstructPathForLive = async function (nodeId) {
             let operationName = await operationClient.getOperationNameAsync(ccRetrievalFcPort["logical-termination-point"]);
             let urlToGetCCFromController = operationName.replace("{controllerInternalPathToMountPoint}", controllerInternalPathToMountPoint).replace("{mountName}", nodeId);
             return urlToGetCCFromController;
-        } else { return undefined }
+        } else {
+            return undefined;
+        }
     } catch (error) {
         console.error(`Error at retrieving live CC path from config file`);
         return undefined;
@@ -173,7 +176,9 @@ exports.getControlConstructPathForCache = async function (nodeId) {
             let operationName = await operationServer.getOperationNameAsync(ccRetrievalFcPort["logical-termination-point"]);
             let finalUrl = operationName.replace("{mountName}", nodeId);
             return finalUrl;
-        } else { return undefined }
+        } else {
+            return undefined;
+        }
     } catch (error) {
         console.error(`Error at retrieving cache CC path from config file`);
         return undefined;

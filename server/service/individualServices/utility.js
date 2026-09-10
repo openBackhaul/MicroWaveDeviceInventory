@@ -1,8 +1,7 @@
 const Profile = require('onf-core-model-ap/applicationPattern/onfModel/models/Profile');
 const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
-
+// const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 const logger = require('../LoggingService.js').getLogger();
 
 /**
@@ -78,106 +77,6 @@ exports.getMappingListForRegexProfile = async function (expectedMappingName) {
 }
 
 /**
- * Read from ES
- *
- * response value expected for this operation
- **/
-exports.ReadRecords = async function (cc) {
-  try {
-    let indexAlias = common[1].indexAlias
-    let client = common[1].EsClient;
-
-    const result = await client.get({
-      index: indexAlias, //"my-index-000001",
-      id: cc // mountname
-    });
-
-    const src = result?.body?._source;
-    if (!src) {
-      return undefined;
-    }
-    return src;
-  } catch (error) {
-    logger.error(error);
-    throw (error);
-  }
-}
-
-let lastCompleteCcUpdateTimeMappingEnsured = false;
-
-async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
-  if (lastCompleteCcUpdateTimeMappingEnsured) {
-    return;
-  }
-
-  await client.indices.putMapping({
-    index: indexAlias,
-    body: {
-      properties: {
-        "last-complete-control-construct-update-time": {
-          type: "date"
-        }
-      }
-    }
-  });
-
-  lastCompleteCcUpdateTimeMappingEnsured = true;
-}
-
-/**
-* Records a request
-*
-* body controlconstruct 
-* no response value expected for this operation
-**/
-exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
-  let pipelineExists = false;
-  let client = common[1].EsClient;
-  try {
-    // Check if the pipeline exists
-    await client.ingest.getPipeline({ id: 'mwdi' });
-    pipelineExists = true;
-  } catch (error) {
-    if (error.statusCode === 404) {
-      // Pipeline does not exist
-      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-    } else {
-      // Other errors
-      console.error("An error occurred while checking the pipeline:", error);
-      throw error; // Re-throw the error if it's not a 404
-    }
-  }
-
-  try {
-    let indexAlias = common[1].indexAlias
-    let startTime = process.hrtime();
-
-    /* if (isAddPropertyToMapping) {
-      await ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias);
-    } */
-
-    let indexParams = {
-      index: indexAlias,
-      id: cc,
-      body: body
-    };
-
-    if (pipelineExists) {
-      indexParams.pipeline = 'mwdi';
-    }
-
-    let result = await client.index(indexParams);
-    let backendTime = process.hrtime(startTime);
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
-    }
-  } catch (error) {
-    logger.error(error);
-  }
-  return {};
-}
-
-/**
 * getTime()
 * 
 * Returns formatted date/time information Ex: ( 25/11/2023 09:43.14 )
@@ -242,86 +141,6 @@ exports.calculateTimeInMilliSeconds = function (value, unit) {
   }
 }
 
-
-/**
- * Read only _id list from ES
- *
- * response value expected for this operation
- **/
-exports.ReadIdsFromEs = async function () {
-  /* try {
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      _source: false,
-      from: 0,
-      size: 9999
-    });
-    const resultArray = [];
-    if (result.body.hits) {
-      result.body.hits.hits.forEach((item) => {
-        resultArray.push(item._id);
-      });
-    }
-    return (resultArray)
-  } catch (error) {
-    console.error(error);
-    throw (error);
-  } */
-  try {
-    const indexAlias = common[1].indexAlias;
-    const client = common[1].EsClient;
-
-    const ids = [];
-    const batchSize = 2000;  // tune 1000–5000
-    const keepAlive = "1m";
-
-    // create scroll context
-    let resp = await client.search({
-      index: indexAlias,
-      _source: false,
-      size: batchSize,
-      scroll: keepAlive,
-      body: {
-        query: { match_all: {} },
-        // optional: make it slightly lighter by not scoring
-        //track_total_hits: false
-      }
-    });
-
-    let scrollId = resp.body?._scroll_id;
-
-    while (true) {
-      const hits = resp.body?.hits?.hits || [];
-      if (hits.length === 0) {
-        break;
-      }
-
-      for (const h of hits) {
-        ids.push(h._id);
-      }
-
-      resp = await client.scroll({
-        scroll_id: scrollId,
-        scroll: keepAlive
-      });
-
-      scrollId = resp.body?._scroll_id;
-    }
-
-    // cleanup
-    if (scrollId) {
-      await client.clearScroll({ scroll_id: scrollId }).catch(() => {});
-    }
-
-    return ids;
-  } catch (error) {
-    logger.error(error);
-    throw error;
-  }
-}
-
 /**
  * This function returns the string-name for given uuid
  * 
@@ -345,5 +164,88 @@ exports.getStringNameForUuidAsync = async function (uuid) {
   } catch (error) {
     logger.error(error);
     throw error;
+  }
+}
+
+//////////////////////////////
+
+// TODO @latta-techm To be check with some testcases
+function hasAttribute(json, attributeName) {
+  const stack = [json];
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    if (current === null || typeof current !== 'object') {
+      continue;
+    }
+
+    if (Object.hasOwn(current, attributeName)) {
+      return true;
+    }
+
+    stack.push(...Object.values(current));
+  }
+
+  return false;
+}
+
+// function hasAttribute(json, attributeName) {
+//   if (typeof json === 'object' && json !== null) {
+//     // Check if the attribute is at this level
+//     if (Object.hasOwnProperty.bind(json)(attributeName)) {
+//       return true;
+//     }
+//     // Otherwise loop in the object properties
+//     for (let key in json) {
+//       if (Object.hasOwnProperty.bind(json)(key)) {
+//         if (hasAttribute(json[key], attributeName)) {
+//           return true;
+//         }
+//       }
+//     }
+//   }
+//   // if json is an array, loop over the elements
+//   if (Array.isArray(json)) {
+//     for (let item of json) {
+//       if (hasAttribute(item, attributeName)) {
+//         return true;
+//       }
+//     }
+//   }
+//   return false;
+// }
+
+function decodeURIWithCheck(encodedUri) {
+  // Verify if URI contains "%25"
+  if (encodedUri.includes("%25")) {
+    // if contains "%25", it means that it's double codified
+    return decodeURIComponent(decodeURIComponent(encodedUri));
+  } else {
+    // Otherwise is codified only once
+    return decodeURIComponent(encodedUri);
+  }
+}
+
+function isJsonEmpty(arr) {
+  if (arr != undefined) {
+    if (Array.isArray(arr)) {
+      if (arr.length === 0) {
+        return true;
+      }
+      for (let obj of arr) {
+        // Se trovi un oggetto con almeno una chiave, l'array non è vuoto
+        if (Object.keys(obj).length > 0) {
+          return false;
+        }
+      }
+      return true;
+    } else if (Object.keys(arr).length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return true;
   }
 }

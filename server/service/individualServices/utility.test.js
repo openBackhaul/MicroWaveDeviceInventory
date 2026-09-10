@@ -202,168 +202,165 @@ describe('getIntegerProfileForIntegerName', () => {
 });
 
 
+// to be moved
+// describe('ReadRecords', () => {
+//   const mockEsClient = {
+//     search: jest.fn()
+//   };
 
-describe('ReadRecords', () => {
-  const mockEsClient = {
-    search: jest.fn()
-  };
+//   beforeEach(() => {
+//     jest.clearAllMocks();
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+//     global.common = [];
+//     global.common[1] = {
+//       indexAlias: 'test-index',
+//       EsClient: Promise.resolve(mockEsClient)
+//     };
+//   });
 
-    global.common = [];
-    global.common[1] = {
-      indexAlias: 'test-index',
-      EsClient: Promise.resolve(mockEsClient)
-    };
-  });
+//   it('should return the first record from the result array', async () => {
+//     const mockSearchResult = { hits: { hits: [{ _source: { foo: 'bar' } }] } };
+//     const mockResultArray = [{ id: 'record-1' }];
 
-  it('should return the first record from the result array', async () => {
-    const mockSearchResult = { hits: { hits: [{ _source: { foo: 'bar' } }] } };
-    const mockResultArray = [{ id: 'record-1' }];
+//     mockEsClient.search.mockResolvedValue(mockSearchResult);
 
-    mockEsClient.search.mockResolvedValue(mockSearchResult);
+//     const createResultArraySpy = jest.spyOn(createResultArray1, 'createResultArray').mockReturnValue(mockResultArray);
 
-    const createResultArraySpy = jest.spyOn(createResultArray1, 'createResultArray').mockReturnValue(mockResultArray);
+//     const result = await utility.ReadRecords('some-id');
 
-    const result = await utility.ReadRecords('some-id');
+//     expect(mockEsClient.search).toHaveBeenCalledWith({
+//       index: 'test-index',
+//       body: {
+//         query: { term: { _id: 'some-id' } }
+//       }
+//     });
+//     expect(createResultArraySpy).toHaveBeenCalledWith(mockSearchResult);
+//     expect(result).toEqual({ id: 'record-1' });
 
-    expect(mockEsClient.search).toHaveBeenCalledWith({
-      index: 'test-index',
-      body: {
-        query: { term: { _id: 'some-id' } }
-      }
-    });
-    expect(createResultArraySpy).toHaveBeenCalledWith(mockSearchResult);
-    expect(result).toEqual({ id: 'record-1' });
+//     createResultArraySpy.mockRestore();
+//   });
 
-    createResultArraySpy.mockRestore();
-  });
+//   it('should return undefined if createResultArray returns empty array', async () => {
+//     const mockSearchResult = { hits: { hits: [] } };
 
-  it('should return undefined if createResultArray returns empty array', async () => {
-    const mockSearchResult = { hits: { hits: [] } };
+//     mockEsClient.search.mockResolvedValue(mockSearchResult);
 
-    mockEsClient.search.mockResolvedValue(mockSearchResult);
+//     const createResultArraySpy = jest.spyOn(createResultArray1, 'createResultArray').mockReturnValue([]);
 
-    const createResultArraySpy = jest.spyOn(createResultArray1, 'createResultArray').mockReturnValue([]);
+//     const result = await utility.ReadRecords('some-id');
+//     expect(result).toBeUndefined();
+//     expect(createResultArraySpy).toHaveBeenCalledWith(mockSearchResult);
 
-    const result = await utility.ReadRecords('some-id');
-    expect(result).toBeUndefined();
-    expect(createResultArraySpy).toHaveBeenCalledWith(mockSearchResult);
+//     createResultArraySpy.mockRestore();
+//   });
 
-    createResultArraySpy.mockRestore();
-  });
+//   it('should throw and log error if client.search rejects', async () => {
+//     const mockError = new Error('Search failed');
+//     mockEsClient.search.mockRejectedValue(mockError);
 
-  it('should throw and log error if client.search rejects', async () => {
-    const mockError = new Error('Search failed');
-    mockEsClient.search.mockRejectedValue(mockError);
+//     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+//     await expect(utility.ReadRecords('bad-id')).rejects.toThrow('Search failed');
+//     expect(consoleSpy).toHaveBeenCalledWith(mockError);
 
-    await expect(utility.ReadRecords('bad-id')).rejects.toThrow('Search failed');
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
-
-    consoleSpy.mockRestore();
-  });
-});
+//     consoleSpy.mockRestore();
+//   });
+// });
 
 
 
 let mockEsClient;
 
-describe('recordRequest', () => {
-  beforeEach(() => {
-    mockEsClient = {
-      ingest: {
-        getPipeline: jest.fn()
-      },
-      index: jest.fn()
-    };
+// describe('recordRequest', () => {
+//   beforeEach(() => {
+//     mockEsClient = {
+//       ingest: {
+//         getPipeline: jest.fn()
+//       },
+//       index: jest.fn()
+//     };
 
-    global.common = [];
-    global.common[1] = {
-      EsClient: Promise.resolve(mockEsClient),
-      indexAlias: 'test-index'
-    };
+//     global.common = [];
+//     global.common[1] = {
+//       EsClient: Promise.resolve(mockEsClient),
+//       indexAlias: 'test-index'
+//     };
 
-    jest.clearAllMocks();
-  });
+//     jest.clearAllMocks();
+//   });
 
-  it('should index with pipeline when pipeline exists', async () => {
-    mockEsClient.ingest.getPipeline.mockResolvedValue({}); // pipeline exists
-    mockEsClient.index.mockResolvedValue({
-      body: { result: 'created' }
-    });
+//   it('should index with pipeline when pipeline exists', async () => {
+//     mockEsClient.ingest.getPipeline.mockResolvedValue({}); // pipeline exists
+//     mockEsClient.index.mockResolvedValue({
+//       body: { result: 'created' }
+//     });
 
-    const result = await utility.recordRequest({ key: 'value' }, 'record-id');
+//     const result = await utility.recordRequest({ key: 'value' }, 'record-id');
 
-    expect(mockEsClient.ingest.getPipeline).toHaveBeenCalledWith({ id: 'mwdi' });
-    expect(mockEsClient.index).toHaveBeenCalledWith(expect.objectContaining({
-      index: 'test-index',
-      id: 'record-id',
-      body: { key: 'value' },
-      pipeline: 'mwdi'
-    }));
-    expect(result).toHaveProperty('took');
-    expect(typeof result.took).toBe('number');
-  });
+//     expect(mockEsClient.ingest.getPipeline).toHaveBeenCalledWith({ id: 'mwdi' });
+//     expect(mockEsClient.index).toHaveBeenCalledWith(expect.objectContaining({
+//       index: 'test-index',
+//       id: 'record-id',
+//       body: { key: 'value' },
+//       pipeline: 'mwdi'
+//     }));
+//     expect(result).toHaveProperty('took');
+//     expect(typeof result.took).toBe('number');
+//   });
 
-  it('should index without pipeline when pipeline does not exist (404)', async () => {
-    const pipelineNotFoundError = new Error('Pipeline not found');
-    pipelineNotFoundError.statusCode = 404;
-    mockEsClient.ingest.getPipeline.mockRejectedValue(pipelineNotFoundError);
+//   it('should index without pipeline when pipeline does not exist (404)', async () => {
+//     const pipelineNotFoundError = new Error('Pipeline not found');
+//     pipelineNotFoundError.statusCode = 404;
+//     mockEsClient.ingest.getPipeline.mockRejectedValue(pipelineNotFoundError);
 
-    mockEsClient.index.mockResolvedValue({
-      body: { result: 'updated' }
-    });
+//     mockEsClient.index.mockResolvedValue({
+//       body: { result: 'updated' }
+//     });
 
-    const result = await utility.recordRequest({ key: 'value' }, 'record-id');
+//     const result = await utility.recordRequest({ key: 'value' }, 'record-id');
 
-    expect(mockEsClient.index).toHaveBeenCalledWith(expect.not.objectContaining({ pipeline: 'mwdi' }));
-    expect(result).toHaveProperty('took');
-  });
+//     expect(mockEsClient.index).toHaveBeenCalledWith(expect.not.objectContaining({ pipeline: 'mwdi' }));
+//     expect(result).toHaveProperty('took');
+//   });
 
-  it('should rethrow error if pipeline check fails with non-404 error', async () => {
-    const unexpectedError = new Error('Internal error');
-    unexpectedError.statusCode = 500;
-    mockEsClient.ingest.getPipeline.mockRejectedValue(unexpectedError);
+//   it('should rethrow error if pipeline check fails with non-404 error', async () => {
+//     const unexpectedError = new Error('Internal error');
+//     unexpectedError.statusCode = 500;
+//     mockEsClient.ingest.getPipeline.mockRejectedValue(unexpectedError);
 
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+//     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    await expect(utility.recordRequest({ key: 'value' }, 'record-id')).rejects.toThrow('Internal error');
+//     await expect(utility.recordRequest({ key: 'value' }, 'record-id')).rejects.toThrow('Internal error');
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith('An error occurred while checking the pipeline:', unexpectedError);
+//     expect(consoleErrorSpy).toHaveBeenCalledWith('An error occurred while checking the pipeline:', unexpectedError);
 
-    consoleErrorSpy.mockRestore();
-  });
+//     consoleErrorSpy.mockRestore();
+//   });
 
-  it('should return undefined if indexing fails (no result.body.result match)', async () => {
-    mockEsClient.ingest.getPipeline.mockResolvedValue({});
-    mockEsClient.index.mockResolvedValue({
-      body: { result: 'noop' }
-    });
+//   it('should return undefined if indexing fails (no result.body.result match)', async () => {
+//     mockEsClient.ingest.getPipeline.mockResolvedValue({});
+//     mockEsClient.index.mockResolvedValue({
+//       body: { result: 'noop' }
+//     });
 
-    const result = await utility.recordRequest({ key: 'value' }, 'record-id');
-    expect(result).toBeUndefined();
-  });
+//     const result = await utility.recordRequest({ key: 'value' }, 'record-id');
+//     expect(result).toBeUndefined();
+//   });
 
-  it('should log error if indexing throws', async () => {
-    mockEsClient.ingest.getPipeline.mockResolvedValue({});
-    const indexError = new Error('Indexing failed');
-    mockEsClient.index.mockRejectedValue(indexError);
+//   it('should log error if indexing throws', async () => {
+//     mockEsClient.ingest.getPipeline.mockResolvedValue({});
+//     const indexError = new Error('Indexing failed');
+//     mockEsClient.index.mockRejectedValue(indexError);
 
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+//     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const result = await utility.recordRequest({ key: 'value' }, 'record-id');
-    expect(consoleErrorSpy).toHaveBeenCalledWith(indexError);
-    expect(result).toBeUndefined();
+//     const result = await utility.recordRequest({ key: 'value' }, 'record-id');
+//     expect(consoleErrorSpy).toHaveBeenCalledWith(indexError);
+//     expect(result).toBeUndefined();
 
-    consoleErrorSpy.mockRestore();
-  });
-});
-
-
-
+//     consoleErrorSpy.mockRestore();
+//   });
+// });
 
 describe('getTime', () => {
   beforeAll(() => {

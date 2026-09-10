@@ -26,13 +26,18 @@ exports.readRecords = async function readRecords(cc) {
     logger.error(error.meta.body.found);
     if (error.meta.body.found == false) {
       logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
-      return undefined;
     }
     logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
+    return undefined;
     // throw (error);
   }
 }
 
+/**
+ * Search data from ES
+ *
+ * response value expected for this operation
+ **/
 exports.findRecords = async function findRecords(cc) {
   try {
     let query = { 'term': { '_id': cc } };
@@ -309,17 +314,19 @@ const _recordRequest = async function (body, cc, isAddPropertyToMapping = false)
 
 let lastCompleteCcUpdateTimeMappingEnsured = false;
 
+
+// Internal function, no need to export
 async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
   if (lastCompleteCcUpdateTimeMappingEnsured) {
     return;
   }
 
   await client.indices.putMapping({
-    index: indexAlias,
-    body: {
-      properties: {
+    'index': indexAlias,
+    'body': {
+      'properties': {
         "last-complete-control-construct-update-time": {
-          type: "date"
+          'type': "date"
         }
       }
     }

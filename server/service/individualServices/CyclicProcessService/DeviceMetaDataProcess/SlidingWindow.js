@@ -77,10 +77,11 @@ class SlidingWindow {
     let result = false;
 
     try {
-      logger.info(`SlidingWindow:Processing started for device ${nodeId}`);
+      logger.info(`SlidingWindow: Processing started for device ${nodeId}`);
       // logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
       result = await deviceControlConstructUtility
-        .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries)
+        .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries);
+      logger.info(`SlidingWindow: ${nodeId} written into ElasticSearch`);
       let ts = new Date().toJSON();
 
       device["last-complete-control-construct-update-time-attempt"] = ts;
@@ -88,7 +89,7 @@ class SlidingWindow {
       device["cc-synced"] = true;
 
       //send attempt time + (optional) success time in ONE call
-      await deviceMetadataCacheUpdate.updateCcSyncTimes(
+      deviceMetadataCacheUpdate.updateCcSyncTimes(
         nodeId,
         ts,
         result === true ? ts : null
@@ -99,7 +100,6 @@ class SlidingWindow {
       }
 
       await deviceMetaDataPriorityList.createOrUpdateDevice(device);
-
     } catch (err) {
       // console.error("processDevice failed:", nodeId, err);
       logger.error(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);

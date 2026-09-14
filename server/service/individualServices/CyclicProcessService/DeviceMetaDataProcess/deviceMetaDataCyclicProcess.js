@@ -8,6 +8,8 @@ const deviceMetaDataUtility = require('./deviceMetaDataUtility');
 const slidingWindowHandler = require('./SlidingWindowHandler');
 const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
+const logger = require("../../../LoggingService").getLogger();
+
 let periodicConnectionStatusSynchTimerId = 0;
 
 /**
@@ -27,14 +29,20 @@ exports.start = async function deviceMetaDataCyclicProcess() {
     let integerValueForDeviceListSyncPeriod = profileInstanceForDeviceListSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unitForDeviceListSyncPeriod = profileInstanceForDeviceListSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-    let deviceListSyncPeriod;
-    if (unitForDeviceListSyncPeriod == "days") deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 24 * 60 * 60 * 1000;
-    else if (unitForDeviceListSyncPeriod == "hour") deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 60 * 60 * 1000;
-    periodicConnectionStatusSynchTimerId = setInterval(deviceMetaDataListUpdateProcess, deviceListSyncPeriod);
-    return;
+    //TODO @latta-techm to be check if is working fine
+    let deviceListSyncPeriod = utility.calculateTimeInMilliSeconds(integerValueForDeviceListSyncPeriod, unitForDeviceListSyncPeriod);
+    // if (unitForDeviceListSyncPeriod == "days") {
+    //   deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 24 * 60 * 60 * 1000;
+    // } else if (unitForDeviceListSyncPeriod == "hour") {
+    //   deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 60 * 60 * 1000;
+    // }
 
+    // Cyclic loop
+    periodicConnectionStatusSynchTimerId = setInterval(deviceMetaDataListUpdateProcess, deviceListSyncPeriod);
+
+    return;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return error;
   }
 }
@@ -47,8 +55,8 @@ async function deviceMetaDataListUpdateProcess() {
     /** stops sliding window process (if already running)
         no data will be missed out. latest added devices are pushed to end of deviceMetaDataPriorityList. 
         Older devices will still be present in top, so when next sliding-window cycle starts, it will continute
-      */
-    await slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();
+    */
+    await slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();  // TODO @latta-techm WHY???
 
     let odlDeviceMetaDataList = [];
     let deviceMetaDataListFromElasticSearch = [];
@@ -57,11 +65,10 @@ async function deviceMetaDataListUpdateProcess() {
     //get device meta data list from live controller
     odlDeviceMetaDataList = await deviceMetaDataUtility.getLiveDeviceMetaDataListFromController()
       .catch(error => {
-	      console.log(error);
+        logger.error(error);
         throw error;
       });
-   console.log("List of Devices in the MetaData**********************");
-	  console.log(odlDeviceMetaDataList);
+    logger.debug(odlDeviceMetaDataList, "List of Devices in the MetaData**********************");
 
     // get existing device meta data from elastic search
     deviceMetaDataListFromElasticSearch = await deviceMetaDataUtility.readDeviceMetaDataListFromElasticSearch()
@@ -78,9 +85,9 @@ async function deviceMetaDataListUpdateProcess() {
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     //get string-value of historicalControlConstructPolicy
-    console.log("before getting historicalControlConstructPolicy");
+    logger.debug("before getting historicalControlConstructPolicy");
     let historicalControlConstructPolicy = await utility.getStringValueForStringProfileNameAsync("historicalControlConstructPolicy");
-    console.log("after getting historicalControlConstructPolicy");
+    logger.debug("after getting historicalControlConstructPolicy");
 
 
 
@@ -91,14 +98,16 @@ async function deviceMetaDataListUpdateProcess() {
       /**
         CREATING NEW DEVICEMETADATALIST IN ES 
       */
-     console.log("Current lenght of the odlDeviceMetaDataList ");
-     console.log(odlDeviceMetaDataList.length);
+     logger.info(`Current lenght of the odlDeviceMetaDataList ${odlDeviceMetaDataList.length}`);
+
       for (let i = 0; i < odlDeviceMetaDataList.length; i++) {
-console.log("Iteration " + i + " for the node " + odlDeviceMetaDataList[i]["node-id"]);
-await sleep(10);
+        logger.debug(`Iteration ${i} for the node ${odlDeviceMetaDataList[i]["node-id"]}`);
+        await sleep(10); // TODO @latta-techm  WHY???
         let mountName = odlDeviceMetaDataList[i]["node-id"];
         let connectionStatus = odlDeviceMetaDataList[i]["netconf-node-topology:connection-status"];
         let schemaCacheDirectory = odlDeviceMetaDataList[i]["netconf-node-topology:schema-cache-directory"];
+
+        // If Device is in connected status
         if (connectionStatus) {
           let deviceMetaData = {
             "mount-name": mountName,
@@ -113,6 +122,7 @@ await sleep(10);
             "device-type": "unknown",
             "vendor": "unknown"
           };
+
           if (connectionStatus != "connected") {
             if (historicalControlConstructPolicy == "keep-on-disconnect") {
               deviceMetaData["changed-to-disconnected-time"] = currentTime;
@@ -132,11 +142,11 @@ await sleep(10);
       let stringifiedMetaDataList = JSON.stringify(deviceMetaDataList);
       //Writing the metaData list into Elasticsearch
       try {
-      console.log("before writing to ES for MetaData");
+        logger.debug("before writing to ES for MetaData");
         await deviceMetaDataUtility.writeDeviceMetaDataListToElasticsearch(stringifiedMetaDataList);
-      console.log("after writing to ES for MetaData");
+        logger.debug("after writing to ES for MetaData");
       } catch (error) {
-        console.log(error);
+        logger.error(error);
       }
     } else {
       /**
@@ -230,7 +240,10 @@ await sleep(10);
             }
             if (!isDeviceCrossedRetentionPeriod || deviceMetaDataListFromElasticSearch[i]["connection-status"] == "connected") {
               deviceMetaDataListFromElasticSearch[i]["connection-status"] = "unknown";
-              if (deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] == null) { deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] = currentTime; }
+              if (deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] == null) {
+                deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] = currentTime;
+              }
+
               deviceMetaDataListFromElasticSearch[i]["added-to-device-list-time"] = null;
               deviceMetaDataListFromElasticSearch[i]["last-complete-control-construct-update-time-attempt"] = defaultDisconnectionTime;
               deviceMetaDataListFromElasticSearch[i]["last-successful-complete-control-construct-update-time"] = null;
@@ -276,6 +289,7 @@ await sleep(10);
               "device-type": "unknown",
               "vendor": "unknown"
             };
+
             if (connectionStatus != "connected") {
               if (historicalControlConstructPolicy == "keep-on-disconnect") {
                 deviceMetaData["changed-to-disconnected-time"] = currentTime;
@@ -319,7 +333,7 @@ await sleep(10);
 
     return;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return error;
   }
 }
@@ -340,6 +354,7 @@ module.exports.stopMetaDataCyclicProcess = async function stopMetaDataCyclicProc
 
   clearInterval(periodicConnectionStatusSynchTimerId);
 }
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

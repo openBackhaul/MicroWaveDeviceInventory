@@ -10,6 +10,10 @@ const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
 const logger = require("../../../LoggingService").getLogger();
 
+// Constants
+const MOUNTNAME = "mount-name";
+
+
 let periodicConnectionStatusSynchTimerId = 0;
 
 /**
@@ -102,7 +106,7 @@ async function deviceMetaDataListUpdateProcess() {
 
       for (let i = 0; i < odlDeviceMetaDataList.length; i++) {
         logger.debug(`Iteration ${i} for the node ${odlDeviceMetaDataList[i]["node-id"]}`);
-        await sleep(10); // TODO @latta-techm  WHY???
+        await sleep(10); // TODO @latta-techm  WHY SLEEP???
         let mountName = odlDeviceMetaDataList[i]["node-id"];
         let connectionStatus = odlDeviceMetaDataList[i]["netconf-node-topology:connection-status"];
         let schemaCacheDirectory = odlDeviceMetaDataList[i]["netconf-node-topology:schema-cache-directory"];
@@ -168,7 +172,7 @@ async function deviceMetaDataListUpdateProcess() {
                 deviceMetaDataListFromElasticSearch[i]["added-to-device-list-time"] = currentTime;
                 deviceMetaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = 0;
                 if (deviceMetaDataListFromElasticSearch[i]["device-type"] == "unknown") {
-                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                   if (deviceType != "unknown") {
                     deviceMetaDataListFromElasticSearch[i]["device-type"] = deviceType;
                     let vendorName = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType);
@@ -193,7 +197,7 @@ async function deviceMetaDataListUpdateProcess() {
                   commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
                   break;
                 } else {
-                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                 }
               }
             } else {
@@ -201,7 +205,7 @@ async function deviceMetaDataListUpdateProcess() {
               if (deviceMetaDataListFromElasticSearch[i]["connection-status"] == "connected") {
                 await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaDataListFromElasticSearch[i]);
                 if (deviceMetaDataListFromElasticSearch[i]["device-type"] == "unknown") {
-                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                   if (deviceType != "unknown") {
                     deviceMetaDataListFromElasticSearch[i]["device-type"] = deviceType;
                     let vendorName = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType);
@@ -218,10 +222,10 @@ async function deviceMetaDataListUpdateProcess() {
                     await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaDataListFromElasticSearch[i]);
                     commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
                   } else {
-                    await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                    await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                   }
                 } else {
-                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                 }
               }
             }
@@ -235,7 +239,7 @@ async function deviceMetaDataListUpdateProcess() {
             if (deviceMetaDataListFromElasticSearch[i]["connection-status"] != "connected") {
               isDeviceCrossedRetentionPeriod = await deviceMetaDataUtility.isDeviceCrossedRetentionPeriod(deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"]);
               if (isDeviceCrossedRetentionPeriod) {
-                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
               }
             }
             if (!isDeviceCrossedRetentionPeriod || deviceMetaDataListFromElasticSearch[i]["connection-status"] == "connected") {
@@ -254,7 +258,7 @@ async function deviceMetaDataListUpdateProcess() {
               commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
             }
           } else {
-            await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+            await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
           }
         }
       }
@@ -266,7 +270,7 @@ async function deviceMetaDataListUpdateProcess() {
       for (let i = 0; i < odlDeviceMetaDataList.length; i++) {
         let found = false;
         for (let j = 0; j < deviceMetaDataListFromElasticSearch.length; j++) {
-          if (odlDeviceMetaDataList[i]["node-id"] == deviceMetaDataListFromElasticSearch[j]['mount-name']) {
+          if (odlDeviceMetaDataList[i]["node-id"] == deviceMetaDataListFromElasticSearch[j][MOUNTNAME]) {
             found = true;
             break;
           }
@@ -296,7 +300,7 @@ async function deviceMetaDataListUpdateProcess() {
                 await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaData);
                 newOdlElements.push(deviceMetaData);
               } else {
-                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaData["mount-name"]);
+                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaData[MOUNTNAME]);
               }
             } else {
               let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(mountName);

@@ -1,6 +1,11 @@
 'use strict';
 
+const logger = require("../../../LoggingService").getLogger();
 const deviceMetaDataUtility = require('./deviceMetaDataUtility');
+
+// Constants
+const MOUNTNAME = "mount-name";
+
 let deviceMetadataListSyncProcessId = 0;
 
 // NEW: detect worker vs main
@@ -30,187 +35,194 @@ try {
  * @param {String} "vendor" - vendor-name calculated during cyclic process
  */
 class DeviceMetaDataList {
-    constructor() {
-        this.deviceMetaDataList = [];
-    }
+  constructor() {
+    this.deviceMetaDataList = [];
+  }
 
-    // creates or updates metadata
-    createOrUpdateDeviceMetaData(deviceMetaData) {
-        try {
-            if (Array.isArray(deviceMetaData)) {
-                deviceMetaData.forEach(device => {
-                    const index = this.deviceMetaDataList.findIndex(d => d["mount-name"] === device["mount-name"]);
-                    if (index > -1) {
-                        this.deviceMetaDataList[index] = { ...this.deviceMetaDataList[index], ...device };
-                    } else {
-                        this.deviceMetaDataList.push(device);
-                    }
-                });
-            } else {
-                const index = this.deviceMetaDataList.findIndex(d => d["mount-name"] === deviceMetaData["mount-name"]);
-                if (index > -1) {
-                    this.deviceMetaDataList[index] = { ...this.deviceMetaDataList[index], ...deviceMetaData };
-                } else {
-                    this.deviceMetaDataList.push(deviceMetaData);
-                }
-            }
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
+  // creates or updates metadata
+  createOrUpdateDeviceMetaData(deviceMetaData) {
+    try {
+      if (Array.isArray(deviceMetaData)) {
+        deviceMetaData.forEach(device => {
+          const index = this.deviceMetaDataList.findIndex(d => d[MOUNTNAME] === device[MOUNTNAME]);
+          if (index > -1) {
+            this.deviceMetaDataList[index] = { ...this.deviceMetaDataList[index], ...device };
+          } else {
+            this.deviceMetaDataList.push(device);
+          }
+        });
+      } else {
+        const index = this.deviceMetaDataList.findIndex(d => d[MOUNTNAME] === deviceMetaData[MOUNTNAME]);
+        if (index > -1) {
+          this.deviceMetaDataList[index] = { ...this.deviceMetaDataList[index], ...deviceMetaData };
+        } else {
+          this.deviceMetaDataList.push(deviceMetaData);
         }
+      }
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
     }
+  }
 
-    //remove metadata from list
-    removeDevicemetadata(mountName) {
-        try {
-            this.deviceMetaDataList = this.deviceMetaDataList.filter(d => d["mount-name"] !== mountName);
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
+  //remove metadata from list
+  removeDevicemetadata(mountName) {
+    try {
+      this.deviceMetaDataList = this.deviceMetaDataList.filter(d => d[MOUNTNAME] !== mountName);
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
+    }
+  }
+
+  // returns the list of all metadata 
+  getDeviceMetaDataList() {
+    return this.deviceMetaDataList;
+  }
+
+  // returns metadata object for given node-id
+  getDeviceMetaData(nodeId) {
+    try {
+      if (this.deviceMetaDataList.length > 0) {
+        let device = this.deviceMetaDataList.find(d => d[MOUNTNAME] == nodeId)
+        return device;
+      }
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  // updates "last-complete-control-construct-update-time-attempt" for given node-id
+  setLastCompleteControlConstructUpdateTimeAttempt(nodeId, newTime) {
+    try {
+      let data = this.deviceMetaDataList.find(d => d[MOUNTNAME] === nodeId);
+      if (data) {
+        data["last-complete-control-construct-update-time-attempt"] = newTime;
+      }
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
+    }
+  }
+
+  // updates "last-successful-complete-control-construct-update-time" for given nodeId
+  setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, newTime) {
+    try {
+      let data = this.deviceMetaDataList.find(d => d[MOUNTNAME] === nodeId);
+      if (data) {
+        data["last-successful-complete-control-construct-update-time"] = newTime;
+      }
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
+    }
+  }
+
+  // updates "last-control-construct-notification-update-time" for given nodeId
+  setLastControlConstructNotificationUpdateTime(nodeId, newTime) {
+    try {
+      let data = this.deviceMetaDataList.find(d => d[MOUNTNAME] === nodeId);
+      if (data) {
+        data["last-control-construct-notification-update-time"] = newTime;
+      }
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
+    }
+  }
+
+  /**
+   * Update attempt time + (optional) success time in ONE call.
+   * - In worker thread of SlidingWindow: send ONE cache-update message.
+   * - In main thread: apply changes to in-memory array.
+   */
+  updateCcSyncTimes(nodeId, attemptTime, successTime) {
+    try {
+      if (!isMainThread && parentPort) {
+        parentPort.postMessage({
+          type: 'cache-update',
+          nodeId,
+          attemptTime,
+          successTime: successTime || null
+        });
+        return true;
+      }
+
+      // Main-thread behavior: update in-memory list
+      const data = this.deviceMetaDataList.find(d => d[MOUNTNAME] === nodeId);
+      if (data) {
+        if (attemptTime) {
+          data["last-complete-control-construct-update-time-attempt"] = attemptTime;
         }
-    }
-
-    // returns the list of all metadata 
-    getDeviceMetaDataList() {
-        return this.deviceMetaDataList;
-    }
-
-    // returns metadata object for given node-id
-    getDeviceMetaData(nodeId) {
-        try {
-            if (this.deviceMetaDataList.length > 0) {
-                let device = this.deviceMetaDataList.find(d => d["mount-name"] == nodeId)
-                return device;
-            }
-        } catch (error) {
-            throw error;
+        if (successTime) {
+          data["last-successful-complete-control-construct-update-time"] = successTime;
         }
+      }
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
+    }
+  }
+
+  // updates "number-of-partial-updates-since-last-complete-update" for given nodeId
+  updateNumberOfPartialUpdatesSinceLastCompleteUpdate(nodeId) {
+    try {
+      let data = this.deviceMetaDataList.find(d => d[MOUNTNAME] === nodeId);
+      if (data) if (data["number-of-partial-updates-since-last-complete-update"] >= 0) {
+        data["number-of-partial-updates-since-last-complete-update"] = data["number-of-partial-updates-since-last-complete-update"] + 1;
+      } else {
+        data["number-of-partial-updates-since-last-complete-update"] = 0;
+      }
+      return true;
+    } catch (error) {
+      logger.error(error);
+      return false;
+    }
+  }
+
+  // returns { deviceType, Vendor } for given mount-name
+  getDeviceTypeAndVendorForDevice(nodeId) {
+    let response = {
+      "deviceType": "unknown",
+      "vendor": "unknown"
     }
 
-    // updates "last-complete-control-construct-update-time-attempt" for given node-id
-    setLastCompleteControlConstructUpdateTimeAttempt(nodeId, newTime) {
-        try {
-            let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
-            if (data) data["last-complete-control-construct-update-time-attempt"] = newTime;
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
+    try {
+      if (this.deviceMetaDataList.length > 0) {
+        let device = this.deviceMetaDataList.find(d => d[MOUNTNAME] == nodeId);
+        if (device) {
+          response.deviceType = device["device-type"];
+          response.vendor = device["vendor"];
+          return response;
         }
+      }
+    } catch (error) {
+      throw error;
     }
+    return response;
+  }
 
-    // updates "last-successful-complete-control-construct-update-time" for given nodeId
-    setLastSuccessfulCompleteControlConstructUpdateTime(nodeId, newTime) {
-        try {
-            let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
-            if (data) data["last-successful-complete-control-construct-update-time"] = newTime;
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
+  // update deviceType, Vendor for given mount-name
+  setDeviceTypeAndVendorForDevice(nodeId, deviceType, vendorName) {
+    try {
+      if (this.deviceMetaDataList.length > 0) {
+        let device = this.deviceMetaDataList.find(d => d[MOUNTNAME] == nodeId);
+        if (device) {
+          device["device-type"] = deviceType;
+          device["vendor"] = vendorName;
+          return true;
         }
+      }
+    } catch (error) {
+      return false;
     }
-
-    // updates "last-control-construct-notification-update-time" for given nodeId
-    setLastControlConstructNotificationUpdateTime(nodeId, newTime) {
-        try {
-            let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
-            if (data) data["last-control-construct-notification-update-time"] = newTime;
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
-
-    /**
-     * Update attempt time + (optional) success time in ONE call.
-     * - In worker thread of SlidingWindow: send ONE cache-update message.
-     * - In main thread: apply changes to in-memory array.
-     */
-    updateCcSyncTimes(nodeId, attemptTime, successTime) {
-        try {
-            if (!isMainThread && parentPort) {
-                parentPort.postMessage({
-                    type: 'cache-update',
-                    nodeId,
-                    attemptTime,
-                    successTime: successTime || null
-                });
-                return true;
-            }
-
-            // Main-thread behavior: update in-memory list
-            const data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
-            if (data) {
-                if (attemptTime) {
-                    data["last-complete-control-construct-update-time-attempt"] = attemptTime;
-                }
-                if (successTime) {
-                    data["last-successful-complete-control-construct-update-time"] = successTime;
-                }
-            }
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
-
-    // updates "number-of-partial-updates-since-last-complete-update" for given nodeId
-    updateNumberOfPartialUpdatesSinceLastCompleteUpdate(nodeId) {
-        try {
-            let data = this.deviceMetaDataList.find(d => d["mount-name"] === nodeId);
-            if (data) if (data["number-of-partial-updates-since-last-complete-update"] >= 0) {
-                data["number-of-partial-updates-since-last-complete-update"] = data["number-of-partial-updates-since-last-complete-update"] + 1;
-            } else {
-                data["number-of-partial-updates-since-last-complete-update"] = 0;
-            }
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
-
-    // returns { deviceType, Vendor } for given mount-name
-    getDeviceTypeAndVendorForDevice(nodeId) {
-        let response = {
-            "deviceType": "unknown",
-            "vendor": "unknown"
-        }
-        try {
-            if (this.deviceMetaDataList.length > 0) {
-                let device = this.deviceMetaDataList.find(d => d["mount-name"] == nodeId);
-                if (device) {
-                    response.deviceType = device["device-type"];
-                    response.vendor = device["vendor"];
-                    return response;
-                }
-            }
-        } catch (error) {
-            throw error;
-        }
-        return response;
-    }
-
-    // update deviceType, Vendor for given mount-name
-    setDeviceTypeAndVendorForDevice(nodeId, deviceType, vendorName) {
-        try {
-            if (this.deviceMetaDataList.length > 0) {
-                let device = this.deviceMetaDataList.find(d => d["mount-name"] == nodeId);
-                if (device) {
-                    device["device-type"] = deviceType;
-                    device["vendor"] = vendorName;
-                    return true;
-                }
-            }
-        } catch (error) {
-            return false;
-        }
-    }
+  }
 }
 
 // creates object for the above class
@@ -220,16 +232,27 @@ const deviceMetaDataObj = new DeviceMetaDataList();
  * This function updates device-metadata for partial updates due to notification
  */
 deviceMetaDataObj.updateMDForPartialCCUpdate = async function (mountName, timestamp) {
-    let result = false;
-    try {
-        result = await deviceMetaDataObj.setLastControlConstructNotificationUpdateTime(mountName, timestamp);
-        if (result) result = await deviceMetaDataObj.updateNumberOfPartialUpdatesSinceLastCompleteUpdate(mountName);
-        if (result) result = await deviceMetaDataObj.deviceMetaDataListSync();
-        if (result) console.log(`******************* partial update for ${mountName} success *************************`);
-        return result;
-    } catch (error) {
-        console.log(error);
+  let result = false;
+  try {
+    result = await deviceMetaDataObj.setLastControlConstructNotificationUpdateTime(mountName, timestamp);
+    if (result) {
+      result = await deviceMetaDataObj.updateNumberOfPartialUpdatesSinceLastCompleteUpdate(mountName);
     }
+
+    if (result) {
+      result = await deviceMetaDataObj.deviceMetaDataListSync();
+    }
+
+    if (result) {
+      logger.debug(`METADATACACHE: partial update for ${mountName} - SUCCESS`);
+    } else {
+      logger.warn(`METADATACACHE: partial update for ${mountName} - FAILED`);
+    }
+
+    return result;
+  } catch (error) {
+    logger.error(error);
+  }
 }
 
 /** starts the cyclic process to update deviceMetaList to ES
@@ -237,32 +260,32 @@ deviceMetaDataObj.updateMDForPartialCCUpdate = async function (mountName, timest
  * @param {List} deviceMetaDataList - list of device-metadata
  * 
  */
-deviceMetaDataObj.startDeviceMetaDatacaching = async function (deviceMetaDataList) {
-    try {
-        await deviceMetaDataObj.createOrUpdateDeviceMetaData(deviceMetaDataList);
-        let timeIntervalForSyncingDevicemetaDataInCache = 5 * 60 * 60 * 1000;
-        deviceMetadataListSyncProcessId = setInterval(deviceMetaDataObj.deviceMetaDataListSync, timeIntervalForSyncingDevicemetaDataInCache);
-    } catch (error) {
-        console.log(error);
-    }
+deviceMetaDataObj.git  = async function (deviceMetaDataList) {
+  try {
+    await deviceMetaDataObj.createOrUpdateDeviceMetaData(deviceMetaDataList);
+    let timeIntervalForSyncingDevicemetaDataInCache = 5 * 60 * 60 * 1000; //TODO @latta-techm To be verify. I think this should read from configuration
+    deviceMetadataListSyncProcessId = setInterval(deviceMetaDataObj.deviceMetaDataListSync, timeIntervalForSyncingDevicemetaDataInCache);
+  } catch (error) {
+    logger.error(error);
+  }
 }
 
 /** 
  * This function writes deviceMetaList to ES
  */
 deviceMetaDataObj.deviceMetaDataListSync = async function () {
-    try {
-        let deviceMetadatalist = await deviceMetaDataObj.getDeviceMetaDataList();
-        let result = await deviceMetaDataUtility.writeDeviceMetaDataListToElasticsearch(JSON.stringify(deviceMetadatalist));
-        if (result) {
-            console.log("*************************************** WRITE DEVICE-METADATA TO ES SUCCESS **************************************************");
-        } else {
-            console.log("*************************************** WRITE DEVICE-METADATA TO ES FAIL **************************************************");
-        }
-        return result;
-    } catch (error) {
-        console.log(error);
+  try {
+    let deviceMetadatalist = await deviceMetaDataObj.getDeviceMetaDataList();
+    let result = await deviceMetaDataUtility.writeDeviceMetaDataListToElasticsearch(JSON.stringify(deviceMetadatalist));
+    if (result) {
+      logger.info("WRITE DEVICE-METADATA TO ElasticSearch SUCCESS ");
+    } else {
+      logger.error("WRITE DEVICE-METADATA TO ElasticSearch FAIL");
     }
+    return result;
+  } catch (error) {
+    logger.error(error);
+  }
 }
 
 /**
@@ -270,14 +293,15 @@ deviceMetaDataObj.deviceMetaDataListSync = async function () {
  **/
 deviceMetaDataObj.stopMetaDataCachingCyclicProcess = async function stopMetaDataCachingCyclicProcess() {
 
-    console.log('*******************************************************************************************************');
-    console.log('*                             METADATA UPDATING CYCLIC PROCESS PROCEDURE IN CACHE STOPPED                      *');
-    console.log('*                                                                                                     *');
-    console.log('*                                 ( ' + utility.getTime() + ' )                                               *');
-    console.log('*                                                                                                     *');
-    console.log('*******************************************************************************************************');
+  logger.info(`METADATA UPDATING CYCLIC PROCESS PROCEDURE IN CACHE STOPPED AT: ${utility.getTime()}`);
+  // console.log('*******************************************************************************************************');
+  // console.log('*                             METADATA UPDATING CYCLIC PROCESS PROCEDURE IN CACHE STOPPED                      *');
+  // console.log('*                                                                                                     *');
+  // console.log('*                                 ( ' + utility.getTime() + ' )                                               *');
+  // console.log('*                                                                                                     *');
+  // console.log('*******************************************************************************************************');
 
-    clearInterval(deviceMetadataListSyncProcessId);
+  clearInterval(deviceMetadataListSyncProcessId);
 }
 
 module.exports = deviceMetaDataObj;

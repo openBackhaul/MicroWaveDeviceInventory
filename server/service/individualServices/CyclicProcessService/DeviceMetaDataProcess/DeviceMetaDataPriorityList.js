@@ -110,8 +110,8 @@ class DeviceMetaDataPriorityList {
 
                 // Check if we can unlock some mountnames
                 if (!nextDevice) {
-                    // const totalOnLine = this.deviceMetadataPriorityList.filter(d => d["connection-status"] == "connected" )
-                    this.resetDeviceList();
+                    const totalOnLine = this.deviceMetadataPriorityList.filter(d => d["connection-status"] == "connected" )
+                    this.resetDeviceList(totalOnLine.length);
                 }
                 return nextDevice;
             }
@@ -120,9 +120,14 @@ class DeviceMetaDataPriorityList {
         }
     }
 
-    resetDeviceList() {
+    resetDeviceList(onLineMountNames) {
         if (this.deviceMetadataPriorityList.length > 0) {
-            let resultSync = this.deviceMetadataPriorityList.filter(d => {
+
+            let resultSync =  this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true);
+                return temp;
+            });
+            let resultSyncNotLocked = this.deviceMetadataPriorityList.filter(d => {
                 let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true && d["locked-status"] == false);
                 return temp;
             });
@@ -137,10 +142,11 @@ class DeviceMetaDataPriorityList {
                 return temp;
             });
 
-            if (resultSync.length > 0 ) {
-
-                if (global.algo1 == true) {  // Algorithm 1
-                    if (resultNotSyncBlocked.length + resultSyncBlocked.length < resultSync.length) {
+            if (resultSyncNotLocked.length > 0 ) {
+                const algo1 = (process.env.ALGO1 && process.env.ALGO1.toLowerCase() === "true");
+                const algo2threshold = (process.env.ALGO2_THRESHOLD) ? Number(process.env.ALGO2_THRESHOLD) : 0.5;
+                if (algo1 == true) {  // Algorithm 1
+                    if (resultNotSyncBlocked.length + resultSyncBlocked.length < resultSyncNotLocked.length) {
                         this.deviceMetadataPriorityList.forEach(v => {
                             if (v["connection-status"] == "connected" && v["cc-synced"] == true && v["locked-status"] == false) {
                                 v["cc-synced"] = false;
@@ -149,8 +155,8 @@ class DeviceMetaDataPriorityList {
                         });
                     }
                 } else {  // Algorithm 2
-                    const ratio = global.algo2threshold;
-                    if (resultSync.length > this.deviceMetadataPriorityList * ratio) {
+                    const ratio = algo2threshold * onLineMountNames; //this.deviceMetadataPriorityList.length;
+                    if (resultSync.length > ratio) {
                         this.deviceMetadataPriorityList.forEach(v => {
                             if (v["connection-status"] == "connected" && v["cc-synced"] == true && v["locked-status"] == false) {
                                 v["cc-synced"] = false;

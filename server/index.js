@@ -43,6 +43,17 @@ if (process.env.VALIDATE_RESPONSES &&
   appCommons.openApiValidatorOptions.validateResponses = false;
 }
 
+if (process.env.ALGO1 &&
+  process.env.ALGO1.toLowerCase() === "true") {
+  global.algo1 = true;
+} else {
+  global.algo1 = false;
+  if (process.env.ALGO2_THRESHOLD) {
+    global.algo2threshold = Number(process.env.ALGO2_THRESHOLD);
+  }
+}
+
+
 logger.warn("Validate Security: " + appCommons.openApiValidatorOptions.validateSecurity);
 logger.warn("Validate Responses: " + appCommons.openApiValidatorOptions.validateResponses);
 logger.warn("Validate Requests: " + appCommons.openApiValidatorOptions.validateRequests);

@@ -60,7 +60,7 @@ class SlidingWindow {
       }
 
       // lock device
-      await deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
+      deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
 
       // submit job to concurrency queue
       this.enqueue(() => this.processDevice(device))

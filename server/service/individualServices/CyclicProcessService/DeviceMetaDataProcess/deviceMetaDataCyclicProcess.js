@@ -60,7 +60,7 @@ async function deviceMetaDataListUpdateProcess() {
         no data will be missed out. latest added devices are pushed to end of deviceMetaDataPriorityList. 
         Older devices will still be present in top, so when next sliding-window cycle starts, it will continute
     */
-    await slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();  // TODO @latta-techm WHY???
+    slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();
 
     let odlDeviceMetaDataList = [];
     let deviceMetaDataListFromElasticSearch = [];

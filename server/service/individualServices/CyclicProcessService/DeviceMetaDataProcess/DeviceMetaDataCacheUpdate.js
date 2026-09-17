@@ -260,9 +260,9 @@ deviceMetaDataObj.updateMDForPartialCCUpdate = async function (mountName, timest
  * @param {List} deviceMetaDataList - list of device-metadata
  * 
  */
-deviceMetaDataObj.git  = async function (deviceMetaDataList) {
+deviceMetaDataObj.startDeviceMetaDatacaching = async function (deviceMetaDataList) {
   try {
-    await deviceMetaDataObj.createOrUpdateDeviceMetaData(deviceMetaDataList);
+    deviceMetaDataObj.createOrUpdateDeviceMetaData(deviceMetaDataList);
     let timeIntervalForSyncingDevicemetaDataInCache = 5 * 60 * 60 * 1000; //TODO @latta-techm To be verify. I think this should read from configuration
     deviceMetadataListSyncProcessId = setInterval(deviceMetaDataObj.deviceMetaDataListSync, timeIntervalForSyncingDevicemetaDataInCache);
   } catch (error) {

@@ -106,12 +106,49 @@ class DeviceMetaDataPriorityList {
             if (this.deviceMetadataPriorityList.length > 0) {
                 let nextDevice = this.deviceMetadataPriorityList.find(d => {
                     return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
-                })
+                });
+
+                // Check if we can unlock some mountnames
+                if (!nextDevice) {
+                    // const totalOnLine = this.deviceMetadataPriorityList.filter(d => d["connection-status"] == "connected" )
+                    this.resetDeviceList();
+                }
                 return nextDevice;
             }
         } catch (error) {
             throw error;
         }
+    }
+
+    resetDeviceList() {
+        if (this.deviceMetadataPriorityList.length > 0) {
+            let resultSync = this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true && d["locked-status"] == false);
+                return temp;
+            });
+
+            let resultSyncBlocked = this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true && d["locked-status"] == true );
+                return temp;
+            });
+
+            let resultNotSyncBlocked = this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == false && d["locked-status"] == true );
+                return temp;
+            });
+
+            if (resultSync.length > 0 ) {
+                if (resultNotSyncBlocked.length + resultSyncBlocked.length < resultSync.length) {
+                    this.deviceMetadataPriorityList.forEach(v => {
+                        if (v["connection-status"] == "connected" && v["cc-synced"] == true && v["locked-status"] == false) {
+                            v["cc-synced"] = false;
+                            console.error(`Cyclic process locked: Resetting Mountname[${v['mount-name']}] to cc-synced = false`);
+                        }
+                    });
+                }
+            }
+        }
+        return;
     }
 
     // Get next device to process for quality-measurement process

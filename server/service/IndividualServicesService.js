@@ -13853,7 +13853,7 @@ async function deleteRequest(cc) {
  * response value expected for this operation
  **/
 async function ReadRecords(cc) {
-try {
+  try {
     const indexAlias = common[1].indexAlias
     const client = common[1].EsClient;
 
@@ -13885,22 +13885,19 @@ try {
  **/
 async function searchRecords(cc) {
   try {
-    let size = 100;
-    let from = 0;
-    let query = {
-      term: {
-        _id: cc
-      }
-
-    };
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
     const result = await client.search({
       index: indexAlias,
       body: {
-        query: query
+        query: {
+          term: {
+            _id: cc
+          }
+        }
       }
     });
+
     const resultArray = createResultArray(result);
     return (resultArray[0])
   } catch (error) {

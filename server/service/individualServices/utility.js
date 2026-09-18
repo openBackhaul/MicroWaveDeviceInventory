@@ -80,17 +80,14 @@ exports.getMappingListForRegexProfile = async function (expectedMappingName) {
  *
  * response value expected for this operation
  **/
-exports.ReadRecords = async function (cc) {
+exports.searchRecords = async function (cc) {
   try {
-    let size = 100;
-    let from = 0;
     let query = {
-
       term: {
         _id: cc
       }
-
     };
+
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
     const result = await client.search({
@@ -100,10 +97,42 @@ exports.ReadRecords = async function (cc) {
       }
     });
     const resultArray = createResultArray(result);
-    return (resultArray[0])
+    return (resultArray[0]);
   } catch (error) {
     console.error(error);
     throw (error);
+  }
+}
+
+
+/**
+ * Read from ES
+ *
+ * response value expected for this operation
+ **/
+exports.ReadRecords = async function (cc) {
+try {
+    const indexAlias = common[1].indexAlias
+    const client = common[1].EsClient;
+
+    const result = await client.get({
+      'index': indexAlias, //"my-index-000001",
+      'id': cc // mountname
+    });
+
+    const src = result?.body?._source;
+    if (!src) {
+      return undefined;
+    }
+    return src;
+  } catch (error) {
+    logger.error(error.meta.body.found);
+    if (error.meta.body.found == false) {
+      logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
+    }
+    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
+    return undefined;
+    // throw (error);
   }
 }
 

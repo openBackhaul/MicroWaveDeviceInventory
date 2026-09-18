@@ -128,8 +128,9 @@ class DeviceMetaDataPriorityList {
                 return temp;
             });
             
-            const thresholdSynced = 1 - (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
-            if (resultNotSync.length <= thresholdSynced) {
+            const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
+            const thresholdSynced = 1 - value;
+            if (resultNotSync.length <= onLineMountNames * thresholdSynced) {
                 console.error("[DEVICE_METADATA_PRIORITY_LIST] - Reset and unlock status to restart Sliding Window");
                 this.deviceMetadataPriorityList.forEach(metaDataEle => {
                     metaDataEle["locked-status"] = false;

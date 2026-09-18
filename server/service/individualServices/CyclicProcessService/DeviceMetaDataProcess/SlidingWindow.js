@@ -31,9 +31,9 @@ class SlidingWindow {
     this.stopped = false;
 
     // TODO @latta-techm to be verify
-    // logSlidingWindowActivity(`SlidingWindow: is stopped ? ${this.stopped}`);
-    // logSlidingWindowActivity(`SlidingWindow: Response timeout set to ${responseTimeOut} ms.`);
-    // logSlidingWindowActivity(`SlidingWindow: Maximum retries ${maximumNumberOfRetries} for each device.`);
+    logSlidingWindowActivity(`SlidingWindow: is stopped ? ${this.stopped}`);
+    logSlidingWindowActivity(`SlidingWindow: Response timeout set to ${responseTimeOut} ms.`);
+    logSlidingWindowActivity(`SlidingWindow: Maximum retries ${maximumNumberOfRetries} for each device.`);
 
     /**
      * Declare + initialize queue limiter
@@ -50,7 +50,7 @@ class SlidingWindow {
       const device = await this.getNextDevice();
       if (!device) {
         logger.warn("SlidingWindow: No more devices to process at the moment.");
-        // logSlidingWindowActivity(`SlidingWindow: No more devices to process at the moment.`);
+        logSlidingWindowActivity(`SlidingWindow: No more devices to process at the moment.`);
         endTime = Date.now();
         logSlidingWindowDuration();
         await sleep(2000);   // nothing to do --> recheck later
@@ -66,7 +66,7 @@ class SlidingWindow {
       this.enqueue(() => this.processDevice(device))
         .catch((err) => {
           // logger.error("Error processing device:", device["mount-name"], err)
-          // logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
+          logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
           logger.error(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
         });
     }
@@ -78,7 +78,7 @@ class SlidingWindow {
 
     try {
       logger.info(`SlidingWindow: Processing started for device ${nodeId}`);
-      // logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
+      logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
       result = await deviceControlConstructUtility
         .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries);
       logger.info(`SlidingWindow: ${nodeId} written into ElasticSearch`);
@@ -103,14 +103,14 @@ class SlidingWindow {
     } catch (err) {
       // console.error("processDevice failed:", nodeId, err);
       logger.error(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
-      // logSlidingWindowActivity(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
+      logSlidingWindowActivity(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
     }
   }
 
   stop() {
     // console.log('Stop requested...');
     logger.info('SlidingWindow: Stop requested');
-    // logSlidingWindowActivity('SlidingWindow: Stop requested');
+    logSlidingWindowActivity('SlidingWindow: Stop requested');
     this.stopped = true;
   }
 
@@ -127,7 +127,7 @@ async function getNextDeviceMetaDataLocal() {
     return device;
   } catch (error) {
     logger.error(error);
-    // logSlidingWindowActivity(`SlidingWindow: getNextDeviceMetaDataLocal error: ${error.message}`);
+    logSlidingWindowActivity(`SlidingWindow: getNextDeviceMetaDataLocal error: ${error.message}`);
     return {};
   }
 }
@@ -139,7 +139,7 @@ exports.stopSlidingWindowProcessForCCUpdate = async function () {
   try {
     if (slidingWindowRunner) {
       logger.info("Sliding Window: Terminating the existing sliding window process for starting new pocess");
-      // logSlidingWindowActivity("*********************** Terminating the existing sliding window process for starting new pocess *************************");
+      logSlidingWindowActivity("*********************** Terminating the existing sliding window process for starting new pocess *************************");
       await slidingWindowRunner.stop();
       slidingWindowRunner = undefined;
       //setting cc-syned of all devices to false - to enable fresh retrieval for this cycle.
@@ -147,7 +147,7 @@ exports.stopSlidingWindowProcessForCCUpdate = async function () {
     }
   } catch (error) {
     logger.error(error);
-    // logSlidingWindowActivity(`SlidingWindow: stopSlidingWindowProcessForCCUpdate error: ${error.message}`);
+    logSlidingWindowActivity(`SlidingWindow: stopSlidingWindowProcessForCCUpdate error: ${error.message}`);
   }
 
   return true;
@@ -159,12 +159,12 @@ exports.stopSlidingWindowProcessForCCUpdate = async function () {
 exports.startSlidingWindowProcessForCCUpdate = async function () {
   try {
     logger.info(`ControlConstruct Update in SLIDING-WINDOW PROCESS PROCEDURE STARTED AT: ${utility.getTime()}`);
-    // logSlidingWindowActivity('*******************************************************************************************************');
-    // logSlidingWindowActivity('*                             ControlConstruct Update in SLIDING-WINDOW PROCESS PROCEDURE STARTED           *');
-    // logSlidingWindowActivity('*                                                                                                     *');
-    // logSlidingWindowActivity('*                                 ( ' + utility.getTime() + ' )                                             *');
-    // logSlidingWindowActivity('*                                                                                                     *');
-    // logSlidingWindowActivity('*******************************************************************************************************');
+    logSlidingWindowActivity('*******************************************************************************************************');
+    logSlidingWindowActivity('*                             ControlConstruct Update in SLIDING-WINDOW PROCESS PROCEDURE STARTED           *');
+    logSlidingWindowActivity('*                                                                                                     *');
+    logSlidingWindowActivity('*                                 ( ' + utility.getTime() + ' )                                             *');
+    logSlidingWindowActivity('*                                                                                                     *');
+    logSlidingWindowActivity('*******************************************************************************************************');
     // Start timer here
     startTime = Date.now();
 
@@ -174,12 +174,12 @@ exports.startSlidingWindowProcessForCCUpdate = async function () {
     await initializeDependentIntegerValues();
 
     logger.info(`SlidingWindow: Processing ${slidingWindowSize} devices...`);
-    // logSlidingWindowActivity(`SlidingWindow: Processing ${slidingWindowSize} devices...`);
+    logSlidingWindowActivity(`SlidingWindow: Processing ${slidingWindowSize} devices...`);
 
     slidingWindowRunner = new SlidingWindow(getNextDeviceMetaDataLocal); // Add devices to sliding window process
   } catch (error) {
     logger.error(error);
-    // logSlidingWindowActivity(`SlidingWindow: startSlidingWindowProcessForCCUpdate error: ${error.message}`);
+    logSlidingWindowActivity(`SlidingWindow: startSlidingWindowProcessForCCUpdate error: ${error.message}`);
   }
 }
 
@@ -206,15 +206,15 @@ function logSlidingWindowDuration() {
   if (startTime && endTime) {
     const durationMs = endTime - startTime;
     logger.warn(`SlidingWindow cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`);
-    // logSlidingWindowActivity(
-    //   `*******************************************************************************************************`
-    // );
-    // logSlidingWindowActivity(
-    //   `* SlidingWindow cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`
-    // );
-    // logSlidingWindowActivity(
-    //   `*******************************************************************************************************`
-    // );
+    logSlidingWindowActivity(
+      `*******************************************************************************************************`
+    );
+    logSlidingWindowActivity(
+      `* SlidingWindow cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`
+    );
+    logSlidingWindowActivity(
+      `*******************************************************************************************************`
+    );
   }
 }
 

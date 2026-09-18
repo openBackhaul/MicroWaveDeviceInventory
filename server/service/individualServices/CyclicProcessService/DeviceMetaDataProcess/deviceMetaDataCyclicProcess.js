@@ -72,7 +72,7 @@ async function deviceMetaDataListUpdateProcess() {
         logger.error(error);
         throw error;
       });
-    logger.debug(odlDeviceMetaDataList, "List of Devices in the MetaData**********************");
+    logger.info(odlDeviceMetaDataList, "List of Devices in the MetaData**********************");
 
     // get existing device meta data from elastic search
     deviceMetaDataListFromElasticSearch = await deviceMetaDataUtility.readDeviceMetaDataListFromElasticSearch()

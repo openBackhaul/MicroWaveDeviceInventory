@@ -244,9 +244,9 @@ deviceMetaDataObj.updateMDForPartialCCUpdate = async function (mountName, timest
     }
 
     if (result) {
-      logger.debug(`METADATACACHE: partial update for ${mountName} - SUCCESS`);
+      logger.debug(`******************* METADATACACHE: partial update for ${mountName} - SUCCESS`);
     } else {
-      logger.warn(`METADATACACHE: partial update for ${mountName} - FAILED`);
+      logger.warn(`******************* METADATACACHE: partial update for ${mountName} - FAILED`);
     }
 
     return result;
@@ -278,9 +278,9 @@ deviceMetaDataObj.deviceMetaDataListSync = async function () {
     let deviceMetadatalist = await deviceMetaDataObj.getDeviceMetaDataList();
     let result = await deviceMetaDataUtility.writeDeviceMetaDataListToElasticsearch(JSON.stringify(deviceMetadatalist));
     if (result) {
-      logger.info("WRITE DEVICE-METADATA TO ElasticSearch SUCCESS ");
+      logger.info("******************* WRITE DEVICE-METADATA TO ElasticSearch SUCCESS");
     } else {
-      logger.error("WRITE DEVICE-METADATA TO ElasticSearch FAIL");
+      logger.error("******************* WRITE DEVICE-METADATA TO ElasticSearch FAIL");
     }
     return result;
   } catch (error) {
@@ -294,12 +294,12 @@ deviceMetaDataObj.deviceMetaDataListSync = async function () {
 deviceMetaDataObj.stopMetaDataCachingCyclicProcess = async function stopMetaDataCachingCyclicProcess() {
 
   logger.info(`METADATA UPDATING CYCLIC PROCESS PROCEDURE IN CACHE STOPPED AT: ${utility.getTime()}`);
-  // console.log('*******************************************************************************************************');
-  // console.log('*                             METADATA UPDATING CYCLIC PROCESS PROCEDURE IN CACHE STOPPED                      *');
-  // console.log('*                                                                                                     *');
-  // console.log('*                                 ( ' + utility.getTime() + ' )                                               *');
-  // console.log('*                                                                                                     *');
-  // console.log('*******************************************************************************************************');
+  console.log('*******************************************************************************************************');
+  console.log('*                             METADATA UPDATING CYCLIC PROCESS PROCEDURE IN CACHE STOPPED                      *');
+  console.log('*                                                                                                     *');
+  console.log('*                                 ( ' + utility.getTime() + ' )                                               *');
+  console.log('*                                                                                                     *');
+  console.log('*******************************************************************************************************');
 
   clearInterval(deviceMetadataListSyncProcessId);
 }

@@ -8,6 +8,12 @@ const deviceMetaDataUtility = require('./deviceMetaDataUtility');
 const slidingWindowHandler = require('./SlidingWindowHandler');
 const deviceMetaDataCacheUpdate = require('./DeviceMetaDataCacheUpdate');
 
+const logger = require("../../../LoggingService").getLogger();
+
+// Constants
+const MOUNTNAME = "mount-name";
+
+
 let periodicConnectionStatusSynchTimerId = 0;
 
 /**
@@ -27,14 +33,20 @@ exports.start = async function deviceMetaDataCyclicProcess() {
     let integerValueForDeviceListSyncPeriod = profileInstanceForDeviceListSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unitForDeviceListSyncPeriod = profileInstanceForDeviceListSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-    let deviceListSyncPeriod;
-    if (unitForDeviceListSyncPeriod == "days") deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 24 * 60 * 60 * 1000;
-    else if (unitForDeviceListSyncPeriod == "hour") deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 60 * 60 * 1000;
-    periodicConnectionStatusSynchTimerId = setInterval(deviceMetaDataListUpdateProcess, deviceListSyncPeriod);
-    return;
+    //TODO @latta-techm to be check if is working fine
+    let deviceListSyncPeriod = utility.calculateTimeInMilliSeconds(integerValueForDeviceListSyncPeriod, unitForDeviceListSyncPeriod);
+    // if (unitForDeviceListSyncPeriod == "days") {
+    //   deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 24 * 60 * 60 * 1000;
+    // } else if (unitForDeviceListSyncPeriod == "hour") {
+    //   deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 60 * 60 * 1000;
+    // }
 
+    // Cyclic loop
+    periodicConnectionStatusSynchTimerId = setInterval(deviceMetaDataListUpdateProcess, deviceListSyncPeriod);
+
+    return;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return error;
   }
 }
@@ -47,8 +59,8 @@ async function deviceMetaDataListUpdateProcess() {
     /** stops sliding window process (if already running)
         no data will be missed out. latest added devices are pushed to end of deviceMetaDataPriorityList. 
         Older devices will still be present in top, so when next sliding-window cycle starts, it will continute
-      */
-    await slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();
+    */
+    slidingWindowHandler.stopSlidingWindowProcessForCCUpdate();
 
     let odlDeviceMetaDataList = [];
     let deviceMetaDataListFromElasticSearch = [];
@@ -57,11 +69,10 @@ async function deviceMetaDataListUpdateProcess() {
     //get device meta data list from live controller
     odlDeviceMetaDataList = await deviceMetaDataUtility.getLiveDeviceMetaDataListFromController()
       .catch(error => {
-	      console.log(error);
+        logger.error(error);
         throw error;
       });
-   console.log("List of Devices in the MetaData**********************");
-	  console.log(odlDeviceMetaDataList);
+    logger.info(odlDeviceMetaDataList, "List of Devices in the MetaData**********************");
 
     // get existing device meta data from elastic search
     deviceMetaDataListFromElasticSearch = await deviceMetaDataUtility.readDeviceMetaDataListFromElasticSearch()
@@ -78,9 +89,9 @@ async function deviceMetaDataListUpdateProcess() {
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     //get string-value of historicalControlConstructPolicy
-    console.log("before getting historicalControlConstructPolicy");
+    logger.debug("before getting historicalControlConstructPolicy");
     let historicalControlConstructPolicy = await utility.getStringValueForStringProfileNameAsync("historicalControlConstructPolicy");
-    console.log("after getting historicalControlConstructPolicy");
+    logger.debug("after getting historicalControlConstructPolicy");
 
 
 
@@ -91,14 +102,16 @@ async function deviceMetaDataListUpdateProcess() {
       /**
         CREATING NEW DEVICEMETADATALIST IN ES 
       */
-     console.log("Current lenght of the odlDeviceMetaDataList ");
-     console.log(odlDeviceMetaDataList.length);
+     logger.info(`Current lenght of the odlDeviceMetaDataList ${odlDeviceMetaDataList.length}`);
+
       for (let i = 0; i < odlDeviceMetaDataList.length; i++) {
-console.log("Iteration " + i + " for the node " + odlDeviceMetaDataList[i]["node-id"]);
-await sleep(10);
+        logger.debug(`Iteration ${i} for the node ${odlDeviceMetaDataList[i]["node-id"]}`);
+        await sleep(10); // TODO @latta-techm  WHY SLEEP???
         let mountName = odlDeviceMetaDataList[i]["node-id"];
         let connectionStatus = odlDeviceMetaDataList[i]["netconf-node-topology:connection-status"];
         let schemaCacheDirectory = odlDeviceMetaDataList[i]["netconf-node-topology:schema-cache-directory"];
+
+        // If Device is in connected status
         if (connectionStatus) {
           let deviceMetaData = {
             "mount-name": mountName,
@@ -113,6 +126,7 @@ await sleep(10);
             "device-type": "unknown",
             "vendor": "unknown"
           };
+
           if (connectionStatus != "connected") {
             if (historicalControlConstructPolicy == "keep-on-disconnect") {
               deviceMetaData["changed-to-disconnected-time"] = currentTime;
@@ -132,11 +146,11 @@ await sleep(10);
       let stringifiedMetaDataList = JSON.stringify(deviceMetaDataList);
       //Writing the metaData list into Elasticsearch
       try {
-      console.log("before writing to ES for MetaData");
+        logger.debug("before writing to ES for MetaData");
         await deviceMetaDataUtility.writeDeviceMetaDataListToElasticsearch(stringifiedMetaDataList);
-      console.log("after writing to ES for MetaData");
+        logger.debug("after writing to ES for MetaData");
       } catch (error) {
-        console.log(error);
+        logger.error(error);
       }
     } else {
       /**
@@ -158,7 +172,7 @@ await sleep(10);
                 deviceMetaDataListFromElasticSearch[i]["added-to-device-list-time"] = currentTime;
                 deviceMetaDataListFromElasticSearch[i]["number-of-partial-updates-since-last-complete-update"] = 0;
                 if (deviceMetaDataListFromElasticSearch[i]["device-type"] == "unknown") {
-                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                   if (deviceType != "unknown") {
                     deviceMetaDataListFromElasticSearch[i]["device-type"] = deviceType;
                     let vendorName = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType);
@@ -183,7 +197,7 @@ await sleep(10);
                   commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
                   break;
                 } else {
-                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                 }
               }
             } else {
@@ -191,7 +205,7 @@ await sleep(10);
               if (deviceMetaDataListFromElasticSearch[i]["connection-status"] == "connected") {
                 await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaDataListFromElasticSearch[i]);
                 if (deviceMetaDataListFromElasticSearch[i]["device-type"] == "unknown") {
-                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                   if (deviceType != "unknown") {
                     deviceMetaDataListFromElasticSearch[i]["device-type"] = deviceType;
                     let vendorName = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType);
@@ -208,10 +222,10 @@ await sleep(10);
                     await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaDataListFromElasticSearch[i]);
                     commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
                   } else {
-                    await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                    await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                   }
                 } else {
-                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                  await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
                 }
               }
             }
@@ -225,12 +239,15 @@ await sleep(10);
             if (deviceMetaDataListFromElasticSearch[i]["connection-status"] != "connected") {
               isDeviceCrossedRetentionPeriod = await deviceMetaDataUtility.isDeviceCrossedRetentionPeriod(deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"]);
               if (isDeviceCrossedRetentionPeriod) {
-                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
               }
             }
             if (!isDeviceCrossedRetentionPeriod || deviceMetaDataListFromElasticSearch[i]["connection-status"] == "connected") {
               deviceMetaDataListFromElasticSearch[i]["connection-status"] = "unknown";
-              if (deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] == null) { deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] = currentTime; }
+              if (deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] == null) {
+                deviceMetaDataListFromElasticSearch[i]["changed-to-disconnected-time"] = currentTime;
+              }
+
               deviceMetaDataListFromElasticSearch[i]["added-to-device-list-time"] = null;
               deviceMetaDataListFromElasticSearch[i]["last-complete-control-construct-update-time-attempt"] = defaultDisconnectionTime;
               deviceMetaDataListFromElasticSearch[i]["last-successful-complete-control-construct-update-time"] = null;
@@ -241,7 +258,7 @@ await sleep(10);
               commonEsElements.push(deviceMetaDataListFromElasticSearch[i]);
             }
           } else {
-            await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i]["mount-name"]);
+            await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaDataListFromElasticSearch[i][MOUNTNAME]);
           }
         }
       }
@@ -253,7 +270,7 @@ await sleep(10);
       for (let i = 0; i < odlDeviceMetaDataList.length; i++) {
         let found = false;
         for (let j = 0; j < deviceMetaDataListFromElasticSearch.length; j++) {
-          if (odlDeviceMetaDataList[i]["node-id"] == deviceMetaDataListFromElasticSearch[j]['mount-name']) {
+          if (odlDeviceMetaDataList[i]["node-id"] == deviceMetaDataListFromElasticSearch[j][MOUNTNAME]) {
             found = true;
             break;
           }
@@ -276,13 +293,14 @@ await sleep(10);
               "device-type": "unknown",
               "vendor": "unknown"
             };
+
             if (connectionStatus != "connected") {
               if (historicalControlConstructPolicy == "keep-on-disconnect") {
                 deviceMetaData["changed-to-disconnected-time"] = currentTime;
                 await deviceMetaDataUtility.updateDeviceMetadataPriorityList(deviceMetaData);
                 newOdlElements.push(deviceMetaData);
               } else {
-                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaData["mount-name"]);
+                await deviceMetaDataUtility.removeDeviceDataFromCache(deviceMetaData[MOUNTNAME]);
               }
             } else {
               let deviceType = await deviceMetaDataUtility.getDeviceTypeOfMountName(mountName);
@@ -319,7 +337,7 @@ await sleep(10);
 
     return;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return error;
   }
 }
@@ -340,6 +358,7 @@ module.exports.stopMetaDataCyclicProcess = async function stopMetaDataCyclicProc
 
   clearInterval(periodicConnectionStatusSynchTimerId);
 }
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

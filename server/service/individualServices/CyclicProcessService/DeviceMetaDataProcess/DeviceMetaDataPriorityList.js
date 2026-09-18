@@ -106,12 +106,39 @@ class DeviceMetaDataPriorityList {
             if (this.deviceMetadataPriorityList.length > 0) {
                 let nextDevice = this.deviceMetadataPriorityList.find(d => {
                     return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
-                })
+                });
+
+                // Check if we can unlock some mountnames
+                if (!nextDevice) {
+                    const totalOnLine = this.deviceMetadataPriorityList.filter(d => d["connection-status"] == "connected" )
+                    this.resetDeviceList(totalOnLine.length);
+                }
                 return nextDevice;
             }
         } catch (error) {
             throw error;
         }
+    }
+
+    resetDeviceList(onLineMountNames) {
+        if (this.deviceMetadataPriorityList.length > 0) {
+
+            let resultNotSync =  this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == false);
+                return temp;
+            });
+            
+            const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
+            const thresholdSynced = 1 - value;
+            if (resultNotSync.length <= onLineMountNames * thresholdSynced) {
+                console.error("[DEVICE_METADATA_PRIORITY_LIST] - Reset and unlock status to restart Sliding Window");
+                this.deviceMetadataPriorityList.forEach(metaDataEle => {
+                    metaDataEle["locked-status"] = false;
+                    metaDataEle["cc-synced"] = false;
+                });
+            }
+        }
+        return;
     }
 
     // Get next device to process for quality-measurement process
@@ -120,7 +147,7 @@ class DeviceMetaDataPriorityList {
             if (this.deviceMetadataPriorityList.length > 0) {
                 return this.deviceMetadataPriorityList.find(d => {
                     return d["connection-status"] == "connected" && d["locked-status"] == false && d["exclude-from-qm"] == false
-                })
+                });
             }
         } catch (error) {
             throw error;
@@ -164,8 +191,9 @@ class DeviceMetaDataPriorityList {
     getCcSyncedOfDevice(mountName) {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["cc-synced"];
-            else {
+            if (device) {
+                return device["cc-synced"];
+            } else {
                 throw `device-metadata for given node: ${mountName} not found`
             };
         } catch (error) {
@@ -177,7 +205,9 @@ class DeviceMetaDataPriorityList {
     setCcSyncedOfDevice(mountName, value) {
         try {
             let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["cc-synced"] = value;
+            if (deviceMetaData) {
+                deviceMetaData["cc-synced"] = value;
+            }
             return;
         } catch (error) {
             throw error;
@@ -188,8 +218,9 @@ class DeviceMetaDataPriorityList {
     getLockedStatusOfDevice(mountName) {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["locked-status"];
-            else {
+            if (device) {
+                return device["locked-status"];
+            } else {
                 throw `device-metadata for given node: ${mountName} not found`
             };
         } catch (error) {
@@ -201,7 +232,10 @@ class DeviceMetaDataPriorityList {
     setLockedStatusOfDevice(mountName, value) {
         try {
             let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["locked-status"] = value;
+            if (deviceMetaData) {
+                deviceMetaData["locked-status"] = value;
+            }
+
             return;
         } catch (error) {
             throw error;
@@ -212,8 +246,9 @@ class DeviceMetaDataPriorityList {
     getExcludeFromQmOfDevice(mountName) {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["exclude-from-qm"];
-            else {
+            if (device) {
+                return device["exclude-from-qm"];
+            } else {
                 throw `device-metadata for given node: ${mountName} not found`
             };
         } catch (error) {
@@ -225,7 +260,9 @@ class DeviceMetaDataPriorityList {
     setExcludeFromQmOfDevice(mountName, value) {
         try {
             let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["exclude-from-qm"] = value;
+            if (deviceMetaData) {
+                deviceMetaData["exclude-from-qm"] = value;
+            }
             return;
         } catch (error) {
             throw error;

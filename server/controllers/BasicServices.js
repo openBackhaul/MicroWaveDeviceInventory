@@ -18,12 +18,8 @@ let cacheQualityMeasurementProcess = require('../service/individualServices/Cycl
 const NEW_RELEASE_FORWARDING_NAME = undefined;
 const OLD_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
 
-
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  
-  
 
-  
   let newReleaseUuids = await resolveHttpTcpAndOperationClientUuidOfNewRelease()
   /****************************************************************************************
    * Prepare logicalTerminatinPointConfigurationInput object to 
@@ -47,7 +43,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
   console.log("---------------------------------------------------------------------------------------------------------------------");
   /*
   if (newPort != oldPort || newIpAddress != oldIpAddress) {
-      
+
       let bequeathData = await individualServicesService.GetBequeathYourDataAndDieData();
       let operationKey = bequeathData.operationKey;
       let requestorUrl = "http://" + oldIpAddress + ":" + oldPort + bequeathData.operationName;
@@ -73,19 +69,19 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
           customerJourney,
           operationKey
       );
-  
+
       let httpRequestHeaderRequestor = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(httpRequestHeader);
-  
+
       console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> ....");
       try {
           let response = await axios.post(requestorUrl, requestorBody, {
               headers: httpRequestHeaderRequestor
-          });          
+          });
       } catch (error) {
-          console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> .... ERROR  (" + error + ")");          
+          console.log("NEW RELEASE --> calling OLD RELEASE <Bequeath Your Data And Die> .... ERROR  (" + error + ")");
       }
-  } 
-  */  
+  }
+  */
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
@@ -95,14 +91,29 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
       // start cyclic process for deviceMetadataList
       deviceMetadataTableUpdateStartModule.start();
       // starts further notification process
-      try {        
-      kafkaConnection.connectToKafka();
+      try {
+        kafkaConnection.connectToKafka();
       } catch (error) {
         console.log(error);
       }
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
+
       // starts cacheQualityMeasurementProcess
-      cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
+      let qualityFlag = false
+      if (process.env.QUALITY_MEASUREMENT &&
+        process.env.QUALITY_MEASUREMENT.toLowerCase() === "true") {
+        qualityFlag = true;
+      } else {
+        qualityFlag = false;
+      }
+
+      if (qualityFlag == true) {
+        console.log("QUALITY CACHE ENABLED!!!!!!!!!!");
+        cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
+      } else {
+        console.log("QUALITY CACHE DISABLED!!!!!!!!!!");
+      }
+      
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
@@ -113,9 +124,13 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
       responseCode = sentResp.code;
       responseBodyToDocument = sentResp.body;
     });
-    let execTime = await restResponseHeader.executionTimeInMilliseconds(startTime);
-  if (!execTime) execTime = 0;
-  else execTime = Math.round(execTime);
+
+  let execTime = await restResponseHeader.executionTimeInMilliseconds(startTime);
+  if (!execTime) {
+    execTime = 0;
+  } else {
+    execTime = Math.round(execTime);
+  }
   executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 

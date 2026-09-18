@@ -13853,11 +13853,41 @@ async function deleteRequest(cc) {
  * response value expected for this operation
  **/
 async function ReadRecords(cc) {
+try {
+    const indexAlias = common[1].indexAlias
+    const client = common[1].EsClient;
+
+    const result = await client.get({
+      'index': indexAlias, //"my-index-000001",
+      'id': cc // mountname
+    });
+
+    const src = result?.body?._source;
+    if (!src) {
+      return undefined;
+    }
+    return src;
+  } catch (error) {
+    logger.error(error.meta.body.found);
+    if (error.meta.body.found == false) {
+      logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
+    }
+    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
+    return undefined;
+    // throw (error);
+  }
+}
+
+/**
+ * Read from ES
+ *
+ * response value expected for this operation
+ **/
+async function searchRecords(cc) {
   try {
     let size = 100;
     let from = 0;
     let query = {
-
       term: {
         _id: cc
       }

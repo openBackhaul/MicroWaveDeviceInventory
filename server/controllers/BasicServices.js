@@ -97,8 +97,23 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
         console.log(error);
       }
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
+
       // starts cacheQualityMeasurementProcess
-      cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
+      let qualityFlag = false
+      if (process.env.QUALITY_MEASUREMENT &&
+        process.env.QUALITY_MEASUREMENT.toLowerCase() === "true") {
+        qualityFlag = true;
+      } else {
+        qualityFlag = false;
+      }
+
+      if (qualityFlag == true) {
+        console.log("QUALITY CACHE ENABLED!!!!!!!!!!");
+        cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
+      } else {
+        console.log("QUALITY CACHE DISABLED!!!!!!!!!!");
+      }
+      
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
       restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);

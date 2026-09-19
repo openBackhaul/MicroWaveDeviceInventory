@@ -254,13 +254,13 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Actual Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -335,13 +335,13 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -416,13 +416,13 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -497,13 +497,13 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Historical Performance - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -578,13 +578,13 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -657,13 +657,13 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
           });
@@ -736,13 +736,13 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
           });
@@ -816,13 +816,13 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Event Records - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -896,13 +896,13 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Co Channel Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -981,13 +981,13 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Co Channel Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1061,13 +1061,13 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Connector - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1142,13 +1142,13 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Container Holder - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1221,13 +1221,13 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1302,13 +1302,13 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
           });
@@ -1383,13 +1383,13 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1464,13 +1464,13 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1545,13 +1545,13 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1626,13 +1626,13 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1707,13 +1707,13 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1788,13 +1788,13 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1867,13 +1867,13 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1947,13 +1947,13 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2027,13 +2027,13 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2106,13 +2106,13 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2186,13 +2186,13 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2268,13 +2268,13 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2348,13 +2348,13 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2429,13 +2429,13 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2510,13 +2510,13 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2591,13 +2591,13 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2672,13 +2672,13 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2865,12 +2865,12 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2944,12 +2944,12 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3025,13 +3025,13 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3106,13 +3106,13 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3187,13 +3187,13 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3267,13 +3267,13 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Policing Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3347,13 +3347,13 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Policing Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3427,13 +3427,13 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Profile - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3506,13 +3506,13 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Profile Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3586,13 +3586,13 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3667,13 +3667,13 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3748,13 +3748,13 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3829,13 +3829,13 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3909,13 +3909,13 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3989,13 +3989,13 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4069,13 +4069,13 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4149,13 +4149,13 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4230,13 +4230,13 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("VLAN Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4311,13 +4311,13 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("VLAN Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4392,13 +4392,13 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4473,13 +4473,13 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4554,13 +4554,13 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4635,13 +4635,13 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4715,13 +4715,13 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wired Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4795,13 +4795,13 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
         correctMountname = mountname;
       }
       let returnObject = {};
-      const finalUrl = await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
+      const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wired Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4919,7 +4919,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -4967,7 +4967,7 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5016,7 +5016,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5064,7 +5064,7 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5113,7 +5113,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5161,7 +5161,7 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5210,7 +5210,7 @@ exports.getLiveAirInterfaceCurrentPerformance = function (url, user, originator,
       url = urlParts[0];
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5285,7 +5285,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5333,7 +5333,7 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5381,7 +5381,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5429,7 +5429,7 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5475,7 +5475,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5524,7 +5524,7 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5570,7 +5570,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5619,7 +5619,7 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5665,7 +5665,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5713,7 +5713,7 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5760,7 +5760,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5808,7 +5808,7 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5855,7 +5855,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5903,7 +5903,7 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -5951,7 +5951,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -5999,7 +5999,7 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6047,7 +6047,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6094,7 +6094,7 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6151,7 +6151,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       } else {
         correctCc = mountname;
       }
-      let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      let Url = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
@@ -6207,12 +6207,12 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                 console.error(error);
               }
               modifyReturnJson(jsonObj);
-              let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
+              let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
               resolve(res);
             } else {
               let filters = true;
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               try {
                 // read from ES
@@ -6241,7 +6241,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               }
               modifyReturnJson(jsonObj)
               let splittedUrl = url.split('?');
-              let res = cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+              let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
               resolve(res);
             }
           }
@@ -6278,7 +6278,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6327,7 +6327,7 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6374,7 +6374,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6421,7 +6421,7 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6469,7 +6469,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6517,7 +6517,7 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6565,7 +6565,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6613,7 +6613,7 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6661,7 +6661,7 @@ exports.getLiveEthernetContainerCurrentPerformance = function (url, user, origin
       url = urlParts[0];
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6735,7 +6735,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6782,7 +6782,7 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6830,7 +6830,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6877,7 +6877,7 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -6925,7 +6925,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -6972,7 +6972,7 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7018,7 +7018,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7065,7 +7065,7 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7112,7 +7112,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7159,7 +7159,7 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7206,7 +7206,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7253,7 +7253,7 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7300,7 +7300,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7347,7 +7347,7 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7394,7 +7394,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7441,7 +7441,7 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7490,7 +7490,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7537,7 +7537,7 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7584,7 +7584,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7631,7 +7631,7 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7678,7 +7678,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7725,7 +7725,7 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7773,7 +7773,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7820,7 +7820,7 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -7868,7 +7868,7 @@ exports.getLiveHybridMwStructureCurrentPerformance = function (url, user, origin
       url = urlParts[0];
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7942,7 +7942,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -7989,7 +7989,7 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8037,7 +8037,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8084,7 +8084,7 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8131,7 +8131,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8176,7 +8176,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8239,7 +8239,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8284,7 +8284,7 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8332,7 +8332,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8379,7 +8379,7 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8427,7 +8427,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8474,7 +8474,7 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8522,7 +8522,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8569,7 +8569,7 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8616,7 +8616,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8663,7 +8663,7 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8710,7 +8710,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8757,7 +8757,7 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -8804,7 +8804,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8851,7 +8851,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               let profileKey = `PROFILE|${correctUrl}`;
               let profileData = {
@@ -8929,7 +8929,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -8976,7 +8976,7 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9024,7 +9024,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9071,7 +9071,7 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9119,7 +9119,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9166,7 +9166,7 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9214,7 +9214,7 @@ exports.getLivePureEthernetStructureCurrentPerformance = function (url, user, or
       url = urlParts[0];
       //  const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9288,7 +9288,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9335,7 +9335,7 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9383,7 +9383,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9430,7 +9430,7 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9477,7 +9477,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9524,7 +9524,7 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9571,7 +9571,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9618,7 +9618,7 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9665,7 +9665,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9712,7 +9712,7 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9758,7 +9758,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9805,7 +9805,7 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9853,7 +9853,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9900,7 +9900,7 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -9949,7 +9949,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -9996,7 +9996,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -10044,7 +10044,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10091,7 +10091,7 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -10140,7 +10140,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10187,7 +10187,7 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -10236,7 +10236,7 @@ exports.getLiveWireInterfaceCurrentPerformance = function (url, user, originator
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10311,7 +10311,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10358,7 +10358,7 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -10407,7 +10407,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10454,7 +10454,7 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -10501,7 +10501,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10548,7 +10548,7 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -10595,7 +10595,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
       url = urlParts[0];
       // const appNameAndUuidFromForwarding = await resolveApplicationNameAndHttpClientLtpUuidFromForwardingName(url)
       const myFields = urlParts[1];
-      const endUrl = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      const endUrl = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl = formatUrlForOdl(decodeURIComponent(endUrl), urlParts[1]);
       const Authorization = common[0].key;
       let correctCc = null;
@@ -10642,7 +10642,7 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
             }
             try {
               // Update record on ES
-              let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+              let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
               let result = await ReadRecords(correctCc);
@@ -11134,7 +11134,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
       let myFields = parts[1];
       let result = await ReadRecords(mountName);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -11288,7 +11288,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
       let myFields = parts[1];
       let result = await ReadRecords(mountName);
       if (result != undefined) {
-        let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
+        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -13493,7 +13493,7 @@ function getConfiguredRemoteAddress(remoteAddress) {
   }
 }
 
-async function retrieveCorrectUrl(originalUrl, path, applicationName) {
+function retrieveCorrectUrl(originalUrl, path, applicationName) {
   try {
     const urlParts = originalUrl.split("?fields=");
     const myFields = urlParts[1];
@@ -13527,6 +13527,7 @@ async function retrieveCorrectUrl(originalUrl, path, applicationName) {
     } else {
       correctUrl = final;
     }
+
     if (myFields != undefined) {
       final = final + "?fields=" + myFields;
     }
@@ -14285,7 +14286,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
       } else {
         correctCc = mountname;
       }
-      let Url = await retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
+      let Url = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
       const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
@@ -14316,12 +14317,12 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
               logger.error(error);
             }
             modifyReturnJson(jsonObj);
-            let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
+            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
             resolve(res);
           } else {
             let filters = true;
             // Update record on ES
-            let Url = decodeURIComponent(await retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
+            let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
@@ -14338,7 +14339,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             }
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
-            let res = cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
 
             //update meta-data for update of connection-status
             metaDataUtility.updateMDTableForCompleteCCUpdate(correctCc, Date.now());

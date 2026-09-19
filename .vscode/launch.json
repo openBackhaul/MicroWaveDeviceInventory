@@ -23,7 +23,8 @@
                 "VALIDATE_RESPONSES": "false",
                 "SERVER_PORT": "4024",
                 "QUALITY_MEASUREMENT": "TRUE",
-                "THRESHOLD_SW": "0.9"
+                "THRESHOLD_SW": "0.9",
+                "CACHE_RESP_BUILDER_NEW": "FALSE"
             }
         }
     ]

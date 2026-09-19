@@ -7,8 +7,8 @@ const LOCALID = 'local-id';
 
 exports.cacheResponseBuilder = function (url, currentJSON) {
   if (process.env.CACHE_RESP_BUILDER_NEW &&
-    process.env.CACHE_RESP_BUILDER_NEW.toLowerCase() === "TRUE") {
-    return cacheResponseBuilderNew(url, currentJSON);
+    process.env.CACHE_RESP_BUILDER_NEW.toLowerCase() === "true") {
+    return cacheResponseBuilderNew(url, currentJSON); // This has to be review
   } else {
     return cacheResponseBuilderOld(url, currentJSON);
   }

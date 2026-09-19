@@ -1268,24 +1268,48 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
         if (finalJson != undefined) {
-          modifyReturnJson(finalJson);
-          let objectKey = Object.keys(finalJson)[0];
-          finalJson = finalJson[objectKey];
-          if (myFields != undefined) {
-            let ccUuid = finalJson[0]['uuid'];
-            myFields = decodeURIComponent(myFields);
-            var objList = [];
-            var rootObj = { value: "root", children: [] }
-            const replacedUrlFilter = replaceFilterString(myFields);
-            var ret = fieldsManager.decodeFieldsSubstringExt(replacedUrlFilter, 0, rootObj)
-            objList.push(rootObj)
-            fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
-            if (isJsonEmpty(finalJson)) {
-              throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+          if (process.env.FAST_ROUTINES &&
+            process.env.FAST_ROUTINES.toLowerCase() === "true") {
+            logger.info("GetCachedControlConstruct: FASTER Routine");
+            modifyReturnJson(finalJson);
+
+            const objectKey = Object.keys(finalJson)[0];
+            finalJson = finalJson[objectKey];
+
+            if (myFields !== undefined) {
+              const ccUuid = finalJson[0]?.uuid;
+              const filter = getFieldsFilter(myFields);
+              fieldsManager.getFilteredJsonExt(finalJson, filter);
+              if (isJsonEmpty(finalJson)) {
+                throw new createHttpError(470, 'Resource not existing. Device informs about addressed resource unknown');
+              }
+
+              if (finalJson[0] && ccUuid !== undefined) {
+                finalJson[0].uuid = ccUuid;
+              }
             }
-            finalJson[0]['uuid'] = ccUuid;
+            returnObject[objectKey] = finalJson;
+          } else {
+            logger.info("GetCachedControlConstruct: Older Routine");
+            modifyReturnJson(finalJson);
+            let objectKey = Object.keys(finalJson)[0];
+            finalJson = finalJson[objectKey];
+            if (myFields != undefined) {
+              let ccUuid = finalJson[0]['uuid'];
+              myFields = decodeURIComponent(myFields);
+              var objList = [];
+              var rootObj = { value: "root", children: [] }
+              const replacedUrlFilter = replaceFilterString(myFields); // @latta-techm this routine seems already optimized
+              var ret = fieldsManager.decodeFieldsSubstringExt(replacedUrlFilter, 0, rootObj)
+              objList.push(rootObj)
+              fieldsManager.getFilteredJsonExt(finalJson, objList[0].children);
+              if (isJsonEmpty(finalJson)) {
+                throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
+              }
+              finalJson[0]['uuid'] = ccUuid;
+            }
+            returnObject[objectKey] = finalJson;
           }
-          returnObject[objectKey] = finalJson;
         } else {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
@@ -1294,7 +1318,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       }
       resolve(returnObject);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       logger.error(error);
       reject(error);
     }
@@ -14072,6 +14096,15 @@ async function searchRecords(cc) {
 
 // New function @latta-techm to be verified
 function modifyUUID(obj, mountName) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    modifyUUIDNew(obj, mountName);
+  } else {
+    modifyUUIDOld(obj, mountName);
+  }
+}
+
+function modifyUUIDNew(obj, mountName) {
   if (obj == null || typeof obj !== 'object') {
     return;
   }
@@ -14102,7 +14135,7 @@ function modifyUUIDOld(obj, mountName) {
     for (const key in obj) {
       if (typeof obj[key] === 'object') {
         // if the value is an object, recall the function recursively
-        modifyUUID(obj[key], mountName);
+        modifyUUIDOld(obj[key], mountName);
       } else if (key === 'uuid' || key === 'local-id') {
         obj[key] = mountName + "+" + obj[key];
       }
@@ -14112,8 +14145,49 @@ function modifyUUIDOld(obj, mountName) {
   }
 }
 
+// @latta-techm NEW routine
+const fieldsFilterCache = new Map();
+
+function getFieldsFilter(myFields) {
+  let filter = fieldsFilterCache.get(myFields);
+
+  if (filter !== undefined) {
+    return filter;
+  }
+
+  const decodedFields = decodeURIComponent(myFields);
+  const replacedUrlFilter = replaceFilterString(decodedFields);
+
+  const rootObj = {
+    value: 'root',
+    children: []
+  };
+
+  fieldsManager.decodeFieldsSubstringExt(
+    replacedUrlFilter,
+    0,
+    rootObj
+  );
+
+  filter = rootObj.children;
+
+  fieldsFilterCache.set(myFields, filter);
+
+  return filter;
+}
+// ---------------------------------------
+
 // New Function to be validate @latta-techm
-function modifyReturnJson(obj) {
+function modifyReturnJson(obj, mountName) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    modifyReturnJsonNew(obj, mountName);
+  } else {
+    modifyReturnJsonOld(obj, mountName);
+  }
+}
+
+function modifyReturnJsonNew(obj) {
   if (!obj || typeof obj !== 'object') {
     return;
   }
@@ -14148,10 +14222,10 @@ function modifyReturnJsonOld(obj) {
     for (const key in obj) {
       if (Array.isArray(obj[key])) {
         obj[key].forEach(item => {
-          modifyReturnJson(item);
+          modifyReturnJsonOld(item);
         });
       } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        modifyReturnJson(obj[key]);
+        modifyReturnJsonOld(obj[key]);
       } else {
         if (key === 'uuid' || key === 'local-id') {
           const parts = obj[key].split('+');
@@ -14166,6 +14240,15 @@ function modifyReturnJsonOld(obj) {
 
 // New Function to be validate @latta-techm
 function modifyUrlConcatenateMountNamePlusUuid(url, mountName) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return modifyUrlConcatenateMountNamePlusUuidNew(url, mountName);
+  } else {
+    return modifyUrlConcatenateMountNamePlusUuidOld(url, mountName);
+  }
+}
+
+function modifyUrlConcatenateMountNamePlusUuidNew(url, mountName) {
   try {
     if (!url || !mountName) {
       return url;
@@ -14258,6 +14341,15 @@ function formatUrlForOdl(url, fields) {
 
 // New Function to be validate @latta-techm
 function decodeMountName(url, cc) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return decodeMountNameNew(url, cc);
+  } else {
+    return decodeMountNameOld(url, cc);
+  }
+}
+
+function decodeMountNameNew(url, cc) {
   try {
     if (typeof url !== 'string' || url.length === 0) {
       return buildError("Invalid URL");
@@ -14470,6 +14562,15 @@ async function extractProfileConfiguration(uuid) {
 
 // New Function to be validate @latta-techm
 function arraysHaveSameElements(array1, array2) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return arraysHaveSameElementsNew(array1, array2);
+  } else {
+    return arraysHaveSameElementsOld(array1, array2);
+  }
+}
+
+function arraysHaveSameElementsNew(array1, array2) {
   if (!Array.isArray(array1) || !Array.isArray(array2)) {
     return false;
   }
@@ -14534,6 +14635,15 @@ function arraysHaveSameElementsOld(array1, array2) {
 
 // TODO @latta-techm to be validated
 function isFilterValid(filter) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return isFilterValidNew(filter);
+  } else {
+    return isFilterValidOld(filter);
+  }
+}
+
+function isFilterValidNew(filter) {
   if (typeof filter !== 'string') {
     return false;
   }
@@ -14589,6 +14699,15 @@ function isFilterValidOld(filter) {
 
 // New Function to be validate @latta-techm
 function replaceFilterString(filter) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return replaceFilterStringNew(filter);
+  } else {
+    return replaceFilterStringOld(filter);
+  }
+}
+
+function replaceFilterStringNew(filter) {
   if (typeof filter !== 'string') {
     return filter;
   }
@@ -14657,6 +14776,15 @@ function replaceFilterStringOld(filter) {
 
 // TODO @latta-techm to be validate
 function isJsonEmpty(value) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return isJsonEmptyNew(value);
+  } else {
+    return isJsonEmptyOld(value);
+  }
+}
+
+function isJsonEmptyNew(value) {
   if (value == null) {
     return true;
   }
@@ -14792,7 +14920,47 @@ async function checkMountNameInDeviceList(mountName) {
   return list.some(device => device['node-id'] === mountName);
 }
 
+// TODO @latta-techm to be validate
 function hasAttribute(json, attributeName) {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+    return hasAttributeNew(json, attributeName);
+  } else {
+    return hasAttributeOld(json, attributeName);
+  }
+}
+
+function hasAttributeNew(json, attributeName) {
+  if (json === null || typeof json !== 'object') {
+    return false;
+  }
+
+  const stack = [json];
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    if (Object.prototype.hasOwnProperty.call(current, attributeName)) {
+      return true;
+    }
+
+    for (const key in current) {
+      if (!Object.prototype.hasOwnProperty.call(current, key)) {
+        continue;
+      }
+
+      const value = current[key];
+
+      if (value !== null && typeof value === 'object') {
+        stack.push(value);
+      }
+    }
+  }
+
+  return false;
+}
+
+function hasAttributeOld(json, attributeName) {
   if (typeof json === 'object' && json !== null) {
     // Check if the attribute is at this level
     if (Object.hasOwnProperty.bind(json)(attributeName)) {
@@ -14801,7 +14969,7 @@ function hasAttribute(json, attributeName) {
     // Otherwise loop in the object properties
     for (let key in json) {
       if (Object.hasOwnProperty.bind(json)(key)) {
-        if (hasAttribute(json[key], attributeName)) {
+        if (hasAttributeOld(json[key], attributeName)) {
           return true;
         }
       }
@@ -14810,7 +14978,7 @@ function hasAttribute(json, attributeName) {
   // if json is an array, loop over the elements
   if (Array.isArray(json)) {
     for (let item of json) {
-      if (hasAttribute(item, attributeName)) {
+      if (hasAttributeOld(item, attributeName)) {
         return true;
       }
     }

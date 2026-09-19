@@ -6,8 +6,8 @@ const CONTROLCONST = "control-construct";
 const LOCALID = 'local-id';
 
 exports.cacheResponseBuilder = function (url, currentJSON) {
-  if (process.env.CACHE_RESP_BUILDER_NEW &&
-    process.env.CACHE_RESP_BUILDER_NEW.toLowerCase() === "true") {
+  if (process.env.FAST_ROUTINES &&
+    process.env.FAST_ROUTINES.toLowerCase() === "true") {
     return cacheResponseBuilderNew(url, currentJSON); // This has to be review
   } else {
     return cacheResponseBuilderOld(url, currentJSON);

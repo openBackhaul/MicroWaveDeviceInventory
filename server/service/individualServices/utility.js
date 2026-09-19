@@ -166,18 +166,21 @@ async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
 exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
   let pipelineExists = false;
   let client = await common[1].EsClient;
-  try {
-    // Check if the pipeline exists
-    await client.ingest.getPipeline({ id: 'mwdi' });
-    pipelineExists = true;
-  } catch (error) {
-    if (error.statusCode === 404) {
-      // Pipeline does not exist
-      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-    } else {
-      // Other errors
-      console.error("An error occurred while checking the pipeline:", error);
-      throw error; // Re-throw the error if it's not a 404
+  if (process.env.ELK_PIPELINE &&
+    process.env.ELK_PIPELINE.toLowerCase() === "true") {
+    try {
+      // Check if the pipeline exists
+      await client.ingest.getPipeline({ id: 'mwdi' });
+      pipelineExists = true;
+    } catch (error) {
+      if (error.statusCode === 404) {
+        // Pipeline does not exist
+        console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      } else {
+        // Other errors
+        console.error("An error occurred while checking the pipeline:", error);
+        throw error; // Re-throw the error if it's not a 404
+      }
     }
   }
 

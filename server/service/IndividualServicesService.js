@@ -6309,15 +6309,12 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
-        logger.error("getLiveControlConstruct - Wrong decoding mountname, is an object:");
-        logger.error(mountname);
+        logger.error(mountname, "getLiveControlConstruct - Wrong decoding mountname, is an object:");
         throw new createHttpError(mountname[0].code, mountname[0].message);
-        return;
       } else {
         correctCc = mountname;
       }
       let Url = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"
@@ -13922,20 +13919,23 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
 async function recordRequest(body, cc) {
   let pipelineExists = false;
   let client = await common[1].EsClient;
-  try {
-    // Check if the pipeline exists
-    await client.ingest.getPipeline({ id: 'mwdi' });
-    pipelineExists = true;
-  } catch (error) {
-    if (error.statusCode === 404) {
-      // Pipeline does not exist
-      logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-      //logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
-    } else {
-      // Other errors
-      logger.error(error, "An error occurred while checking the pipeline:");
-      //logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
-      throw error; // Re-throw the error if it's not a 404
+  if (process.env.ELK_PIPELINE &&
+    process.env.ELK_PIPELINE.toLowerCase() === "true") {
+    try {
+      // Check if the pipeline exists
+      await client.ingest.getPipeline({ id: 'mwdi' });
+      pipelineExists = true;
+    } catch (error) {
+      if (error.statusCode === 404) {
+        // Pipeline does not exist
+        logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+        //logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
+      } else {
+        // Other errors
+        logger.error(error, "An error occurred while checking the pipeline:");
+        //logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
+        throw error; // Re-throw the error if it's not a 404
+      }
     }
   }
 
@@ -13961,7 +13961,6 @@ async function recordRequest(body, cc) {
 
     const duration = (Date.now() - start) / 1000;
     //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
-
 
     if (result == undefined || result.body == undefined) {
       logger.warn("result is undefined, ELK not updated")
@@ -14709,15 +14708,12 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
       //    let mountname = decodeURIComponent(url).match(/control-construct=([^/]+)/)[1];
       let mountname = decodeMountName(url, true);
       if (typeof mountname === 'object') {
-        logger.error("getLiveControlConstructFromSW - Wrong decoding mountname, is an object:");
-        logger.error(mountname);
+        logger.error(mountname, "getLiveControlConstructFromSW - Wrong decoding mountname, is an object:");
         throw new createHttpError(mountname[0].code, mountname[0].message);
-        return;
       } else {
         correctCc = mountname;
       }
       let Url = retrieveCorrectUrl(url, common[0].tcpConn, common[0].applicationName);
-      const finalUrl1 = formatUrlForOdl(decodeURIComponent(Url));
       const finalUrl = formatUrlForOdl(Url);
       const Authorization = common[0].key;
       if (common[0].applicationName.indexOf(OPENDAYLIGHT_STR) != -1) { //"OpenDayLight"

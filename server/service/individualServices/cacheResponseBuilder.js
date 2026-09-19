@@ -15,36 +15,29 @@ exports.cacheResponseBuilder = function (url, currentJSON) {
 }
 
 // New Routine
-function cacheResponseBuilderNew (url, inputJson) {
-  const rootKey = Object.keys(inputJson)[0];
-
-  if (!rootKey) {
-    throw new createHttpError(400, 'Invalid JSON: root key not found');
+function cacheResponseBuilderNew(url, currentJSON) {
+  if (!url || !currentJSON || typeof currentJSON !== 'object') {
+    throw createHttpError(400, 'Invalid input');
   }
 
-  const rootPrefix = rootKey.split(':')[0];
+  const objectKey = Object.keys(currentJSON)[0];
 
-  let currentJson = inputJson[rootKey];
+  if (!objectKey) {
+    throw createHttpError(404, 'Empty JSON object');
+  }
+
+  const rootPrefix = objectKey.split(':')[0];
+  let current = currentJSON[objectKey];
 
   const urlSegments = url
     .split('/')
-    .filter(segment => segment.trim() !== '');
+    .filter(Boolean);
 
-  currentJson = navigateJson(currentJson, urlSegments);
-
-  const prefix = determinePrefix(urlSegments, rootPrefix);
-
-  return buildResponseWrapper(
-    currentJson,
-    urlSegments,
-    prefix
-  );
-};
-
-
-function navigateJson(currentJson, urlSegments) {
   let startParsing = false;
 
+  // ------------------------------------------------------------
+  // Navigate through the JSON according to the URL
+  // ------------------------------------------------------------
   for (let index = 0; index < urlSegments.length; index++) {
     const segment = urlSegments[index];
 
@@ -56,131 +49,115 @@ function navigateJson(currentJson, urlSegments) {
       if (segment.includes('=')) {
         startParsing = true;
       }
-
       continue;
     }
 
-    const [key, encodedValue] = splitKeyValue(segment);
+    const separatorIndex = segment.indexOf('=');
 
-    if (!key) {
-      continue;
-    }
+    const key =
+      separatorIndex === -1
+        ? segment
+        : segment.substring(0, separatorIndex);
 
-    if (!Object.hasOwn(currentJson, key)) {
-      if (key === CONTROL_CONSTRUCT) {
-        continue;
+    const value =
+      separatorIndex === -1
+        ? undefined
+        : segment.substring(separatorIndex + 1);
+
+    if (!Object.prototype.hasOwnProperty.call(current, key)) {
+      // control-construct is allowed to be absent because it can
+      // already be represented by the root object
+      if (key !== CONTROLCONST) {
+        logger.error(`Field not found: ${key}`);
+        throw createHttpError(404, `Field not found: ${key}`);
       }
 
-      logger.error(`Field not found: ${key}`);
-      throw new createHttpError(404, `Field not found: ${key}`);
-    }
-
-    currentJson = currentJson[key];
-
-    if (!Array.isArray(currentJson)) {
       continue;
     }
 
-    const valueToFind = decodeURIComponent(encodedValue ?? '');
+    current = current[key];
 
-    const elementFound = currentJson.find(element =>
-      element?.uuid === valueToFind ||
-      element?.[LOCAL_ID] === valueToFind
-    );
+    // ----------------------------------------------------------
+    // Select the requested list element
+    // ----------------------------------------------------------
+    if (Array.isArray(current) && value !== undefined) {
+      const valueToFind = decodeURIComponent(value);
 
-    if (!elementFound) {
-      logger.trace(`No elements found with UUID/local-id: ${valueToFind}`);
-
-      throw new createHttpError(
-        404,
-        `No elements found with UUID/local-id: ${valueToFind}`
+      const elementFound = current.find(item =>
+        item?.uuid === valueToFind ||
+        item?.[LOCALID] === valueToFind
       );
-    }
 
-    const isLastSegment = index === urlSegments.length - 1;
+      if (!elementFound) {
+        logger.trace(`No elements found with UUID/local-id: ${valueToFind}`);
 
-    if (isLastSegment) {
-      logger.trace('Element found from Array');
-      currentJson = [elementFound];
-    } else {
-      logger.trace('Element found from Object');
-      currentJson = elementFound;
+        throw createHttpError(
+          404,
+          `No elements found with UUID/local-id: ${valueToFind}`
+        );
+      }
+
+      const isLastSegment = index === urlSegments.length - 1;
+
+      current = isLastSegment
+        ? [elementFound]
+        : elementFound;
     }
   }
 
-  return currentJson;
-}
+  // ------------------------------------------------------------
+  // Determine namespace prefix
+  // ------------------------------------------------------------
+  let prefix = rootPrefix;
 
-
-function determinePrefix(urlSegments, defaultPrefix) {
   for (let index = urlSegments.length - 1; index >= 0; index--) {
-    const segment = urlSegments[index];
-
-    if (!segment.includes(':')) {
-      continue;
+    if (urlSegments[index].includes(':')) {
+      prefix = urlSegments[index].split(':')[0];
+      break;
     }
-
-    const prefix = segment.split(':', 1)[0];
-
-    if (isIPAddress(prefix) || prefix === 'localhost') {
-      return defaultPrefix;
-    }
-
-    return prefix;
   }
 
-  return defaultPrefix;
-}
-
-
-function buildResponseWrapper(currentJson, urlSegments, prefix) {
-  if (urlSegments.length === 0) {
-    return currentJson;
+  if (isIPAddress(prefix) || prefix === 'localhost') {
+    prefix = rootPrefix;
   }
 
+  // ------------------------------------------------------------
+  // Build response wrapper
+  // ------------------------------------------------------------
   const lastSegment = urlSegments.at(-1);
 
+  if (!lastSegment) {
+    throw createHttpError(400, 'Invalid URL');
+  }
+
   if (lastSegment.includes('=')) {
-    const [key] = splitKeyValue(lastSegment);
+    const key = lastSegment.split('=', 1)[0];
     const wrapper = `${prefix}:${key}`;
 
-    if (lastSegment.includes(CONTROL_CONSTRUCT)) {
+    if (key === CONTROLCONST) {
       return {
-        [wrapper]: [currentJson]
+        [wrapper]: [current]
       };
     }
 
     return {
-      [wrapper]: [currentJson[0]]
+      [wrapper]: [Array.isArray(current) ? current[0] : current]
     };
   }
 
   if (lastSegment.includes(':')) {
-    const [, key] = lastSegment.split(':', 2);
+    const [, key] = lastSegment.split(':');
 
     return {
-      [`${prefix}:${key}`]: currentJson
+      [`${prefix}:${key}`]: current
     };
   }
 
   return {
-    [`${prefix}:${lastSegment}`]: currentJson
+    [`${prefix}:${lastSegment}`]: current
   };
 }
 
-
-function splitKeyValue(segment) {
-  const separatorIndex = segment.indexOf('=');
-
-  if (separatorIndex === -1) {
-    return [segment, undefined];
-  }
-
-  return [
-    segment.substring(0, separatorIndex),
-    segment.substring(separatorIndex + 1)
-  ];
-}
 
 
 // -- Old Routine

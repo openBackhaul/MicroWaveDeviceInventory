@@ -260,7 +260,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       logger.info("Actual Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -341,7 +341,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       logger.info("Air Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -422,7 +422,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       logger.info("Air Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -503,7 +503,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       logger.info("Air Interface Historical Performance - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -584,7 +584,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       logger.info("Air Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -663,7 +663,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       logger.info("Alarm Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
           });
@@ -742,7 +742,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       logger.info("Alarm Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
           });
@@ -822,7 +822,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       logger.info("Alarm Event Records - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -902,7 +902,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       logger.info("Co Channel Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -987,7 +987,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       logger.info("Co Channel Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1067,7 +1067,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       logger.info("Connector - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1148,7 +1148,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       logger.info("Container Holder - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1227,7 +1227,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1308,7 +1308,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result)
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result)
           .catch((error) => {
             throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
           });
@@ -1389,7 +1389,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       logger.info("Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1470,7 +1470,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1551,7 +1551,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1632,7 +1632,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1713,7 +1713,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1794,7 +1794,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1873,7 +1873,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -1953,7 +1953,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2033,7 +2033,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2112,7 +2112,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2192,7 +2192,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2274,7 +2274,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2354,7 +2354,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2435,7 +2435,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2516,7 +2516,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       logger.info("Hybrid MW Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2597,7 +2597,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       logger.info("Hybrid MW Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2678,7 +2678,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       logger.info("Hybrid MW Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2870,7 +2870,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -2949,7 +2949,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
 
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3031,7 +3031,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       logger.info("MAC Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3112,7 +3112,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       logger.info("MAC Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3193,7 +3193,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       logger.info("MAC Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3273,7 +3273,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       logger.info("Policing Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3353,7 +3353,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       logger.info("Policing Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3433,7 +3433,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       logger.info("Profile - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3512,7 +3512,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       logger.info("Profile Collection - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3592,7 +3592,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       logger.info("Pure Ethernet Structure Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3673,7 +3673,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       logger.info("Pure Ethernet Structure Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3754,7 +3754,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       logger.info("Pure Ethernet Structure Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3835,7 +3835,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       logger.info("Pure Ethernet Structure Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3915,7 +3915,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -3995,7 +3995,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4075,7 +4075,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4155,7 +4155,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4236,7 +4236,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       logger.info("VLAN Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4317,7 +4317,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       logger.info("VLAN Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4398,7 +4398,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       logger.info("Wire Interface Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4479,7 +4479,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       logger.info("Wire Interface Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4560,7 +4560,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       logger.info("Wire Interface Historical Performances - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4641,7 +4641,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       logger.info("Wire Interface Status - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4721,7 +4721,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       logger.info("Wired Profile Capability - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -4801,7 +4801,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       logger.info("Wired Profile Configuration - Read from ELK mountname: " + correctMountname);
       let result = await ReadRecords(correctMountname);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
+        let finalJson = cacheResponse.cacheResponseBuilder(correctUrl, result).catch((error) => {
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         });
         if (finalJson != undefined) {
@@ -6207,7 +6207,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
                 console.error(error);
               }
               modifyReturnJson(jsonObj);
-              let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+              let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
               resolve(res);
             } else {
               let filters = true;
@@ -6241,7 +6241,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               }
               modifyReturnJson(jsonObj)
               let splittedUrl = url.split('?');
-              let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+              let res = cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
               resolve(res);
             }
           }
@@ -11134,7 +11134,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
       let myFields = parts[1];
       let result = await ReadRecords(mountName);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
+        let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -11288,7 +11288,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
       let myFields = parts[1];
       let result = await ReadRecords(mountName);
       if (result != undefined) {
-        let finalJson = await cacheResponse.cacheResponseBuilder(parts[0], result);
+        let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
           modifyReturnJson(finalJson);
           let objectKey = Object.keys(finalJson)[0];
@@ -14316,7 +14316,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
               logger.error(error);
             }
             modifyReturnJson(jsonObj);
-            let res = await cacheResponse.cacheResponseBuilder(url, jsonObj);
+            let res = cacheResponse.cacheResponseBuilder(url, jsonObj);
             resolve(res);
           } else {
             let filters = true;
@@ -14338,7 +14338,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             }
             modifyReturnJson(jsonObj)
             let splittedUrl = url.split('?');
-            let res = await cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
+            let res = cacheResponse.cacheResponseBuilder(splittedUrl[0], jsonObj);
 
             //update meta-data for update of connection-status
             metaDataUtility.updateMDTableForCompleteCCUpdate(correctCc, Date.now());

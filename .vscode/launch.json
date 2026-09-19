@@ -20,11 +20,12 @@
             "env": {
                 "VALIDATE_SECURITY": "false",
                 "VALIDATE_REQUESTS": "true",
-                "VALIDATE_RESPONSES": "false",
+                "VALIDATE_RESPONSES": "true",
                 "SERVER_PORT": "4024",
-                "QUALITY_MEASUREMENT": "TRUE",
+                "ELK_PIPELINE": "false",
+                "QUALITY_MEASUREMENT": "false",
                 "THRESHOLD_SW": "0.9",
-                "CACHE_RESP_BUILDER_NEW": "FALSE"
+                "CACHE_RESP_BUILDER_NEW": "true"
             }
         }
     ]

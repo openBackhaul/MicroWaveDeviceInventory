@@ -126,11 +126,11 @@ try {
     }
     return src;
   } catch (error) {
-    logger.error(error.meta.body.found);
+    console.error(error.meta.body.found);
     if (error.meta.body.found == false) {
-      logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
+      console.error(`Mountname=${cc} is not in the cache: ${error.message}`);
     }
-    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
+    console.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
     return undefined;
     // throw (error);
   }

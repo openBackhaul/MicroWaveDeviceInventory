@@ -11429,9 +11429,15 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
 exports.provideListOfConnectedDevices = function (url, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
-      await deviceMetadataCacheUpdate.deviceMetaDataListSync();
-      let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
-      let result = metaDataListFromElasticSearch.filter(d => d["connection-status"] == "connected").map(d => d["mount-name"]);
+      // await deviceMetadataCacheUpdate.deviceMetaDataListSync(); // Doesn't exists
+      // let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
+      let metaDataListFromElasticSearch = await ReadRecords("DeviceMetaDataList");
+      if (metaDataListFromElasticSearch["DeviceMetaDataList"] == undefined) {
+        throw new createHttpError.NotFound("Device list not found");
+      } else {
+        metaDataListFromElasticSearch = metaDataListFromElasticSearch["DeviceMetaDataList"];
+      }
+      const result = metaDataListFromElasticSearch.filter(d => d["connection-status"] == "connected").map(d => d["mount-name"]);
       if (result != undefined) {
         const outputJson = {
           "mount-name-list": result

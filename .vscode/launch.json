@@ -25,7 +25,8 @@
                 "ELK_PIPELINE": "false",
                 "QUALITY_MEASUREMENT": "false",
                 "THRESHOLD_SW": "0.9",
-                "FAST_ROUTINES": "true"
+                "FAST_ROUTINES": "true",
+                "WRITE_FAST_ROUTINES": "false"
             }
         }
     ]

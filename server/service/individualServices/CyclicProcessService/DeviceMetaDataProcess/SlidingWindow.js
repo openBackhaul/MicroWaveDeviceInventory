@@ -50,7 +50,9 @@ class SlidingWindow {
     while (!this.stopped) {
       const device = await this.getNextDevice();
       if (!device) {
-        timeWaiting = timeWaiting + 2000;
+        if (timeWaiting <= 30000) {
+          timeWaiting = timeWaiting + 2000;
+        }
         logger.warn(`SlidingWindow: No more devices to process at the moment. Sleeping for ${timeWaiting}`);
         logSlidingWindowActivity(`SlidingWindow: No more devices to process at the moment.`);
         endTime = Date.now();

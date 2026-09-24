@@ -112,6 +112,9 @@ class DeviceMetaDataPriorityList {
                 if (!nextDevice) {
                     const totalOnLine = this.deviceMetadataPriorityList.filter(d => d["connection-status"] == "connected" )
                     this.resetDeviceList(totalOnLine.length);
+                    nextDevice = this.deviceMetadataPriorityList.find(d => {
+                        return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
+                    });
                 }
                 return nextDevice;
             }
@@ -127,16 +130,32 @@ class DeviceMetaDataPriorityList {
                 let temp = (d["connection-status"] == "connected" && d["cc-synced"] == false);
                 return temp;
             });
-            
+            let resultSync =  this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true);
+                return temp;
+            });
+            let resultLocked =  this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["locked-status"] == true);
+                return temp;
+            });
+
+
             const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
             const thresholdSynced = 1 - value;
             if (resultNotSync.length <= onLineMountNames * thresholdSynced) {
-                console.error("[DEVICE_METADATA_PRIORITY_LIST] - Reset and unlock status to restart Sliding Window");
+                console.log("[DEVICE_METADATA_PRIORITY_LIST] - Reset and unlock status to restart Sliding Window");
                 this.deviceMetadataPriorityList.forEach(metaDataEle => {
                     metaDataEle["locked-status"] = false;
                     metaDataEle["cc-synced"] = false;
                 });
+            } else {
+                console.log("[DEVICE_METADATA_PRIORITY_LIST] - No available mountname to be fetch");
             }
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames}`)
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected but not synced ${resultNotSync.length}`);
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected synced ${resultSync.length}`);
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected but locked ${resultLocked.length}`);
+        
         }
         return;
     }

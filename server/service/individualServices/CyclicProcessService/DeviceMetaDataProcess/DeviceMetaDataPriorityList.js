@@ -139,7 +139,6 @@ class DeviceMetaDataPriorityList {
                 return temp;
             });
 
-
             const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
             const thresholdSynced = 1 - value;
             if (resultNotSync.length <= onLineMountNames * thresholdSynced) {
@@ -149,13 +148,12 @@ class DeviceMetaDataPriorityList {
                     metaDataEle["cc-synced"] = false;
                 });
             } else {
-                console.log("[DEVICE_METADATA_PRIORITY_LIST] - No available mountname to be fetch");
+                console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threhold to be reach: ${onLineMountNames * thresholdSynced}`);
             }
             console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames}`)
             console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected but not synced ${resultNotSync.length}`);
             console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected synced ${resultSync.length}`);
             console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected but locked ${resultLocked.length}`);
-        
         }
         return;
     }

@@ -46,17 +46,21 @@ class SlidingWindow {
   }
 
   async startQueue() {
+    let timeWaiting = 0;
     while (!this.stopped) {
       const device = await this.getNextDevice();
       if (!device) {
-        logger.warn("SlidingWindow: No more devices to process at the moment.");
+        timeWaiting = timeWaiting + 2000;
+        logger.warn(`SlidingWindow: No more devices to process at the moment. Sleeping for ${timeWaiting}`);
         logSlidingWindowActivity(`SlidingWindow: No more devices to process at the moment.`);
         endTime = Date.now();
         logSlidingWindowDuration();
-        await sleep(2000);   // nothing to do --> recheck later
+        await sleep(timeWaiting);   // nothing to do --> recheck later
         // Reset start timer here
         startTime = Date.now();
         continue;
+      } else {
+        timeWaiting = 0;
       }
 
       // lock device

@@ -26,7 +26,8 @@
                 "QUALITY_MEASUREMENT": "false",
                 "THRESHOLD_SW": "0.9",
                 "FAST_ROUTINES": "true",
-                "WRITE_FAST_ROUTINES": "false"
+                "WRITE_FAST_ROUTINES": "false",
+                "SORT_DEVICE": "true"
             }
         }
     ]

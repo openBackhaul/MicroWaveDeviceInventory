@@ -34,7 +34,8 @@ class DeviceMetaDataPriorityList {
                 if (deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"]) {
                     deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"];
                 } else {
-                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date("01-01-1997").toJSON();
+                    // (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date("01-01-1997").toJSON();
+                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date(0).toJSON();
                 }
 
                 if (deviceMetadataToBeUpdated["connection-status"]) {
@@ -59,6 +60,8 @@ class DeviceMetaDataPriorityList {
                 
                 this.deviceMetadataPriorityList.splice(index, 1);
                 if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
+                    // Pre sorting
+                    deviceMetadata._sortTimestamp = deviceMetadata["last-complete-control-construct-update-time-attempt"] ? Date.parse(deviceMetadata["last-complete-control-construct-update-time-attempt"]) || 0: 0;
                     this.deviceMetadataPriorityList.push(deviceMetadata);
                     //this.deviceMetadataPriorityList[index] = deviceMetadata;
                 }
@@ -66,15 +69,25 @@ class DeviceMetaDataPriorityList {
             } else {
                 // insert new
                 if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
-                    deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
+                    deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date(0).toJSON();
+                    // deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
                     deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"];
                     deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
                     deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
                     deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
+
+                    // Pre sorting
+                    deviceMetadata._sortTimestamp = deviceMetadata["last-complete-control-construct-update-time-attempt"] ? Date.parse(deviceMetadata["last-complete-control-construct-update-time-attempt"]) || 0: 0;
                     this.deviceMetadataPriorityList.push(deviceMetadata);
                 } else {
                     //do nothing
                 }
+            }
+            // New implementation
+            if (process.env.SORT_DEVICE &&
+                process.env.SORT_DEVICE.toLowerCase() === "true") {
+                console.log("Sorting device list based on connection status and timestamp");
+                this.newSortDevices();
             }
             
             //this.sortDevices();
@@ -82,6 +95,19 @@ class DeviceMetaDataPriorityList {
         } catch (error) {
             throw error;
         }
+    }
+
+    newSortDevices() {
+        this.deviceMetadataPriorityList.sort((a, b) => {
+            const aConnected = a["connection-status"] === "connected";
+            const bConnected = b["connection-status"] === "connected";
+
+            if (aConnected !== bConnected) {
+                return aConnected ? -1 : 1; // Connected devices come first
+            }
+
+            return a._sortTimestamp - b._sortTimestamp; // Sort by timestamp
+        });
     }
 
     // Sort devices: connected first, oldest timestamp first
@@ -126,15 +152,15 @@ class DeviceMetaDataPriorityList {
     resetDeviceList(onLineMountNames) {
         if (this.deviceMetadataPriorityList.length > 0) {
 
-            let resultNotSync =  this.deviceMetadataPriorityList.filter(d => {
+            let resultNotSync = this.deviceMetadataPriorityList.filter(d => {
                 let temp = (d["connection-status"] == "connected" && d["cc-synced"] == false);
                 return temp;
             });
-            let resultSync =  this.deviceMetadataPriorityList.filter(d => {
+            let resultSync = this.deviceMetadataPriorityList.filter(d => {
                 let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true);
                 return temp;
             });
-            let resultLocked =  this.deviceMetadataPriorityList.filter(d => {
+            let resultLocked = this.deviceMetadataPriorityList.filter(d => {
                 let temp = (d["connection-status"] == "connected" && d["locked-status"] == true);
                 return temp;
             });

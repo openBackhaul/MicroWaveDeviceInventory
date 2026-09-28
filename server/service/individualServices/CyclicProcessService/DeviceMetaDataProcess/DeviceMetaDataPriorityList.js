@@ -1,7 +1,7 @@
 'use strict';
 
 const USE_SORT_DEVICE = process.env.SORT_DEVICE?.toLowerCase() === 'true';
-const THRESHOLD_SW = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
+const THRESHOLD_SW_VALUE = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
 /**
  * This class includes functions that shall be accessed to process the DeviceMetadataPriorityList
  * This class handles following five parameters
@@ -167,8 +167,8 @@ class DeviceMetaDataPriorityList {
                 return temp;
             });
 
-            const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
-            const thresholdSynced = 1 - value;
+            // const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
+            const thresholdSynced = 1 - THRESHOLD_SW_VALUE;
             if (resultNotSync.length <= onLineMountNames * thresholdSynced) {
                 console.log("[DEVICE_METADATA_PRIORITY_LIST] - Reset and unlock status to restart Sliding Window");
                 this.deviceMetadataPriorityList.forEach(metaDataEle => {

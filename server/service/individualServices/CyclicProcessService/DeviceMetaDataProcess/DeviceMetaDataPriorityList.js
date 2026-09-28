@@ -1,4 +1,7 @@
 'use strict';
+
+const USE_SORT_DEVICE = process.env.SORT_DEVICE?.toLowerCase() === 'true';
+const THRESHOLD_SW = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
 /**
  * This class includes functions that shall be accessed to process the DeviceMetadataPriorityList
  * This class handles following five parameters
@@ -84,8 +87,7 @@ class DeviceMetaDataPriorityList {
                 }
             }
             // New implementation
-            if (process.env.SORT_DEVICE &&
-                process.env.SORT_DEVICE.toLowerCase() === "true") {
+            if (USE_SORT_DEVICE) {
                 console.log("Sorting device list based on connection status and timestamp");
                 this.newSortDevices();
             }

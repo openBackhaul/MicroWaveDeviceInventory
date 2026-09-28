@@ -64,6 +64,8 @@ const CTR_CONST = "control-construct";
 const CORE_MODEL = "core-model-1-4:link";
 const END_POINT_LIST = "end-point-list";
 
+const USE_FAST_ROUTINES = process.env.FAST_ROUTINES?.toLowerCase() === 'true';
+const USE_ELK_PIPELINE = process.env.ELK_PIPELINE?.toLowerCase() === 'true';
 
 
 /**
@@ -1268,8 +1270,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
           throw new createHttpError(470, `Resource not existing. Device informs about addressed resource unknown`);
         }
         if (finalJson != undefined) {
-          if (process.env.FAST_ROUTINES &&
-            process.env.FAST_ROUTINES.toLowerCase() === "true") {
+          if (USE_FAST_ROUTINES) {
             logger.info("GetCachedControlConstruct: FASTER Routine");
             modifyReturnJson(finalJson);
 
@@ -13949,8 +13950,7 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
 async function recordRequest(body, cc) {
   let pipelineExists = false;
   let client = await common[1].EsClient;
-  if (process.env.ELK_PIPELINE &&
-    process.env.ELK_PIPELINE.toLowerCase() === "true") {
+  if (USE_ELK_PIPELINE) {
     try {
       // Check if the pipeline exists
       await client.ingest.getPipeline({ id: 'mwdi' });
@@ -14102,8 +14102,7 @@ async function searchRecords(cc) {
 
 // New function @latta-techm to be verified
 function modifyUUID(obj, mountName) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     modifyUUIDNew(obj, mountName);
   } else {
     modifyUUIDOld(obj, mountName);
@@ -14185,8 +14184,7 @@ function getFieldsFilter(myFields) {
 
 // New Function to be validate @latta-techm
 function modifyReturnJson(obj, mountName) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     modifyReturnJsonNew(obj, mountName);
   } else {
     modifyReturnJsonOld(obj, mountName);
@@ -14246,8 +14244,7 @@ function modifyReturnJsonOld(obj) {
 
 // New Function to be validate @latta-techm
 function modifyUrlConcatenateMountNamePlusUuid(url, mountName) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return modifyUrlConcatenateMountNamePlusUuidNew(url, mountName);
   } else {
     return modifyUrlConcatenateMountNamePlusUuidOld(url, mountName);
@@ -14347,8 +14344,7 @@ function formatUrlForOdl(url, fields) {
 
 // New Function to be validate @latta-techm
 function decodeMountName(url, cc) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return decodeMountNameNew(url, cc);
   } else {
     return decodeMountNameOld(url, cc);
@@ -14568,8 +14564,7 @@ async function extractProfileConfiguration(uuid) {
 
 // New Function to be validate @latta-techm
 function arraysHaveSameElements(array1, array2) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return arraysHaveSameElementsNew(array1, array2);
   } else {
     return arraysHaveSameElementsOld(array1, array2);
@@ -14641,8 +14636,7 @@ function arraysHaveSameElementsOld(array1, array2) {
 
 // TODO @latta-techm to be validated
 function isFilterValid(filter) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return isFilterValidNew(filter);
   } else {
     return isFilterValidOld(filter);
@@ -14705,8 +14699,7 @@ function isFilterValidOld(filter) {
 
 // New Function to be validate @latta-techm
 function replaceFilterString(filter) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return replaceFilterStringNew(filter);
   } else {
     return replaceFilterStringOld(filter);
@@ -14782,8 +14775,7 @@ function replaceFilterStringOld(filter) {
 
 // TODO @latta-techm to be validate
 function isJsonEmpty(value) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return isJsonEmptyNew(value);
   } else {
     return isJsonEmptyOld(value);
@@ -14928,8 +14920,7 @@ async function checkMountNameInDeviceList(mountName) {
 
 // TODO @latta-techm to be validate
 function hasAttribute(json, attributeName) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return hasAttributeNew(json, attributeName);
   } else {
     return hasAttributeOld(json, attributeName);

@@ -214,7 +214,7 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
           "connection-status": connectionStatus,
           "changed-to-disconnected-time": null,
           "added-to-device-list-time": new Date().toJSON(),
-          "last-complete-control-construct-update-time-attempt": new Date("01-01-1997").toJSON(),
+          "last-complete-control-construct-update-time-attempt": new Date(0).toJSON(), // old implementation new Date("01-01-1997").toJSON(),
           "last-successful-complete-control-construct-update-time": null,
           "last-control-construct-notification-update-time": null,
           "number-of-partial-updates-since-last-complete-update": 0,
@@ -240,7 +240,7 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
           }
           deviceData["connection-status"] = connectionStatus;
           deviceData["number-of-partial-updates-since-last-complete-update"] = 0;
-          deviceData["last-complete-control-construct-update-time-attempt"] = new Date("01-01-1997").toJSON();
+          deviceData["last-complete-control-construct-update-time-attempt"] = new Date(0).toJSON(); // old implementation new Date("01-01-1997").toJSON();
           await deviceMetaDataCacheUpdate.createOrUpdateDeviceMetaData(deviceData);
           await exports.updateDeviceMetadataPriorityList(deviceData);
         } else {

@@ -96,7 +96,8 @@ async function deviceMetaDataListUpdateProcess() {
 
 
     let currentTime = new Date().toJSON();
-    let defaultDisconnectionTime = new Date("01-01-1997").toJSON();
+    // let defaultDisconnectionTime = new Date("01-01-1997").toJSON();
+    let defaultDisconnectionTime = new Date(0).toJSON();
 
     if (deviceMetaDataListFromElasticSearch.length == 0) {
       /**

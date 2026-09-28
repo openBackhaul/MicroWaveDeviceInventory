@@ -3,6 +3,8 @@ const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
+const USE_ELK_PIPELINE = process.env.ELK_PIPELINE?.toLowerCase() === 'true';
+
 /**
  * This function returns the string-value object for given string-name
  * 
@@ -166,8 +168,7 @@ async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
 exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
   let pipelineExists = false;
   let client = await common[1].EsClient;
-  if (process.env.ELK_PIPELINE &&
-    process.env.ELK_PIPELINE.toLowerCase() === "true") {
+  if (USE_ELK_PIPELINE) {
     try {
       // Check if the pipeline exists
       await client.ingest.getPipeline({ id: 'mwdi' });

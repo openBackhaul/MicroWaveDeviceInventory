@@ -5,9 +5,10 @@ const logger = require('../LoggingService.js').getLogger();
 const CONTROLCONST = "control-construct";
 const LOCALID = 'local-id';
 
+const USE_FAST_ROUTINES = process.env.FAST_ROUTINES?.toLowerCase() === 'true';
+
 exports.cacheResponseBuilder = function (url, currentJSON) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return cacheResponseBuilderNew(url, currentJSON); // This has to be review
   } else {
     return cacheResponseBuilderOld(url, currentJSON);

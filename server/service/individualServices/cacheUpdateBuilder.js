@@ -1,11 +1,12 @@
 const createHttpError = require("http-errors");
 const logger = require('../LoggingService.js').getLogger();
 
+const USE_WRITE_FAST_ROUTINES = process.env.WRITE_FAST_ROUTINES?.toLowerCase() === 'true';
+
 //////////////////////////////////////////////////////////////////////////////////////
 // New Routine
 exports.cacheUpdateBuilder = function cacheUpdateBuilder(url, originalJSON, toInsert, hasFilter) {
-  if (process.env.WRITE_FAST_ROUTINES &&
-    process.env.WRITE_FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_WRITE_FAST_ROUTINES) {
     return cacheUpdateBuilderNew(url, originalJSON, toInsert, hasFilter); // This has to be review
   } else {
     return cacheUpdateBuilderOld(url, originalJSON, toInsert, hasFilter);

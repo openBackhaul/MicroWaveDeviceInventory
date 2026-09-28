@@ -18,6 +18,9 @@ let cacheQualityMeasurementProcess = require('../service/individualServices/Cycl
 const NEW_RELEASE_FORWARDING_NAME = undefined;
 const OLD_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
 
+
+const USE_QUALITY_MEASUREMENT = process.env.QUALITY_MEASUREMENT?.toLowerCase() === 'true';
+
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
 
   let newReleaseUuids = await resolveHttpTcpAndOperationClientUuidOfNewRelease()
@@ -100,8 +103,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
 
       // starts cacheQualityMeasurementProcess
       let qualityFlag = false
-      if (process.env.QUALITY_MEASUREMENT &&
-        process.env.QUALITY_MEASUREMENT.toLowerCase() === "true") {
+      if (USE_QUALITY_MEASUREMENT) {
         qualityFlag = true;
       } else {
         qualityFlag = false;

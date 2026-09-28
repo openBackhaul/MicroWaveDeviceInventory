@@ -1,4 +1,6 @@
 
+const USE_FAST_ROUTINES = process.env.FAST_ROUTINES?.toLowerCase() === 'true';
+
 function getCloseParIdOld(str, openParId) {
   var currStr = str.substring(openParId + 1)
 
@@ -176,8 +178,7 @@ function decodeFieldsSubstring(inputStr, startId, parentObj) {
 }
 
 exports.decodeFieldsSubstringExt = function (inputStr, startId, parentObj) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return decodeFieldsSubstring(inputStr, startId, parentObj);
   } else {
     return decodeFieldsSubstringOld(inputStr, startId, parentObj);
@@ -370,8 +371,7 @@ function getFilteredJson(jsonObj, filterParentObj) {
 
 
 exports.getFilteredJsonExt = function (jsonObj, filterParentObj) {
-  if (process.env.FAST_ROUTINES &&
-    process.env.FAST_ROUTINES.toLowerCase() === "true") {
+  if (USE_FAST_ROUTINES) {
     return getFilteredJson(jsonObj, filterParentObj);
   } else {
     return getFilteredJsonOld(jsonObj, filterParentObj);

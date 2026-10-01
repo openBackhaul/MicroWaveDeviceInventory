@@ -260,11 +260,18 @@ exports.arraysHaveSameElements = async function (array1, array2) {
 exports.calculateTimeInMilliSeconds = function (value, unit) {
   let timeInMilliseconds = 0;
   try {
-    if (unit.includes("day")) timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
-    else if (unit.includes("hour")) timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
-    else if (unit.includes("minute")) timeInMilliseconds = parseInt(value) * 60 * 1000;
-    else if (unit.includes("second")) timeInMilliseconds = parseInt(value) * 1000;
-    else timeInMilliseconds = value;
+    if (unit.includes("day")) {
+      timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
+    } else if (unit.includes("hour")) {
+      timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
+    } else if (unit.includes("minute")) {
+      timeInMilliseconds = parseInt(value) * 60 * 1000;
+    } else if (unit.includes("second")) {
+      timeInMilliseconds = parseInt(value) * 1000;
+    } else {
+      timeInMilliseconds = value;
+    }
+
     return timeInMilliseconds;
   } catch (error) {
     console.log(error);

@@ -30,7 +30,6 @@ class SlidingWindow {
     this.active = 0;
     this.stopped = false;
 
-    // TODO @latta-techm to be verify
     logSlidingWindowActivity(`SlidingWindow: is stopped ? ${this.stopped}`);
     logSlidingWindowActivity(`SlidingWindow: Response timeout set to ${responseTimeOut} ms.`);
     logSlidingWindowActivity(`SlidingWindow: Maximum retries ${maximumNumberOfRetries} for each device.`);
@@ -50,7 +49,7 @@ class SlidingWindow {
     while (!this.stopped) {
       const device = await this.getNextDevice();
       if (!device) {
-        if (timeWaiting <= 30000) {
+        if (timeWaiting <= 10000) {
           timeWaiting = timeWaiting + 2000;
         }
         logger.warn(`SlidingWindow: No more devices to process at the moment. Sleeping for ${timeWaiting}`);
@@ -69,7 +68,8 @@ class SlidingWindow {
       deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
 
       // submit job to concurrency queue
-      this.enqueue(() => this.processDevice(device))
+      this.enqueue(device["mount-name"], () => this.processDevice(device))
+      //this.enqueue(() => this.processDevice(device))
         .catch((err) => {
           // logger.error("Error processing device:", device["mount-name"], err)
           logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
@@ -127,6 +127,9 @@ class SlidingWindow {
     this.stopped = true;
   }
 
+  unqueue(mountName) {
+    return this.enqueue.cancel(mountName);
+  }
 }
 
 
@@ -144,6 +147,21 @@ async function getNextDeviceMetaDataLocal() {
     return {};
   }
 }
+
+exports.removeMountNameFromSlidingWindow = async function (mountName) {
+
+ try {
+    if (slidingWindowRunner) {
+      await slidingWindowRunner.unqueue(mountName);
+    }
+  } catch (error) {
+    logger.error(error);
+    logSlidingWindowActivity(`SlidingWindow: remove Mountname error: ${error.message}`);
+  }
+
+  return true;
+}
+
 
 /**
  * This function shall be called in order to stop sliding window runner
@@ -234,7 +252,7 @@ function logSlidingWindowDuration() {
 /**
  * Minimal concurrency limiter
  */
-function createConcurrencyQueue(limit) {
+function createConcurrencyQueueOld(limit) {
   let activeCount = 0;
   const queue = [];
 
@@ -265,3 +283,85 @@ function createConcurrencyQueue(limit) {
 }
 
 
+/**
+ * Concurrency queue with cancellation of pending requests.
+ *
+ * Each key can have only one pending or running request.
+ * Cancelling a running request returns false.
+ */
+function createConcurrencyQueue(limit) {
+  if (!Number.isInteger(limit) || limit < 1) {
+    throw new RangeError("Concurrency limit must be a positive integer");
+  }
+
+  const pending = new Map();
+  const running = new Map();
+//  const running = new Set();
+
+  function drain() {
+    while (running.size < limit && pending.size > 0) {
+      // Map preserves insertion order: FIFO.
+      const [key, job] = pending.entries().next().value;
+
+      pending.delete(key);
+      running.add(key);
+
+      // Handles synchronous exceptions, values and Promises.
+      Promise.resolve()
+        .then(job.fn)
+        .then(
+          result => finish(key, job.resolve, result),
+          error => finish(key, job.reject, error)
+        );
+    }
+  }
+
+  function finish(key, settle, value) {
+    running.delete(key);
+    settle(value);
+    drain();
+  }
+
+  function enqueue(key, fn) {
+    if (typeof fn !== "function") {
+      return Promise.reject(new TypeError("Task must be a function"));
+    }
+
+    if (pending.has(key) || running.has(key)) {
+      return Promise.reject(
+        new Error(`Request already queued or running: ${key}`)
+      );
+    }
+
+    return new Promise((resolve, reject) => {
+      pending.set(key, { fn, resolve, reject });
+      drain();
+    });
+  }
+
+  enqueue.cancel = function cancel(key) {
+    const jobPending = pending.get(key);
+    const jobRunning = running.get(key);
+
+    if (!jobPending && !jobRunning) {
+      return false; // Already running, completed, or unknown.
+    }
+
+    let job;
+    if (jobPending) {
+      job = jobPending;
+      pending.delete(key);
+    } else {  // is the job running
+      job = jobRunning;
+      running.delete(key);
+    }
+
+    const error = new Error(`Queued request cancelled: ${key}`);
+    error.name = "QueueCancellationError";
+
+    job.reject(error);
+    return true;
+  };
+
+  return enqueue;
+}

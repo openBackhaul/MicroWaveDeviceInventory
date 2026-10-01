@@ -176,12 +176,9 @@ class DeviceMetaDataPriorityList {
                     metaDataEle["cc-synced"] = false;
                 });
             } else {
-                console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threhold to be reach: ${onLineMountNames * thresholdSynced}`);
+                console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threshold to be reach: ${onLineMountNames * thresholdSynced}`);
             }
-            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames}`)
-            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected but not synced ${resultNotSync.length}`);
-            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected synced ${resultSync.length}`);
-            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected but locked ${resultLocked.length}`);
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames} - synced ${resultSync.length} - not synced ${resultNotSync.length} - locked ${resultLocked.length}`);
         }
         return;
     }

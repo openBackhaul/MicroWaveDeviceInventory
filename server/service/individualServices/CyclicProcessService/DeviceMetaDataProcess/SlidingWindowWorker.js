@@ -136,6 +136,20 @@ parentPort.on('message', (msg) => {
   // 5. removeMetaDataOfDevice
   if (msg.type === 'remove-device-metadata') {
     let result = false;
+
+    (async () => {
+      try {
+        if (slidingWindowStarted) {
+          await slidingWindow.removeMountNameFromSlidingWindow(msg.mountName);
+        }
+      } catch (err) {
+        logger.error('[SlidingWindowWorker] Removing mountname from sliding window:', err);
+        logSlidingWindowActivity('[SlidingWindowWorker] Removing mountname sliding window:'+err);
+      }
+
+      logger.info(`[SlidingWindowWorker] remove mountname ${msg.mountName} from sliding window`);
+    })();
+
     try {
       result = deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
       logSlidingWindowActivity(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);

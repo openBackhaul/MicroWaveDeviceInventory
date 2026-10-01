@@ -87,7 +87,14 @@ class SlidingWindow {
       logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
       result = await deviceControlConstructUtility
         .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries);
-      logger.info(`SlidingWindow: ${nodeId} written into ElasticSearch`);
+
+      // @latta-techm check if result is ok or not. Log misleading message if result is false. Result is false if CC sync failed for given nodeId.
+      if (result === true) {
+        logger.info(`SlidingWindow: ${nodeId} written into ElasticSearch`);
+      } else {
+        logger.error(`SlidingWindow: ${nodeId} failed to write into ElasticSearch`);
+      }
+
       let ts = new Date().toJSON();
 
       device["last-complete-control-construct-update-time-attempt"] = ts;

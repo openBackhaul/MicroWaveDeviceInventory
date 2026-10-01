@@ -137,7 +137,7 @@ parentPort.on('message', (msg) => {
   if (msg.type === 'remove-device-metadata') {
     let result = false;
     try {
-      result =deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
+      result = deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
       logSlidingWindowActivity(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);
       logger.info(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);
     } catch (err) {

@@ -211,7 +211,10 @@ class DeviceMetaDataPriorityList {
     // remove metadata for given node-id
     removeMetaDataOfDevice(mountName) {
         try {
+            // latta-techm: remove the device-metadata for given mount-name from deviceMetadataPriorityList: try to print 
+            logger.info(`[DEVICE_METADATA_PRIORITY_LIST] - Removing device-metadata for mount-name: ${mountName} - mountname list: ${this.deviceMetadataPriorityList.length}`);
             this.deviceMetadataPriorityList = this.deviceMetadataPriorityList.filter(d => d["mount-name"] !== mountName);
+            logger.info(`[DEVICE_METADATA_PRIORITY_LIST] - After Removing device-metadata for mount-name: ${mountName} - mountname list: ${this.deviceMetadataPriorityList.length}`);
             return true;
         } catch (error) {
             console.log(error);

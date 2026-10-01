@@ -179,6 +179,10 @@ class DeviceMetaDataPriorityList {
                 console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threshold to be reach: ${onLineMountNames * thresholdSynced}`);
             }
             console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames} - synced ${resultSync.length} - not synced ${resultNotSync.length} - locked ${resultLocked.length}`);
+            for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
+                let mn = this.deviceMetadataPriorityList[idx];
+                console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]}`);
+            }
         }
         return;
     }
@@ -208,10 +212,7 @@ class DeviceMetaDataPriorityList {
     // remove metadata for given node-id
     removeMetaDataOfDevice(mountName) {
         try {
-            // latta-techm: remove the device-metadata for given mount-name from deviceMetadataPriorityList: try to print 
-            logger.info(`[DEVICE_METADATA_PRIORITY_LIST] - Removing device-metadata for mount-name: ${mountName} - mountname list: ${this.deviceMetadataPriorityList.length}`);
             this.deviceMetadataPriorityList = this.deviceMetadataPriorityList.filter(d => d["mount-name"] !== mountName);
-            logger.info(`[DEVICE_METADATA_PRIORITY_LIST] - After Removing device-metadata for mount-name: ${mountName} - mountname list: ${this.deviceMetadataPriorityList.length}`);
             return true;
         } catch (error) {
             console.log(error);

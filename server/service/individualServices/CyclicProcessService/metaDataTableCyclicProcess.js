@@ -21,8 +21,14 @@ exports.MetaDataTableCyclicProcess = async function MetaDataTableCyclicProcess()
     let unitForConnectionStatusSyncPeriod = profileInstanceForConnectionStatusSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
     let connectionStatusSyncPeriod;
-    if (unitForConnectionStatusSyncPeriod == "days") connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 24 * 60 * 60 * 1000;
-    else if (unitForConnectionStatusSyncPeriod == "hour") connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
+    if (unitForConnectionStatusSyncPeriod == "days") {
+      connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 24 * 60 * 60 * 1000;
+    } else if (unitForConnectionStatusSyncPeriod == "hour") {
+      connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
+    } else  {  // Default unit is hours
+      connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
+    }
+
     periodicConnectionStatusSynchTimerId = setInterval(metaDataTableUpdateProcess, connectionStatusSyncPeriod);
     return;
 
@@ -40,12 +46,14 @@ async function metaDataTableUpdateProcess() {
     let odlDeviceList = [];
     let metaDataListFromElasticSearch = [];
     let deviceListMetaData = [];
+
     //get device list from live controller
     odlDeviceList = await metaDataUtility.getLiveMetaDataListFromController()
       .catch(error => {
         throw error;
       });
-    // get existing meta data from elastic search
+
+      // get existing meta data from elastic search
     metaDataListFromElasticSearch = await metaDataUtility.readMetaDataListFromElasticsearch()
       .catch(error => {
         throw error;
@@ -78,6 +86,7 @@ async function metaDataTableUpdateProcess() {
             "number-of-partial-updates-since-last-complete-update": 0,
             "schema-cache-directory": schemaCacheDirectory
           };
+
           if (connectionStatus == "connected") {
             deviceMetaData["added-to-device-list-time"] = currentTime;
           } else {
@@ -128,7 +137,9 @@ async function metaDataTableUpdateProcess() {
               } else {
                 // check for meta data retention period. If the "changed-to-disconnected-time" is > "metadataTableRetentionPeriod", the data shall be removed.
                 let isDeviceCrossedRetentionPeriod = await metaDataUtility.isDeviceCrossedRetentionPeriod(metaDataListFromElasticSearch[i]["changed-to-disconnected-time"]);
-                if (!isDeviceCrossedRetentionPeriod) commonEsElements.push(metaDataListFromElasticSearch[i]);
+                if (!isDeviceCrossedRetentionPeriod) {
+                  commonEsElements.push(metaDataListFromElasticSearch[i]);
+                }
               }
             }
             break;
@@ -145,7 +156,9 @@ async function metaDataTableUpdateProcess() {
           } else {
             // check for meta data retention period. If the "changed-to-disconnected-time" is > "metadataTableRetentionPeriod", the data shall be removed.
             let isDeviceCrossedRetentionPeriod = await metaDataUtility.isDeviceCrossedRetentionPeriod(metaDataListFromElasticSearch[i]["changed-to-disconnected-time"]);
-            if (!isDeviceCrossedRetentionPeriod) commonEsElements.push(metaDataListFromElasticSearch[i]);
+            if (!isDeviceCrossedRetentionPeriod) {
+              commonEsElements.push(metaDataListFromElasticSearch[i]);
+            }
           }
         }
       }

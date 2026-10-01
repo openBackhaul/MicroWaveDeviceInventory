@@ -68,8 +68,13 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
     let metadataTableRetentionPeriod;
-    if (unit == "days") metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
-    else if (unit == "hours") metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    if (unit == "days") {
+      metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
+    } else if (unit == "hours") {
+      metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    } else {  // Default unit is minutes
+      metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 1000;
+    }
 
     if (diffTime > metadataTableRetentionPeriod) {
       isDeviceCrossedRetentionPeriod = true;

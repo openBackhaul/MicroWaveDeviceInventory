@@ -160,7 +160,9 @@ exports.getControlConstructPathForLive = async function (nodeId) {
       let operationName = await operationClient.getOperationNameAsync(ccRetrievalFcPort["logical-termination-point"]);
       let urlToGetCCFromController = operationName.replace("{controllerInternalPathToMountPoint}", controllerInternalPathToMountPoint).replace("{mountName}", nodeId);
       return urlToGetCCFromController;
-    } else { return undefined }
+    } else {
+      return undefined;
+    }
   } catch (error) {
     logger.warn(`Error at retrieving live CC path from config file`);
     return undefined;
@@ -178,7 +180,9 @@ exports.getControlConstructPathForCache = async function (nodeId) {
       let operationName = await operationServer.getOperationNameAsync(ccRetrievalFcPort["logical-termination-point"]);
       let finalUrl = operationName.replace("{mountName}", nodeId);
       return finalUrl;
-    } else { return undefined }
+    } else {
+      return undefined;
+    }
   } catch (error) {
     logger.warn(`Error at retrieving cache CC path from config file`);
     return undefined;

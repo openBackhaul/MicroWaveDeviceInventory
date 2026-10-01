@@ -224,9 +224,13 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
         }
       }
       dataUpdated = await deviceMetaDataCacheUpdate.createOrUpdateDeviceMetaData(deviceData);
-      if (dataUpdated) dataUpdated = await exports.updateDeviceMetadataPriorityList(deviceData);
-      if (dataUpdated) console.log(`Device metadata update for ${mountName} success`);
-      else {
+      if (dataUpdated) {
+        dataUpdated = await exports.updateDeviceMetadataPriorityList(deviceData);
+      }
+
+      if (dataUpdated) {
+        console.log(`Device metadata update for ${mountName} success`);
+      } else {
         console.log(`Device metadata update for ${mountName} failed`);
         return false;
       }
@@ -248,8 +252,9 @@ exports.updateMetaData = async function (mountName, connectionStatus) {
         }
       } else {
         dataUpdated = await exports.removeDeviceDataFromCache(mountName);
-        if (dataUpdated) console.log(`Device metadata removal for ${mountName} success`)
-        else {
+        if (dataUpdated) {
+          console.log(`Device metadata removal for ${mountName} success`)
+        } else {
           console.log(`Device metadata removal for ${mountName} failed`);
           return false;
         }
@@ -292,7 +297,11 @@ exports.removeDeviceDataFromCache = async function (mountName) {
   let isDeleted = false;
   try {
     isDeleted = await slidingWindowHandler.removeMetaDataOfDevice(mountName);
-    if (isDeleted) await deviceMetaDataCacheUpdate.removeDevicemetadata(mountName);
+
+    if (isDeleted) {
+      await deviceMetaDataCacheUpdate.removeDevicemetadata(mountName);
+    }
+
     if (isDeleted) {
       console.log(`************************* attempting to CC of ${mountName} from ES **************************`);
       let indexAlias = common[1].indexAlias;
@@ -356,6 +365,7 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
         }
       }
     }
+
     if (!found) {
       let deviceMetaData = {
         "mount-name": mountName,
@@ -367,11 +377,13 @@ exports.updateMDTableForDeviceStatusChange = async function (mountName, connecti
         "number-of-partial-updates-since-last-complete-update": 0,
         "schema-cache-directory": null
       };
+
       if (connectionStatus == "connected") {
         deviceMetaData["added-to-device-list-time"] = timestamp;
       } else {
         deviceMetaData["changed-to-disconnected-time"] = timestamp;
       }
+
       metaDataListFromElasticSearch.push(deviceMetaData);
       await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
     }
@@ -404,6 +416,7 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
         await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
+
     if (!found) {
       console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
@@ -435,6 +448,7 @@ exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp 
         await exports.writeDeviceMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
+
     if (!found) {
       console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }

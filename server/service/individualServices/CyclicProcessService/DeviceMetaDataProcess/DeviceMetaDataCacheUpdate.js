@@ -71,11 +71,7 @@ class DeviceMetaDataList {
   //remove metadata from list
   removeDevicemetadata(mountName) {
     try {
-      // TODO @latta-techm to be verify
-      console.log(`Receiving remove Device from sliding window for mountName: ${mountName}`);
-      console.log(`before remove, deviceMetaDataList: ${this.deviceMetaDataList.length}`);
       this.deviceMetaDataList = this.deviceMetaDataList.filter(d => d[MOUNTNAME] !== mountName);
-      console.log(`after remove, deviceMetaDataList: ${this.deviceMetaDataList.length}`);
       return true;
     } catch (error) {
       logger.error(error);

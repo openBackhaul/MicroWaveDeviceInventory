@@ -68,53 +68,70 @@ class SlidingWindow {
       deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
 
       // submit job to concurrency queue
-      this.enqueue(device["mount-name"], () => this.processDevice(device))
-      //this.enqueue(() => this.processDevice(device))
-        .catch((err) => {
-          // logger.error("Error processing device:", device["mount-name"], err)
-          logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
-          logger.error(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
+      this.enqueue(device["mount-name"], signal => this.processDevice(device, signal))
+        .catch(error => {
+          if (error.name === "AbortError") {
+            return;
+          }
+          logger.error(error);
         });
+
+      // this.enqueue(device["mount-name"], () => this.processDevice(device))
+      //// this.enqueue(() => this.processDevice(device))
+      //  .catch((err) => {
+      //    // logger.error("Error processing device:", device["mount-name"], err)
+      //    logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
+      //    logger.error(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
+      //  });
     }
   }
 
-  async processDevice(device) {
-    let nodeId = device["mount-name"];
+  async processDevice(device, signal) {
+    const nodeId = device["mount-name"];
     let result = false;
 
     try {
+      signal.throwIfAborted();
+
       logger.info(`SlidingWindow: Processing started for device ${nodeId}`);
       logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
-      result = await deviceControlConstructUtility
-        .syncControllerCcToEs(nodeId, responseTimeOut, maximumNumberOfRetries);
+      result = await deviceControlConstructUtility.syncControllerCcToEs(
+        nodeId, responseTimeOut, maximumNumberOfRetries);
 
-      // @latta-techm check if result is ok or not. Log misleading message if result is false. Result is false if CC sync failed for given nodeId.
+      signal.throwIfAborted();
+
       if (result === true) {
         logger.info(`SlidingWindow: ${nodeId} written into ElasticSearch`);
       } else {
         logger.error(`SlidingWindow: ${nodeId} failed to write into ElasticSearch`);
       }
 
-      let ts = new Date().toJSON();
+      const timeStamp = new Date().toJSON();
 
-      device["last-complete-control-construct-update-time-attempt"] = ts;
+      device["last-complete-control-construct-update-time-attempt"] = timeStamp;
       device["locked-status"] = false;
-      device["cc-synced"] = true;
+      device["cc-synced"] = result === true;
 
       //send attempt time + (optional) success time in ONE call
       deviceMetadataCacheUpdate.updateCcSyncTimes(
         nodeId,
-        ts,
-        result === true ? ts : null
+        timeStamp,
+        result === true ? timeStamp : null
       );
 
       if (result === true) {
         device['exclude-from-qm'] = false;
       }
+      signal.throwIfAborted();
 
       await deviceMetaDataPriorityList.createOrUpdateDevice(device);
+
+      signal.throwIfAborted();
     } catch (err) {
-      // console.error("processDevice failed:", nodeId, err);
+      if (signal.aborted) {
+        logger.info(`SlidingWindow: Processing cancelled for device ${nodeId}`);
+        throw signal.reason;
+      }
       logger.error(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
       logSlidingWindowActivity(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
     }
@@ -150,7 +167,7 @@ async function getNextDeviceMetaDataLocal() {
 
 exports.removeMountNameFromSlidingWindow = async function (mountName) {
 
- try {
+  try {
     if (slidingWindowRunner) {
       await slidingWindowRunner.unqueue(mountName);
     }
@@ -296,29 +313,43 @@ function createConcurrencyQueue(limit) {
 
   const pending = new Map();
   const running = new Map();
-//  const running = new Set();
+
+  function cancellationError(key) {
+    const error = new Error(`Request cancelled: ${key}`);
+    error.name = "AbortError";
+    return error;
+  }
 
   function drain() {
     while (running.size < limit && pending.size > 0) {
-      // Map preserves insertion order: FIFO.
       const [key, job] = pending.entries().next().value;
 
       pending.delete(key);
-      running.add(key);
+      running.set(key, job);
 
-      // Handles synchronous exceptions, values and Promises.
       Promise.resolve()
-        .then(job.fn)
+        .then(() => {
+          job.controller.signal.throwIfAborted();
+          return job.fn(job.controller.signal);
+        })
         .then(
-          result => finish(key, job.resolve, result),
-          error => finish(key, job.reject, error)
+          result => finish(key, job, true, result),
+          error => finish(key, job, false, error)
         );
     }
   }
 
-  function finish(key, settle, value) {
+  function finish(key, job, succeeded, value) {
     running.delete(key);
-    settle(value);
+
+    if (job.controller.signal.aborted) {
+      job.reject(job.controller.signal.reason);
+    } else if (succeeded) {
+      job.resolve(value);
+    } else {
+      job.reject(value);
+    }
+
     drain();
   }
 
@@ -334,32 +365,34 @@ function createConcurrencyQueue(limit) {
     }
 
     return new Promise((resolve, reject) => {
-      pending.set(key, { fn, resolve, reject });
+      pending.set(key, {
+        fn,
+        resolve,
+        reject,
+        controller: new AbortController()
+      });
+
       drain();
     });
   }
 
   enqueue.cancel = function cancel(key) {
-    const jobPending = pending.get(key);
-    const jobRunning = running.get(key);
+    const pendingJob = pending.get(key);
 
-    if (!jobPending && !jobRunning) {
-      return false; // Already running, completed, or unknown.
-    }
-
-    let job;
-    if (jobPending) {
-      job = jobPending;
+    if (pendingJob) {
       pending.delete(key);
-    } else {  // is the job running
-      job = jobRunning;
-      running.delete(key);
+      pendingJob.controller.abort(cancellationError(key));
+      pendingJob.reject(pendingJob.controller.signal.reason);
+      return true;
     }
 
-    const error = new Error(`Queued request cancelled: ${key}`);
-    error.name = "QueueCancellationError";
+    const runningJob = running.get(key);
 
-    job.reject(error);
+    if (!runningJob || runningJob.controller.signal.aborted) {
+      return false;
+    }
+
+    runningJob.controller.abort(cancellationError(key));
     return true;
   };
 

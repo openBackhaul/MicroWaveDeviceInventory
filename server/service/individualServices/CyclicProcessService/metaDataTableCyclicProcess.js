@@ -20,14 +20,14 @@ exports.MetaDataTableCyclicProcess = async function MetaDataTableCyclicProcess()
     let integerValueForConnectionStatusSyncPeriod = profileInstanceForConnectionStatusSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unitForConnectionStatusSyncPeriod = profileInstanceForConnectionStatusSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-    let connectionStatusSyncPeriod;
-    if (unitForConnectionStatusSyncPeriod == "days") {
-      connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 24 * 60 * 60 * 1000;
-    } else if (unitForConnectionStatusSyncPeriod == "hour") {
-      connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
-    } else  {  // Default unit is hours
-      connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
-    }
+    const  connectionStatusSyncPeriod = utility.calculateTimeInMilliSeconds(integerValueForConnectionStatusSyncPeriod, unitForConnectionStatusSyncPeriod);
+    // if (unitForConnectionStatusSyncPeriod == "days") {
+    //   connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 24 * 60 * 60 * 1000;
+    // } else if (unitForConnectionStatusSyncPeriod == "hour") {
+    //   connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
+    // } else  {  // Default unit is hours
+    //   connectionStatusSyncPeriod = parseInt(integerValueForConnectionStatusSyncPeriod) * 60 * 60 * 1000;
+    // }
 
     periodicConnectionStatusSynchTimerId = setInterval(metaDataTableUpdateProcess, connectionStatusSyncPeriod);
     return;

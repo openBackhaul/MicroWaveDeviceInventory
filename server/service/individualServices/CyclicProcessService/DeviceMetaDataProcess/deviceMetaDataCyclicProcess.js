@@ -32,14 +32,13 @@ exports.start = async function deviceMetaDataCyclicProcess() {
     let profileInstanceForDeviceListSyncPeriod = await utility.getIntegerProfileForIntegerName("deviceListSyncPeriod");
     let integerValueForDeviceListSyncPeriod = profileInstanceForDeviceListSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unitForDeviceListSyncPeriod = profileInstanceForDeviceListSyncPeriod[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
-
-    //TODO @latta-techm to be check if is working fine
-    let deviceListSyncPeriod = utility.calculateTimeInMilliSeconds(integerValueForDeviceListSyncPeriod, unitForDeviceListSyncPeriod);
     // if (unitForDeviceListSyncPeriod == "days") {
     //   deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 24 * 60 * 60 * 1000;
     // } else if (unitForDeviceListSyncPeriod == "hour") {
     //   deviceListSyncPeriod = parseInt(integerValueForDeviceListSyncPeriod) * 60 * 60 * 1000;
     // }
+    
+    const deviceListSyncPeriod = utility.calculateTimeInMilliSeconds(integerValueForDeviceListSyncPeriod, unitForDeviceListSyncPeriod);
 
     // Cyclic loop
     periodicConnectionStatusSynchTimerId = setInterval(deviceMetaDataListUpdateProcess, deviceListSyncPeriod);

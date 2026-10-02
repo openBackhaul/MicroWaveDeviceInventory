@@ -59,7 +59,7 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
       } else {
         if (maxRetries > 0) {
           await sleep(2000);
-          console.log(`******************************** CC retrieval for ${nodeId} - ${maxRetries - 1}`);
+          console.log(`******************************** CC retrieval for ${nodeId} - Retries: ${maxRetries - 1}`);
           return await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries - 1);
         } else {
           console.log(`******************************** CC retrieval failed for ${nodeId} `);

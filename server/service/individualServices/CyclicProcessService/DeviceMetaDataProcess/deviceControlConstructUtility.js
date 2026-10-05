@@ -19,7 +19,7 @@ const logger = require("../../../LoggingService").getLogger();
 exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetries, signal) {
   let isSyncSuccess = false;
   try {
-    let ccObjectFromLive = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries);
+    let ccObjectFromLive = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries, signal);
     signal.throwIfAborted();
     let modifiedCc = {};
     if (Object.keys(ccObjectFromLive).length != 0) {
@@ -42,7 +42,7 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
  * 
  * @returns {Object} controlConstructFromController - cc of device from live
  */
-exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries) {
+exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries, signal) {
   let controlConstructFromController = {};
   try {
     //const finalUrl = common[0].tcpConn + await exports.getControlConstructPathForLive(nodeId);
@@ -51,6 +51,7 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
     finalUrl = finalUrl.replace("{mountName}", nodeId);
     const Authorization = common[0].key;
     const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization, responseTimeOut);
+    signal.throwIfAborted();
     if (!result) {
       console.log(`********************************CC retrieval failed for ${nodeId} - network error `);
     } else {
@@ -63,13 +64,16 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
         if (maxRetries > 0) {
           await sleep(2000);
           console.log(`******************************** CC retrieval for ${nodeId} - Retries: ${maxRetries - 1}`);
-          return await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries - 1);
+          controlConstructFromController = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries - 1, signal);
+          signal.throwIfAborted();
+          return controlConstructFromController;
         } else {
           console.log(`******************************** CC retrieval failed for ${nodeId} `);
         }
       }
     }
   } catch (error) {
+    signal.throwIfAborted();
     logger.error(`Error at receiving CC for node: ${nodeId} from live`);
   }
 

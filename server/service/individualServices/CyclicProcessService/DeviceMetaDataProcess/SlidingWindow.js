@@ -64,6 +64,15 @@ class SlidingWindow {
         timeWaiting = 0;
       }
 
+      const { pendingCount, runningCount, totalCount } = this.getQueueStatus();
+
+      if (runningCount >= slidingWindowSize) {
+        logger.warn(`[SLIDING_WINDOW] - Queue is full. Waiting for a slot to process device ${device["mount-name"]}`);
+        logSlidingWindowActivity(`[SLIDING_WINDOW] - Queue is full. Waiting for a slot to process device ${device["mount-name"]}`);
+        await sleep(timeWaiting);
+        continue;
+      }
+
       // lock device
       logger.warn(`[SLIDING_WINDOW] - Locking device ${device["mount-name"]} for processing.`);
       deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
@@ -145,6 +154,14 @@ class SlidingWindow {
     logSlidingWindowActivity('[SLIDING_WINDOW] - Stop requested');
     this.stopped = true;
   }
+
+  getQueueStatus() {
+    const pendingCount = this.enqueue.pending.size;
+    const runningCount = this.enqueue.running.size;
+    const totalCount = pendingCount + runningCount;
+    return { pendingCount, runningCount, totalCount };
+  }
+  
 
   unqueue(mountName) {
     return this.enqueue.cancel(mountName);

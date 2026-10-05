@@ -134,7 +134,7 @@ class DeviceMetaDataPriorityList {
             if (this.deviceMetadataPriorityList.length > 0) {
                 for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
                     let mn = this.deviceMetadataPriorityList[idx];
-                    console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]} - timestamp: ${mn["last-complete-control-construct-update-time-attempt"]}`);
+                    console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]} - timestamp: ${mn["last-complete-control-construct-update-time-attempt"]} - ${mn._sortTimestamp}`);
                 }
                 let nextDevice = this.deviceMetadataPriorityList.find(d => {
                     return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);

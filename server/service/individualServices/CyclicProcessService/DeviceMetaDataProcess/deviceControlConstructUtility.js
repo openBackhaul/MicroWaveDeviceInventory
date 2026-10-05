@@ -16,20 +16,17 @@ const logger = require("../../../LoggingService").getLogger();
  * 
  * @returns {Boolean} true - in case of successful sync between live and cache for given nodeId
  */
-exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetries, signal) {
+exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetries) {
   let isSyncSuccess = false;
   try {
-    let ccObjectFromLive = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries, signal);
-    signal.throwIfAborted();
+    let ccObjectFromLive = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries);
     let modifiedCc = {};
     if (Object.keys(ccObjectFromLive).length != 0) {
       modifiedCc = await exports.modifyCCWithModifiedKeys(ccObjectFromLive, nodeId);
-      signal.throwIfAborted();
       modifiedCc['last-complete-control-construct-update-time'] = new Date().toJSON();
       isSyncSuccess = await exports.updateControlConstructToEs(nodeId, modifiedCc, maxRetries);
     }
   } catch (error) {
-    signal.throwIfAborted();
   }
   return isSyncSuccess;
 }
@@ -42,7 +39,7 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
  * 
  * @returns {Object} controlConstructFromController - cc of device from live
  */
-exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries, signal) {
+exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries, ) {
   let controlConstructFromController = {};
   try {
     //const finalUrl = common[0].tcpConn + await exports.getControlConstructPathForLive(nodeId);
@@ -51,7 +48,6 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
     finalUrl = finalUrl.replace("{mountName}", nodeId);
     const Authorization = common[0].key;
     const result = await RestClient.dispatchEvent(finalUrl, 'GET', '', Authorization, responseTimeOut);
-    signal.throwIfAborted();
     if (!result) {
       console.log(`********************************CC retrieval failed for ${nodeId} - network error `);
     } else {
@@ -64,8 +60,7 @@ exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut,
         if (maxRetries > 0) {
           await sleep(2000);
           console.log(`******************************** CC retrieval for ${nodeId} - Retries: ${maxRetries - 1}`);
-          controlConstructFromController = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries - 1, signal);
-          signal.throwIfAborted();
+          controlConstructFromController = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries - 1);
           return controlConstructFromController;
         } else {
           console.log(`******************************** CC retrieval failed for ${nodeId} `);

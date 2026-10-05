@@ -38,7 +38,8 @@ class SlidingWindow {
      * Declare + initialize queue limiter
      * Ensures at most `slidingWindowSize` parallel executions
      */
-    this.enqueue = createConcurrencyQueue(slidingWindowSize);
+    /*this.enqueue = createConcurrencyQueue(slidingWindowSize);*/
+    this.tryRun = createConcurrencyLimiter(slidingWindowSize);
 
     // starts the sliding window
     this.startQueue();
@@ -48,6 +49,7 @@ class SlidingWindow {
     let timeWaiting = 0;
     while (!this.stopped) {
       const device = await this.getNextDevice();
+      this.tryRun.isRunning("xxxx");
       if (!device) {
         if (timeWaiting <= 10000) {
           timeWaiting = timeWaiting + 2000;
@@ -64,9 +66,39 @@ class SlidingWindow {
         timeWaiting = 0;
       }
 
+      if (this.tryRun.availableSlots() === 0) {
+        await sleep(2000);
+        continue;
+      }
+
+      const mountName = device["mount-name"];
+
+      if (this.tryRun.isRunning(mountName)) {
+        await sleep(2000);
+        continue;
+      }
+
+      // Apply your existing eligibility checks here.
+      logger.warn(`[SLIDING_WINDOW] - Locking device ${device["mount-name"]} for processing.`);
+      deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
+
+      logger.info(`[SLIDING_WINDOW] - Submitting device ${device["mount-name"]} for processing.`);
+      const task = this.tryRun(
+        mountName,
+        signal => this.processDevice(device, signal)
+      );
+
+      if (task !== null) {
+        task.catch(error => {
+          if (error.name !== "AbortError") {
+            logger.error(error);
+          }
+        });
+      }
+      /*
       const { pendingCount, runningCount, totalCount } = this.getQueueStatus();
 
-      if (runningCount >= slidingWindowSize) {
+      if (totalCount >= slidingWindowSize) {
         logger.warn(`[SLIDING_WINDOW] - Queue is full. Waiting for a slot to process device ${device["mount-name"]}`);
         logSlidingWindowActivity(`[SLIDING_WINDOW] - Queue is full. Waiting for a slot to process device ${device["mount-name"]}`);
         await sleep(timeWaiting);
@@ -94,6 +126,7 @@ class SlidingWindow {
       //    logSlidingWindowActivity(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
       //    logger.error(`SlidingWindow: Error processing device ${device["mount-name"]}: ${err.message}`);
       //  });
+      */
     }
   }
 
@@ -141,6 +174,7 @@ class SlidingWindow {
     } catch (err) {
       if (signal.aborted) {
         logger.info(`[SLIDING_WINDOW] - Processing cancelled for device ${nodeId}`);
+        deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], false);
         throw signal.reason;
       }
       logger.error(`[SLIDING_WINDOW] - processDevice failed for ${nodeId}: ${err.message}`);
@@ -155,17 +189,12 @@ class SlidingWindow {
     this.stopped = true;
   }
 
-  getQueueStatus() {
-    const pendingCount = this.enqueue.pending.size;
-    const runningCount = this.enqueue.running.size;
-    const totalCount = pendingCount + runningCount;
-    return { pendingCount, runningCount, totalCount };
-  }
-  
-
   unqueue(mountName) {
-    return this.enqueue.cancel(mountName);
+    // return this.enqueue.cancel(mountName);
+    return this.tryRun.cancel(mountName);
   }
+
+  
 }
 
 
@@ -326,6 +355,70 @@ function createConcurrencyQueueOld(limit) {
  * Each key can have only one pending or running request.
  * Cancelling a running request returns false.
  */
+function createConcurrencyLimiter(limit) {
+  if (!Number.isInteger(limit) || limit < 1) {
+    throw new RangeError("Concurrency limit must be a positive integer");
+  }
+
+  const running = new Map();
+
+  function tryRun(key, fn) {
+    if (typeof fn !== "function") {
+      throw new TypeError("Task must be a function");
+    }
+
+    // No waiting queue; duplicate devices are also skipped.
+    if (running.size >= limit || running.has(key)) {
+      return null;
+    }
+
+    const controller = new AbortController();
+    running.set(key, controller);
+
+    return Promise.resolve()
+      .then(() => {
+        controller.signal.throwIfAborted();
+        return fn(controller.signal);
+      })
+      .then(
+        result => {
+          controller.signal.throwIfAborted();
+          return result;
+        },
+        error => {
+          if (controller.signal.aborted) {
+            throw controller.signal.reason;
+          }
+
+          throw error;
+        }
+      )
+      .finally(() => {
+        running.delete(key);
+      });
+  }
+
+  tryRun.cancel = function cancel(key) {
+    const controller = running.get(key);
+
+    if (!controller || controller.signal.aborted) {
+      return false;
+    }
+
+    const error = new Error(`Request cancelled: ${key}`);
+    error.name = "AbortError";
+
+    controller.abort(error);
+    running.delete(key);
+    return true;
+  };
+
+  tryRun.isRunning = key => running.has(key);
+  tryRun.availableSlots = () => limit - running.size;
+
+  return tryRun;
+}
+
 function createConcurrencyQueue(limit) {
   if (!Number.isInteger(limit) || limit < 1) {
     throw new RangeError("Concurrency limit must be a positive integer");

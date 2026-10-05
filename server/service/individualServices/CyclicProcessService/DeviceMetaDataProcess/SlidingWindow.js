@@ -30,9 +30,9 @@ class SlidingWindow {
     this.active = 0;
     this.stopped = false;
 
-    logSlidingWindowActivity(`SlidingWindow: is stopped ? ${this.stopped}`);
-    logSlidingWindowActivity(`SlidingWindow: Response timeout set to ${responseTimeOut} ms.`);
-    logSlidingWindowActivity(`SlidingWindow: Maximum retries ${maximumNumberOfRetries} for each device.`);
+    logSlidingWindowActivity(`[SLIDING_WINDOW] - is stopped ? ${this.stopped}`);
+    logSlidingWindowActivity(`[SLIDING_WINDOW] - Response timeout set to ${responseTimeOut} ms.`);
+    logSlidingWindowActivity(`[SLIDING_WINDOW] - Maximum retries ${maximumNumberOfRetries} for each device.`);
 
     /**
      * Declare + initialize queue limiter
@@ -52,8 +52,8 @@ class SlidingWindow {
         if (timeWaiting <= 10000) {
           timeWaiting = timeWaiting + 2000;
         }
-        logger.warn(`SlidingWindow: No more devices to process at the moment. Sleeping for ${timeWaiting}`);
-        logSlidingWindowActivity(`SlidingWindow: No more devices to process at the moment.`);
+        logger.warn(`[SLIDING_WINDOW] - No more devices to process at the moment. Sleeping for ${timeWaiting}`);
+        logSlidingWindowActivity(`[SLIDING_WINDOW] - No more devices to process at the moment.`);
         endTime = Date.now();
         logSlidingWindowDuration();
         await sleep(timeWaiting);   // nothing to do --> recheck later
@@ -65,9 +65,11 @@ class SlidingWindow {
       }
 
       // lock device
+      logger.warn(`[SLIDING_WINDOW] - Locking device ${device["mount-name"]} for processing.`);
       deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
 
       // submit job to concurrency queue
+      logger.info(`[SLIDING_WINDOW] - Submitting device ${device["mount-name"]} for processing.`);
       this.enqueue(device["mount-name"], signal => this.processDevice(device, signal))
         .catch(error => {
           if (error.name === "AbortError") {
@@ -93,17 +95,17 @@ class SlidingWindow {
     try {
       signal.throwIfAborted();
 
-      logger.info(`SlidingWindow: Processing started for device ${nodeId}`);
-      logSlidingWindowActivity(`SlidingWindow:Processing started for device ${nodeId}`);
+      logger.info(`[SLIDING_WINDOW] - Processing started for device ${nodeId}`);
+      logSlidingWindowActivity(`[SLIDING_WINDOW] - Processing started for device ${nodeId}`);
       result = await deviceControlConstructUtility.syncControllerCcToEs(
-        nodeId, responseTimeOut, maximumNumberOfRetries);
+        nodeId, responseTimeOut, maximumNumberOfRetries, signal);
 
       signal.throwIfAborted();
 
       if (result === true) {
-        logger.info(`SlidingWindow: ${nodeId} written into ElasticSearch`);
+        logger.info(`[SLIDING_WINDOW] - ${nodeId} written into ElasticSearch`);
       } else {
-        logger.error(`SlidingWindow: ${nodeId} failed to write into ElasticSearch`);
+        logger.error(`[SLIDING_WINDOW] - ${nodeId} failed to write into ElasticSearch`);
       }
 
       const timeStamp = new Date().toJSON();
@@ -129,18 +131,18 @@ class SlidingWindow {
       signal.throwIfAborted();
     } catch (err) {
       if (signal.aborted) {
-        logger.info(`SlidingWindow: Processing cancelled for device ${nodeId}`);
+        logger.info(`[SLIDING_WINDOW] - Processing cancelled for device ${nodeId}`);
         throw signal.reason;
       }
-      logger.error(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
-      logSlidingWindowActivity(`SlidingWindow: processDevice failed for ${nodeId}: ${err.message}`);
+      logger.error(`[SLIDING_WINDOW] - processDevice failed for ${nodeId}: ${err.message}`);
+      logSlidingWindowActivity(`[SLIDING_WINDOW] - processDevice failed for ${nodeId}: ${err.message}`);
     }
   }
 
   stop() {
     // console.log('Stop requested...');
-    logger.info('SlidingWindow: Stop requested');
-    logSlidingWindowActivity('SlidingWindow: Stop requested');
+    logger.info('[SLIDING_WINDOW] - Stop requested');
+    logSlidingWindowActivity('[SLIDING_WINDOW] - Stop requested');
     this.stopped = true;
   }
 
@@ -160,7 +162,7 @@ async function getNextDeviceMetaDataLocal() {
     return device;
   } catch (error) {
     logger.error(error);
-    logSlidingWindowActivity(`SlidingWindow: getNextDeviceMetaDataLocal error: ${error.message}`);
+    logSlidingWindowActivity(`[SLIDING_WINDOW] - getNextDeviceMetaDataLocal error: ${error.message}`);
     return {};
   }
 }
@@ -186,7 +188,7 @@ exports.removeMountNameFromSlidingWindow = async function (mountName) {
 exports.stopSlidingWindowProcessForCCUpdate = async function () {
   try {
     if (slidingWindowRunner) {
-      logger.info("Sliding Window: Terminating the existing sliding window process for starting new pocess");
+      logger.info("[SLIDING_WINDOW] - Terminating the existing sliding window process for starting new pocess");
       logSlidingWindowActivity("*********************** Terminating the existing sliding window process for starting new pocess *************************");
       await slidingWindowRunner.stop();
       slidingWindowRunner = undefined;
@@ -221,19 +223,20 @@ exports.startSlidingWindowProcessForCCUpdate = async function () {
     }
     await initializeDependentIntegerValues();
 
-    logger.info(`SlidingWindow: Processing ${slidingWindowSize} devices...`);
-    logSlidingWindowActivity(`SlidingWindow: Processing ${slidingWindowSize} devices...`);
+    logger.info(`[SLIDING_WINDOW] - Processing ${slidingWindowSize} devices...`);
+    logSlidingWindowActivity(`[SLIDING_WINDOW] - Processing ${slidingWindowSize} devices...`);
 
     slidingWindowRunner = new SlidingWindow(getNextDeviceMetaDataLocal); // Add devices to sliding window process
   } catch (error) {
     logger.error(error);
-    logSlidingWindowActivity(`SlidingWindow: startSlidingWindowProcessForCCUpdate error: ${error.message}`);
+    logSlidingWindowActivity(`[SLIDING_WINDOW] - startSlidingWindowProcessForCCUpdate error: ${error.message}`);
   }
 }
 
 // calculates configures values for slidingWindowSize, responseTimeOut and maximumNumberOfRetries
 async function initializeDependentIntegerValues() {
   try {
+    //TODO @latta-techm check if the below values are being used anywhere else in the code. If not, remove them from here and use them directly in the SlidingWindow class.
     slidingWindowSize = await integerProfile.getIntegerValueForTheIntegerProfileNameAsync("slidingWindowSize");
     let profileInstance = await utility.getIntegerProfileForIntegerName("responseTimeout");
     let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
@@ -253,12 +256,12 @@ function sleep(ms) {
 function logSlidingWindowDuration() {
   if (startTime && endTime) {
     const durationMs = endTime - startTime;
-    logger.warn(`SlidingWindow cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`);
+    logger.warn(`[SLIDING_WINDOW] - cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`);
     logSlidingWindowActivity(
       `*******************************************************************************************************`
     );
     logSlidingWindowActivity(
-      `* SlidingWindow cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`
+      `* [SLIDING_WINDOW] - cycle completed in ${durationMs} ms (WindowSize=${slidingWindowSize})`
     );
     logSlidingWindowActivity(
       `*******************************************************************************************************`
@@ -355,12 +358,12 @@ function createConcurrencyQueue(limit) {
 
   function enqueue(key, fn) {
     if (typeof fn !== "function") {
-      return Promise.reject(new TypeError("Task must be a function"));
+      return Promise.reject(new TypeError("[SLIDING_WINDOW] - Task must be a function"));
     }
 
     if (pending.has(key) || running.has(key)) {
       return Promise.reject(
-        new Error(`Request already queued or running: ${key}`)
+        new Error(`[SLIDING_WINDOW] - Request already queued or running: ${key}`)
       );
     }
 

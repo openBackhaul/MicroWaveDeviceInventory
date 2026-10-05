@@ -88,7 +88,7 @@ class DeviceMetaDataPriorityList {
             }
             // New implementation
             if (USE_SORT_DEVICE) {
-                console.log("Sorting device list based on connection status and timestamp");
+                console.log("[DEVICE_METADATA_PRIORITY_LIST] - Sorting device list based on connection status and timestamp");
                 this.newSortDevices();
             }
             
@@ -132,6 +132,10 @@ class DeviceMetaDataPriorityList {
     getNextDeviceMetaData() {
         try {
             if (this.deviceMetadataPriorityList.length > 0) {
+                for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
+                    let mn = this.deviceMetadataPriorityList[idx];
+                    console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]} - timestamp: ${mn["last-complete-control-construct-update-time-attempt"]}`);
+                }
                 let nextDevice = this.deviceMetadataPriorityList.find(d => {
                     return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
                 });
@@ -143,6 +147,10 @@ class DeviceMetaDataPriorityList {
                     nextDevice = this.deviceMetadataPriorityList.find(d => {
                         return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
                     });
+                }
+
+                if (nextDevice) {
+                    console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Found next device: ${nextDevice["mount-name"]}`);
                 }
                 return nextDevice;
             }
@@ -179,10 +187,7 @@ class DeviceMetaDataPriorityList {
                 console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threshold to be reach: ${onLineMountNames * thresholdSynced}`);
             }
             console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames} - synced ${resultSync.length} - not synced ${resultNotSync.length} - locked ${resultLocked.length}`);
-            for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
-                let mn = this.deviceMetadataPriorityList[idx];
-                console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]}`);
-            }
+
         }
         return;
     }

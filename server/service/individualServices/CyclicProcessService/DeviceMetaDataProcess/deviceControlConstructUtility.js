@@ -16,17 +16,20 @@ const logger = require("../../../LoggingService").getLogger();
  * 
  * @returns {Boolean} true - in case of successful sync between live and cache for given nodeId
  */
-exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetries) {
+exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetries, signal) {
   let isSyncSuccess = false;
   try {
     let ccObjectFromLive = await exports.fetchControlConstructFromLive(nodeId, responseTimeOut, maxRetries);
+    signal.throwIfAborted();
     let modifiedCc = {};
     if (Object.keys(ccObjectFromLive).length != 0) {
       modifiedCc = await exports.modifyCCWithModifiedKeys(ccObjectFromLive, nodeId);
+      signal.throwIfAborted();
       modifiedCc['last-complete-control-construct-update-time'] = new Date().toJSON();
       isSyncSuccess = await exports.updateControlConstructToEs(nodeId, modifiedCc, maxRetries);
     }
   } catch (error) {
+    signal.throwIfAborted();
   }
   return isSyncSuccess;
 }

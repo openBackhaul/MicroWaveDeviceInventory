@@ -11,6 +11,7 @@ let deviceMetadataListSyncProcessId = 0;
 // NEW: detect worker vs main
 let isMainThread = true;
 let parentPort = null;
+
 try {
   const wt = require('worker_threads');
   isMainThread = wt.isMainThread;
@@ -18,6 +19,7 @@ try {
 } catch (e) {
   // worker_threads not available (older Node) – treat as main thread
 }
+
 /**
  * This class includes functions that shall be accessed to process the deviceMetaDataList in cache
  * This class handles following five parameters

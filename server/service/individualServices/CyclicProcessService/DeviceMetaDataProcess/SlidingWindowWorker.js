@@ -13,8 +13,8 @@ const prepareElasticsearch = require('../../ElasticsearchPreparation');
 let slidingWindowStarted = false;
 
 // workerData contains global info passed from main thread
-(async () => {  
-  try {    
+(async () => {
+  try {
       //Initialize globals for worker thread
       global.applicationDataPath = './application-data/';
       global.databasePath = './database/config.json';
@@ -30,9 +30,10 @@ let slidingWindowStarted = false;
 
 // Handle messages from main thread
 parentPort.on('message', (msg) => {
-  if (!msg) return;
+  if (!msg) {
+    return;
+  }
 
-  
   // 0. Start SlidingWindow when requested by main thread
   if (msg === 'start-sliding-window' || msg.type === 'start-sliding-window') {
     if (slidingWindowStarted) {
@@ -135,8 +136,22 @@ parentPort.on('message', (msg) => {
   // 5. removeMetaDataOfDevice
   if (msg.type === 'remove-device-metadata') {
     let result = false;
+
+    (async () => {
+      try {
+        if (slidingWindowStarted) {
+          await slidingWindow.removeMountNameFromSlidingWindow(msg.mountName);
+        }
+      } catch (err) {
+        logger.error('[SlidingWindowWorker] Removing mountname from sliding window:', err);
+        logSlidingWindowActivity('[SlidingWindowWorker] Removing mountname sliding window:'+err);
+      }
+
+      logger.info(`[SlidingWindowWorker] remove mountname ${msg.mountName} from sliding window`);
+    })();
+
     try {
-      result =deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
+      result = deviceMetaDataPriorityList.removeMetaDataOfDevice(msg.mountName);
       logSlidingWindowActivity(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);
       logger.info(`[SlidingWindowWorker] removeMetaDataOfDevice: ${msg.mountName} result=${result}`);
     } catch (err) {

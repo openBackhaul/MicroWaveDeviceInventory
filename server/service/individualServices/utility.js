@@ -3,6 +3,8 @@ const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
+const USE_ELK_PIPELINE = process.env.ELK_PIPELINE?.toLowerCase() === 'true';
+
 /**
  * This function returns the string-value object for given string-name
  * 
@@ -80,17 +82,14 @@ exports.getMappingListForRegexProfile = async function (expectedMappingName) {
  *
  * response value expected for this operation
  **/
-exports.ReadRecords = async function (cc) {
+exports.searchRecords = async function (cc) {
   try {
-    let size = 100;
-    let from = 0;
     let query = {
-
       term: {
         _id: cc
       }
-
     };
+
     let indexAlias = common[1].indexAlias
     let client = await common[1].EsClient;
     const result = await client.search({
@@ -100,10 +99,42 @@ exports.ReadRecords = async function (cc) {
       }
     });
     const resultArray = createResultArray(result);
-    return (resultArray[0])
+    return (resultArray[0]);
   } catch (error) {
     console.error(error);
     throw (error);
+  }
+}
+
+
+/**
+ * Read from ES
+ *
+ * response value expected for this operation
+ **/
+exports.ReadRecords = async function (cc) {
+try {
+    const indexAlias = common[1].indexAlias
+    const client = common[1].EsClient;
+
+    const result = await client.get({
+      'index': indexAlias, //"my-index-000001",
+      'id': cc // mountname
+    });
+
+    const src = result?.body?._source;
+    if (!src) {
+      return undefined;
+    }
+    return src;
+  } catch (error) {
+    console.error(error.meta.body.found);
+    if (error.meta.body.found == false) {
+      console.error(`Mountname=${cc} is not in the cache: ${error.message}`);
+    }
+    console.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
+    return undefined;
+    // throw (error);
   }
 }
 
@@ -137,18 +168,20 @@ async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
 exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
   let pipelineExists = false;
   let client = await common[1].EsClient;
-  try {
-    // Check if the pipeline exists
-    await client.ingest.getPipeline({ id: 'mwdi' });
-    pipelineExists = true;
-  } catch (error) {
-    if (error.statusCode === 404) {
-      // Pipeline does not exist
-      console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-    } else {
-      // Other errors
-      console.error("An error occurred while checking the pipeline:", error);
-      throw error; // Re-throw the error if it's not a 404
+  if (USE_ELK_PIPELINE) {
+    try {
+      // Check if the pipeline exists
+      await client.ingest.getPipeline({ id: 'mwdi' });
+      pipelineExists = true;
+    } catch (error) {
+      if (error.statusCode === 404) {
+        // Pipeline does not exist
+        console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
+      } else {
+        // Other errors
+        console.error("An error occurred while checking the pipeline:", error);
+        throw error; // Re-throw the error if it's not a 404
+      }
     }
   }
 
@@ -227,11 +260,18 @@ exports.arraysHaveSameElements = async function (array1, array2) {
 exports.calculateTimeInMilliSeconds = function (value, unit) {
   let timeInMilliseconds = 0;
   try {
-    if (unit.includes("day")) timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
-    else if (unit.includes("hour")) timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
-    else if (unit.includes("minute")) timeInMilliseconds = parseInt(value) * 60 * 1000;
-    else if (unit.includes("second")) timeInMilliseconds = parseInt(value) * 1000;
-    else timeInMilliseconds = value;
+    if (unit.includes("day")) {
+      timeInMilliseconds = parseInt(value) * 24 * 60 * 60 * 1000;
+    } else if (unit.includes("hour")) {
+      timeInMilliseconds = parseInt(value) * 60 * 60 * 1000;
+    } else if (unit.includes("minute")) {
+      timeInMilliseconds = parseInt(value) * 60 * 1000;
+    } else if (unit.includes("second")) {
+      timeInMilliseconds = parseInt(value) * 1000;
+    } else {
+      timeInMilliseconds = value;
+    }
+
     return timeInMilliseconds;
   } catch (error) {
     console.log(error);

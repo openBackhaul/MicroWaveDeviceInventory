@@ -67,9 +67,14 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
     let integerValue = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CONFIGURATION][onfAttributes.INTEGER_PROFILE.INTEGER_VALUE];
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
-    let metadataTableRetentionPeriod;
-    if (unit == "days") metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
-    else if (unit == "hours") metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    const metadataTableRetentionPeriod = utility.calculateTimeInMilliSeconds(integerValue, unit);
+    // if (unit == "days") {
+    //   metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
+    // } else if (unit == "hours") {
+    //   metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
+    // } else {  // Default unit is minutes
+    //   metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 1000;
+    // }
 
     if (diffTime > metadataTableRetentionPeriod) {
       isDeviceCrossedRetentionPeriod = true;
@@ -179,22 +184,22 @@ exports.updateMDTableForPartialCCUpdate = async function (mountName, timestamp =
         await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
-      if (!found) {
-        console.log("*******************meta data for requested resource is not present in meta-data table*********************");
-      }
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (!found) {
+      console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
+  } catch (error) {
+    console.log(error);
+    return error;
   }
+}
 
-  /**
- * This function 
- *   - updates the existing metadata of a device for complete control-construct update
- * 
- * @param {*} mountName node-id of the device for which the meta-data shall be updated
- * @param {*} timestamp time received in notification
- */
+/**
+* This function 
+*   - updates the existing metadata of a device for complete control-construct update
+* 
+* @param {*} mountName node-id of the device for which the meta-data shall be updated
+* @param {*} timestamp time received in notification
+*/
 exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp = '') {
   try {
     let metaDataListFromElasticSearch = await exports.readMetaDataListFromElasticsearch()
@@ -211,11 +216,11 @@ exports.updateMDTableForCompleteCCUpdate = async function (mountName, timestamp 
         await exports.writeMetaDataListToElasticsearch(metaDataListFromElasticSearch);
       }
     }
-      if (!found) {
-        console.log("*******************meta data for requested resource is not present in meta-data table*********************");
-      }
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (!found) {
+      console.log("*******************meta data for requested resource is not present in meta-data table*********************");
     }
+  } catch (error) {
+    console.log(error);
+    return error;
   }
+}

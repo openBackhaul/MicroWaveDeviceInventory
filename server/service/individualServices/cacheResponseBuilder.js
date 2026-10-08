@@ -5,7 +5,164 @@ const logger = require('../LoggingService.js').getLogger();
 const CONTROLCONST = "control-construct";
 const LOCALID = 'local-id';
 
-exports.cacheResponseBuilder = async function (url, currentJSON) {
+const USE_FAST_ROUTINES = process.env.FAST_ROUTINES?.toLowerCase() === 'true';
+
+exports.cacheResponseBuilder = function (url, currentJSON) {
+  if (USE_FAST_ROUTINES) {
+    return cacheResponseBuilderNew(url, currentJSON); // This has to be review
+  } else {
+    return cacheResponseBuilderOld(url, currentJSON);
+  }
+}
+
+// New Routine
+function cacheResponseBuilderNew(url, currentJSON) {
+  if (!url || !currentJSON || typeof currentJSON !== 'object') {
+    throw createHttpError(400, 'Invalid input');
+  }
+
+  const objectKey = Object.keys(currentJSON)[0];
+
+  if (!objectKey) {
+    throw createHttpError(404, 'Empty JSON object');
+  }
+
+  const rootPrefix = objectKey.split(':')[0];
+  let current = currentJSON[objectKey];
+
+  const urlSegments = url
+    .split('/')
+    .filter(Boolean);
+
+  let startParsing = false;
+
+  // ------------------------------------------------------------
+  // Navigate through the JSON according to the URL
+  // ------------------------------------------------------------
+  for (let index = 0; index < urlSegments.length; index++) {
+    const segment = urlSegments[index];
+
+    /*
+     * Start navigation after the first URL segment containing "=".
+     * That first element generally identifies the root object.
+     */
+    if (!startParsing) {
+      if (segment.includes('=')) {
+        startParsing = true;
+      }
+      continue;
+    }
+
+    const separatorIndex = segment.indexOf('=');
+
+    const key =
+      separatorIndex === -1
+        ? segment
+        : segment.substring(0, separatorIndex);
+
+    const value =
+      separatorIndex === -1
+        ? undefined
+        : segment.substring(separatorIndex + 1);
+
+    if (!Object.prototype.hasOwnProperty.call(current, key)) {
+      // control-construct is allowed to be absent because it can
+      // already be represented by the root object
+      if (key !== CONTROLCONST) {
+        logger.error(`Field not found: ${key}`);
+        throw createHttpError(404, `Field not found: ${key}`);
+      }
+
+      continue;
+    }
+
+    current = current[key];
+
+    // ----------------------------------------------------------
+    // Select the requested list element
+    // ----------------------------------------------------------
+    if (Array.isArray(current) && value !== undefined) {
+      const valueToFind = decodeURIComponent(value);
+
+      const elementFound = current.find(item =>
+        item?.uuid === valueToFind ||
+        item?.[LOCALID] === valueToFind
+      );
+
+      if (!elementFound) {
+        logger.trace(`No elements found with UUID/local-id: ${valueToFind}`);
+
+        throw createHttpError(
+          404,
+          `No elements found with UUID/local-id: ${valueToFind}`
+        );
+      }
+
+      const isLastSegment = index === urlSegments.length - 1;
+
+      current = isLastSegment
+        ? [elementFound]
+        : elementFound;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Determine namespace prefix
+  // ------------------------------------------------------------
+  let prefix = rootPrefix;
+
+  for (let index = urlSegments.length - 1; index >= 0; index--) {
+    if (urlSegments[index].includes(':')) {
+      prefix = urlSegments[index].split(':')[0];
+      break;
+    }
+  }
+
+  if (isIPAddress(prefix) || prefix === 'localhost') {
+    prefix = rootPrefix;
+  }
+
+  // ------------------------------------------------------------
+  // Build response wrapper
+  // ------------------------------------------------------------
+  const lastSegment = urlSegments.at(-1);
+
+  if (!lastSegment) {
+    throw createHttpError(400, 'Invalid URL');
+  }
+
+  if (lastSegment.includes('=')) {
+    const key = lastSegment.split('=', 1)[0];
+    const wrapper = `${prefix}:${key}`;
+
+    if (key === CONTROLCONST) {
+      return {
+        [wrapper]: [current]
+      };
+    }
+
+    return {
+      [wrapper]: [Array.isArray(current) ? current[0] : current]
+    };
+  }
+
+  if (lastSegment.includes(':')) {
+    const [, key] = lastSegment.split(':');
+
+    return {
+      [`${prefix}:${key}`]: current
+    };
+  }
+
+  return {
+    [`${prefix}:${lastSegment}`]: current
+  };
+}
+
+
+
+// -- Old Routine
+function cacheResponseBuilderOld (url, currentJSON) {
   let objectKey = Object.keys(currentJSON)[0];
   currentJSON = currentJSON[objectKey];
   const parts = objectKey.split(':');
@@ -160,3 +317,4 @@ function notFoundError(message) {
 function isIPAddress(input) {
   return net.isIP(input) !== 0; // Return 0 if the string is not a valid IP address
 }
+

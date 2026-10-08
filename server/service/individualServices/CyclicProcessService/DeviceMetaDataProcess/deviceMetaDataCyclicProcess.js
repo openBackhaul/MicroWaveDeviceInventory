@@ -88,9 +88,9 @@ async function deviceMetaDataListUpdateProcess() {
     console.log('*                                                                                                     *');
     console.log('*******************************************************************************************************');
     //get string-value of historicalControlConstructPolicy
-    logger.debug("before getting historicalControlConstructPolicy");
+    // logger.debug("before getting historicalControlConstructPolicy");
     let historicalControlConstructPolicy = await utility.getStringValueForStringProfileNameAsync("historicalControlConstructPolicy");
-    logger.debug("after getting historicalControlConstructPolicy");
+    // logger.debug("after getting historicalControlConstructPolicy");
 
 
 

@@ -49,9 +49,9 @@ class SlidingWindow {
     let timeWaiting = 0;
     while (!this.stopped) {
       const device = await this.getNextDevice();
-      this.tryRun.isRunning("xxxx");
+
       if (!device) {
-        if (timeWaiting <= 10000) {
+        if (timeWaiting <= 8000) {
           timeWaiting = timeWaiting + 2000;
         }
         logger.warn(`[SLIDING_WINDOW] - No more devices to process at the moment. Sleeping for ${timeWaiting}`);
@@ -79,10 +79,10 @@ class SlidingWindow {
       }
 
       // Apply your existing eligibility checks here.
-      logger.warn(`[SLIDING_WINDOW] - Locking device ${device["mount-name"]} for processing.`);
+      // logger.warn(`[SLIDING_WINDOW] - Locking device ${device["mount-name"]} for processing.`);
       deviceMetaDataPriorityList.setLockedStatusOfDevice(device["mount-name"], true);
 
-      logger.info(`[SLIDING_WINDOW] - Submitting device ${device["mount-name"]} for processing.`);
+      //logger.info(`[SLIDING_WINDOW] - Submitting device ${device["mount-name"]} for processing.`);
       const task = this.tryRun(
         mountName,
         signal => this.processDevice(device, signal)
@@ -193,8 +193,6 @@ class SlidingWindow {
     // return this.enqueue.cancel(mountName);
     return this.tryRun.cancel(mountName);
   }
-
-  
 }
 
 

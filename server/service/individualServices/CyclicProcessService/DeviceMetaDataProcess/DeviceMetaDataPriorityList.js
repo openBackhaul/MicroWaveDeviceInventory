@@ -88,7 +88,7 @@ class DeviceMetaDataPriorityList {
             }
             // New implementation
             if (USE_SORT_DEVICE) {
-                console.log("[DEVICE_METADATA_PRIORITY_LIST] - Sorting device list based on connection status and timestamp");
+                // console.log("[DEVICE_METADATA_PRIORITY_LIST] - Sorting device list based on connection status and timestamp");
                 this.newSortDevices();
             }
             
@@ -132,10 +132,11 @@ class DeviceMetaDataPriorityList {
     getNextDeviceMetaData() {
         try {
             if (this.deviceMetadataPriorityList.length > 0) {
-                for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
-                    let mn = this.deviceMetadataPriorityList[idx];
-                    console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]} - timestamp: ${mn["last-complete-control-construct-update-time-attempt"]} - ${mn._sortTimestamp}`);
-                }
+                // Enable this code to see the current status of all devices in the priority list
+                // for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
+                //     let mn = this.deviceMetadataPriorityList[idx];
+                //     console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]} - timestamp: ${mn["last-complete-control-construct-update-time-attempt"]} - ${mn._sortTimestamp}`);
+                // }
                 let nextDevice = this.deviceMetadataPriorityList.find(d => {
                     return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
                 });
@@ -186,8 +187,8 @@ class DeviceMetaDataPriorityList {
             } else {
                 console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threshold to be reach: ${onLineMountNames * thresholdSynced}`);
             }
-            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames} - synced ${resultSync.length} - not synced ${resultNotSync.length} - locked ${resultLocked.length}`);
 
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames} - synced ${resultSync.length} - not synced ${resultNotSync.length} - locked ${resultLocked.length}`);
         }
         return;
     }

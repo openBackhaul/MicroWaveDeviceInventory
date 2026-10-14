@@ -39,7 +39,7 @@ exports.syncControllerCcToEs = async function (nodeId, responseTimeOut, maxRetri
  * 
  * @returns {Object} controlConstructFromController - cc of device from live
  */
-exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries, ) {
+exports.fetchControlConstructFromLive = async function (nodeId, responseTimeOut, maxRetries) {
   let controlConstructFromController = {};
   try {
     //const finalUrl = common[0].tcpConn + await exports.getControlConstructPathForLive(nodeId);

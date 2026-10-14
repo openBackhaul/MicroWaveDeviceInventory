@@ -140,7 +140,7 @@ class SlidingWindow {
       logger.info(`[SLIDING_WINDOW] - Processing started for device ${nodeId}`);
       logSlidingWindowActivity(`[SLIDING_WINDOW] - Processing started for device ${nodeId}`);
       result = await deviceControlConstructUtility.syncControllerCcToEs(
-        nodeId, responseTimeOut, maximumNumberOfRetries, signal);
+        nodeId, responseTimeOut, maximumNumberOfRetries);
 
       signal.throwIfAborted();
 
@@ -232,8 +232,8 @@ exports.removeMountNameFromSlidingWindow = async function (mountName) {
 exports.stopSlidingWindowProcessForCCUpdate = async function () {
   try {
     if (slidingWindowRunner) {
-      logger.info("[SLIDING_WINDOW] - Terminating the existing sliding window process for starting new pocess");
-      logSlidingWindowActivity("*********************** Terminating the existing sliding window process for starting new pocess *************************");
+      logger.info("[SLIDING_WINDOW] - Terminating the existing sliding window process for starting new process");
+      logSlidingWindowActivity("*********************** Terminating the existing sliding window process for starting new process *************************");
       await slidingWindowRunner.stop();
       slidingWindowRunner = undefined;
       //setting cc-syned of all devices to false - to enable fresh retrieval for this cycle.

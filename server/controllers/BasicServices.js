@@ -102,14 +102,7 @@ module.exports.embedYourself = async function embedYourself(req, res, next, body
       individualServices.PromptForEmbeddingCausesSubscribingForNotifications (user, originator, xCorrelator, traceIndicator, customerJourney);
 
       // starts cacheQualityMeasurementProcess
-      let qualityFlag = false
       if (USE_QUALITY_MEASUREMENT) {
-        qualityFlag = true;
-      } else {
-        qualityFlag = false;
-      }
-
-      if (qualityFlag == true) {
         console.log("QUALITY CACHE ENABLED!!!!!!!!!!");
         cacheQualityMeasurementProcess.performQualityMeasurementAsPerCycle();
       } else {

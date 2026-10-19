@@ -3,6 +3,8 @@
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const RestClient = require('../../rest/client/dispacher');
 const utility = require('../../utility');
+const elkUtility = require('../../elasticSearchUtility');
+const { MetadataDoc } = require('../cyclicProcessConstants');
 const deviceControlConstructUtility = require('./deviceControlConstructUtility');
 const individualServicesService = require('../../../IndividualServicesService');
 //const deviceMetadataPriorityList = require('./DeviceMetaDataPriorityList');
@@ -45,9 +47,9 @@ exports.readDeviceMetaDataListFromElasticSearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
       let esMetaDataList = [];
-      let result = await utility.ReadRecords("DeviceMetaDataList");
+      let result = await elkUtility.readRecords(MetadataDoc.DEVICE_METADATA_LIST);
       if (result != undefined) {
-        esMetaDataList = result["DeviceMetaDataList"];
+        esMetaDataList = result[MetadataDoc.DEVICE_METADATA_LIST];
       }
       resolve(esMetaDataList);
     } catch (error) {
@@ -64,8 +66,8 @@ exports.readDeviceMetaDataListFromElasticSearch = function () {
 exports.writeDeviceMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
-      let deviceListToWrite = '{"DeviceMetaDataList":' + deviceList + '}';
-      let result = await utility.recordRequest(deviceListToWrite, "DeviceMetaDataList");
+      const deviceListToWrite = `{"${MetadataDoc.DEVICE_METADATA_LIST}":${deviceList}}`;
+      const result = await elkUtility.recordRequest(deviceListToWrite, MetadataDoc.DEVICE_METADATA_LIST);
       if (result.took !== undefined) {
         resolve(true);
       } else {

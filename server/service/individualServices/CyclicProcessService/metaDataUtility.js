@@ -4,12 +4,15 @@
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const RestClient = require('../rest/client/dispacher');
 const utility = require('../utility');
+const elkUtility = require('../elasticSearchUtility');
+const { MetadataDoc } = require('./cyclicProcessConstants');
 
 exports.writeMetaDataListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
       let deviceListToWrite = '{"DeviceMetaDataList":' + deviceList + '}';
-      let result = await utility.recordRequest(deviceListToWrite, "DeviceMetaDataList");
+      const test = `{"${MetadataDoc.DEVICE_METADATA_LIST}":${deviceList}}`;
+      let result = await elkUtility.recordRequest(deviceListToWrite, MetadataDoc.DEVICE_METADATA_LIST);
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -25,9 +28,9 @@ exports.readMetaDataListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
       let esMetaDataList = [];
-      let result = await utility.ReadRecords("DeviceMetaDataList");
+      let result = await elkUtility.readRecords(MetadataDoc.DEVICE_METADATA_LIST);
       if (result != undefined) {
-        esMetaDataList = result["DeviceMetaDataList"];
+        esMetaDataList = result[MetadataDoc.DEVICE_METADATA_LIST];
       }
       resolve(esMetaDataList);
     } catch (error) {
@@ -68,13 +71,6 @@ exports.isDeviceCrossedRetentionPeriod = async function (changedToDisconnectedTi
     let unit = profileInstance[onfAttributes.INTEGER_PROFILE.PAC][onfAttributes.INTEGER_PROFILE.CAPABILITY][onfAttributes.INTEGER_PROFILE.UNIT];
 
     const metadataTableRetentionPeriod = utility.calculateTimeInMilliSeconds(integerValue, unit);
-    // if (unit == "days") {
-    //   metadataTableRetentionPeriod = parseInt(integerValue) * 24 * 60 * 60 * 1000;
-    // } else if (unit == "hours") {
-    //   metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 60 * 1000;
-    // } else {  // Default unit is minutes
-    //   metadataTableRetentionPeriod = parseInt(integerValue) * 60 * 1000;
-    // }
 
     if (diffTime > metadataTableRetentionPeriod) {
       isDeviceCrossedRetentionPeriod = true;

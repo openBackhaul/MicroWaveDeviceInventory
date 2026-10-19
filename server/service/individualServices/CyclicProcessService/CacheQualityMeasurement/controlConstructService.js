@@ -1,5 +1,4 @@
 
-const { readRecords } = require('./elasticService');
 const individualServices = require('../../../IndividualServicesService');
 const RandExp = require('randexp');
 

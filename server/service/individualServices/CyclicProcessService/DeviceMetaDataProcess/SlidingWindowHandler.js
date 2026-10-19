@@ -22,11 +22,17 @@ let shouldRunSlidingWindow = false;
  * Creates the worker if not already created.
  */
 function ensureWorker(forceRecreate = false) {
-  if (worker && !forceRecreate) return worker;
+  if (worker && !forceRecreate) {
+    return worker;
+  }
 
   // If force recreate, terminate old worker safely
   if (worker && forceRecreate) {
-    try { worker.terminate(); } catch (e) { /* ignore */ }
+    try {
+      worker.terminate();
+    } catch (e) {
+      /* ignore */
+    }
     worker = null;
   }
 
@@ -38,7 +44,9 @@ function ensureWorker(forceRecreate = false) {
   worker = new Worker(workerPath);
 
   worker.on('message', (msg) => {
-    if (!msg || typeof msg !== 'object') return;
+    if (!msg || typeof msg !== 'object') {
+      return;
+    }
 
     if (msg.type === 'started') {
       logger.info('[SlidingWindowHandler] SlidingWindow worker started.');
@@ -57,26 +65,26 @@ function ensureWorker(forceRecreate = false) {
 
     // handle cache updates coming from sliding window worker
     if (msg.type === 'cache-update') {
-        try {
-            // One message contains both attempt and sucess times
-            if (msg.attemptTime !== undefined || msg.successTime !== undefined) {
-              const { nodeId, attemptTime, successTime } = msg;
+      try {
+        // One message contains both attempt and sucess times
+        if (msg.attemptTime !== undefined || msg.successTime !== undefined) {
+          const { nodeId, attemptTime, successTime } = msg;
 
-              //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-complete-control-construct-update-time-attempt: ${attemptTime}.`);
-              //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-successful-complete-control-construct-update-time: ${successTime}.`);
-              
-              // Use the new combined method (main thread applies updates)
-              deviceMetadataCacheUpdate.updateCcSyncTimes(
-                nodeId,
-                attemptTime,
-                successTime
-              );
-              
-            }
-        } catch (err) {
-            logger.error('[SlidingWindowHandler] Error applying cache-update:', err);
-            logSlidingWindowActivity(`[SlidingWindowHandler] Error applying cache-update: ${err}`);
+          //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-complete-control-construct-update-time-attempt: ${attemptTime}.`);
+          //logSlidingWindowActivity(`[SlidingWindowHandler] Device Metadata Cache Update for nodeId: ${nodeId} with last-successful-complete-control-construct-update-time: ${successTime}.`);
+
+          // Use the new combined method (main thread applies updates)
+          deviceMetadataCacheUpdate.updateCcSyncTimes(
+            nodeId,
+            attemptTime,
+            successTime
+          );
+
         }
+      } catch (err) {
+        logger.error('[SlidingWindowHandler] Error applying cache-update:', err);
+        logSlidingWindowActivity(`[SlidingWindowHandler] Error applying cache-update: ${err}`);
+      }
     }
 
     if (msg.type === 'qm-next-device-response') {
@@ -283,7 +291,9 @@ function failAllPendingRequests(reason) {
  * If SlidingWindow is supposed to run, it will auto-start after restart.
  */
 function scheduleRestart(reason) {
-  if (restarting) return;
+  if (restarting) {
+    return;
+  }
   restarting = true;
 
   // 1s, 2s, 4s, 8s, ... max 30s
@@ -293,7 +303,9 @@ function scheduleRestart(reason) {
   logger.warn(`[SlidingWindowHandler] Scheduling worker restart in ${delay} ms (reason=${reason}, attempt=${restartAttempts})`);
   logSlidingWindowActivity(`[SlidingWindowHandler] Scheduling worker restart in ${delay} ms (reason=${reason}, attempt=${restartAttempts})`);
 
-  if (restartTimer) clearTimeout(restartTimer);
+  if (restartTimer) {
+    clearTimeout(restartTimer);
+  }
 
   restartTimer = setTimeout(() => {
     restartTimer = null;

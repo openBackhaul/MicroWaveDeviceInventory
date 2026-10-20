@@ -13,6 +13,8 @@ const CTR_CONST = "control-construct";
 const CORE_MODEL = "core-model-1-4:link";
 const END_POINT_LIST = "end-point-list";
 
+
+let profileListCache = null;
 /**
  * This function returns the string-value object for given string-name
  * 
@@ -21,9 +23,12 @@ const END_POINT_LIST = "end-point-list";
  */
 exports.getStringValueForStringProfileNameAsync = async function (stringProfileName) {
   let stringValue;
-  let profileList = await ProfileCollection.getProfileListAsync();
-  for (let i = 0; i < profileList.length; i++) {
-    let profileInstance = profileList[i];
+  if (!profileListCache) {
+    profileListCache = await ProfileCollection.getProfileListAsync();
+  }
+
+  for (let i = 0; i < profileListCache.length; i++) {
+    let profileInstance = profileListCache[i];
     let profileName = profileInstance[onfAttributes.PROFILE.PROFILE_NAME];
     if (profileName == Profile.profileNameEnum.STRING_PROFILE) {
       let stringName = profileInstance[onfAttributes.STRING_PROFILE.PAC][onfAttributes.STRING_PROFILE.CAPABILITY][onfAttributes.STRING_PROFILE.STRING_NAME];
@@ -44,9 +49,12 @@ exports.getStringValueForStringProfileNameAsync = async function (stringProfileN
  */
 exports.getIntegerProfileForIntegerName = async function (integerProfileName) {
   let integerProfile = {};
-  let profileList = await ProfileCollection.getProfileListAsync();
-  for (let i = 0; i < profileList.length; i++) {
-    let profileInstance = profileList[i];
+  if (!profileListCache) {
+    profileListCache = await ProfileCollection.getProfileListAsync();
+  }
+
+  for (let i = 0; i < profileListCache.length; i++) {
+    let profileInstance = profileListCache[i];
     let profileName = profileInstance[onfAttributes.PROFILE.PROFILE_NAME];
     if (profileName == Profile.profileNameEnum.INTEGER_PROFILE) {
       const pac = profileInstance[onfAttributes.INTEGER_PROFILE.PAC];
@@ -70,9 +78,12 @@ exports.getIntegerProfileForIntegerName = async function (integerProfileName) {
  */
 exports.getMappingListForRegexProfile = async function (expectedMappingName) {
   let mappingList = [];
-  let profileList = await ProfileCollection.getProfileListAsync();
-  for (let i = 0; i < profileList.length; i++) {
-    let profileInstance = profileList[i];
+  if (!profileListCache) {
+    profileListCache = await ProfileCollection.getProfileListAsync();
+  }
+
+  for (let i = 0; i < profileListCache.length; i++) {
+    let profileInstance = profileListCache[i];
     let profileName = profileInstance[onfAttributes.PROFILE.PROFILE_NAME];
     if (profileName == Profile.profileNameEnum.REGEX_PATTERN_MAPPING_PROFILE) {
       let mappingName = profileInstance[onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.PAC][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.CAPABILITY][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAPPING_NAME];
@@ -118,7 +129,42 @@ exports.getTime = function () {
   return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
 }
 
-exports.arraysHaveSameElements = async function (array1, array2) {
+exports.arraysHaveSameElements = function (array1, array2) {
+  if (!Array.isArray(array1) || !Array.isArray(array2)) {
+    return false;
+  }
+
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  const frequencyMap = new Map();
+
+  for (const element of array1) {
+    frequencyMap.set(
+      element,
+      (frequencyMap.get(element) ?? 0) + 1
+    );
+  }
+
+  for (const element of array2) {
+    const count = frequencyMap.get(element);
+
+    if (count === undefined) {
+      return false;
+    }
+
+    if (count === 1) {
+      frequencyMap.delete(element);
+    } else {
+      frequencyMap.set(element, count - 1);
+    }
+  }
+
+  return frequencyMap.size === 0;
+}
+
+exports.arraysHaveSameElementsOld = async function (array1, array2) {
   try {
     if (array1.length !== array2.length) {
       return false;

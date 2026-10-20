@@ -131,6 +131,8 @@ exports.getDeviceTypeOfMountName = async function (mountName) {
   }
 }
 
+
+let mappingListCache = null;
 /**
  * This function parses given airInterfaceLtpList to find the device-type
  * 
@@ -141,19 +143,22 @@ exports.getDeviceTypeOfMountName = async function (mountName) {
 exports.getMatchingDeviceType = async function (airInterfaceLtpList) {
   try {
     let deviceType = "unknown";
-    let mappingList = await utility.getMappingListForRegexProfile("deviceTypeMapping");
+    if (!mappingListCache) {
+      mappingListCache = await utility.getMappingListForRegexProfile("deviceTypeMapping");
+    }
+    // let mappingList = await utility.getMappingListForRegexProfile("deviceTypeMapping");
     for (let i = 0; i < airInterfaceLtpList.length; i++) {
       let typeOfEquipment = airInterfaceLtpList[i]["layer-protocol"][0]["air-interface-2-0:air-interface-pac"]["air-interface-capability"]["type-of-equipment"];
       let regexPattern;
-      for (let j = 0; j < mappingList.length; j++) {
-        regexPattern = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
+      for (let j = 0; j < mappingListCache.length; j++) {
+        regexPattern = mappingListCache[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
         regexPattern = regexPattern.replace(/\\\\s/g, '\\s');
         let regexParts = regexPattern.match(/^\/(.+)\/([a-z]*)$/i);
         let pattern = regexParts[1];
         let flag = regexParts[2];
         regexPattern = new RegExp(pattern, flag);
         if (regexPattern.test(typeOfEquipment)) {
-          deviceType = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
+          deviceType = mappingListCache[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
           break;
         }
       }
@@ -167,6 +172,7 @@ exports.getMatchingDeviceType = async function (airInterfaceLtpList) {
   }
 }
 
+let vendorMappingListCache = null;
 /**
  * This function gives vendor name of given device-type
  * 
@@ -177,13 +183,15 @@ exports.getMatchingDeviceType = async function (airInterfaceLtpList) {
 exports.getVendorNameForDeviceType = async function (deviceType) {
   try {
     let vendor = "unknown";
-    let mappingList = await utility.getMappingListForRegexProfile("vendorFromDeviceTypeMapping");
+    if (!vendorMappingListCache) {
+      vendorMappingListCache = await utility.getMappingListForRegexProfile("vendorFromDeviceTypeMapping");
+    }
     let regexPattern;
-    for (let i = 0; i < mappingList.length; i++) {
-      regexPattern = mappingList[i][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
+    for (let i = 0; i < vendorMappingListCache.length; i++) {
+      regexPattern = vendorMappingListCache[i][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
       regexPattern = new RegExp(regexPattern);
       if (regexPattern.test(deviceType)) {
-        vendor = mappingList[i][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
+        vendor = vendorMappingListCache[i][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
         break;
       }
     }

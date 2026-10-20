@@ -108,61 +108,6 @@ async function ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias) {
 }
 
 /**
-* Records a request
-*
-* body controlconstruct 
-* no response value expected for this operation
-**/
-exports.recordRequest = async function (body, cc, isAddPropertyToMapping = false) {
-  let pipelineExists = false;
-  let client = await common[1].EsClient;
-  if (USE_ELK_PIPELINE) {
-    try {
-      // Check if the pipeline exists
-      await client.ingest.getPipeline({ id: 'mwdi' });
-      pipelineExists = true;
-    } catch (error) {
-      if (error.statusCode === 404) {
-        // Pipeline does not exist
-        console.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-      } else {
-        // Other errors
-        console.error("An error occurred while checking the pipeline:", error);
-        throw error; // Re-throw the error if it's not a 404
-      }
-    }
-  }
-
-  try {
-    let indexAlias = common[1].indexAlias
-    let startTime = process.hrtime();
-
-    /* if (isAddPropertyToMapping) {
-      await ensureLastCompleteCcUpdateTimeFieldMapping(client, indexAlias);
-    } */
-
-    let indexParams = {
-      index: indexAlias,
-      id: cc,
-      body: body
-    };
-
-    if (pipelineExists) {
-      indexParams.pipeline = 'mwdi';
-    }
-
-    let result = await client.index(indexParams);
-    let backendTime = process.hrtime(startTime);
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  return {};
-}
-
-/**
 * getTime()
 * 
 * Returns formatted date/time information Ex: ( 25/11/2023 09:43.14 )
@@ -320,7 +265,7 @@ exports.replaceFilterString = function replaceFilterString(filter) {
   return replacedFilter;
 }
 
-exports.isFilterValid = function isFilterValid(filter) {
+function isFilterValid(filter) {
   if (typeof filter !== 'string') {
     return false;
   }
@@ -786,7 +731,7 @@ function fieldsToSourceIncludes(fields, basePath = "core-model-1-4:control-const
 exports.checkFields = function checkFields(fields) {
   // Treat both undefined and null as "no filter".
   const hasFields = fields != null;
-  if (hasFields && !utility.isFilterValid(fields)) {
+  if (hasFields && !isFilterValid(fields)) {
     logger.error("Filter is invalid: " + fields);
     throw new createHttpError.BadRequest();
   }

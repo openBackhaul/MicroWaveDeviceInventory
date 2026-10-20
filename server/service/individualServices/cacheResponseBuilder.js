@@ -30,9 +30,7 @@ function cacheResponseBuilderNew(url, currentJSON) {
   const rootPrefix = objectKey.split(':')[0];
   let current = currentJSON[objectKey];
 
-  const urlSegments = url
-    .split('/')
-    .filter(Boolean);
+  const urlSegments = url.split('/').filter(Boolean);
 
   let startParsing = false;
 
@@ -56,14 +54,10 @@ function cacheResponseBuilderNew(url, currentJSON) {
     const separatorIndex = segment.indexOf('=');
 
     const key =
-      separatorIndex === -1
-        ? segment
-        : segment.substring(0, separatorIndex);
+      separatorIndex === -1 ? segment : segment.substring(0, separatorIndex);
 
     const value =
-      separatorIndex === -1
-        ? undefined
-        : segment.substring(separatorIndex + 1);
+      separatorIndex === -1 ? undefined : segment.substring(separatorIndex + 1);
 
     if (!Object.prototype.hasOwnProperty.call(current, key)) {
       // control-construct is allowed to be absent because it can
@@ -84,25 +78,16 @@ function cacheResponseBuilderNew(url, currentJSON) {
     if (Array.isArray(current) && value !== undefined) {
       const valueToFind = decodeURIComponent(value);
 
-      const elementFound = current.find(item =>
-        item?.uuid === valueToFind ||
-        item?.[LOCALID] === valueToFind
-      );
+      const elementFound = current.find(item => item?.uuid === valueToFind || item?.[LOCALID] === valueToFind );
 
       if (!elementFound) {
         logger.trace(`No elements found with UUID/local-id: ${valueToFind}`);
-
-        throw createHttpError(
-          404,
-          `No elements found with UUID/local-id: ${valueToFind}`
-        );
+        throw createHttpError(404, `No elements found with UUID/local-id: ${valueToFind}` );
       }
 
       const isLastSegment = index === urlSegments.length - 1;
 
-      current = isLastSegment
-        ? [elementFound]
-        : elementFound;
+      current = isLastSegment ? [elementFound] : elementFound;
     }
   }
 
@@ -136,14 +121,10 @@ function cacheResponseBuilderNew(url, currentJSON) {
     const wrapper = `${prefix}:${key}`;
 
     if (key === CONTROLCONST) {
-      return {
-        [wrapper]: [current]
-      };
+      return { [wrapper]: [current] };
     }
 
-    return {
-      [wrapper]: [Array.isArray(current) ? current[0] : current]
-    };
+    return { [wrapper]: [Array.isArray(current) ? current[0] : current] };
   }
 
   if (lastSegment.includes(':')) {
@@ -154,9 +135,7 @@ function cacheResponseBuilderNew(url, currentJSON) {
     };
   }
 
-  return {
-    [`${prefix}:${lastSegment}`]: current
-  };
+  return { [`${prefix}:${lastSegment}`]: current };
 }
 
 

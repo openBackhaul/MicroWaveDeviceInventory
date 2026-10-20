@@ -1346,6 +1346,34 @@ exports.getCachedExpectedEquipment = async function (
     throw (error);
   }
 }
+
+/**
+ * Provides ContainedHolder from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_10
+ **/
+exports.getCachedContainedHolder = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
 // ---------- EQUIPMENT APIs END -----------------------------------------
 
 // ---------- FIRMWARE APIs -----------------------------------------
@@ -1543,7 +1571,6 @@ exports.getCachedCoChannelProfileCapability = async function (
   }
 }
 
-
 /**
  * Provides CoChannelProfileConfiguration from cache
  *
@@ -1570,7 +1597,6 @@ exports.getCachedCoChannelProfileConfiguration = async function (
     throw (error);
   }
 }
-
 
 /**
  * Provides Connector from cache
@@ -1819,7 +1845,7 @@ exports.getCachedQosProfileCapability  = async function (
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_22
  **/
-exports.getCachedPolicingProfileConfiguration =  = async function (
+exports.getCachedPolicingProfileConfiguration = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -1860,8 +1886,9 @@ exports.getCachedPolicingProfileCapability = async function (
     throw (error);
   }
 }
+// ----------------------- PROFILE APIS END ----------------------------
 
-// FORWARDING DOMAIN
+// ----------------------- FORWARDING DOMAIN APIs ----------------------
 
 /**
  * Provides ForwardingDomain from cache
@@ -1946,8 +1973,10 @@ exports.getCachedForwardingConstructPort = async function (
     throw (error);
   }
 }
+// ----------------------- FORWARDING DOMAIN APIs END ----------------------
 
-// LINKS
+
+// ----------------------- LINK APIs ---------------------------------------
 /**
  * Provides Link from cache
  *
@@ -2059,6 +2088,290 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
     }
   });
 }
+// ----------------------- LINK APIs END ---------------------------------------
+
+// --------------- LOGICAL TERMINATION POINT APIs----------------------------------------
+
+/**
+ * Provides LogicalTerminationPoint from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_29
+ **/
+exports.getCachedLogicalTerminationPoint  = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * Provides LtpAugment from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_30
+ **/
+exports.getCachedLtpAugment = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * Provides AirInterfaceCapability from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_31
+ **/
+exports.getCachedAirInterfaceCapability = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * Provides AirInterfaceConfiguration from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_32
+ **/
+exports.getCachedAirInterfaceConfiguration = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * Provides AirInterfaceHistoricalPerformances from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_34
+ **/
+exports.getCachedAirInterfaceHistoricalPerformances = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * Provides AirInterfaceStatus from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_33
+ **/
+exports.getCachedAirInterfaceStatus = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+/**
+ * Provides EthernetContainerCapability from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_35
+ **/
+exports.getCachedEthernetContainerCapability = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+
+/**
+ * Provides EthernetContainerConfiguration from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_36
+ **/
+exports.getCachedEthernetContainerConfiguration = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+
+/**
+ * Provides EthernetContainerHistoricalPerformances from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_38
+ **/
+exports.getCachedEthernetContainerHistoricalPerformances = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
+
+
+/**
+ * Provides EthernetContainerStatus from cache
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_37
+ **/
+exports.getCachedEthernetContainerStatus = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
+  try {
+    // Treat both undefined and null as "no filter".
+    const hasFields = utility.checkFields(fields);
+
+    const result = await getDataFromCache(url, fields, hasFields, false);
+    return result;
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+}
 
 // ==============================================================================================
 
@@ -2066,7 +2379,126 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
 // GET Live data ===============================================================================
 
 // --------------- Live Management
+// General routine for live data
+async function getLiveData(url, fields) {
+  const controller = common[0];
+  const cache = common[1];
 
+  if (!controller.applicationName?.includes(OPENDAYLIGHT_STR)) {
+    throw createHttpError(502, "Unsupported upstream controller");
+  }
+
+  if (typeof url !== "string" || url.length === 0) {
+    throw createHttpError(400, "Invalid URL");
+  }
+
+  // Separate the query before decoding the resource path.
+  const fieldsIndex = url.indexOf("?fields=");
+
+  let resourceUrl;
+  let myFields;
+
+  try {
+    resourceUrl = decodeURIComponent(fieldsIndex === -1 ? url : url.slice(0, fieldsIndex));
+
+    // Prefer the API's parsed fields argument.
+    // Assume that argument is already decoded by the API framework.
+    myFields =
+      fields != null ? fields : fieldsIndex === -1 ? undefined : decodeURIComponent(url.slice(fieldsIndex + "?fields=".length));
+  } catch (error) {
+    if (error instanceof URIError) {
+      throw createHttpError(400, "Invalid URL encoding");
+    }
+
+    throw error;
+  }
+
+  const correctCc = utility.decodeMountName(resourceUrl, false);
+
+  if (typeof correctCc !== "string" || correctCc.length === 0) {
+    const decodingError = Array.isArray(correctCc) ? correctCc[0] : undefined;
+
+    throw createHttpError(
+      decodingError?.code ?? 400,
+      decodingError?.message ?? "Invalid control-construct mount name"
+    );
+  }
+
+  const controllerUrl = utility.retrieveCorrectUrl(resourceUrl, controller.tcpConn, controller.applicationName);
+  const finalUrl = utility.formatUrlForOdl(controllerUrl, myFields);
+
+  // Perform get from ODL controller
+  const response = await RestClient.dispatchEvent(finalUrl, "GET", "", controller.key);
+
+  if (!response) {
+    throw createHttpError(532, "Bad Gateway. Upstream server not responding.");
+  }
+
+  const status = Number(response.status);
+
+  if (status !== 200) {
+    switch (status) {
+      case 401:
+      case 403:
+        throw createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
+
+      case 503:
+        throw createHttpError(503, "Service Unavailable. The service request could not be processed.");
+
+      case 409:
+        throw createHttpError(502, "Bad Gateway. Invalid response from the upstream device or application.");
+
+      default:
+        if (!Number.isInteger(status) || status < 100 || status > 599) {
+          throw createHttpError(502, "Bad Gateway. Invalid upstream status.");
+        }
+
+        throw createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
+    }
+  }
+
+  const liveData = response.data;
+
+  if (liveData === null || typeof liveData !== "object" || Array.isArray(liveData)) {
+    throw createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
+  }
+
+  // Keep the response data separate from mutable cache-update data.
+  const cacheData = structuredClone(liveData);
+
+  try {
+    utility.modifyUUID(cacheData, correctCc);
+    const cacheUrl = utility.retrieveCorrectUrl(resourceUrl, cache.tcpConn, cache.applicationName);
+    const correctUrl = utility.modifyUrlConcatenateMountNamePlusUuid(cacheUrl, correctCc);
+
+    // IMPORTANT: read the complete document before replacing it.
+    const existingDocument = await elkUtility.readRecords(correctCc);
+
+    if (existingDocument == null) {
+      throw new Error(`Cannot update missing cache document ${correctCc}`);
+    }
+
+    // Await works whether the builder is synchronous or asynchronous.
+    const updatedDocument = await cacheUpdate.cacheUpdateBuilder(correctUrl, existingDocument, cacheData, myFields != null);
+
+    if (updatedDocument === null || typeof updatedDocument !== "object") {
+      throw new Error("cacheUpdateBuilder returned an invalid document");
+    }
+
+    const writeResult = await elkUtility.recordRequest(updatedDocument, correctCc);
+
+    if (!writeResult?.ok) {
+      logger.warn(`Cache update failed for ${correctCc}: ` + (writeResult?.reason ?? "Unknown write failure"));
+    }
+  } catch (error) {
+    logger.error(error, `Cache update failed for ${correctCc}`);
+  }
+
+  // Preserve your existing response normalization.
+  utility.modifyReturnJson(liveData);
+
+  return liveData;
+}
 
 /**
  * Provides ControlConstruct from live network
@@ -2200,126 +2632,6 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
     }
 
   });
-}
-
-// General routine for live data
-async function getLiveData(url, fields) {
-  const controller = common[0];
-  const cache = common[1];
-
-  if (!controller.applicationName?.includes(OPENDAYLIGHT_STR)) {
-    throw createHttpError(502, "Unsupported upstream controller");
-  }
-
-  if (typeof url !== "string" || url.length === 0) {
-    throw createHttpError(400, "Invalid URL");
-  }
-
-  // Separate the query before decoding the resource path.
-  const fieldsIndex = url.indexOf("?fields=");
-
-  let resourceUrl;
-  let myFields;
-
-  try {
-    resourceUrl = decodeURIComponent(fieldsIndex === -1 ? url : url.slice(0, fieldsIndex));
-
-    // Prefer the API's parsed fields argument.
-    // Assume that argument is already decoded by the API framework.
-    myFields =
-      fields != null ? fields : fieldsIndex === -1 ? undefined : decodeURIComponent(url.slice(fieldsIndex + "?fields=".length));
-  } catch (error) {
-    if (error instanceof URIError) {
-      throw createHttpError(400, "Invalid URL encoding");
-    }
-
-    throw error;
-  }
-
-  const correctCc = utility.decodeMountName(resourceUrl, false);
-
-  if (typeof correctCc !== "string" || correctCc.length === 0) {
-    const decodingError = Array.isArray(correctCc) ? correctCc[0] : undefined;
-
-    throw createHttpError(
-      decodingError?.code ?? 400,
-      decodingError?.message ?? "Invalid control-construct mount name"
-    );
-  }
-
-  const controllerUrl = utility.retrieveCorrectUrl(resourceUrl, controller.tcpConn, controller.applicationName);
-  const finalUrl = utility.formatUrlForOdl(controllerUrl, myFields);
-
-  const response = await RestClient.dispatchEvent(finalUrl, "GET", "", controller.key);
-
-  if (!response) {
-    throw createHttpError(532, "Bad Gateway. Upstream server not responding.");
-  }
-
-  const status = Number(response.status);
-
-  if (status !== 200) {
-    switch (status) {
-      case 401:
-      case 403:
-        throw createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-
-      case 503:
-        throw createHttpError(503, "Service Unavailable. The service request could not be processed.");
-
-      case 409:
-        throw createHttpError(502, "Bad Gateway. Invalid response from the upstream device or application.");
-
-      default:
-        if (!Number.isInteger(status) || status < 100 || status > 599) {
-          throw createHttpError(502, "Bad Gateway. Invalid upstream status.");
-        }
-
-        throw createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
-    }
-  }
-
-  const liveData = response.data;
-
-  if (liveData === null || typeof liveData !== "object" || Array.isArray(liveData)) {
-    throw createHttpError(530, "Data invalid. Response data not available, incomplete or corrupted");
-  }
-
-  // Keep the response data separate from mutable cache-update data.
-  const cacheData = structuredClone(liveData);
-
-  try {
-    utility.modifyUUID(cacheData, correctCc);
-    const cacheUrl = utility.retrieveCorrectUrl(resourceUrl, cache.tcpConn, cache.applicationName);
-    const correctUrl = utility.modifyUrlConcatenateMountNamePlusUuid(cacheUrl, correctCc);
-
-    // IMPORTANT: read the complete document before replacing it.
-    const existingDocument = await elkUtility.readRecords(correctCc);
-
-    if (existingDocument == null) {
-      throw new Error(`Cannot update missing cache document ${correctCc}`);
-    }
-
-    // Await works whether the builder is synchronous or asynchronous.
-    const updatedDocument = await cacheUpdate.cacheUpdateBuilder(correctUrl, existingDocument, cacheData, myFields != null);
-
-    if (updatedDocument === null || typeof updatedDocument !== "object") {
-      throw new Error("cacheUpdateBuilder returned an invalid document");
-    }
-
-    const writeResult = await elkUtility.recordRequest(updatedDocument, correctCc);
-
-    if (!writeResult?.ok) {
-      logger.warn(`Cache update failed for ${correctCc}: ` + (writeResult?.reason ?? "Unknown write failure"));
-    }
-  } catch (error) {
-    logger.error(error, `Cache update failed for ${correctCc}`);
-  }
-
-  // Preserve your existing response normalization.
-  utility.modifyReturnJson(liveData);
-
-  return liveData;
 }
 
 /**

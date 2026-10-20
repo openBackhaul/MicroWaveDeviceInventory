@@ -1,9 +1,13 @@
 const Profile = require('onf-core-model-ap/applicationPattern/onfModel/models/Profile');
 const ProfileCollection = require('onf-core-model-ap/applicationPattern/onfModel/models/ProfileCollection');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
 
-const USE_ELK_PIPELINE = process.env.ELK_PIPELINE?.toLowerCase() === 'true';
+const fieldsManager = require('./fieldsManagement');
+const logger = require('../LoggingService.js').getLogger();
+
+// -- Application
+const OPENDAYLIGHT_STR = "OpenDayLight";
+const ELASTICSEARCH_STR = "ElasticSearch";
 
 /**
  * This function returns the string-value object for given string-name
@@ -77,66 +81,6 @@ exports.getMappingListForRegexProfile = async function (expectedMappingName) {
   return mappingList;
 }
 
-/**
- * Read from ES
- *
- * response value expected for this operation
- **/
-exports.searchRecords = async function (cc) {
-  try {
-    let query = {
-      term: {
-        _id: cc
-      }
-    };
-
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      body: {
-        query: query
-      }
-    });
-    const resultArray = createResultArray(result);
-    return (resultArray[0]);
-  } catch (error) {
-    console.error(error);
-    throw (error);
-  }
-}
-
-
-/**
- * Read from ES
- *
- * response value expected for this operation
- **/
-exports.ReadRecords = async function (cc) {
-try {
-    const indexAlias = common[1].indexAlias
-    const client = common[1].EsClient;
-
-    const result = await client.get({
-      'index': indexAlias, //"my-index-000001",
-      'id': cc // mountname
-    });
-
-    const src = result?.body?._source;
-    if (!src) {
-      return undefined;
-    }
-    return src;
-  } catch (error) {
-    console.error(error.meta.body.found);
-    if (error.meta.body.found == false) {
-      console.error(`Mountname=${cc} is not in the cache: ${error.message}`);
-    }
-    console.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
-    return undefined;
-    // throw (error);
-  }
-}
 
 let lastCompleteCcUpdateTimeMappingEnsured = false;
 
@@ -274,84 +218,8 @@ exports.calculateTimeInMilliSeconds = function (value, unit) {
 
     return timeInMilliseconds;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return 0;
-  }
-}
-
-
-/**
- * Read only _id list from ES
- *
- * response value expected for this operation
- **/
-exports.ReadIdsFromEs = async function () {
-  /* try {
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      _source: false,
-      from: 0,
-      size: 9999
-    });
-    const resultArray = [];
-    if (result.body.hits) {
-      result.body.hits.hits.forEach((item) => {
-        resultArray.push(item._id);
-      });
-    }
-    return (resultArray)
-  } catch (error) {
-    console.error(error);
-    throw (error);
-  } */
-  try {
-    const indexAlias = common[1].indexAlias;
-    const client = await common[1].EsClient;
-
-    const ids = [];
-    const batchSize = 2000;  // tune 1000–5000
-    const keepAlive = "1m";
-
-    // create scroll context
-    let resp = await client.search({
-      index: indexAlias,
-      _source: false,
-      size: batchSize,
-      scroll: keepAlive,
-      body: {
-        query: { match_all: {} },
-        // optional: make it slightly lighter by not scoring
-        //track_total_hits: false
-      }
-    });
-
-    let scrollId = resp.body?._scroll_id;
-
-    while (true) {
-      const hits = resp.body?.hits?.hits || [];
-      if (hits.length === 0) break;
-
-      for (const h of hits) ids.push(h._id);
-
-      resp = await client.scroll({
-        scroll_id: scrollId,
-        scroll: keepAlive
-      });
-
-      scrollId = resp.body?._scroll_id;
-    }
-
-    // cleanup
-    if (scrollId) {
-      await client.clearScroll({ scroll_id: scrollId }).catch(() => {});
-    }
-
-    return ids;
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
 }
 
@@ -377,7 +245,337 @@ exports.getStringNameForUuidAsync = async function (uuid) {
   } catch (error) {
     throw error;
   }
-
 }
 
 
+// Utilities ----------------------------------------------------------
+const fieldsFilterCache = new Map();
+
+exports.getFieldsFilter = function getFieldsFilter(myFields) {
+  let filter = fieldsFilterCache.get(myFields);
+
+  if (filter !== undefined) {
+    return filter;
+  }
+
+  const decodedFields = decodeURIComponent(myFields);
+  const replacedUrlFilter = exports.replaceFilterString(decodedFields);
+
+  const rootObj = {
+    value: 'root',
+    children: []
+  };
+
+  fieldsManager.decodeFieldsSubstringExt(
+    replacedUrlFilter,
+    0,
+    rootObj
+  );
+
+  filter = rootObj.children;
+
+  fieldsFilterCache.set(myFields, filter);
+
+  return filter;
+}
+
+
+exports.replaceFilterString = function replaceFilterString(filter) {
+  if (typeof filter !== 'string') {
+    return filter;
+  }
+
+  const replacements = [
+    ['equipment', 'uuid'],
+    ['connector', 'local-id'],
+    ['contained-holder', 'local-id'],
+    ['expected-equipment', 'local-id'],
+    ['firmware-component-list', 'local-id'],
+    ['profile', 'uuid'],
+    ['logical-termination-point', 'uuid'],
+    ['forwarding-domain', 'uuid'],
+    ['fc', 'uuid1'],
+    ['fc-port', 'local-id'],
+    ['layer-protocol', 'local-id']
+  ];
+
+  let replacedFilter = filter;
+
+  for (const [element, requiredField] of replacements) {
+    const regex = new RegExp(
+      `${element}\\((?!${requiredField}(?:;|\\)))`,
+      'g'
+    );
+
+    replacedFilter = replacedFilter.replace(
+      regex,
+      `${element}(${requiredField};`
+    );
+  }
+
+  return replacedFilter;
+}
+
+exports.isFilterValid = function isFilterValid(filter) {
+  if (typeof filter !== 'string') {
+    return false;
+  }
+
+  try {
+    const decodedFilter = decodeURIComponent(filter);
+
+    // Allowed:
+    // a-z, A-Z, 0-9, (, ), /, ;, -, :
+    return /^[a-zA-Z0-9()/;:-]*$/.test(decodedFilter);
+  } catch {
+    // Invalid URI encoding
+    return false;
+  }
+}
+
+exports.isJsonEmpty = function isJsonEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.every(item =>
+      item != null &&
+      typeof item === 'object' &&
+      Object.keys(item).length === 0
+    );
+  }
+
+  return typeof value === 'object' &&
+    Object.keys(value).length === 0;
+}
+
+exports.retrieveCorrectUrl = function retrieveCorrectUrl(originalUrl, path, applicationName) {
+  try {
+    const urlParts = originalUrl.split("?fields=");
+    const myFields = urlParts[1];
+    const controlConstruct = urlParts[0].match(/control-construct=([^/]+)/)[1];
+    let placeHolder = "";
+    if (applicationName === OPENDAYLIGHT_STR) { // "OpenDayLight"
+      placeHolder = "/rests/data/network-topology:network-topology/topology=topology-netconf/node=tochange/yang-ext:mount/core-model-1-4:control-construct"
+    } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
+      placeHolder = "/";
+    }
+
+    const ctrlConstrToFind = `${CTR_CONST}=${controlConstruct}`;
+    const ctrlConstrIdx = originalUrl.indexOf(ctrlConstrToFind);
+
+    let subStringCC = "";
+    if (ctrlConstrIdx !== -1) {
+      // let subtringCCextra = urlParts[0].substring(0, ctrlConstrIdx); // is not needed
+      if (applicationName === OPENDAYLIGHT_STR) { //"OpenDayLight"
+        subStringCC = urlParts[0].substring(ctrlConstrIdx + ctrlConstrToFind.length);
+      } else if (applicationName === ELASTICSEARCH_STR) { //"ElasticSearch"
+        subStringCC = urlParts[0].substring(ctrlConstrIdx);
+      }
+    }
+
+    const correctPlaceHolder = placeHolder.replace("tochange", controlConstruct);
+    let final = `${path}${correctPlaceHolder}${subStringCC}`;
+
+    let correctUrl = "";
+    if (final.indexOf("+") != -1) {
+      correctUrl = final.replace(/=.*?\+/g, "=");
+    } else {
+      correctUrl = final;
+    }
+
+    if (myFields != undefined) {
+      final = final + "?fields=" + myFields;
+    }
+    return final;
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+exports.modifyReturnJson = function modifyReturnJson(obj) {
+  if (!obj || typeof obj !== 'object') {
+    return;
+  }
+
+  const stack = [obj];
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    for (const key in current) {
+      const value = current[key];
+
+      if (value !== null && typeof value === 'object') {
+        stack.push(value);
+      } else if (
+        (key === 'uuid' || key === 'local-id') &&
+        typeof value === 'string'
+      ) {
+        const index = value.indexOf('+');
+
+        if (index !== -1) {
+          current[key] = value.slice(index + 1);
+        }
+      }
+    }
+  }
+}
+
+exports.modifyUrlConcatenateMountNamePlusUuid = function modifyUrlConcatenateMountNamePlusUuid(url, mountName) {
+  try {
+    if (!url || !mountName) {
+      return url;
+    }
+
+    const [path, query] = url.split("?", 2);
+
+    const modifiedPath = path.replace(
+      /=([^/]+)/g,
+      (match, value) => {
+        if (value.includes("+")) {
+          return match;
+        }
+
+        return `=${mountName}+${value}`;
+      }
+    );
+
+    return query !== undefined
+      ? `${modifiedPath}?${query}`
+      : modifiedPath;
+
+  } catch (error) {
+    logger.error(error);
+    return url;
+  }
+}
+
+exports.decodeURIWithCheck = function decodeURIWithCheck(encodedUri) {
+  // Verify if URI contains "%25"
+  if (encodedUri.includes("%25")) {
+    // if contains "%25", it means that it's double codified
+    return decodeURIComponent(decodeURIComponent(encodedUri));
+  } else {
+    // Otherwise is codified only once
+    return decodeURIComponent(encodedUri);
+  }
+}
+
+exports.decodeMountName = function decodeMountName(url, cc) {
+  try {
+    if (typeof url !== 'string' || url.length === 0) {
+      return buildError("Invalid URL");
+    }
+
+    const decodedUrl = decodeURIComponent(url);
+
+    const marker = `${CTR_CONST}=`;
+    const startIndex = decodedUrl.indexOf(marker);
+
+    if (startIndex === -1) {
+      return buildError("Control-construct not found");
+    }
+
+    const valueStart = startIndex + marker.length;
+    let extractedValue = decodedUrl.substring(valueStart);
+
+    // When cc === false, control-construct ends at the next "/"
+    if (!cc) {
+      extractedValue = extractedValue.split('/')[0];
+    } else {
+      // Remove fields query parameter
+      extractedValue = extractedValue.split('?fields')[0];
+    }
+
+    if (!extractedValue) {
+      return buildError("Control-construct is empty");
+    }
+
+    // Only letters, numbers and "+" are allowed
+    if (!/^[a-zA-Z0-9+]+$/.test(extractedValue)) {
+      return buildError(
+        "Control-construct must not contain special characters"
+      );
+    }
+
+    const parts = extractedValue.split('+');
+
+    // mountName
+    if (parts.length === 1) {
+      return parts[0];
+    }
+
+    // mountName+mountName
+    if (
+      parts.length === 2 &&
+      parts[0] !== '' &&
+      parts[0] === parts[1]
+    ) {
+      return parts[0];
+    }
+
+    return buildError("Invalid control-construct format");
+
+  } catch (error) {
+    logger.error(error);
+    return buildError("Unable to decode control-construct");
+  }
+}
+
+function buildError(message) {
+  return [ { code: "400", message } ];
+}
+
+exports.formatUrlForOdl = function formatUrlForOdl(url, fields) {
+  try {
+    const segments = url.split("/");
+    let newSegments = [];
+    // loop over segments
+    for (const segment of segments) {
+      const parts = segment.split("+");
+      if (parts.length > 1) {
+        if (parts[0].indexOf(CTR_CONST) != -1) {
+          newSegments.push(parts[0]);
+        } else {
+          newSegments.push(parts[0].split("=")[0] + "=" + parts[1]);
+        }
+      } else {
+        newSegments.push(segment);
+      }
+    }
+    let newUrl = newSegments.join("/");
+    if (fields !== undefined) {
+      newUrl = newUrl + "?fields=" + fields;
+    }
+    return newUrl;
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+exports.modifyUUID = function modifyUUID(obj, mountName) {
+  if (obj == null || typeof obj !== 'object') {
+    return;
+  }
+
+  const stack = [obj];
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    for (const [key, value] of Object.entries(current)) {
+      if (
+        (key === 'uuid' || key === 'local-id') &&
+        typeof value === 'string'
+      ) {
+        if (!value.includes('+')) {
+          current[key] = `${mountName}+${value}`;
+        }
+      } else if (value !== null && typeof value === 'object') {
+        stack.push(value);
+      }
+    }
+  }
+}

@@ -768,7 +768,7 @@ exports.provideListOfLinkPorts = function (user, originator, xCorrelator, traceI
   });
 }
 
-//to add
+
 /**
  * Provides list of links in cache
  *
@@ -860,7 +860,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
               index1 = 1;
             }
             const ccList = resLink[CORE_MODEL_LINK][index1][END_POINT_LIST].map(endpoint => endpoint[CTR_CONST]);
-            if (arraysHaveSameElements(controlConstructList, ccList)) {
+            if (utility.arraysHaveSameElements(controlConstructList, ccList)) {
               parallelLink.push(link);
             }
           } catch (error) {
@@ -1708,7 +1708,7 @@ exports.getCachedWredProfileConfiguration = async function (
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_27
  **/
-exports.getCachedWredProfileCapability  = async function (
+exports.getCachedWredProfileCapability = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -1735,7 +1735,7 @@ exports.getCachedWredProfileCapability  = async function (
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_26
  **/
-exports.getCachedSchedulerProfileConfiguration  = async function (
+exports.getCachedSchedulerProfileConfiguration = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -1762,7 +1762,7 @@ exports.getCachedSchedulerProfileConfiguration  = async function (
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_26
  **/
-exports.getCachedSchedulerProfileConfiguration  = async function (
+exports.getCachedSchedulerProfileConfiguration = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -1790,7 +1790,7 @@ exports.getCachedSchedulerProfileConfiguration  = async function (
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_24
  **/
-exports.getCachedQosProfileConfiguration  = async function (
+exports.getCachedQosProfileConfiguration = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -1818,7 +1818,7 @@ exports.getCachedQosProfileConfiguration  = async function (
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_23
  **/
-exports.getCachedQosProfileCapability  = async function (
+exports.getCachedQosProfileCapability = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -2105,7 +2105,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
  * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
  * returns inline_response_200_29
  **/
-exports.getCachedLogicalTerminationPoint  = async function (
+exports.getCachedLogicalTerminationPoint = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, fields) {
   try {
     // Treat both undefined and null as "no filter".
@@ -2649,12 +2649,12 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
  **/
 exports.getLiveActualEquipment = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  
+
   try {
     return getLiveData(url, fields);
   } catch (error) {
     logger.error(error);
-    throw(error);
+    throw (error);
   }
 };
 
@@ -2675,17 +2675,91 @@ exports.getLiveActualEquipment = async function (
  **/
 exports.getLiveAirInterfaceCapability = async function (
   url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
-  
+
   try {
     return getLiveData(url, fields);
   } catch (error) {
     logger.error(error);
-    throw(error);
+    throw (error);
+  }
+};
+
+/**
+ * Provides AirInterfaceConfiguration from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_32
+ **/
+exports.getLiveAirInterfaceConfiguration = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+
+  try {
+    return getLiveData(url, fields);
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+};
+
+/**
+ * Provides AirInterfaceHistoricalPerformances from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_34
+ **/
+exports.getLiveAirInterfaceHistoricalPerformances = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+
+  try {
+    return getLiveData(url, fields);
+  } catch (error) {
+    logger.error(error);
+    throw (error);
   }
 };
 
 
 
+/**
+ * Provides AirInterfaceStatus from live network
+ *
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * mountName String The mount-name of the device that is addressed by the request
+ * uuid String Instance identifier that is unique within the device
+ * localId String Instance identifier that is unique within its list
+ * fields String Query parameter to filter ressources according to RFC8040 fields filter spec (optional)
+ * returns inline_response_200_33
+ **/
+exports.getLiveAirInterfaceStatus = async function (
+  url, user, originator, xCorrelator, traceIndicator, customerJourney, mountName, uuid, fields) {
+
+  try {
+    return getLiveData(url, fields);
+  } catch (error) {
+    logger.error(error);
+    throw (error);
+  }
+};
 
 ///////////////////////////////////////////////////////
 async function RequestForListOfDeviceInterfacesCausesReadingFromCache(mountName) {
@@ -3414,4 +3488,155 @@ async function NotifiedDeviceObjectDeletionCausesDeletingTheObjectInCache(counte
   } catch (error) {
     reject();
   }
+}
+
+
+// ------------------------- Notification functions for device list -------------------------
+
+/**
+ * Offers subscribing for notifications about device attributes being changed in the cache
+ *
+ * body V1_notifyattributevaluechanges_body 
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * no response value expected for this operation
+ **/
+exports.notifyAttributeValueChanges = async function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let subscribingApplicationName = body["subscriber-application"];
+      let subscribingApplicationRelease = body["subscriber-release-number"];
+      let subscribingApplicationProtocol = body["subscriber-protocol"];
+      let subscribingApplicationAddress = body["subscriber-address"];
+      let subscribingApplicationPort = body["subscriber-port"];
+      let notificationsReceivingOperation = body["subscriber-operation"];
+
+      let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+      );
+
+      if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+          subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+        if (!success) {
+          throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
+        }
+      } else {
+        throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
+      }
+      resolve();
+    } catch (error) {
+      logger.error(error);
+      reject(error);
+    }
+  });
+}
+
+
+
+/**
+ * Offers subscribing for notifications about device objects being created in the cache
+ *
+ * body V1_notifyobjectcreations_body 
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * no response value expected for this operation
+ **/
+exports.notifyObjectCreations = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let subscribingApplicationName = body["subscriber-application"];
+      let subscribingApplicationRelease = body["subscriber-release-number"];
+      let subscribingApplicationProtocol = body["subscriber-protocol"];
+      let subscribingApplicationAddress = body["subscriber-address"];
+      let subscribingApplicationPort = body["subscriber-port"];
+      let notificationsReceivingOperation = body["subscriber-operation"];
+
+      let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+      );
+
+      if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+          subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+        if (!success) {
+          throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
+        }
+      } else {
+        throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
+      }
+      resolve();
+    } catch (error) {
+      logger.error(error);
+      reject(error);
+    }
+  });
+}
+
+
+/**
+ * Offers subscribing for notifications about device objects being deleted from the cache
+ *
+ * body V1_notifyobjectdeletions_body 
+ * user String User identifier from the system starting the service call
+ * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]' 
+ * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
+ * traceIndicator String Sequence of request numbers along the flow
+ * customerJourney String Holds information supporting customer’s journey to which the execution applies
+ * no response value expected for this operation
+ **/
+exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  return new Promise(async function (resolve, reject) {
+    try {
+      let subscribingApplicationName = body["subscriber-application"];
+      let subscribingApplicationRelease = body["subscriber-release-number"];
+      let subscribingApplicationProtocol = body["subscriber-protocol"];
+      let subscribingApplicationAddress = body["subscriber-address"];
+      let subscribingApplicationPort = body["subscriber-port"];
+      let notificationsReceivingOperation = body["subscriber-operation"];
+
+      let validInput = inputValidation.validateSubscriberInput(
+        subscribingApplicationName,
+        subscribingApplicationRelease,
+        subscribingApplicationProtocol,
+        subscribingApplicationAddress,
+        subscribingApplicationPort,
+        notificationsReceivingOperation
+      );
+
+      if (validInput) {
+        let success = await subscriberManagement.addSubscriberToConfig(url, subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
+          subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation);
+
+        if (!success) {
+          throw new createHttpError(500, 'notifyControllerObjectCreations: addSubscriber failed');
+        }
+      } else {
+        throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
+      }
+
+      resolve();
+    } catch (error) {
+      logger.error(error);
+      reject(error);
+    }
+  });
 }

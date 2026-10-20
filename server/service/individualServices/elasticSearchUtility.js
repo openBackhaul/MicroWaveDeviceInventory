@@ -167,3 +167,81 @@ exports.deleteRequest = async function (cc) {
   }
 }
 
+/**
+ * Read only _id list from ES
+ *
+ * response value expected for this operation
+ **/
+exports.readIdsFromEs = async function () {
+  /* try {
+    let indexAlias = common[1].indexAlias
+    let client = await common[1].EsClient;
+    const result = await client.search({
+      index: indexAlias,
+      _source: false,
+      from: 0,
+      size: 9999
+    });
+    const resultArray = [];
+    if (result.body.hits) {
+      result.body.hits.hits.forEach((item) => {
+        resultArray.push(item._id);
+      });
+    }
+    return (resultArray)
+  } catch (error) {
+    console.error(error);
+    throw (error);
+  } */
+  try {
+    const indexAlias = common[1].indexAlias;
+    const client = common[1].EsClient;
+
+    const ids = [];
+    const batchSize = 2000;  // tune 1000–5000
+    const keepAlive = "1m";
+
+    // create scroll context
+    let resp = await client.search({
+      index: indexAlias,
+      _source: false,
+      size: batchSize,
+      scroll: keepAlive,
+      body: {
+        query: { match_all: {} },
+        // optional: make it slightly lighter by not scoring
+        //track_total_hits: false
+      }
+    });
+
+    let scrollId = resp.body?._scroll_id;
+
+    while (true) {
+      const hits = resp.body?.hits?.hits || [];
+      if (hits.length === 0) {
+        break;
+      }
+
+      for (const h of hits) {
+        ids.push(h._id);
+      }
+
+      resp = await client.scroll({
+        scroll_id: scrollId,
+        scroll: keepAlive
+      });
+
+      scrollId = resp.body?._scroll_id;
+    }
+
+    // cleanup
+    if (scrollId) {
+      await client.clearScroll({ scroll_id: scrollId }).catch(() => { });
+    }
+
+    return ids;
+  } catch (error) {
+    logger.error(error);
+    throw error;
+  }
+}

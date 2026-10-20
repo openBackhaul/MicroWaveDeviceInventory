@@ -28,6 +28,7 @@ const createHttpError = require('http-errors');
 const metaDataUtility = require('./individualServices/CyclicProcessService/metaDataUtility');
 const deviceMetadataUtility = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/deviceMetaDataUtility');
 const utility = require('./individualServices/utility');
+const elkUtility = require('./individualServices/elasticSearchUtility');
 const deviceMetadataCacheUpdate = require('./individualServices/CyclicProcessService/DeviceMetaDataProcess/DeviceMetaDataCacheUpdate')
 const RestClient = require('./individualServices/rest/client/dispacher');
 const cacheResponse = require('./individualServices/cacheResponseBuilder');
@@ -133,23 +134,23 @@ exports.deleteCachedLink = function (url, user, originator, xCorrelator, traceIn
       }
 
       logger.info("deleteCachedLink - Read from ELK: " + correctLink);
-      let result = await ReadRecords(correctLink);
+      let result = await elkUtility.readRecords(correctLink);
       if (result != undefined) {
-        let ret = await deleteRequest(correctLink);
-        let listLink = await ReadRecords("linkList");
+        let ret = await elkUtility.deleteRequest(correctLink);
+        let listLink = await elkUtility.readRecords("linkList");
         if (listLink.LinkList.includes(correctLink)) {
           let indexToRemove = listLink.LinkList.indexOf(correctLink);
           listLink.LinkList.splice(indexToRemove, 1);
-          let elapsedTime = await recordRequest(listLink, "linkList");
+          let elapsedTime = await elkUtility.recordRequest(listLink, "linkList");
         }
         resolve();
       } else {
-        let listLink = await ReadRecords("linkList");
+        let listLink = await elkUtility.readRecords("linkList");
         if (listLink != undefined) {
           if (listLink.LinkList.includes(correctLink)) {
             let indexToRemove = listLink.LinkList.indexOf(correctLink);
             listLink.LinkList.splice(indexToRemove, 1);
-            let elapsedTime = await recordRequest(listLink, "linkList");
+            let elapsedTime = await elkUtility.recordRequest(listLink, "linkList");
           }
         } else {
           throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
@@ -194,14 +195,14 @@ exports.deleteCachedLinkPort = function (url, user, originator, xCorrelator, tra
         throw new createHttpError("400", "Fields must not contain special chars");
       }
 
-      let result = await ReadRecords(correctLink);
+      let result = await elkUtility.readRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
         if (result[objectKey][0] && Array.isArray(result[objectKey][0]["link-port"])) {
           const index = result[objectKey][0]["link-port"].findIndex(port => port["local-id"] === id);
           if (index !== -1) {
             result[objectKey][0]["link-port"] = result[objectKey][0]["link-port"].filter(port => port["local-id"] !== id)
-            let elapsedTime = await recordRequest(result, correctLink);
+            let elapsedTime = await elkUtility.recordRequest(result, correctLink);
           } else {
             throw new createHttpError(471, "(Child) topology object not existing. Cache informs about addressed resource unknown.");
           }
@@ -260,7 +261,7 @@ exports.getCachedActualEquipment = function (url, user, originator, xCorrelator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Actual Equipment - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -344,7 +345,7 @@ exports.getCachedAirInterfaceCapability = function (url, user, originator, xCorr
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -428,7 +429,7 @@ exports.getCachedAirInterfaceConfiguration = function (url, user, originator, xC
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -512,7 +513,7 @@ exports.getCachedAirInterfaceHistoricalPerformances = function (url, user, origi
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Historical Performance - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -596,7 +597,7 @@ exports.getCachedAirInterfaceStatus = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Air Interface Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -678,7 +679,7 @@ exports.getCachedAlarmCapability = function (url, user, originator, xCorrelator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -759,7 +760,7 @@ exports.getCachedAlarmConfiguration = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -841,7 +842,7 @@ exports.getCachedAlarmEventRecords = function (url, user, originator, xCorrelato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Alarm Event Records - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -924,7 +925,7 @@ exports.getCachedCoChannelProfileCapability = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Co Channel Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1012,7 +1013,7 @@ exports.getCachedCoChannelProfileConfiguration = function (url, user, originator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Co Channel Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1095,7 +1096,7 @@ exports.getCachedConnector = function (url, user, originator, xCorrelator, trace
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Connector - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1179,7 +1180,7 @@ exports.getCachedContainedHolder = function (url, user, originator, xCorrelator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Container Holder - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1261,7 +1262,7 @@ exports.getCachedControlConstruct = function (url, user, originator, xCorrelator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Control Construct - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1368,7 +1369,7 @@ exports.getCachedCurrentAlarms = function (url, user, originator, xCorrelator, t
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Current Alarms - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1451,7 +1452,7 @@ exports.getCachedEquipment = function (url, user, originator, xCorrelator, trace
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Equipment - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1535,7 +1536,7 @@ exports.getCachedEthernetContainerCapability = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1619,7 +1620,7 @@ exports.getCachedEthernetContainerConfiguration = function (url, user, originato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1703,7 +1704,7 @@ exports.getCachedEthernetContainerHistoricalPerformances = function (url, user, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Historical Perfomances - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1787,7 +1788,7 @@ exports.getCachedEthernetContainerStatus = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Ethernet Container Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1871,7 +1872,7 @@ exports.getCachedExpectedEquipment = function (url, user, originator, xCorrelato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Expected Equipment - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -1953,7 +1954,7 @@ exports.getCachedFirmwareCollection = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Collection - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2036,7 +2037,7 @@ exports.getCachedFirmwareComponentCapability = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Component Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2119,7 +2120,7 @@ exports.getCachedFirmwareComponentList = function (url, user, originator, xCorre
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Component List - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2201,7 +2202,7 @@ exports.getCachedFirmwareComponentStatus = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Firmware Componenet Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2284,7 +2285,7 @@ exports.getCachedForwardingConstruct = function (url, user, originator, xCorrela
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Construct - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2369,7 +2370,7 @@ exports.getCachedForwardingConstructPort = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Construct Port - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2452,7 +2453,7 @@ exports.getCachedForwardingDomain = function (url, user, originator, xCorrelator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Forwarding Domain - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2536,7 +2537,7 @@ exports.getCachedHybridMwStructureCapability = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2620,7 +2621,7 @@ exports.getCachedHybridMwStructureConfiguration = function (url, user, originato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2704,7 +2705,7 @@ exports.getCachedHybridMwStructureHistoricalPerformances = function (url, user, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Historical Performances - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2788,7 +2789,7 @@ exports.getCachedHybridMwStructureStatus = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Hybrid MW Structure Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -2855,7 +2856,7 @@ exports.getCachedLink = function (url, user, originator, xCorrelator, traceIndic
       }
 
       logger.info("getCachedLink - Read from ELK: " + correctLink);
-      let result = await ReadRecords(correctLink);
+      let result = await elkUtility.readRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
         if (objectKey.indexOf("link") != -1) {
@@ -2908,7 +2909,7 @@ exports.getCachedLinkPort = function (url, user, originator, xCorrelator, traceI
       }
 
       logger.info("getCachedLinkPort - Read from ELK: " + correctLink);
-      let result = await ReadRecords(correctLink);
+      let result = await elkUtility.readRecords(correctLink);
       if (result != undefined) {
         let objectKey = Object.keys(result)[0];
         if (objectKey.indexOf("link") != -1) {
@@ -2983,7 +2984,7 @@ exports.getCachedLogicalTerminationPoint = function (url, user, originator, xCor
       const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3065,7 +3066,7 @@ exports.getCachedLtpAugment = function (url, user, originator, xCorrelator, trac
       const finalUrl = retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName);
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3150,7 +3151,7 @@ exports.getCachedMacInterfaceCapability = function (url, user, originator, xCorr
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3234,7 +3235,7 @@ exports.getCachedMacInterfaceConfiguration = function (url, user, originator, xC
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3318,7 +3319,7 @@ exports.getCachedMacInterfaceStatus = function (url, user, originator, xCorrelat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("MAC Interface Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3401,7 +3402,7 @@ exports.getCachedPolicingProfileCapability = function (url, user, originator, xC
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Policing Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3484,7 +3485,7 @@ exports.getCachedPolicingProfileConfiguration = function (url, user, originator,
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Policing Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3567,7 +3568,7 @@ exports.getCachedProfile = function (url, user, originator, xCorrelator, traceIn
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Profile - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3649,7 +3650,7 @@ exports.getCachedProfileCollection = function (url, user, originator, xCorrelato
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Profile Collection - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3732,7 +3733,7 @@ exports.getCachedPureEthernetStructureCapability = function (url, user, originat
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3816,7 +3817,7 @@ exports.getCachedPureEthernetStructureConfiguration = function (url, user, origi
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3900,7 +3901,7 @@ exports.getCachedPureEthernetStructureHistoricalPerformances = function (url, us
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Historical Performances - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -3984,7 +3985,7 @@ exports.getCachedPureEthernetStructureStatus = function (url, user, originator, 
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Pure Ethernet Structure Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4067,7 +4068,7 @@ exports.getCachedQosProfileCapability = function (url, user, originator, xCorrel
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4150,7 +4151,7 @@ exports.getCachedQosProfileConfiguration = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4233,7 +4234,7 @@ exports.getCachedSchedulerProfileCapability = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4316,7 +4317,7 @@ exports.getCachedSchedulerProfileConfiguration = function (url, user, originator
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("QoS Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4400,7 +4401,7 @@ exports.getCachedVlanInterfaceCapability = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("VLAN Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4484,7 +4485,7 @@ exports.getCachedVlanInterfaceConfiguration = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("VLAN Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4568,7 +4569,7 @@ exports.getCachedWireInterfaceCapability = function (url, user, originator, xCor
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4652,7 +4653,7 @@ exports.getCachedWireInterfaceConfiguration = function (url, user, originator, x
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4736,7 +4737,7 @@ exports.getCachedWireInterfaceHistoricalPerformances = function (url, user, orig
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Historical Performances - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4820,7 +4821,7 @@ exports.getCachedWireInterfaceStatus = function (url, user, originator, xCorrela
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wire Interface Status - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4903,7 +4904,7 @@ exports.getCachedWredProfileCapability = function (url, user, originator, xCorre
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wired Profile Capability - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -4986,7 +4987,7 @@ exports.getCachedWredProfileConfiguration = function (url, user, originator, xCo
       const correctUrl = modifyUrlConcatenateMountNamePlusUuid(finalUrl, correctMountname);
 
       logger.info("Wired Profile Configuration - Read from ELK mountname: " + correctMountname);
-      let result = await ReadRecords(correctMountname);
+      let result = await elkUtility.readRecords(correctMountname);
       if (result != undefined) {
         let finalJson = undefined;
         try {
@@ -5160,11 +5161,11 @@ exports.getLiveActualEquipment = function (url, user, originator, xCorrelator, t
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5257,11 +5258,11 @@ exports.getLiveAirInterfaceCapability = function (url, user, originator, xCorrel
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5354,11 +5355,11 @@ exports.getLiveAirInterfaceConfiguration = function (url, user, originator, xCor
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5526,11 +5527,11 @@ exports.getLiveAirInterfaceHistoricalPerformances = function (url, user, origina
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5622,11 +5623,11 @@ exports.getLiveAirInterfaceStatus = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5717,11 +5718,11 @@ exports.getLiveAlarmCapability = function (url, user, originator, xCorrelator, t
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5812,11 +5813,11 @@ exports.getLiveAlarmConfiguration = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -5906,11 +5907,11 @@ exports.getLiveAlarmEventRecords = function (url, user, originator, xCorrelator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6001,11 +6002,11 @@ exports.getLiveCoChannelProfileCapability = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6096,11 +6097,11 @@ exports.getLiveCoChannelProfileConfiguration = function (url, user, originator, 
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6192,11 +6193,11 @@ exports.getLiveConnector = function (url, user, originator, xCorrelator, traceIn
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6287,11 +6288,11 @@ exports.getLiveContainedHolder = function (url, user, originator, xCorrelator, t
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6375,7 +6376,7 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
             if (myFields === undefined) {
               jsonObj['last-complete-control-construct-update-time'] = new Date().toJSON();
               try {
-                let elapsedTime = await recordRequest(jsonObj, correctCc);
+                let elapsedTime = await elkUtility.recordRequest(jsonObj, correctCc);
                 let device = {
                   "mount-name": correctCc,
                   "last-complete-control-construct-update-time-attempt": currentTime
@@ -6403,13 +6404,13 @@ exports.getLiveControlConstruct = function (url, user, originator, xCorrelator, 
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               try {
                 // read from ES
-                let result1 = await ReadRecords(correctCc);
+                let result1 = await elkUtility.readRecords(correctCc);
                 let ccFromLive = jsonObj;
                 ccFromLive['last-complete-control-construct-update-time'] = new Date().toJSON();
                 // Update json object
                 let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
                 // Write updated Json to ES
-                let elapsedTime = await recordRequest(ccFromLive, correctCc);
+                let elapsedTime = await elkUtility.recordRequest(ccFromLive, correctCc);
                 let device = {
                   "mount-name": correctCc,
                   "last-complete-control-construct-update-time-attempt": currentTime
@@ -6517,11 +6518,11 @@ exports.getLiveCurrentAlarms = function (url, user, originator, xCorrelator, tra
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6611,11 +6612,11 @@ exports.getLiveEquipment = function (url, user, originator, xCorrelator, traceIn
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6707,11 +6708,11 @@ exports.getLiveEthernetContainerCapability = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6803,11 +6804,11 @@ exports.getLiveEthernetContainerConfiguration = function (url, user, originator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -6972,11 +6973,11 @@ exports.getLiveEthernetContainerHistoricalPerformances = function (url, user, or
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7067,11 +7068,11 @@ exports.getLiveEthernetContainerStatus = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7162,11 +7163,11 @@ exports.getLiveExpectedEquipment = function (url, user, originator, xCorrelator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7255,11 +7256,11 @@ exports.getLiveFirmwareCollection = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7349,11 +7350,11 @@ exports.getLiveFirmwareComponentCapability = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7443,11 +7444,11 @@ exports.getLiveFirmwareComponentList = function (url, user, originator, xCorrela
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7537,11 +7538,11 @@ exports.getLiveFirmwareComponentStatus = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7631,11 +7632,11 @@ exports.getLiveForwardingConstruct = function (url, user, originator, xCorrelato
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7727,11 +7728,11 @@ exports.getLiveForwardingConstructPort = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7821,11 +7822,11 @@ exports.getLiveForwardingDomain = function (url, user, originator, xCorrelator, 
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -7915,11 +7916,11 @@ exports.getLiveHybridMwStructureCapability = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8010,11 +8011,11 @@ exports.getLiveHybridMwStructureConfiguration = function (url, user, originator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8179,11 +8180,11 @@ exports.getLiveHybridMwStructureHistoricalPerformances = function (url, user, or
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8274,11 +8275,11 @@ exports.getLiveHybridMwStructureStatus = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8366,7 +8367,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Log what we actually pass
               logger.info("[MWDI] cacheUpdateBuilder inputs:", {
                 correctCc,
@@ -8386,7 +8387,7 @@ exports.getLiveLogicalTerminationPoint = function (url, user, originator, xCorre
               }
               
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               logger.error(error);
@@ -8474,11 +8475,11 @@ exports.getLiveLtpAugment = function (url, user, originator, xCorrelator, traceI
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8569,11 +8570,11 @@ exports.getLiveMacInterfaceCapability = function (url, user, originator, xCorrel
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8664,11 +8665,11 @@ exports.getLiveMacInterfaceConfiguration = function (url, user, originator, xCor
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8759,11 +8760,11 @@ exports.getLiveMacInterfaceStatus = function (url, user, originator, xCorrelator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8853,11 +8854,11 @@ exports.getLivePolicingProfileCapability = function (url, user, originator, xCor
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -8947,11 +8948,11 @@ exports.getLivePolicingProfileConfiguration = function (url, user, originator, x
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9051,7 +9052,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
               //const release = await lock.acquire();
               await enqueueAlarm(correctCc, profileKey, profileData, async () => {
                 //logAlarmNotificationUpdate(`[READ-START] ${correctCc}`);
-                const result = await ReadRecordsMountName(correctCc);
+                const result = await elkUtility.readRecords(correctCc);
                 if (result == undefined) {
                   // No record → skip processing, no retry
                   //logAlarmNotificationUpdate(`No record found for ${mountname}`);
@@ -9069,7 +9070,7 @@ exports.getLiveProfile = function (url, user, originator, xCorrelator, traceIndi
 
                 // Write updated Json to ES
                 //logAlarmNotificationUpdate(`[WRITE-START] ${correctCc}`);
-                let elapsedTime = await recordRequest(result, correctCc);
+                let elapsedTime = await elkUtility.recordRequest(result, correctCc);
                 if (!elapsedTime.ok && !elapsedTime.retry) {
                     return;   // do not retry
                 }
@@ -9166,11 +9167,11 @@ exports.getLiveProfileCollection = function (url, user, originator, xCorrelator,
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9261,11 +9262,11 @@ exports.getLivePureEthernetStructureCapability = function (url, user, originator
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9356,11 +9357,11 @@ exports.getLivePureEthernetStructureConfiguration = function (url, user, origina
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9525,11 +9526,11 @@ exports.getLivePureEthernetStructureHistoricalPerformances = function (url, user
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9620,11 +9621,11 @@ exports.getLivePureEthernetStructureStatus = function (url, user, originator, xC
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9714,11 +9715,11 @@ exports.getLiveQosProfileCapability = function (url, user, originator, xCorrelat
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9808,11 +9809,11 @@ exports.getLiveQosProfileConfiguration = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9902,11 +9903,11 @@ exports.getLiveSchedulerProfileCapability = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -9995,11 +9996,11 @@ exports.getLiveSchedulerProfileConfiguration = function (url, user, originator, 
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10090,11 +10091,11 @@ exports.getLiveVlanInterfaceCapability = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10159,7 +10160,7 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
             throw new createHttpError(502, "Bad Gateway");
           } else if (res.statusText == 401 || res.statusText == 403) {
             throw new createHttpError(531, "Bad Gateway. Authentication at upstream server failed.");
-          }else if (res.statusText == "Service Unavailable" || res.status == 503) {
+          } else if (res.statusText == "Service Unavailable" || res.status == 503) {
               throw new createHttpError(503, "Service Unavailable. The service request could not be processed.");
           } else if (res.status === 409) {
             throw new createHttpError(
@@ -10186,11 +10187,11 @@ exports.getLiveVlanInterfaceConfiguration = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10281,11 +10282,11 @@ exports.getLiveWireInterfaceCapability = function (url, user, originator, xCorre
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10377,11 +10378,11 @@ exports.getLiveWireInterfaceConfiguration = function (url, user, originator, xCo
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10548,11 +10549,11 @@ exports.getLiveWireInterfaceHistoricalPerformances = function (url, user, origin
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10644,11 +10645,11 @@ exports.getLiveWireInterfaceStatus = function (url, user, originator, xCorrelato
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10738,11 +10739,11 @@ exports.getLiveWredProfileCapability = function (url, user, originator, xCorrela
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -10832,11 +10833,11 @@ exports.getLiveWredProfileConfiguration = function (url, user, originator, xCorr
               let Url = decodeURIComponent(retrieveCorrectUrl(url, common[1].tcpConn, common[1].applicationName));
               let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
               // read from ES
-              let result = await ReadRecords(correctCc);
+              let result = await elkUtility.readRecords(correctCc);
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(result, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(result, correctCc);
             }
             catch (error) {
               console.error(error);
@@ -11048,7 +11049,6 @@ exports.notifyObjectDeletions = function (url, body, user, originator, xCorrelat
         throw new createHttpError(400, 'notifyControllerObjectCreations: invalid input data');
       }
 
-
       resolve();
     } catch (error) {
       reject(error);
@@ -11078,7 +11078,7 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
   return new Promise(async function (resolve, reject) {
     try {
       let aggregatedResponse = [];
-      let cacheQualityStatistics = await ReadRecords("cache-quality-statistics");
+      let cacheQualityStatistics = await elkUtility.readRecords("cache-quality-statistics");
       if (cacheQualityStatistics != undefined) {
         let qualityMeasurementSampleNumber = await getQualityMeasurementSampleNumber();
         //if (cacheQualityStatistics["cache-quality-statistics"].length < qualityMeasurementSampleNumber) {
@@ -11107,7 +11107,7 @@ exports.provideCacheQualityStatistics = function (body, user, originator, xCorre
 
 function aggregateData(data, summarizeByDevice = false) {
   if (!summarizeByDevice) {
-    // Case 1: No input → aggregate everything
+    // Case 1: No input --> aggregate everything
     let deviceCount = 1;
     return data.reduce((device, item) => {
       device["device-type"] = "all";
@@ -11169,12 +11169,12 @@ exports.provideDataOfLinkPorts = function (user, originator, xCorrelator, traceI
   return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await elkUtility.readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await elkUtility.readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             if (link.hasOwnProperty("forwarding-domain")) {
@@ -11218,18 +11218,23 @@ exports.provideDataOfLinks = function (body, user, originator, xCorrelator, trac
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await elkUtility.readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await elkUtility.readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
-            if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
-            else linkType = "minimumForRest";
-            if (linkType == requestedLinkType) responseLinkList.push(link);
+            if (link.hasOwnProperty("forwarding-domain")) {
+              linkType = "generic";
+            } else {
+              linkType = "minimumForRest";
+            }
+            if (linkType == requestedLinkType) {
+              responseLinkList.push(link);
+            }
           }
         }
         resolve({
@@ -11319,7 +11324,7 @@ exports.provideListOfActualDeviceEquipment = function (url, body, user, originat
       let returnObject = {};
       let parts = finalUrl.split("?fields=");
       let myFields = parts[1];
-      let result = await ReadRecords(mountName);
+      let result = await elkUtility.readRecords(mountName);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
@@ -11375,7 +11380,7 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
     try {
       const excludeMountNames = ["DeviceMetaDataList", "DeviceList", "MetaDataList", "cache-quality-statistics"].map(s => s.toLowerCase());
 
-      let result = await utility.ReadIdsFromEs();
+      let result = await elkUtility.readIdsFromEs();
       result = result.filter(d => !excludeMountNames.includes(String(d).toLowerCase())).map(d => ({ "mount-name": d }));
       if (result != undefined) {
         const outputJson = {
@@ -11396,7 +11401,7 @@ exports.provideListOfCachedDevices = function (user, originator, xCorrelator, tr
           .map(s => s.toLowerCase())
       );
 
-      const ids = await utility.ReadIdsFromEs();
+      const ids = await elkUtility.readIdsFromEs();
 
       const mountList = [];
       for (const id of ids) {
@@ -11432,7 +11437,7 @@ exports.provideListOfConnectedDevices = function (url, user, originator, xCorrel
     try {
       // await deviceMetadataCacheUpdate.deviceMetaDataListSync(); // Doesn't exists
       // let metaDataListFromElasticSearch = await deviceMetadataCacheUpdate.getDeviceMetaDataList();
-      let metaDataListFromElasticSearch = await ReadRecords("DeviceMetaDataList");
+      let metaDataListFromElasticSearch = await elkUtility.readRecords("DeviceMetaDataList");
       if (metaDataListFromElasticSearch["DeviceMetaDataList"] == undefined) {
         throw new createHttpError.NotFound("Device list not found");
       } else {
@@ -11479,7 +11484,7 @@ exports.provideListOfDeviceInterfaces = function (url, body, user, originator, x
       let toChangeObject = {};
       let parts = finalUrl.split("?fields=");
       let myFields = parts[1];
-      let result = await ReadRecords(mountName);
+      let result = await elkUtility.readRecords(mountName);
       if (result != undefined) {
         let finalJson = cacheResponse.cacheResponseBuilder(parts[0], result);
         if (finalJson != undefined) {
@@ -11533,12 +11538,12 @@ exports.provideListOfLinkPorts = function (user, originator, xCorrelator, traceI
   return new Promise(async function (resolve, reject) {
     try {
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await elkUtility.readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await elkUtility.readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
             let linkRecord = {};
@@ -11582,18 +11587,25 @@ exports.provideListOfLinks = function (body, user, originator, xCorrelator, trac
       let requestedLinkType = body["link-type"];
 
       let responseLinkList = [];
-      let linkListRecord = await ReadRecords("linkList");
+      let linkListRecord = await elkUtility.readRecords("linkList");
       if (linkListRecord != undefined) {
         let linkUuidList = linkListRecord.LinkList;
         let linkType = "";
         for (let i = 0; i < linkUuidList.length; i++) {
           let linkUuid = linkUuidList[i];
-          let linkRecordForLinkUuid = await ReadRecords(linkUuid);
+          let linkRecordForLinkUuid = await elkUtility.readRecords(linkUuid);
           if (linkRecordForLinkUuid != undefined) {
             let link = linkRecordForLinkUuid["core-model-1-4:link"][0];
-            if (link.hasOwnProperty("forwarding-domain")) linkType = "generic";
-            else linkType = "minimumForRest";
-            if (linkType == requestedLinkType) responseLinkList.push(linkUuid);
+
+            if (link.hasOwnProperty("forwarding-domain")) {
+              linkType = "generic";
+            } else {
+              linkType = "minimumForRest";
+            }
+
+            if (linkType == requestedLinkType) {
+              responseLinkList.push(linkUuid);
+            }
           }
         }
         resolve({
@@ -11632,7 +11644,7 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         throw new createHttpError.BadRequest("Link-id must not be empty");
       }
       let parallelLink = [linkId];
-      let linkToCompare = await ReadRecords(linkId);
+      let linkToCompare = await elkUtility.readRecords(linkId);
       if (linkToCompare == undefined) {
         throw new createHttpError(461, `Not available. The topology (parent) object is currently not found in the cache.`);
       }
@@ -11640,10 +11652,10 @@ exports.provideListOfParallelLinks = function (url, body, user, originator, xCor
         index = 1;
       }
       const controlConstructList = linkToCompare[CORE_MODEL][index][END_POINT_LIST].map(endpoint => endpoint[CTR_CONST]);
-      let result = await ReadRecords("linkList");
+      let result = await elkUtility.readRecords("linkList");
       for (var link of result.LinkList) {
         if (link != linkId) {
-          let resLink = await ReadRecords(link);
+          let resLink = await elkUtility.readRecords(link);
           try {
             if (!resLink[CORE_MODEL][0][END_POINT_LIST]) {
               index1 = 1;
@@ -11705,8 +11717,8 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
         throw new createHttpError("400", "Fields must not contain special chars");
       }
 
-      let value = await ReadRecords(correctLink);
-      let result = await ReadRecords("linkList");
+      let value = await elkUtility.readRecords(correctLink);
+      let result = await elkUtility.readRecords("linkList");
       if (value != undefined) {
         let objectKey = Object.keys(body)[0];
         let valueObjKey = Object.keys(value)[0];
@@ -11723,7 +11735,7 @@ exports.putLinkPortToCache = function (url, body, fields, uuid, localId, user, o
           });
           //value[valueObjKey][0].push("link-port"[bodyCore]);
         }
-        let elapsedTime = await recordRequest(value, correctLink);
+        let elapsedTime = await elkUtility.recordRequest(value, correctLink);
       } else {
         throw new createHttpError(461, "Not available. The topology (parent) object is currently not found in the cache.");
       }
@@ -11767,21 +11779,21 @@ exports.putLinkToCache = function (url, body, fields, uuid, user, originator, xC
       } else {
         correctLink = link;
       }
-      let elapsedTime = await recordRequest(body, correctLink);
+      let elapsedTime = await elkUtility.recordRequest(body, correctLink);
 
       logger.info("putLinkToCache - Read from ELK: " + correctLink);
-      let result = await ReadRecords("linkList");
+      let result = await elkUtility.readRecords("linkList");
       if (result == undefined) {
         logger.warn("link list in Elasticsearch not found");
         const myObject = { LinkList: [] };
         myObject.LinkList.push(correctLink);
-        let elapsedTime = await recordRequest(myObject, "linkList");
+        let elapsedTime = await elkUtility.recordRequest(myObject, "linkList");
       } else {
         let linkListArray = result["LinkList"];
         // Verify if link already exists in linklist
         if (!linkListArray.includes(correctLink)) {
           result.LinkList.push(correctLink);
-          let elapsedTime = await recordRequest(result, "linkList");
+          let elapsedTime = await elkUtility.recordRequest(result, "linkList");
         }
       }
       resolve();
@@ -12299,7 +12311,7 @@ async function processNextBatch(mountname) {
     // ----------------------------
     if (alarmItems.length > 0) {
       const result = await withTimeout(
-        ReadRecordsMountName(mountname),
+        elkUtility.readRecords(mountname),
         LOCK_TIMEOUT_MS,
         `[READ-TIMEOUT] ${mountname}`
       );
@@ -12342,7 +12354,7 @@ async function processNextBatch(mountname) {
         modifyUUID(result, mountname);
 
         const writeRes = await withTimeout(
-          recordRequest(result, mountname),
+          elkUtility.recordRequest(result, mountname),
           LOCK_TIMEOUT_MS,
           `[WRITE-TIMEOUT] ${mountname}`
         );
@@ -12681,30 +12693,6 @@ const messages = [
 } */
 
 
-async function ReadRecordsMountName(cc) {
-  try {
-    const indexAlias = common[1].indexAlias;
-    const client = await common[1].EsClient;
-
-    const start = Date.now();
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Reading ES record`);
-
-    const result = await client.get({ index: indexAlias, id: cc });
-
-    const duration = (Date.now() - start) / 1000;
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES read in ${duration}s`);
-
-    const src = result?.body?._source;
-    if (!src) {
-      return undefined;
-    }
-    return src;
-  } catch (error) {
-    //logAlarmNotificationUpdate(`[READ-ERROR] Error reading ES for Mountname=${cc} - ${error.message}`);
-    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
-    return undefined;
-  }
-}
 
 function ValidateResourcePath(input) {
   const regex = /^\/core-model-1-4:network-control-domain=live\/control-construct=[A-Za-z0-9]+$/;
@@ -12914,7 +12902,7 @@ exports.regardDeviceObjectDeletion = function (body) {
       const match = resource.match(/control-construct=(\w+)/);
       const controlConstruct = match ? match[1] : null;
       // read from ES
-      let result = await ReadRecords(controlConstruct);
+      let result = await elkUtility.readRecords(controlConstruct);
       if (result == undefined) {
         throw new createHttpError(533, "Bad gateway. The resource/service that is addressed does not exist at the device/application.");
       }
@@ -12923,7 +12911,7 @@ exports.regardDeviceObjectDeletion = function (body) {
       let finalJson = cacheUpdate.cacheUpdateBuilder(DefUrl, result, null, null);
       // Write updated Json to ES
       modifyUUID(result, controlConstruct);
-      let elapsedTime = await recordRequest(result, controlConstruct);
+      let elapsedTime = await elkUtility.recordRequest(result, controlConstruct);
       let appInformation = proxy;
       const releaseNumber = appInformation["release-number"];
       let parts = releaseNumber.split(".");
@@ -12974,7 +12962,7 @@ exports.writeDeviceListToElasticsearch = function (deviceList) {
   return new Promise(async function (resolve, reject) {
     try {
       let deviceListToWrite = '{"deviceList":' + deviceList + '}';
-      let result = await recordRequest(deviceListToWrite, "DeviceList");
+      let result = await elkUtility.recordRequest(deviceListToWrite, "DeviceList");
       if (result.took !== undefined) {
         resolve(true);
       } else {
@@ -12989,7 +12977,7 @@ exports.writeDeviceListToElasticsearch = function (deviceList) {
 exports.readDeviceListFromElasticsearch = function () {
   return new Promise(async function (resolve, reject) {
     try {
-      let result = await ReadRecords("DeviceList");
+      let result = await elkUtility.readRecords("DeviceList");
       if (result == undefined) {
         reject("Device list in Elasticsearch not found");
       } else {
@@ -13941,164 +13929,6 @@ async function RequestForListOfActualDeviceEquipmentCausesReadingFromCache(mount
   }
 }
 
-/**
- * Records a request
- *
- * body controlconstruct 
- * no response value expected for this operation
- **/
-async function recordRequest(body, cc) {
-  let pipelineExists = false;
-  let client = await common[1].EsClient;
-  if (USE_ELK_PIPELINE) {
-    try {
-      // Check if the pipeline exists
-      await client.ingest.getPipeline({ id: 'mwdi' });
-      pipelineExists = true;
-    } catch (error) {
-      if (error.statusCode === 404) {
-        // Pipeline does not exist
-        logger.warn(`Pipeline mwdi not found. Indexing without the pipeline.`);
-        //logAlarmNotificationUpdate(`Pipeline mwdi not found. Indexing without the pipeline for ${cc}`);
-      } else {
-        // Other errors
-        logger.error(error, "An error occurred while checking the pipeline:");
-        //logAlarmNotificationUpdate(`An error occurred while checking the pipeline for ${cc}. Error: ${error.message}`);
-        throw error; // Re-throw the error if it's not a 404
-      }
-    }
-  }
-
-  try {
-    let indexAlias = common[1].indexAlias
-    let startTime = process.hrtime();
-
-    let indexParams = {
-      index: indexAlias,
-      id: cc,
-      body: body,
-    };
-
-    if (pipelineExists) {
-      indexParams.pipeline = 'mwdi';
-    }
-
-    const start = Date.now();
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Writing to ES`);
-
-    let result = await client.index(indexParams);
-    let backendTime = process.hrtime(startTime);
-
-    const duration = (Date.now() - start) / 1000;
-    //logAlarmNotificationUpdate(`Mountname=${cc} - Completed ES write in ${duration}s`);
-
-    if (result == undefined || result.body == undefined) {
-      logger.warn("result is undefined, ELK not updated")
-      //logAlarmNotificationUpdate(`result is undefined, ELK not updated for ${cc}`);
-      //return { "took": -1, ok: false, retry: true };
-      return { ok: false, retry: true, reason: "empty_response", "took": -1 };
-    }
-
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      logger.debug(`ELK - Result is: ${result.body.result}`);
-      //logAlarmNotificationUpdate(`ELK - Result is: ${result.body.result} for ${cc}`);
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000, ok: true, retry: false };
-    } else {
-      logger.warn(`ELK - result is: ${result.body.result}`);
-      //logAlarmNotificationUpdate(`ELK - result is: ${result.body.result} for ${cc}`);
-      return { "took": -1, ok: false, retry: true, reason: `unexpected_result_${result.body.result}` };
-    }
-  } catch (error) {
-    //logAlarmNotificationUpdate(`[WRITE-ERROR] Mountname=${cc} - ${error.message}`);
-    logger.error("ELK - Something goes wrong in recordRequest, check the DEBUG level");
-    //logAlarmNotificationUpdate(`ELK - Something goes wrong in recordRequest for ${cc}, check the DEBUG level`);
-    logger.trace(error);
-    //logAlarmNotificationUpdate(`Error for ${cc}: ${error}`);
-    return { ok: false, retry: true, error: error.message, reason:error.message };
-  }
-}
-
-/**
- * delete a request
- *
- * body controlconstruct 
- * no response value expected for this operation
- **/
-async function deleteRequest(cc) {
-  try {
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    let startTime = process.hrtime();
-    let result = await client.delete({
-      id: cc,
-      index: indexAlias
-    });
-    let backendTime = process.hrtime(startTime);
-    if (result.body.result == 'created' || result.body.result == 'updated') {
-      return { "took": backendTime[0] * 1000 + backendTime[1] / 1000000 };
-    }
-  } catch (error) {
-    logger.error(error);
-  }
-}
-
-/**
- * Read from ES
- *
- * response value expected for this operation
- **/
-async function ReadRecords(cc) {
-  try {
-    const indexAlias = common[1].indexAlias
-    const client = common[1].EsClient;
-
-    const result = await client.get({
-      'index': indexAlias, //"my-index-000001",
-      'id': cc // mountname
-    });
-
-    const src = result?.body?._source;
-    if (!src) {
-      return undefined;
-    }
-    return src;
-  } catch (error) {
-    logger.error(error.meta.body.found);
-    if (error.meta.body.found == false) {
-      logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
-    }
-    logger.error(`[READ-ERROR] Error reading ES for Mountname=${cc}: ${error.message}`);
-    return undefined;
-    // throw (error);
-  }
-}
-
-/**
- * Read from ES
- *
- * response value expected for this operation
- **/
-async function searchRecords(cc) {
-  try {
-    let indexAlias = common[1].indexAlias
-    let client = await common[1].EsClient;
-    const result = await client.search({
-      index: indexAlias,
-      body: {
-        query: {
-          term: {
-            _id: cc
-          }
-        }
-      }
-    });
-
-    const resultArray = createResultArray(result);
-    return (resultArray[0])
-  } catch (error) {
-    logger.error(error);
-  }
-}
 
 // New function @latta-techm to be verified
 function modifyUUID(obj, mountName) {
@@ -14863,7 +14693,7 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
           if (myFields === undefined) {
             jsonObj['last-complete-control-construct-update-time'] = new Date().toJSON();
             try {
-              let elapsedTime = await recordRequest(jsonObj, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(jsonObj, correctCc);
             }
             catch (error) {
               logger.error(error);
@@ -14878,13 +14708,13 @@ exports.getLiveControlConstructFromSW = function (url, user, originator, xCorrel
             let correctUrl = modifyUrlConcatenateMountNamePlusUuid(Url, correctCc);
             try {
               // read from ES
-              let result1 = await ReadRecords(correctCc);
+              let result1 = await elkUtility.readRecords(correctCc);
               let ccFromLive = jsonObj;
               ccFromLive['last-complete-control-construct-update-time'] = new Date().toJSON();
               // Update json object
               let finalJson = cacheUpdate.cacheUpdateBuilder(correctUrl, result1, jsonObj, filters);
               // Write updated Json to ES
-              let elapsedTime = await recordRequest(ccFromLive, correctCc);
+              let elapsedTime = await elkUtility.recordRequest(ccFromLive, correctCc);
             }
             catch (error) {
               logger.error(error);

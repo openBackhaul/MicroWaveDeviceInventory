@@ -1,6 +1,6 @@
 
 const { createResultArray } = require('onf-core-model-ap/applicationPattern/services/ElasticsearchService');
-
+const utility = require('./utility');
 const logger = require('../LoggingService.js').getLogger();
 
 const USE_ELK_PIPELINE = process.env.ELK_PIPELINE?.toLowerCase() === 'true';
@@ -33,36 +33,62 @@ exports.searchRecords = async function (cc) {
   }
 }
 
-
 /**
- * Read from ES
+ * Read a device document from Elasticsearch.
+ * resourceUrl must be the decoded original API resource URL.
+ * fields must be the decoded fields expression, without "fields=".
  *
- * response value expected for this operation
- **/
-exports.readRecords = async function (cc) {
-  try {
-    const indexAlias = common[1].indexAlias
-    const client = common[1].EsClient;
-
-    const result = await client.get({
-      'index': indexAlias, //"my-index-000001",
-      'id': cc // mountname
-    });
-
-    const src = result?.body?._source;
-    if (!src) {
-      return undefined;
-    }
-    return src;
-  } catch (error) {
-    if (error.meta.body.found == false) {
-      logger.error(`Mountname=${cc} is not in the cache: ${error.message}`);
-    }
-    logger.error(`[ELK READ-ERROR] Error reading ES for Mountname= ${cc}: ${error.message}`);
-    return undefined;
-    // throw (error);
+ */
+exports.readRecords = async function (mountName, resourceUrl, fields) {
+  if (typeof mountName !== "string" || mountName.length === 0) {
+    throw new TypeError("mountName must be a non-empty string");
   }
-}
+
+  if (typeof resourceUrl !== "string" || resourceUrl.length === 0) {
+    throw new TypeError("resourceUrl must be a non-empty string");
+  }
+
+  const sourceIncludes = utility.buildSourceIncludes(resourceUrl, fields);
+  const { indexAlias, EsClient } = common[1];
+
+  // Projection stays in the request body to avoid long GET URLs.
+  const result = await EsClient.mget({
+    index: indexAlias,
+    body: {
+      docs: [
+        {
+          _id: mountName,
+          _source: {
+            includes: sourceIncludes
+          }
+        }
+      ]
+    }
+  });
+
+  const body = result?.body ?? result;
+  const document = body?.docs?.[0];
+
+  if (!document) {
+    throw new Error("Elasticsearch returned an invalid mget response");
+  }
+
+  // Individual document errors can occur inside an HTTP 200 response.
+  if (document.error) {
+    const error = new Error(
+      `Elasticsearch read failed for ${mountName}: ` +
+      (document.error.reason ?? document.error.type ?? "Unknown error")
+    );
+
+    error.statusCode = document.status;
+    error.cause = document.error;
+
+    throw error;
+  }
+
+  return document.found === false ? undefined : document._source;
+};
+
 
 /**
  * Records a request

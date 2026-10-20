@@ -9,6 +9,10 @@ const logger = require('../LoggingService.js').getLogger();
 const OPENDAYLIGHT_STR = "OpenDayLight";
 const ELASTICSEARCH_STR = "ElasticSearch";
 
+const CTR_CONST = "control-construct";
+const CORE_MODEL = "core-model-1-4:link";
+const END_POINT_LIST = "end-point-list";
+
 /**
  * This function returns the string-value object for given string-name
  * 
@@ -350,7 +354,65 @@ exports.isJsonEmpty = function isJsonEmpty(value) {
     Object.keys(value).length === 0;
 }
 
+// -------------------------------------------------------------------------------
+const ODL_MOUNT_PREFIX =
+  "/rests/data/network-topology:network-topology/topology=topology-netconf/node=";
+
+const ODL_MOUNT_SUFFIX =
+  "/yang-ext:mount/core-model-1-4:control-construct";
+
+// Removes the prefix before the first "+" in each path key value.
+// Example: /equipment=mountName+uuid -> /equipment=uuid
+const MOUNT_PREFIX_PATTERN = /=[^/=?+]*\+/g;
+
 exports.retrieveCorrectUrl = function retrieveCorrectUrl(originalUrl, path, applicationName) {
+  const fieldsIndex = originalUrl.indexOf("?fields=");
+
+  const resourceUrl =
+    fieldsIndex === -1 ? originalUrl : originalUrl.slice(0, fieldsIndex);
+
+  // Preserve the complete fields suffix without splitting it.
+  const fieldsSuffix = fieldsIndex === -1 ? "" : originalUrl.slice(fieldsIndex);
+
+  const controlConstructIndex = resourceUrl.indexOf(CTR_CONST);
+
+  if (controlConstructIndex === -1) {
+    throw new Error("Missing control-construct in URL");
+  }
+
+  const valueStart = controlConstructIndex + CTR_CONST.length;
+
+  const nextSlash = resourceUrl.indexOf("/", valueStart);
+
+  const valueEnd = nextSlash === -1 ? resourceUrl.length : nextSlash;
+
+  if (valueStart === valueEnd) {
+    throw new Error("Empty control-construct identifier");
+  }
+
+  let result;
+
+  if (applicationName === OPENDAYLIGHT_STR) {
+    const controlConstruct = resourceUrl.slice(valueStart, valueEnd);
+    const remainingPath = resourceUrl.slice(valueEnd);
+
+    result = path + ODL_MOUNT_PREFIX + controlConstruct + ODL_MOUNT_SUFFIX + remainingPath;
+  } else if (applicationName === ELASTICSEARCH_STR) {
+    result = path + "/" + resourceUrl.slice(controlConstructIndex);
+  } else {
+    throw new Error(`Unsupported application name: ${applicationName}`);
+  }
+
+  // Apply normalization only to the resource URL, never to fields.
+  if (result.includes("+")) {
+    result = result.replace(MOUNT_PREFIX_PATTERN, "=");
+  }
+
+  return result + fieldsSuffix;
+}
+
+
+function retrieveCorrectUrlOld(originalUrl, path, applicationName) {
   try {
     const urlParts = originalUrl.split("?fields=");
     const myFields = urlParts[1];
@@ -394,6 +456,7 @@ exports.retrieveCorrectUrl = function retrieveCorrectUrl(originalUrl, path, appl
   }
 }
 
+// TODO @latta-techm: It should be no more necessary
 exports.modifyReturnJson = function modifyReturnJson(obj) {
   if (!obj || typeof obj !== 'object') {
     return;
@@ -508,16 +571,11 @@ exports.decodeMountName = function decodeMountName(url, cc) {
     }
 
     // mountName+mountName
-    if (
-      parts.length === 2 &&
-      parts[0] !== '' &&
-      parts[0] === parts[1]
-    ) {
+    if (parts.length === 2 && parts[0] !== '' && parts[0] === parts[1]) {
       return parts[0];
     }
 
     return buildError("Invalid control-construct format");
-
   } catch (error) {
     logger.error(error);
     return buildError("Unable to decode control-construct");
@@ -578,4 +636,160 @@ exports.modifyUUID = function modifyUUID(obj, mountName) {
       }
     }
   }
+}
+
+exports.buildSourceIncludes =function buildSourceIncludes(resourceUrl, fields) {
+  const rootPath = "core-model-1-4:control-construct";
+
+  const queryIndex = resourceUrl.indexOf("?");
+  const path =
+    queryIndex === -1
+      ? resourceUrl
+      : resourceUrl.slice(0, queryIndex);
+
+  const segments = path.split("/").filter(Boolean);
+
+  const includes = new Set();
+
+  let rootFound = false;
+  let basePath = rootPath;
+
+  for (const segment of segments) {
+    const equalsIndex = segment.indexOf("=");
+
+    const key = equalsIndex === -1 ? segment : segment.slice(0, equalsIndex);
+
+    if (!rootFound) {
+      const colonIndex = key.indexOf(":");
+      const localName = colonIndex === -1 ? key : key.slice(colonIndex + 1);
+
+      if (localName === "control-construct") {
+        rootFound = true;
+        includes.add(`${rootPath}.uuid`);
+      }
+
+      continue;
+    }
+
+    // Names must match the stored JSON keys.
+    basePath += `.${key}`;
+
+    if (equalsIndex !== -1) {
+      // Preserve identifiers required for list-element selection.
+      includes.add(`${basePath}.uuid`);
+      includes.add(`${basePath}.local-id`);
+    }
+  }
+
+  if (!rootFound) {
+    throw createHttpError(400, "Missing control-construct in URL");
+  }
+
+  if (fields != null) {
+    for (const fieldPath of fieldsToSourceIncludes(fields, basePath)) {
+      includes.add(fieldPath);
+    }
+  } else {
+    // No fields filter: retrieve the complete addressed subtree.
+    includes.add(basePath);
+  }
+
+  return [...includes];
+}
+
+function fieldsToSourceIncludes(fields, basePath = "core-model-1-4:control-construct") {
+  if (typeof fields !== "string" || fields.trim() === "") {
+    throw createHttpError(400, "Empty fields filter");
+  }
+
+  const paths = [];
+  const parents = [];
+
+  let currentPath = basePath;
+  let index = 0;
+  let expectField = true;
+
+  while (index < fields.length) {
+    const character = fields[index];
+
+    // Allow whitespace between tokens.
+    if (/\s/.test(character)) {
+      index++;
+      continue;
+    }
+
+    if (expectField) {
+      const start = index;
+
+      // Read a YANG-style field name, preserving namespace prefixes.
+      while (
+        index < fields.length &&
+        /[a-zA-Z0-9_:.-]/.test(fields[index])
+      ) {
+        index++;
+      }
+
+      if (index === start) {
+        throw createHttpError(
+          400,
+          `Invalid fields filter at position ${index}`
+        );
+      }
+
+      const name = fields.slice(start, index);
+      const fieldPath = currentPath
+        ? `${currentPath}.${name}`
+        : name;
+
+      while (index < fields.length && /\s/.test(fields[index])) {
+        index++;
+      }
+
+      if (fields[index] === "(") {
+        parents.push(currentPath);
+        currentPath = fieldPath;
+        index++;
+        expectField = true;
+      } else {
+        paths.push(fieldPath);
+        expectField = false;
+      }
+
+      continue;
+    }
+
+    if (character === ";") {
+      index++;
+      expectField = true;
+    } else if (character === ")") {
+      if (parents.length === 0) {
+        throw createHttpError(400, "Unexpected closing parenthesis");
+      }
+
+      currentPath = parents.pop();
+      index++;
+    } else {
+      throw createHttpError(
+        400,
+        `Expected ';' or ')' at position ${index}`
+      );
+    }
+  }
+
+  if (expectField || parents.length !== 0) {
+    throw createHttpError(400, "Incomplete fields filter");
+  }
+
+  return paths;
+}
+
+exports.checkFields = function checkFields(fields) {
+  // Treat both undefined and null as "no filter".
+  const hasFields = fields != null;
+  if (hasFields && !utility.isFilterValid(fields)) {
+    logger.error("Filter is invalid: " + fields);
+    throw new createHttpError.BadRequest();
+  }
+
+  return hasFields;
 }

@@ -784,3 +784,135 @@ exports.checkFields = function checkFields(fields) {
 
   return hasFields;
 }
+
+
+// TODO @latta-techm to be reviewed and validated
+function decodeLinkUuid(url, uuid) {
+  try {
+    let response = [];
+    let responseData = null;
+    let regex = "";
+    let specialChars = "";
+    let extractedValue = "";
+    if (uuid) {
+      regex = /link=([^?&]*)(\?fields|$)?/;
+      specialChars = /[^a-zA-Z0-9+-]/;
+    } else {
+      regex = /link=([^/]+)\/?/;
+      specialChars = /[^a-zA-Z0-9+-]/;
+    }
+    const match = decodeURIComponent(url).match(regex);
+
+    if (match) {
+      if (uuid) {
+        extractedValue = match[1];
+        if (!match[2]) {
+          const startIndex = url.indexOf("link=") + "link=".length;
+          extractedValue = url.substring(startIndex);
+        }
+      } else {
+        extractedValue = match[1];
+      }
+      if (!specialChars.test(extractedValue)) {
+        if (extractedValue.indexOf("+") != -1) {
+          let parts = extractedValue.split("+");
+          if (parts[1] != "" && parts[1] == parts[0]) {
+            return parts[0];
+          } else {
+            responseData = {
+              code: "400",
+              message: "link must not contain special char"
+            }
+            response.push(responseData);
+            return response;
+          }
+        } else {
+          return extractedValue;
+        }
+      } else {
+        responseData = {
+          code: "400",
+          message: "link must not contain special char"
+        }
+        response.push(responseData);
+        return response;
+      }
+    } else {
+      responseData = {
+        code: "400",
+        message: "no match found or wrong char at the end of the string"
+      }
+      response.push(responseData);
+      return response;
+    }
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+
+
+// TODO @latta-techm to be validate
+function hasAttribute(json, attributeName) {
+  if (USE_FAST_ROUTINES) {
+    return hasAttributeNew(json, attributeName);
+  } else {
+    return hasAttributeOld(json, attributeName);
+  }
+}
+
+function hasAttributeNew(json, attributeName) {
+  if (json === null || typeof json !== 'object') {
+    return false;
+  }
+
+  const stack = [json];
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    if (Object.prototype.hasOwnProperty.call(current, attributeName)) {
+      return true;
+    }
+
+    for (const key in current) {
+      if (!Object.prototype.hasOwnProperty.call(current, key)) {
+        continue;
+      }
+
+      const value = current[key];
+
+      if (value !== null && typeof value === 'object') {
+        stack.push(value);
+      }
+    }
+  }
+
+  return false;
+}
+
+function hasAttributeOld(json, attributeName) {
+  if (typeof json === 'object' && json !== null) {
+    // Check if the attribute is at this level
+    if (Object.hasOwnProperty.bind(json)(attributeName)) {
+      return true;
+    }
+    // Otherwise loop in the object properties
+    for (let key in json) {
+      if (Object.hasOwnProperty.bind(json)(key)) {
+        if (hasAttributeOld(json[key], attributeName)) {
+          return true;
+        }
+      }
+    }
+  }
+  // if json is an array, loop over the elements
+  if (Array.isArray(json)) {
+    for (let item of json) {
+      if (hasAttributeOld(item, attributeName)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}

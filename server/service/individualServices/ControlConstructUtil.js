@@ -16,44 +16,44 @@ const ForwardingConstruct = require("onf-core-model-ap/applicationPattern/onfMod
  * @return {Promise<boolean>}
  */
 async function deleteAllFcPortsForApplication(httpClientUUID) {
-    try {
-        let fcPortPairsForApp = await getAllFcPortsForApplication(httpClientUUID);
-        for (const fcPortsForAppElement of fcPortPairsForApp) {
-            await forwardingConstruct.deleteFcPortAsync(fcPortsForAppElement.forwardingConstruct.uuid, fcPortsForAppElement.fcPort["local-id"]);
-        }
-    } catch (exception) {
-        console.error("cleaning of FcPorts failed for " + httpClientUUID);
-        return false;
+  try {
+    let fcPortPairsForApp = await getAllFcPortsForApplication(httpClientUUID);
+    for (const fcPortsForAppElement of fcPortPairsForApp) {
+      await forwardingConstruct.deleteFcPortAsync(fcPortsForAppElement.forwardingConstruct.uuid, fcPortsForAppElement.fcPort["local-id"]);
     }
+  } catch (exception) {
+    console.error("cleaning of FcPorts failed for " + httpClientUUID);
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 async function getAllFcPortsForApplication(httpClientUuid) {
-    let resultFcPortPairings = [];
+  let resultFcPortPairings = [];
 
-    //get all uuids of operations for this application
-    let opLtpUUIDs = await logicalTerminationPoint.getClientLtpListAsync(httpClientUuid);
+  //get all uuids of operations for this application
+  let opLtpUUIDs = await logicalTerminationPoint.getClientLtpListAsync(httpClientUuid);
 
-    for (const opLtpUUID of opLtpUUIDs) {
-        let fcPortPairings = await getAllFcPortsForLtpClient(opLtpUUID);
-        for (const fcPortPair of fcPortPairings) {
-            //check if entry exists already
-            let found = false;
-            for (const existingFcPort of resultFcPortPairings) {
-                if ((existingFcPort["logical-termination-point"] === fcPortPair.fcPort["logical-termination-point"]) &&
-                    (existingFcPort["local-id"] === fcPortPair.fcPort["local-id"])) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found === false) {
-                resultFcPortPairings.push(fcPortPair);
-            }
+  for (const opLtpUUID of opLtpUUIDs) {
+    let fcPortPairings = await getAllFcPortsForLtpClient(opLtpUUID);
+    for (const fcPortPair of fcPortPairings) {
+      //check if entry exists already
+      let found = false;
+      for (const existingFcPort of resultFcPortPairings) {
+        if ((existingFcPort["logical-termination-point"] === fcPortPair.fcPort["logical-termination-point"]) &&
+          (existingFcPort["local-id"] === fcPortPair.fcPort["local-id"])) {
+          found = true;
+          break;
         }
+      }
+      if (found === false) {
+        resultFcPortPairings.push(fcPortPair);
+      }
     }
+  }
 
-    return resultFcPortPairings;
+  return resultFcPortPairings;
 }
 
 /**
@@ -64,36 +64,36 @@ async function getAllFcPortsForApplication(httpClientUuid) {
  */
 async function getAllFcPortsForLtpClient(ltpUuid) {
 
-    let resultFcPortsPairList = [];
+  let resultFcPortsPairList = [];
 
-    let fcPortPairList = await getAllFcPorts();
+  let fcPortPairList = await getAllFcPorts();
 
-    for (const fcPortPair of fcPortPairList) {
-        let fcPortLogicalTerminationPoint = fcPortPair.fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
-        //filter by input ltpUuid
-        if (fcPortLogicalTerminationPoint === ltpUuid) {
-            resultFcPortsPairList.push(fcPortPair);
-        }
+  for (const fcPortPair of fcPortPairList) {
+    let fcPortLogicalTerminationPoint = fcPortPair.fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
+    //filter by input ltpUuid
+    if (fcPortLogicalTerminationPoint === ltpUuid) {
+      resultFcPortsPairList.push(fcPortPair);
     }
+  }
 
-    return resultFcPortsPairList;
+  return resultFcPortsPairList;
 }
 
 /**
  * @return list of FcPort/ForwardConstruct Pairs
  */
 async function getAllFcPorts() {
-    let resultFcPortPairList = [];
+  let resultFcPortPairList = [];
 
-    let forwardingConstructList = await forwardingDomain.getForwardingConstructListAsync();
-    for (let forwardingConstruct of forwardingConstructList) {
-        let fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-        for (let fcPort of fcPortList) {
-            resultFcPortPairList.push({fcPort, forwardingConstruct});
-        }
+  let forwardingConstructList = await forwardingDomain.getForwardingConstructListAsync();
+  for (let forwardingConstruct of forwardingConstructList) {
+    let fcPortList = forwardingConstruct[onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
+    for (let fcPort of fcPortList) {
+      resultFcPortPairList.push({ fcPort, forwardingConstruct });
     }
+  }
 
-    return resultFcPortPairList;
+  return resultFcPortPairList;
 }
 
 /**
@@ -104,110 +104,110 @@ async function getAllFcPorts() {
  */
 async function getLogicalTerminationPointsAsync(logicalTerminationPointOperationName, applicationHttpClientUuid) {
 
-    let logicalTerminationPointList = await fileOperation.readFromDatabaseAsync(
-        onfPaths.LOGICAL_TERMINATION_POINT
-    );
+  let logicalTerminationPointList = await fileOperation.readFromDatabaseAsync(
+    onfPaths.LOGICAL_TERMINATION_POINT
+  );
 
-    let opLTPList = [];
-    for (const ltp of logicalTerminationPointList) {
-        //filter by application
-        if (ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length > 0 &&
-            ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP][0] === applicationHttpClientUuid) {
+  let opLTPList = [];
+  for (const ltp of logicalTerminationPointList) {
+    //filter by application
+    if (ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP].length > 0 &&
+      ltp[onfAttributes.LOGICAL_TERMINATION_POINT.SERVER_LTP][0] === applicationHttpClientUuid) {
 
-            //get operation name if existant
-            let operationName = recursiveSearchForKey(ltp, onfAttributes.OPERATION_CLIENT.OPERATION_NAME);
-            if (operationName === logicalTerminationPointOperationName) {
-                opLTPList.push(ltp);
-            }
-        }
+      //get operation name if existant
+      let operationName = recursiveSearchForKey(ltp, onfAttributes.OPERATION_CLIENT.OPERATION_NAME);
+      if (operationName === logicalTerminationPointOperationName) {
+        opLTPList.push(ltp);
+      }
     }
+  }
 
-    return opLTPList;
+  return opLTPList;
 }
 
 function recursiveSearchForKey(obj, targetKey) {
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            if (key === targetKey) {
-                return obj[key];
-            }
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (key === targetKey) {
+        return obj[key];
+      }
 
-            if (typeof obj[key] === 'object') {
-                // Recursively search through nested objects
-                const result = recursiveSearchForKey(obj[key], targetKey);
-                if (result !== undefined) {
-                    return result; // Return the result if found in the recursion
-                }
-            }
+      if (typeof obj[key] === 'object') {
+        // Recursively search through nested objects
+        const result = recursiveSearchForKey(obj[key], targetKey);
+        if (result !== undefined) {
+          return result; // Return the result if found in the recursion
         }
+      }
     }
+  }
 }
 
 async function getForwardingConstructOutputOperationData(forwardingName) {
 
-    //get forwardConstruct output operation, get server ltp (http), get server ltp (tcp), get protocol, address and port
-    let forwardingConstructInstance = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(
-        forwardingName);
+  //get forwardConstruct output operation, get server ltp (http), get server ltp (tcp), get protocol, address and port
+  let forwardingConstructInstance = await forwardingDomain.getForwardingConstructForTheForwardingNameAsync(
+    forwardingName);
 
-    let deregisterTargetAddressWrapper = null;
-    for (const singleFcPort of forwardingConstructInstance['fc-port']) {
-        if (FcPort.portDirectionEnum.OUTPUT === singleFcPort['port-direction']) {
+  let deregisterTargetAddressWrapper = null;
+  for (const singleFcPort of forwardingConstructInstance['fc-port']) {
+    if (FcPort.portDirectionEnum.OUTPUT === singleFcPort['port-direction']) {
 
-            //get http, tcp and operationName of subscriber
-            let operationLTP = await controlConstruct.getLogicalTerminationPointAsync(singleFcPort['logical-termination-point']);
-            let httpUUID = operationLTP['server-ltp'][0];
-            let httpLTP = await controlConstruct.getLogicalTerminationPointAsync(httpUUID);
-            let tcpUUID = httpLTP['server-ltp'][0];
-            let tcpLTP = await controlConstruct.getLogicalTerminationPointAsync(tcpUUID);
+      //get http, tcp and operationName of subscriber
+      let operationLTP = await controlConstruct.getLogicalTerminationPointAsync(singleFcPort['logical-termination-point']);
+      let httpUUID = operationLTP['server-ltp'][0];
+      let httpLTP = await controlConstruct.getLogicalTerminationPointAsync(httpUUID);
+      let tcpUUID = httpLTP['server-ltp'][0];
+      let tcpLTP = await controlConstruct.getLogicalTerminationPointAsync(tcpUUID);
 
-            let enumProtocol = tcpLTP['layer-protocol'][0]['tcp-client-interface-1-0:tcp-client-interface-pac']['tcp-client-interface-configuration']['remote-protocol'];
-            let stringProtocol = tcpClientInterface.getProtocolFromProtocolEnum(enumProtocol)[0];
+      let enumProtocol = tcpLTP['layer-protocol'][0]['tcp-client-interface-1-0:tcp-client-interface-pac']['tcp-client-interface-configuration']['remote-protocol'];
+      let stringProtocol = tcpClientInterface.getProtocolFromProtocolEnum(enumProtocol)[0];
 
-            let operationName = operationLTP['layer-protocol'][0]['operation-client-interface-1-0:operation-client-interface-pac']['operation-client-interface-configuration']['operation-name'];
-            let port = tcpLTP['layer-protocol'][0]['tcp-client-interface-1-0:tcp-client-interface-pac']['tcp-client-interface-configuration']['remote-port'];
+      let operationName = operationLTP['layer-protocol'][0]['operation-client-interface-1-0:operation-client-interface-pac']['operation-client-interface-configuration']['operation-name'];
+      let port = tcpLTP['layer-protocol'][0]['tcp-client-interface-1-0:tcp-client-interface-pac']['tcp-client-interface-configuration']['remote-port'];
 
-            let address = tcpLTP['layer-protocol'][0]['tcp-client-interface-1-0:tcp-client-interface-pac']['tcp-client-interface-configuration']['remote-address'];
-            let operationKey = operationLTP['layer-protocol'][0]['operation-client-interface-1-0:operation-client-interface-pac']['operation-client-interface-configuration']['operation-key'];
+      let address = tcpLTP['layer-protocol'][0]['tcp-client-interface-1-0:tcp-client-interface-pac']['tcp-client-interface-configuration']['remote-address'];
+      let operationKey = operationLTP['layer-protocol'][0]['operation-client-interface-1-0:operation-client-interface-pac']['operation-client-interface-configuration']['operation-key'];
 
-            deregisterTargetAddressWrapper = {
-                "protocol": stringProtocol,
-                "address": address,
-                "port": port,
-                "operationName": operationName,
-                "operationKey": operationKey,
-            }
-            break;
-        }
+      deregisterTargetAddressWrapper = {
+        "protocol": stringProtocol,
+        "address": address,
+        "port": port,
+        "operationName": operationName,
+        "operationKey": operationKey,
+      }
+      break;
     }
+  }
 
-    return deregisterTargetAddressWrapper;
+  return deregisterTargetAddressWrapper;
 }
 
 function getHttpAndTcpUUIDForNewRelease() {
-    return new Promise(async function (resolve, reject) {
-        let forwardingName = 'PromptForBequeathingDataCausesNRbeingRequestedToListenToControllers';
-        try {
-            let uuidOfHttpAndTcpClient = {};
-            let forwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
-            if (forwardConstructName === undefined) {
-                return {};
-            }
-            let forwardConstructUuid = forwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
-            let fcPortOutput = (await ForwardingConstruct.getOutputFcPortsAsync(forwardConstructUuid))[0]
-            let operationClientUuid = fcPortOutput[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
-            let httpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid))[0];
-            let tcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid))[0];
-            uuidOfHttpAndTcpClient = {httpClientUuid, tcpClientUuid}
-            resolve(uuidOfHttpAndTcpClient)
-        } catch (error) {
-            reject(error)
-        }
-    })
+  return new Promise(async function (resolve, reject) {
+    let forwardingName = 'PromptForBequeathingDataCausesNRbeingRequestedToListenToControllers';
+    try {
+      let uuidOfHttpAndTcpClient = {};
+      let forwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
+      if (forwardConstructName === undefined) {
+        return {};
+      }
+      let forwardConstructUuid = forwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
+      let fcPortOutput = (await ForwardingConstruct.getOutputFcPortsAsync(forwardConstructUuid))[0]
+      let operationClientUuid = fcPortOutput[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
+      let httpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid))[0];
+      let tcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid))[0];
+      uuidOfHttpAndTcpClient = { httpClientUuid, tcpClientUuid }
+      resolve(uuidOfHttpAndTcpClient)
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
 
 module.exports = {
-    deleteAllFcPortsForApplication,
-    getLogicalTerminationPointsAsync,
-    getForwardingConstructOutputOperationData,
-    getHttpAndTcpUUIDForNewRelease
+  deleteAllFcPortsForApplication,
+  getLogicalTerminationPointsAsync,
+  getForwardingConstructOutputOperationData,
+  getHttpAndTcpUUIDForNewRelease
 }

@@ -3,18 +3,18 @@
  * @returns true if all mandatory parameters are present
  */
 exports.validateSubscriberInput = function (subscribingApplicationName, subscribingApplicationRelease, subscribingApplicationProtocol,
-                                            subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation) {
-    let validInput;
+  subscribingApplicationAddress, subscribingApplicationPort, notificationsReceivingOperation) {
+  let validInput;
 
-    if (subscribingApplicationName && subscribingApplicationRelease && subscribingApplicationProtocol
-        && (subscribingApplicationAddress["ip-address"] || subscribingApplicationAddress["domain-name"])
-        && subscribingApplicationPort && notificationsReceivingOperation) {
-        validInput = true;
-    } else {
-        validInput = false;
-    }
+  if (subscribingApplicationName && subscribingApplicationRelease && subscribingApplicationProtocol
+    && (subscribingApplicationAddress["ip-address"] || subscribingApplicationAddress["domain-name"])
+    && subscribingApplicationPort && notificationsReceivingOperation) {
+    validInput = true;
+  } else {
+    validInput = false;
+  }
 
-    return validInput;
+  return validInput;
 }
 
 /**
@@ -28,17 +28,17 @@ exports.validateSubscriberInput = function (subscribingApplicationName, subscrib
  */
 exports.validateControllerRegisterInput = function (controllerName, controllerRelease, controllerProtocol, controllerAddress, controllerPort) {
 
-    let validInput;
+  let validInput;
 
-    if (controllerName && controllerRelease && controllerProtocol
-        && (controllerAddress["ip-address"] || controllerAddress["domain-name"])
-        && controllerPort) {
-        validInput = true;
-    } else {
-        validInput = false;
-    }
+  if (controllerName && controllerRelease && controllerProtocol
+    && (controllerAddress["ip-address"] || controllerAddress["domain-name"])
+    && controllerPort) {
+    validInput = true;
+  } else {
+    validInput = false;
+  }
 
-    return validInput;
+  return validInput;
 }
 /**
  * Check for valid input data for deregistering a controller.
@@ -48,13 +48,13 @@ exports.validateControllerRegisterInput = function (controllerName, controllerRe
  */
 exports.validateControllerDeRegisterInput = function (controllerName, controllerRelease) {
 
-    let validInput;
+  let validInput;
 
-    if (controllerName && controllerRelease) {
-        validInput = true;
-    } else {
-        validInput = false;
-    }
+  if (controllerName && controllerRelease) {
+    validInput = true;
+  } else {
+    validInput = false;
+  }
 
-    return validInput;
+  return validInput;
 }

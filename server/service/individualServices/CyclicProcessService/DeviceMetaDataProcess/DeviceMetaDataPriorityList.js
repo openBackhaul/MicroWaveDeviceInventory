@@ -1,4 +1,7 @@
 'use strict';
+
+const USE_SORT_DEVICE = process.env.SORT_DEVICE?.toLowerCase() === 'true';
+const THRESHOLD_SW_VALUE = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
 /**
  * This class includes functions that shall be accessed to process the DeviceMetadataPriorityList
  * This class handles following five parameters
@@ -34,7 +37,8 @@ class DeviceMetaDataPriorityList {
                 if (deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"]) {
                     deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"];
                 } else {
-                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date("01-01-1997").toJSON();
+                    // (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date("01-01-1997").toJSON();
+                    (this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]) ? deviceMetadata["last-complete-control-construct-update-time-attempt"] = this.deviceMetadataPriorityList[index]["last-complete-control-construct-update-time-attempt"]: new Date(0).toJSON();
                 }
 
                 if (deviceMetadataToBeUpdated["connection-status"]) {
@@ -59,6 +63,8 @@ class DeviceMetaDataPriorityList {
                 
                 this.deviceMetadataPriorityList.splice(index, 1);
                 if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
+                    // Pre sorting
+                    deviceMetadata._sortTimestamp = deviceMetadata["last-complete-control-construct-update-time-attempt"] ? Date.parse(deviceMetadata["last-complete-control-construct-update-time-attempt"]) || 0: 0;
                     this.deviceMetadataPriorityList.push(deviceMetadata);
                     //this.deviceMetadataPriorityList[index] = deviceMetadata;
                 }
@@ -66,15 +72,24 @@ class DeviceMetaDataPriorityList {
             } else {
                 // insert new
                 if (deviceMetadataToBeUpdated["connection-status"] && deviceMetadataToBeUpdated["connection-status"] == "connected") {
-                    deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
+                    deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date(0).toJSON();
+                    // deviceMetadata["last-complete-control-construct-update-time-attempt"] = deviceMetadataToBeUpdated["last-complete-control-construct-update-time-attempt"] || new Date("01-01-1997").toJSON();
                     deviceMetadata["connection-status"] = deviceMetadataToBeUpdated["connection-status"];
                     deviceMetadata["locked-status"] = deviceMetadataToBeUpdated["locked-status"] || false;
                     deviceMetadata["exclude-from-qm"] = deviceMetadataToBeUpdated["exclude-from-qm"] || true;
                     deviceMetadata["cc-synced"] = deviceMetadataToBeUpdated["cc-synced"] || false;
+
+                    // Pre sorting
+                    deviceMetadata._sortTimestamp = deviceMetadata["last-complete-control-construct-update-time-attempt"] ? Date.parse(deviceMetadata["last-complete-control-construct-update-time-attempt"]) || 0: 0;
                     this.deviceMetadataPriorityList.push(deviceMetadata);
                 } else {
                     //do nothing
                 }
+            }
+            // New implementation
+            if (USE_SORT_DEVICE) {
+                // console.log("[DEVICE_METADATA_PRIORITY_LIST] - Sorting device list based on connection status and timestamp");
+                this.newSortDevices();
             }
             
             //this.sortDevices();
@@ -82,6 +97,19 @@ class DeviceMetaDataPriorityList {
         } catch (error) {
             throw error;
         }
+    }
+
+    newSortDevices() {
+        this.deviceMetadataPriorityList.sort((a, b) => {
+            const aConnected = a["connection-status"] === "connected";
+            const bConnected = b["connection-status"] === "connected";
+
+            if (aConnected !== bConnected) {
+                return aConnected ? -1 : 1; // Connected devices come first
+            }
+
+            return a._sortTimestamp - b._sortTimestamp; // Sort by timestamp
+        });
     }
 
     // Sort devices: connected first, oldest timestamp first
@@ -104,14 +132,65 @@ class DeviceMetaDataPriorityList {
     getNextDeviceMetaData() {
         try {
             if (this.deviceMetadataPriorityList.length > 0) {
+                // Enable this code to see the current status of all devices in the priority list
+                // for (let idx = 0; idx < this.deviceMetadataPriorityList.length; idx++) {
+                //     let mn = this.deviceMetadataPriorityList[idx];
+                //     console.log(`[DEVICE_METADATA_PRIORITY_LIST] - mountname ${mn["mount-name"]} - isSynced: ${mn["cc-synced"]} - isLocked: ${mn["locked-status"]} - timestamp: ${mn["last-complete-control-construct-update-time-attempt"]} - ${mn._sortTimestamp}`);
+                // }
                 let nextDevice = this.deviceMetadataPriorityList.find(d => {
                     return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
-                })
+                });
+
+                // Check if we can unlock some mountnames
+                if (!nextDevice) {
+                    const totalOnLine = this.deviceMetadataPriorityList.filter(d => d["connection-status"] == "connected" )
+                    this.resetDeviceList(totalOnLine.length);
+                    nextDevice = this.deviceMetadataPriorityList.find(d => {
+                        return (d["connection-status"] == "connected" && d["locked-status"] == false && d["cc-synced"] == false);
+                    });
+                }
+
+                if (nextDevice) {
+                    console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Found next device: ${nextDevice["mount-name"]}`);
+                }
                 return nextDevice;
             }
         } catch (error) {
             throw error;
         }
+    }
+
+    resetDeviceList(onLineMountNames) {
+        if (this.deviceMetadataPriorityList.length > 0) {
+
+            let resultNotSync = this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == false);
+                return temp;
+            });
+            let resultSync = this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["cc-synced"] == true);
+                return temp;
+            });
+            let resultLocked = this.deviceMetadataPriorityList.filter(d => {
+                let temp = (d["connection-status"] == "connected" && d["locked-status"] == true);
+                return temp;
+            });
+
+            // const value = (process.env.THRESHOLD_SW) ? Number(process.env.THRESHOLD_SW) : 1;
+            const thresholdSynced = 1 - THRESHOLD_SW_VALUE;
+            if (resultNotSync.length <= onLineMountNames * thresholdSynced) {
+                console.log("[DEVICE_METADATA_PRIORITY_LIST] - Reset and unlock status to restart Sliding Window");
+                this.deviceMetadataPriorityList.forEach(metaDataEle => {
+                    metaDataEle["locked-status"] = false;
+                    metaDataEle["cc-synced"] = false;
+                });
+            } else {
+                console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Number of Mountname cached are under the threshold - Threshold = ${thresholdSynced}% - Threshold to be reach: ${onLineMountNames * thresholdSynced}`);
+            }
+
+            console.log(`[DEVICE_METADATA_PRIORITY_LIST] - Mountnames connected ${onLineMountNames} - synced ${resultSync.length} - not synced ${resultNotSync.length} - locked ${resultLocked.length}`);
+        }
+        return;
     }
 
     // Get next device to process for quality-measurement process
@@ -120,7 +199,7 @@ class DeviceMetaDataPriorityList {
             if (this.deviceMetadataPriorityList.length > 0) {
                 return this.deviceMetadataPriorityList.find(d => {
                     return d["connection-status"] == "connected" && d["locked-status"] == false && d["exclude-from-qm"] == false
-                })
+                });
             }
         } catch (error) {
             throw error;
@@ -164,8 +243,9 @@ class DeviceMetaDataPriorityList {
     getCcSyncedOfDevice(mountName) {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["cc-synced"];
-            else {
+            if (device) {
+                return device["cc-synced"];
+            } else {
                 throw `device-metadata for given node: ${mountName} not found`
             };
         } catch (error) {
@@ -177,7 +257,9 @@ class DeviceMetaDataPriorityList {
     setCcSyncedOfDevice(mountName, value) {
         try {
             let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["cc-synced"] = value;
+            if (deviceMetaData) {
+                deviceMetaData["cc-synced"] = value;
+            }
             return;
         } catch (error) {
             throw error;
@@ -188,8 +270,9 @@ class DeviceMetaDataPriorityList {
     getLockedStatusOfDevice(mountName) {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["locked-status"];
-            else {
+            if (device) {
+                return device["locked-status"];
+            } else {
                 throw `device-metadata for given node: ${mountName} not found`
             };
         } catch (error) {
@@ -201,7 +284,10 @@ class DeviceMetaDataPriorityList {
     setLockedStatusOfDevice(mountName, value) {
         try {
             let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["locked-status"] = value;
+            if (deviceMetaData) {
+                deviceMetaData["locked-status"] = value;
+            }
+
             return;
         } catch (error) {
             throw error;
@@ -212,8 +298,9 @@ class DeviceMetaDataPriorityList {
     getExcludeFromQmOfDevice(mountName) {
         try {
             let device = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (device) return device["exclude-from-qm"];
-            else {
+            if (device) {
+                return device["exclude-from-qm"];
+            } else {
                 throw `device-metadata for given node: ${mountName} not found`
             };
         } catch (error) {
@@ -225,7 +312,9 @@ class DeviceMetaDataPriorityList {
     setExcludeFromQmOfDevice(mountName, value) {
         try {
             let deviceMetaData = this.deviceMetadataPriorityList.find(d => d["mount-name"] === mountName);
-            if (deviceMetaData) deviceMetaData["exclude-from-qm"] = value;
+            if (deviceMetaData) {
+                deviceMetaData["exclude-from-qm"] = value;
+            }
             return;
         } catch (error) {
             throw error;

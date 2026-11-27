@@ -221,13 +221,13 @@ async function performQualityMeasurement() {
       console.log(enhanced);
       console.log(score);
       console.log('*******************************************************************************************************')
-      
 
       let deviceType = deviceMetadataCacheUpdate.getDeviceTypeAndVendorForDevice(device["mount-name"]);
-      if(deviceType.deviceType == "unknown"){
-        let ltpList = cached["core-model-1-4:control-construct"][0]["logical-termination-point"];
-        let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
-        deviceType.deviceType = await deviceMetaDataUtility.getMatchingDeviceType(airInterfaceLtpList);
+      if (deviceType.deviceType == "unknown") {
+        // let ltpList = cached["core-model-1-4:control-construct"][0]["logical-termination-point"];
+        // let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
+        const equipmentData = result["core-model-1-4:control-construct"][0]["equipment-augmented-1-0:control-construct-pac"];
+        deviceType.deviceType = await deviceMetaDataUtility.getMatchingDeviceType(equipmentData);
         deviceType.vendor = await deviceMetaDataUtility.getVendorNameForDeviceType(deviceType.deviceType);
         await deviceMetadataCacheUpdate.setDeviceTypeAndVendorForDevice(device["mount-name"], deviceType.deviceType, deviceType.vendor);
       }

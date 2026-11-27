@@ -120,9 +120,10 @@ exports.getDeviceTypeOfMountName = async function (mountName) {
     let fieldsPathToDeviceType = await utility.getStringValueForStringProfileNameAsync("PromptForEmbeddingCausesCyclicLoadingOfDeviceTypeInfo.fieldsFilter");
     let urlToGetDeviceType = urlToGetCCFromCache + "?fields=" + fieldsPathToDeviceType;
     const result = await individualServicesService.getCachedControlConstruct(urlToGetDeviceType);
-    let ltpList = result["core-model-1-4:control-construct"][0]["logical-termination-point"];
-    let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
-    deviceType = await exports.getMatchingDeviceType(airInterfaceLtpList);
+    // let ltpList = result["core-model-1-4:control-construct"][0]["logical-termination-point"];
+    // let airInterfaceLtpList = ltpList.filter(ltp => ltp["layer-protocol"][0].hasOwnProperty("air-interface-2-0:air-interface-pac"));
+    const equipmentData = result["core-model-1-4:control-construct"][0]["equipment-augmented-1-0:control-construct-pac"];
+    deviceType = await exports.getMatchingDeviceType(equipmentData);
     return deviceType;
   } catch (error) {
     return "unknown";
@@ -132,33 +133,49 @@ exports.getDeviceTypeOfMountName = async function (mountName) {
 /**
  * This function parses given airInterfaceLtpList to find the device-type
  * 
- * @param {List} airInterfaceLtpList - list of air-interfaces that a application contains
+ * @param {Object} equipmentData - equipment data containing the type of equipment
  * @returns {String} deviceType - device-type calculated from air-interface/type-of-equipment 
  *                     default - "unknown" - if device-type could not be found
  */
-exports.getMatchingDeviceType = async function (airInterfaceLtpList) {
+exports.getMatchingDeviceType = async function (equipmentData) {
   try {
     let deviceType = "unknown";
     let mappingList = await utility.getMappingListForRegexProfile("deviceTypeMapping");
-    for (let i = 0; i < airInterfaceLtpList.length; i++) {
-      let typeOfEquipment = airInterfaceLtpList[i]["layer-protocol"][0]["air-interface-2-0:air-interface-pac"]["air-interface-capability"]["type-of-equipment"];
-      let regexPattern;
-      for (let j = 0; j < mappingList.length; j++) {
-        regexPattern = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
-        regexPattern = regexPattern.replace(/\\\\s/g, '\\s');
-        let regexParts = regexPattern.match(/^\/(.+)\/([a-z]*)$/i);
-        let pattern = regexParts[1];
-        let flag = regexParts[2];
-        regexPattern = new RegExp(pattern, flag);
-        if (regexPattern.test(typeOfEquipment)) {
-          deviceType = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
-          break;
-        }
-      }
-      if (deviceType != "unknown") {
+    const typeOfEquipment = equipmentData["device-model-name"];
+    let regexPattern;
+    for (let j = 0; j < mappingList.length; j++) {
+      regexPattern = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
+      regexPattern = regexPattern.replace(/\\\\s/g, '\\s');
+      let regexParts = regexPattern.match(/^\/(.+)\/([a-z]*)$/i);
+      let pattern = regexParts[1];
+      let flag = regexParts[2];
+      regexPattern = new RegExp(pattern, flag);
+      if (regexPattern.test(typeOfEquipment)) {
+        deviceType = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
         break;
       }
     }
+
+    // Wrong code
+    // for (let i = 0; i < airInterfaceLtpList.length; i++) {
+    //   let typeOfEquipment = airInterfaceLtpList[i]["layer-protocol"][0]["air-interface-2-0:air-interface-pac"]["air-interface-capability"]["type-of-equipment"];
+    //   let regexPattern;
+    //   for (let j = 0; j < mappingList.length; j++) {
+    //     regexPattern = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.REGEX_STRING];
+    //     regexPattern = regexPattern.replace(/\\\\s/g, '\\s');
+    //     let regexParts = regexPattern.match(/^\/(.+)\/([a-z]*)$/i);
+    //     let pattern = regexParts[1];
+    //     let flag = regexParts[2];
+    //     regexPattern = new RegExp(pattern, flag);
+    //     if (regexPattern.test(typeOfEquipment)) {
+    //       deviceType = mappingList[j][onfAttributes.REGEX_PATTERN_MAPPING_PROFILE.MAP_TO_STRING];
+    //       break;
+    //     }
+    //   }
+    //   if (deviceType != "unknown") {
+    //     break;
+    //   }
+    // }
     return deviceType;
   } catch (error) {
     return "unknown";
